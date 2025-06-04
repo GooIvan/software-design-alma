@@ -1,6 +1,6 @@
 <div class="m-3">
-  <%= render 'shared/form_errors', object: @category %>
-  <%= render 'shared/form_exited', object: @category %>
+    <%= render 'shared/form_errors', object: @category %>
+    <%= render 'shared/form_exited', object: @category %>
 </div>
 
 <div class="index-products p-4"> 
@@ -10,7 +10,6 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       <% @products.each do |product| %>
         <div class="col mb-5">
-
           <%= link_to category_product_path(product.category_id, product.id), class: "image-zoom-container d-block" do %>
             <% if product.image.attached? %>
               <%= image_tag product.image, class: "card-img-top rounded-img", style: "height: 400px; object-fit: cover;" %>
@@ -59,9 +58,8 @@
       <% end %>
     </div>
 
-    <!-- ✅ Paginación integrada -->
-    <div class="d-flex justify-content-center mt-4">
-      <%= paginate @products, theme: 'bootstrap-5' %>
+    <div class="mt-4 d-flex justify-content-center">
+      <%= paginate @products %>
     </div>
 
   <% else %>
