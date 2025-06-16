@@ -1,2 +1,34 @@
-<h1><%= @product.name %></h1>
-<p><%= @product.description %></p>
+<%= stylesheet_link_tag 'hellstar_product_style', media: 'all' %>
+
+<div class="container py-5">
+  <div class="row align-items-start hellstar-product-layout">
+    <!-- Imagen del producto -->
+    <div class="col-md-6 text-center">
+      <%= image_tag @product.image, alt: @product.name, class: "img-fluid hellstar-product-image" %>
+    </div>
+
+    <!-- Detalles del producto -->
+    <div class="col-md-6">
+      <h2 class="hellstar-title mb-2"><%= @product.name.upcase %></h2>
+
+      <p class="hellstar-price mb-3"><%= number_to_currency(@product.price, unit: "$", precision: 0) %></p>
+
+      <p class="mb-4 text-muted"><%= @product.description %></p>
+
+      <!-- Tallas -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Talla</label>
+        <%= form_with url: cart_items_path, method: :post, local: true do |f| %>
+          <%= f.hidden_field :product_id, value: @product.id %>
+          <%= f.select :size, options_for_select(["XS", "S", "M", "L", "XL", "XXL"]), {}, class: "form-select mb-3" %>
+
+          <!-- Cantidad -->
+          <label class="form-label fw-bold">Cantidad</label>
+          <%= f.number_field :quantity, value: 1, min: 1, class: "form-control mb-3 w-25" %>
+
+          <%= f.submit "AÑADIR AL CARRITO", class: "btn btn-dark w-100 hellstar-add-to-cart" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

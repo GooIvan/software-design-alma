@@ -1,0 +1,28 @@
+.hellstar-product-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.hellstar-title {
+  font-weight: 800;
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.hellstar-price {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.hellstar-product-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.hellstar-add-to-cart {
+  padding: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
