@@ -162,7 +162,6 @@ es:
   panel_title: Panel de Administración
 
   #TODO: ADMIN USERS
-  title: Usuarios
   filter_city: Filtrar por ciudad
   search_name: Buscar por nombre
   city: Ciudad
@@ -180,3 +179,22 @@ es:
   send_reset_password_instructions: "Enviar correo"
   reset_instructions_note: "Enviaremos un correo electrónico de recuperación"
   sign_in: "Inicia sesión"
+
+  #TODO: Footer
+  footer:
+    company_name: Diseños Alma
+    rights_reserved: Todos los derechos reservados.
+    store: Tienda
+    novedades: Novedades
+    ropa: Ropa
+    accesorios: Accesorios
+    ofertas: Ofertas
+    help: Ayuda
+    envios: Envíos
+    devoluciones: Devoluciones
+    faq: Preguntas frecuentes
+    account: Cuenta
+    login: Iniciar sesión
+    register: Registrarse
+    history: Historial
+    follow_us: Síguenos

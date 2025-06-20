@@ -181,3 +181,22 @@ en:
   send_reset_password_instructions: "Send email"
   reset_instructions_note: "We will send you a recovery email"
   sign_in: "Sign in"
+
+#TODO: Footer
+  footer:
+    company_name: Designs Alma
+    rights_reserved: All rights reserved.
+    store: Store
+    novedades: New Arrivals
+    ropa: Clothing
+    accesorios: Accessories
+    ofertas: Deals
+    help: Help
+    envios: Shipping
+    devoluciones: Returns
+    faq: FAQ
+    account: Account
+    login: Log In
+    register: Sign Up
+    history: Order History
+    follow_us: Follow Us

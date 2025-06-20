@@ -10,23 +10,18 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
+    <!-- Enlace a íconos y estilos -->
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "devise_custom", media: "all" %>
 
-
-    <!-- Enlace al archivo CSS de Bootstrap desde el CDN -->
+    <!-- Bootstrap y fuentes -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Enlace a la fuente de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
@@ -34,7 +29,7 @@
       <meta name="cart-item-added" content="true">
     <% end %>
 
-    <%# Control de temas (Modo oscuro y modo claro) %>
+    <!-- Control de temas -->
     <style>
       html[data-theme="dark"],
       html[data-theme="light"] {
@@ -46,16 +41,15 @@
         background-color: #121212;
         color: white;
       }
+
       body[data-theme="light"] {
         background-color: white;
         color: black;
       }
 
-      body{
+      body {
         transition: background-color 0.3s, color 0.3s;
       }
-
-      
     </style>
   </head>
 
@@ -64,11 +58,41 @@
     <% unless controller_path.starts_with?("admin/") %>
       <%= render 'shared/navbar' %>
     <% end %>
-    
+
     <%= turbo_stream_from "cart" %>
 
     <%= yield %>
+
     <!-- Panel lateral del carrito -->
     <%= render 'shared/side_cart' %>
+
+    <!-- Footer insertado -->
+    <%= render 'shared/footer' %>
+
+   <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const footer = document.querySelector("footer.footer");
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const documentHeight = document.body.offsetHeight;
+
+      // Mostrar footer si estás cerca del fondo
+      if (scrollPosition >= documentHeight - 150) {
+        footer.classList.add("footer-visible");
+        footer.classList.remove("footer-hidden");
+      } else {
+        footer.classList.remove("footer-visible");
+        footer.classList.add("footer-hidden");
+      }
+    };
+
+    if (footer) {
+      window.addEventListener("scroll", handleScroll);
+      handleScroll(); // Llamar al cargar la página
+    }
+  });
+</script>
+
   </body>
 </html>
