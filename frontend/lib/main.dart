@@ -2,6 +2,7 @@ import 'package:design_alma/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 import 'feature/categories/repositories/category_repository.dart';
+import 'feature/best_sellers/ui/best_sellers_screen.dart';
 
 void main() {
   runApp(MyApp());

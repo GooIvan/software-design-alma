@@ -28,6 +28,11 @@ class BottomNavBar extends StatelessWidget {
           icon: Icon(Icons.search),
           label: 'Categorías',
         ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.star),
+          label: 'Más vendidos',
+          ),
+
         BottomNavigationBarItem(
           icon: Container(
             width: 24,
