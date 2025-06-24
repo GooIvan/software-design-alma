@@ -126,6 +126,15 @@ es:
     show_more: Ver más
     size: Talla
     quantity: Cantidad
+  
+  #TODO: Perfil
+  profile:
+    title: "Perfil de"
+    email: "Email:"
+    address: "Dirección registrada:"
+    logout: "Cerrar sesión"
+    admin_panel: "Panel de Administración"
+
 
   #TODO: Carrito
   cart: CARRITO
