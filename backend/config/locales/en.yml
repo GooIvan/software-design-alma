@@ -128,6 +128,7 @@ en:
     quantity: Quantity
 
   #TODO: Perfil
+   # Traducciones relacionadas con la vista del perfil del usuario
   profile:
     title: "Profile of"
     email: "Email:"
