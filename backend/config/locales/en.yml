@@ -120,9 +120,12 @@ en:
   slogan4: Welcome to Alma Designs
 
   #TODO: Productos
-  add_to_cart: Add to cart
-  no_products: This category has no products available
-  show_more: Show more
+  products:
+    add_to_cart: ADD TO CART
+    no_products: This category has no available products
+    show_more: Show more
+    size: Size
+    quantity: Quantity
 
   #TODO: Carrito
   cart: CART
