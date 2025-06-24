@@ -120,9 +120,12 @@ es:
   slogan4: Bienvenido a Diseños Alma
 
   #TODO: Productos
-  add_to_cart: Añadir al carrito
-  no_products: Esta categoría no tiene productos disponibles
-  show_more: Ver más
+  products:
+    add_to_cart: AÑADIR AL CARRITO
+    no_products: Esta categoría no tiene productos disponibles
+    show_more: Ver más
+    size: Talla
+    quantity: Cantidad
 
   #TODO: Carrito
   cart: CARRITO
