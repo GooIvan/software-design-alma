@@ -127,6 +127,15 @@ en:
     size: Size
     quantity: Quantity
 
+  #TODO: Perfil
+  profile:
+    title: "Profile of"
+    email: "Email:"
+    address: "Registered address:"
+    logout: "Log out"
+    admin_panel: "Admin Panel"
+
+
   #TODO: Carrito
   cart: CART
   items: items
