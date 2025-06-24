@@ -20,27 +20,26 @@
         <%= f.hidden_field :product_id, value: @product.id %>
 
         <!-- Tallas -->
- <div class="mb-3">
-   <label class="form-label fw-bold"><%= t("products.size") %></label>
-   <div class="d-flex flex-wrap gap-3 mt-2">
-     <% @product.sizes.each_with_index do |size, index| %>
-       <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check", checked: index == 0 %>
-       <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
-         <%= size %>
-       </label>
-     <% end %>
-   </div>
- </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold"><%= t("products.size") %></label>
+          <div class="d-flex flex-wrap gap-3 mt-2">
+            <% @product.sizes.each_with_index do |size, index| %>
+              <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check", checked: index == 0 %>
+              <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
+                <%= size %>
+              </label>
+            <% end %>
+          </div>
+        </div>
 
         <!-- Cantidad -->
- <div class="mb-3">
-   <label class="form-label fw-bold"><%= t("products.quantity") %></label>
-   <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold" %>
- </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold"><%= t("products.quantity") %></label>
+          <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold" %>
+        </div>
 
     
-    <%= f.submit t("products.add_to_cart"), class: "btn btn-dark w-100 hellstar-add-to-cart" %>
-
+        <%= f.submit t("products.add_to_cart"), class: "btn btn-dark w-100 hellstar-add-to-cart" %>
       <% end %>
     </div>
   </div>
