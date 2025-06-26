@@ -1,25 +1,27 @@
-<div class="profile-container">
-  <div class="m-3">
-  <h1 class="text-uppercase title-devise mb-4 mt-5"><%= t("profile.title") %> <%= current_user.name %></h1>
+<div style="margin-top: 2rem; margin-bottom: 10rem;">
+  <div class="profile-container">
+    <div class="m-3">
+    <h1 class="text-uppercase title-devise mb-4 mt-5">Perfil de <%= current_user.name %></h1>
 
     <div class="mb-4 text-center">
-      <p><strong><%= t("profile.email") %></strong> <%= current_user.email %></p>
-      <p><strong><%= t("profile.address") %></strong> <%= current_user.address %></p>
+      <p><strong>Email:</strong> <%= current_user.email %></p>
+      <p><strong>Dirección registrada:</strong> <%= current_user.address %></p>
     </div>
 
     <!-- Botón logout -->
     <div class="mt-4 mb-3 text-center">
       <%= button_to destroy_user_session_path, method: :delete, class: "login-button d-flex justify-content-center align-items-center gap-2" do %>
         <i data-feather="log-out"></i>
-        <span><%= t("profile.logout") %></span>
+        <span>Log out</span>
       <% end %>
     </div>
 
     <!-- Botón de admin -->
     <% if current_user.admin? %>
       <div class="text-center">
-        <%= link_to t("profile.admin_panel"), admin_dashboard_path, class: "btn btn-warning mt-2 px-4 py-2" %>
+        <%= link_to "Panel de Administración", admin_dashboard_path, class: "btn btn-warning mt-2 px-4 py-2" %>
       </div>
     <% end %>
+    </div>
   </div>
 </div>
