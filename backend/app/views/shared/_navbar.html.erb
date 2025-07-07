@@ -52,33 +52,41 @@
         </li>
 
         <!-- Iconos debajo de las opciones del menú solo en pantallas pequeñas -->
-        <div class="d-flex mt-3 flex-row align-items-center d-lg-none">
-           <% if user_signed_in? %>
-            <a href="<%= profile_path %>" class="text-decoration-none text-reset">
-              <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
-            </a>
-          <% else %>
-            <a href="<%= new_user_session_path %>" class="text-decoration-none text-reset">
-              <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
-            </a>
-          <% end %>
+        <div class="d-flex d-lg-none flex-row gap-3 mt-3 mb-2">
+  <%= link_to root_path, class: "text-decoration-none text-reset" do %>
+    <i class="bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+  <% end %>
 
-          <!-- Ícono del carrito para mobile -->
-          <%= render partial: 'shared/cart/cart_icon', locals: {
-            icon_id: "cart-toggle",
-            extra_classes: "mx-5 d-lg-none",
-            cart_items_count: cart_items_count
-          } %>
+  <% if user_signed_in? %>
+    <a href="<%= profile_path %>" class="text-decoration-none text-reset">
+      <i class="bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+    </a>
+  <% else %>
+    <a href="<%= new_user_session_path %>" class="text-decoration-none text-reset">
+      <i class="bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+    </a>
+  <% end %>
 
-          <i id="theme-toggle" class="nvi me-5 bi bi-sun" style="cursor: pointer; font-size: 1.5rem;" tabindex="0"></i>
-          <i id="internalization" class="nvi bi bi-globe" style="font-size: 1.5rem; cursor: pointer;" tabindex="0"></i>
-        </div>
+  <!-- Carrito: eliminamos mx-5 y dejamos solo clases comunes -->
+  <%= render partial: 'shared/cart/cart_icon', locals: {
+    icon_id: "cart-toggle",
+    extra_classes: "d-lg-none",  # sin márgenes laterales extra
+    cart_items_count: cart_items_count
+  } %>
+
+  <!-- Tema oscuro/claro -->
+  <i id="theme-toggle" class="bi bi-sun" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+
+  <!-- Internacionalización -->
+  <i id="internalization" class="bi bi-globe" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+</div>
+
 
       </ul>
     </div>
 
     <!-- Iconos a la derecha solo en pantallas grandes -->
-    <div class="d-flex align-items-center gap-3 order-lg-3 ms-auto d-none d-lg-flex">
+    <div class="d-none d-lg-flex align-items-center gap-3 order-lg-3 ms-auto">
       <!-- Enlace al inicio -->
       <%= link_to root_path, class: "text-decoration-none text-reset" do %>
         <i class="bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
