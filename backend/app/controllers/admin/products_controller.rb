@@ -17,7 +17,7 @@ class Admin::ProductsController < ApplicationController
   end
 
   def create
-    @category = Category.find(params[:category_id])
+    @category = Category.find_by!(slug: params[:category_id] || params[:category_slug])
     @product = @category.products.build(product_params)
     if @product.save
       redirect_to admin_category_products_path(@category), notice: "Producto creado correctamente."

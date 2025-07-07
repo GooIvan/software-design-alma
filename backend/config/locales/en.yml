@@ -178,6 +178,9 @@ en:
   actions: Actions
   add_user: Add User
   all: all
+  results_found: "<strong class='text-dark'>%{count}</strong> result found"
+  results_found_plural: "<strong class='text-dark'>%{count}</strong> results found"
+
 
 #TODO: Recuperar contraseña
   forgot_password_title: "Forgot your password?"

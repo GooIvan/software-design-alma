@@ -27,22 +27,16 @@
             <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "w-100" } do %>
               <%= hidden_field_tag :product_id, product.id %>
 
-              <div class="mt-2">
-                <div class="d-flex flex-wrap gap-2 justify-content-start min-h align-items-start">
-                  <% product.sizes.each do |size| %>
-                    <div class="form-check form-check-inline">
-                      <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        name="sizes[]" 
-                        id="size_<%= product.id %>_<%= size %>" 
-                        value="<%= size %>">
-                      <label class="form-check-label" for="size_<%= product.id %>_<%= size %>">
+              <div class="mb-3">
+                <label class="form-label fw-bold">Talla</label>
+                  <div class="d-flex flex-wrap gap-3 mt-2 justify-content-start">
+                    <% product.sizes.each_with_index do |size, index| %>
+                      <%= radio_button_tag "size", size, index == 0, id: "size_#{product.id}_#{size}", class: "btn-check" %>
+                      <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= product.id %>_<%= size %>">
                         <%= size %>
                       </label>
-                    </div>
-                  <% end %>
-                </div>
+                    <% end %>
+                  </div>
               </div>
               <p class="card-text fs-4 fw-bold color-green">$ <%= product.formatted_price %> </p>
 

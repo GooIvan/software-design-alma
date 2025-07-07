@@ -28,8 +28,17 @@
   </div>
 </div>
 
-<% if params[:city].present? || params[:name].present? %>
-  <div class="d-flex align-items-center px-4 py-2 mb-4">
+<% total_results = @users.count %>
+<% city_filter = params[:city] %>
+
+<% if total_results > 0 && city_filter.present? && city_filter != t("all") %>
+  <p class="text-muted px-4 fw-semibold">
+    <%= t("results_found#{'_plural' if total_results > 1}", count: total_results).html_safe %>
+  </p>
+<% end %>
+
+<% if (params[:city].present? && params[:city] != t("all")) || params[:name].present? %>
+  <div class="d-flex align-items-center px-4 mb-4">
     <div>
       <% if params[:city].present? && params[:city] != t("all") %>
         <span class="me-3">
@@ -58,7 +67,7 @@
   <table class="table table-hover align-middle mb-0">
     <thead>
     <tr id="selection-bar" class="d-none">
-      <th colspan="7" class="text-white bg-selected px-4 rounded">
+      <th colspan="8" class="text-white bg-selected px-4 rounded">
         <div class="d-flex justify-content-between align-items-center w-100">
           <span id="selection-count"></span>
           <button type="submit" class="btn p-0 border-0 bg-transparent text-primary">
@@ -81,19 +90,28 @@
       <tbody>
         <% @users.each do |user| %>
           <tr>
-            <td><input type="checkbox" name="selected_users[]" value="<%= user.id %>" class="user-checkbox"></td>
-            <!-- Columna visible en todas las pantallas -->
+            <td>
+              <input type="checkbox" name="selected_users[]" value="<%= user.id %>" class="user-checkbox">
+            </td>
+
             <td>
               <div class="fw-bold"><%= user.name %> <%= user.last_name %></div>
               <div class="text-muted small"><%= user.email %></div>
 
-              <!-- Ícono de teléfono en móviles -->
-              <div class="d-md-none mt-2">
-                <i class="bi bi-phone-fill text-primary fs-4"></i>
+              <!-- Responsive extra info (solo visible en pantallas pequeñas) -->
+              <div class="d-md-none mt-2 d-flex justify-content-between align-items-center">
+                <div>
+                  <i class="bi bi-geo-fill text-primary me-1"></i> <%= user.city %><br>
+                </div>
+
+                <!-- Botón ver en móvil -->
+                <%= link_to admin_user_path(user), class: 'btn btn-sm ms-3' do %>
+                  <i class="bi bi-eye-fill fs-4 hover-opacity"></i>
+                <% end %>
               </div>
             </td>
 
-            <!-- Estas columnas solo en pantallas grandes -->
+            <!-- Desktop only columns -->
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.city %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.address %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.phone %></td>
@@ -103,7 +121,7 @@
                 <%= user.admin? ? "Admin" : "User" %>
               </span>
             </td>
-            <td class="text-end d-none d-md-table-cell text-nowrap px-1">
+            <td class="d-none d-md-table-cell text-center text-nowrap px-1">
               <div class="d-flex justify-content-center align-items-center">
                 <%= link_to admin_user_path(user), class: 'text-decoration-none text-body mx-1' do %>
                   <i class="bi bi-eye-fill fs-4 hover-opacity"></i>

@@ -139,7 +139,7 @@
   color: #000;
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1550px) {
   #sidebarToggle {
     display: block !important;
   }
