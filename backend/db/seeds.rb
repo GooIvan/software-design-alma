@@ -21,6 +21,12 @@ end
 
 user.save if user.changed?
 
+# Limpieza de datos anteriores (opcional si no usas db:reset)
+Order.destroy_all
+Product.destroy_all
+User.destroy_all
+Category.destroy_all
+
 # Categorías con productos únicos por cada una
 categories = [
   {
