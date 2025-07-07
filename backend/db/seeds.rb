@@ -55,6 +55,10 @@ users << User.create!(name: "Luis Torres", email: "luis@example.com", password: 
 user_to_update = users.first
 user_to_update.update!(created_at: 1.month.from_now)
 
+# Crear una orden con 3 productos distintos para el primer usuario
+order = Order.create!(user: user_to_update)
+order.products << products.sample(3)
+
 # Categorías con productos únicos por cada una
 categories = [
   {
