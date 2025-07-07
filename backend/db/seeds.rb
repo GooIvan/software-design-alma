@@ -59,6 +59,8 @@ user_to_update.update!(created_at: 1.month.from_now)
 order = Order.create!(user: user_to_update)
 order.products << products.sample(3)
 
+puts "✅ Base de datos sembrada con éxito."
+
 # Categorías con productos únicos por cada una
 categories = [
   {
