@@ -27,6 +27,12 @@ Product.destroy_all
 User.destroy_all
 Category.destroy_all
 
+# Crear categorías si no existen
+category_names = ['Electrónica', 'Ropa', 'Libros']
+categories = category_names.map do |name|
+  Category.find_or_create_by!(name: name)
+end
+
 # Categorías con productos únicos por cada una
 categories = [
   {
