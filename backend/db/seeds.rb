@@ -45,6 +45,12 @@ categories.each do |category|
   end
 end
 
+# Crear usuarios de prueba
+users = []
+users << User.create!(name: "Juan Pérez", email: "juan@example.com", password: "password123")
+users << User.create!(name: "Ana Gómez", email: "ana@example.com", password: "password123")
+users << User.create!(name: "Luis Torres", email: "luis@example.com", password: "password123")
+
 # Categorías con productos únicos por cada una
 categories = [
   {
