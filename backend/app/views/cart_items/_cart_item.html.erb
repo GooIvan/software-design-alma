@@ -1,4 +1,4 @@
-<turbo-frame id="<%= dom_id(item) %>">
+<turbo-frame id="side_cart_item_<%= item.id %>">
   <div class="cart-item d-flex border-bottom py-4 align-items-start">
     <!-- Imagen -->
     <div class="item-image me-3">
@@ -15,24 +15,32 @@
         <div>
           <strong class="product-title"><%= item.product.name %></strong>
           <% if item.size.present? %>
-            <div class="text-muted small mt-1"><%=t("Size:")%> <%= item.size %></div>
+            <div class="text-muted small mt-1"><%= t("Size:") %> <%= item.size %></div>
           <% end %>
         </div>
         <div class="product-price"><%= item.product.formatted_price %></div>
       </div>
 
       <div class="cart-actions d-flex align-items-center mt-2">
-      <div class="quantity-wrapper">
-        <%= button_to '-', update_quantity_cart_item_path(item, quantity: item.quantity - 1), method: :patch, class: "qty-btn", form_class: "qty-form" %>
-        <div class="qty-display"><%= item.quantity %></div>
-        <%= button_to '+', update_quantity_cart_item_path(item, quantity: item.quantity + 1), method: :patch, class: "qty-btn", form_class: "qty-form" %>
+        <div class="quantity-wrapper">
+          <%= button_to '-', update_quantity_cart_item_path(item, quantity: item.quantity - 1),
+              method: :patch,
+              class: "qty-btn",
+              data: { turbo_frame: "_top" } %>
+
+          <div class="qty-display"><%= item.quantity %></div>
+
+          <%= button_to '+', update_quantity_cart_item_path(item, quantity: item.quantity + 1),
+              method: :patch,
+              class: "qty-btn",
+              data: { turbo_frame: "_top" } %>
+        </div>
+
+        <%= button_to 'Eliminar', cart_item_path(item),
+            method: :delete,
+            class: "remove-btn ms-auto",
+            data: { turbo_frame: "_top" } %>
       </div>
-
-      <%= button_to 'Eliminar', cart_item_path(item), method: :delete,
-      class: "remove-btn ms-auto", data: { }, form_class: "remove-form" %>
-</div>
-
-
     </div>
   </div>
 </turbo-frame>

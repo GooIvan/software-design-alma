@@ -1,57 +1,21 @@
 <div class="container my-5">
-  <h2 class="mb-4">
-    <%= t("your_cart") %>
+  <h2 class="text-uppercase fw-bold mb-4" style="font-family: 'Helvetica Neue', sans-serif;">
+  <%= t("cart").upcase %> (
+  <span id="main_cart_count">
+    <%= render partial: "shared/cart/cart_count", locals: { cart: @cart } %>
+  </span>
+
+  <%= t("items") %>)
   </h2>
 
   <% if @cart.cart_items.any? %>
-    <table class="table table-bordered align-middle">
-      <thead class="table-light">
-        <tr>
-          <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Precio Unitario</th>
-          <th>Subtotal</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @cart.cart_items.each do |item| %>
-          <tr>
-            <td>
-              
-              <strong><%= item.product.name %></strong><br>
-              <small><%= truncate(item.product.description, length: 50) %></small>
-            </td>
-            <td style="width: 120px;">
-              <%= form_with url: cart_cart_item_path(item), method: :patch, local: true do |f| %>
-                <%= f.number_field :quantity, value: item.quantity, min: 1, class: "form-control form-control-sm" %>
-                <%= f.submit "Actualizar", class: "btn btn-primary btn-sm mt-1" %>
-              <% end %>
-            </td>
-            <td><%= number_to_currency(item.product.price) %></td>
-            <td><%= number_to_currency(item.product.price * item.quantity) %></td>
-            <td style="width: 100px;">
-              <%= button_to "Eliminar", cart_cart_item_path(item), method: :delete, data: { confirm: "¿Seguro que quieres eliminar este producto?" }, class: "btn btn-danger btn-sm" %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <div class="d-flex justify-content-end align-items-center">
-      <h4>Total: <%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }) %></h4>
-    </div>
-
-    <div class="mt-4 d-flex justify-content-between">
-      <%= link_to "Seguir Comprando", categories_path(locale: I18n.locale), class: "btn btn-secondary" %>
-
-      
-    </div>
-
+    <%= turbo_frame_tag "cart_items_list" do %>
+      <%= render partial: "cart_items/list", locals: { cart: @cart } %>
+    <% end %>
   <% else %>
     <div class="alert alert-info">
       <%= t("empty_cart") %>
-      <%= link_to "Ver productos", products_path %>
+      <%= link_to t("shop_all"), categories_path(locale: I18n.locale), class: "btn btn-outline-dark ms-2" %>
     </div>
   <% end %>
 </div>
