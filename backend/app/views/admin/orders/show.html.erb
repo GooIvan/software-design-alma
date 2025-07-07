@@ -1,0 +1,39 @@
+<h1>Detalle de la Orden #<%= @order.id %></h1>
+
+<div class="mb-4">
+  <strong>Usuario:</strong> <%= @order.user.email %><br>
+  <strong>Estado:</strong> <%= @order.status.humanize %><br>
+  <strong>Total:</strong> $<%= number_to_currency(@order.total, unit: "", precision: 0) %><br>
+  <strong>Fecha de creación:</strong> <%= l(@order.created_at, format: :short) %>
+</div>
+
+<h2>Items de la orden</h2>
+
+<% if @order.order_items.any? %>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Talla</th>
+        <th>Cantidad</th>
+        <th>Precio unitario</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_items.each do |item| %>
+        <tr>
+          <td><%= item.product.name %></td>
+          <td><%= item.size %></td>
+          <td><%= item.quantity %></td>
+          <td>$<%= number_to_currency(item.price, unit: "", precision: 0) %></td>
+          <td>$<%= number_to_currency(item.price * item.quantity, unit: "", precision: 0) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info">No hay items en esta orden.</div>
+<% end %>
+
+<%= link_to "Volver a la lista", admin_orders_path, class: "btn btn-outline-secondary mt-3" %>

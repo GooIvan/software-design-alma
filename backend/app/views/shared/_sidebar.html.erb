@@ -7,6 +7,7 @@
 <% is_user_active = controller_name == "users" %>
 <% is_category_active = controller_name == "categories" %>
 <% is_products_active = controller_name == "products" %>
+<% is_orders_active = controller_name == "orders" %>
 
 <nav id="sidebar" class="background-panel-admin text-dark vh-100 p-3">
   <div class="d-flex flex-column h-100">
@@ -100,6 +101,14 @@
                 </ul>
               </div>
             </li>
+
+            <%# === Orders === %>
+            <%= link_to admin_orders_path, class: "text-decoration-none" do %>
+              <li class="bg-text-icon mb-2 d-flex align-items-center <%= 'active' if is_orders_active %>">
+                <img src="<%= asset_path('admins/ic-orders.svg') %>" class="text-icon me-2">
+                <span class="text-h2-panel-admin"><%= t("orders") %></span>
+              </li>
+            <% end %>
 
           </ul>
         </div>

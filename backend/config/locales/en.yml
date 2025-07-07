@@ -69,6 +69,10 @@ en:
             image:
               blank: "Category image can't be blank"
 
+  time:
+    formats:
+      short: "%d/%m/%Y %H:%M"
+
   #TODO: Titulo
   title: Alma Designs
 

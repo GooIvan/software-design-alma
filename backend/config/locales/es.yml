@@ -69,6 +69,10 @@ es:
             image:
               blank: "La imagen de la categoría es obligatoria"
 
+  time:
+    formats:
+      short: "%d/%m/%Y %H:%M"
+
   #TODO: Titulo
   title: Diseños Alma
 

@@ -1,0 +1,26 @@
+<h1>Órdenes</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Usuario</th>
+      <th>Estado</th>
+      <th>Total</th>
+      <th>Fecha</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.id %></td>
+        <td><%= order.user.email %></td>
+        <td><%= order.status %></td>
+        <td>$<%= number_to_currency(order.total, unit: "", precision: 0) %></td>
+        <td><%= l(order.created_at, format: :short) %></td>
+        <td><%= link_to "Ver", admin_order_path(order), class: "btn btn-sm btn-outline-dark" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
