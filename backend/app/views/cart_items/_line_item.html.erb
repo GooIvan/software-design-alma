@@ -1,0 +1,33 @@
+<turbo-frame id="line_item_<%= item.id %>">
+  <div class="cart-item d-flex border-bottom py-4 align-items-start">
+    <div class="item-image me-3">
+      <%= image_tag url_for(item.product.image), width: 100, height: 150, class: "cart-product-image", alt: item.product.name if item.product.image.attached? %>
+    </div>
+    <div class="flex-grow-1">
+      <div class="d-flex justify-content-between">
+        <div>
+          <strong class="product-title"><%= item.product.name %></strong>
+          <% if item.size.present? %>
+            <div class="text-muted small mt-1">Talla: <%= item.size %></div>
+          <% end %>
+        </div>
+        <div class="product-price"><%= number_to_currency(item.product.price, precision: 0) %></div>
+      </div>
+      <div class="cart-actions d-flex align-items-center mt-2">
+        <div class="quantity-wrapper">
+          <%= button_to '-', update_quantity_cart_item_path(item, quantity: item.quantity - 1),
+          method: :patch,
+          class: "qty-btn",
+          data: { turbo_frame: "_top" } %>
+          <div class="qty-display"><%= item.quantity %></div>
+          <%= button_to '+', update_quantity_cart_item_path(item, quantity: item.quantity + 1),
+  method: :patch,
+  class: "qty-btn",
+  data: { turbo_frame: "_top" } %>
+
+        </div>
+        <%= button_to 'Eliminar', cart_cart_item_path(item), method: :delete, class: "remove-btn ms-auto", form: { data: { turbo_frame: "cart_items_list" } } %>
+      </div>
+    </div>
+  </div>
+</turbo-frame>

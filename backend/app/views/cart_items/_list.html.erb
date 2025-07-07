@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="col-lg-8">
+    <% cart.cart_items.each do |item| %>
+      <%= render partial: "cart_items/line_item", locals: { item: item } %>
+    <% end %>
+  </div>
+  <div class="col-lg-4 mt-4 mt-lg-0">
+    <%= render partial: "cart_items/summary", locals: { cart: cart } %>
+  </div>
+</div>

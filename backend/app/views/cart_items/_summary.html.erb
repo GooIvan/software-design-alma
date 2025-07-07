@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "cart_subtotal" do %>
+  <div class="border-start ps-4">
+    <h5 class="text-uppercase mb-4">Subtotal</h5>
+    <h3 class="fw-bold"><%= number_to_currency(cart.total_price, precision: 0) %> COP</h3>
+    <hr>
+    <p class="small text-muted">Add order notes</p>
+
+    <%= link_to t("checkout"), categories_path(locale: I18n.locale), class: "cart-button mb-2" %>
+
+    <button class="cart-button d-flex align-items-center justify-content-center" style="background-color: black;">
+      <img src="/assets/google-pay-logo.svg" alt="" height="18" class="me-2"> G Pay
+    </button>
+
+    <p class="small text-muted mt-2">Shipping & taxes calculated at checkout</p>
+  </div>
+<% end %>
