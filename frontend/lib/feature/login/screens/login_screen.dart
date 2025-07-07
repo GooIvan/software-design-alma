@@ -6,7 +6,6 @@ import '../bloc/login_event.dart';
 import '../bloc/login_state.dart';
 import '../services/auth_service.dart';
 import '../../../routes/routes.dart';
-import '../../../app/main_scaffold.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -75,11 +74,8 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 );
 
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (_) => MainScaffold(initialIndex: 4),
-                  ),
-                );
+                // ✅ Navegación con ruta nombrada para mantener MainScaffold tras refresh
+                Navigator.pushReplacementNamed(context, AppRoute.perfil);
               }
             },
             builder: (context, state) {
