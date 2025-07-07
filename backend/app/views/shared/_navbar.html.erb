@@ -54,16 +54,16 @@
         <!-- Iconos debajo de las opciones del menú solo en pantallas pequeñas -->
         <div class="d-flex d-lg-none flex-row gap-3 mt-3 mb-2">
   <%= link_to root_path, class: "text-decoration-none text-reset" do %>
-    <i class="bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+    <i class="nvi bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
   <% end %>
 
   <% if user_signed_in? %>
     <a href="<%= profile_path %>" class="text-decoration-none text-reset">
-      <i class="bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+      <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
     </a>
   <% else %>
     <a href="<%= new_user_session_path %>" class="text-decoration-none text-reset">
-      <i class="bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+      <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
     </a>
   <% end %>
 
@@ -75,10 +75,10 @@
   } %>
 
   <!-- Tema oscuro/claro -->
-  <i id="theme-toggle" class="bi bi-sun" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+  <i id="theme-toggle" class="nvi bi bi-sun" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
 
   <!-- Internacionalización -->
-  <i id="internalization" class="bi bi-globe" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+  <i id="internalization" class="nvi bi bi-globe" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
 </div>
 
 
@@ -89,7 +89,7 @@
     <div class="d-none d-lg-flex align-items-center gap-3 order-lg-3 ms-auto">
       <!-- Enlace al inicio -->
       <%= link_to root_path, class: "text-decoration-none text-reset" do %>
-        <i class="bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+        <i class="nvi bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
       <% end %>
 
       <% if user_signed_in? %>

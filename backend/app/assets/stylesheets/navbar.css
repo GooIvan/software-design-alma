@@ -80,10 +80,6 @@ body[data-theme="light"] .img-logo {
 .nav-link {
   color: var(--bs-body-color);
   transition: color 0.3s;
-
-  &:hover {
-    color: var(--bs-primary);
-  }
 }
 
 [data-bs-theme="dark"] .nav-link {
