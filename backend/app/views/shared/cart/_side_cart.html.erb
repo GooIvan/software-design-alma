@@ -7,17 +7,20 @@
     <div class="side-cart-header d-flex justify-content-between align-items-center p-3 border-bottom">
       <h5 class="mb-0">
         <strong><%= t("cart") %></strong>
-        (<%= turbo_frame_tag "cart_count" do %>
-          <span><%= current_cart.cart_items.sum(:quantity) rescue 0 %></span>
-        <% end %> <%= t("items") %>)
+        (
+        <span id="side_cart_count_placeholder">
+          <span id="side_cart_count">
+            <%= render partial: "shared/cart/cart_count", locals: { cart: current_cart } %>
+          </span>
+        </span>
+        <%= t("items") %>)
       </h5>
-      <button id="cart-close" class="custom-btn-close" aria-label="Close">
-      </button>
+      <button id="cart-close" class="custom-btn-close" aria-label="Close"></button>
     </div>
 
     <!-- Content -->
     <turbo-frame id="side_cart_content" class="side-cart-content p-3 flex-grow-1 overflow-auto">
-      <%= render partial: 'shared/cart/side_cart_content' %>
+      <%= render partial: "shared/cart/side_cart_content" %>
     </turbo-frame>
 
     <!-- Footer -->
@@ -36,6 +39,7 @@
     <% end %>
   </div>
 </div>
+
 <script>
   function attachCartListeners() {
     const loadingBar = document.getElementById("cart-loading-bar");
@@ -115,12 +119,11 @@
         overlay.classList.remove("visible");
         setTimeout(() => {
           overlay.classList.add("hidden");
-        }, 300); // i
+        }, 300);
         sideCart.classList.add("hidden");
       }, 300);
     }
 
-    // Delegated events so clicks still work after Turbo replaces elements
     document.removeEventListener("click", handleCartToggleClick);
     document.addEventListener("click", handleCartToggleClick);
 
