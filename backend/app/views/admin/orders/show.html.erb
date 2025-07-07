@@ -36,4 +36,12 @@
   <div class="alert alert-info">No hay items en esta orden.</div>
 <% end %>
 
-<%= link_to "Volver a la lista", admin_orders_path, class: "btn btn-outline-secondary mt-3" %>
+<div class="d-flex flex-row gap-2">
+  <%= button_to "Eliminar orden", admin_order_path(@order), 
+                method: :delete,
+                data: { confirm: "¿Estás seguro de que deseas eliminar esta orden?" },
+                class: "btn btn-danger mt-3" %>
+
+  <%= link_to "Volver a la lista", admin_orders_path, class: "btn btn-outline-secondary mt-3" %>
+</div>
+

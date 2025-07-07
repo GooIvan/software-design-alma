@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       end
 
       # Órdenes (admin)
-      resources :orders, only: [:index, :show]
+      resources :orders, only: [:index, :show, :new, :create, :edit, :update, :destroy]
     end
 
     # Categorías y productos (público)
