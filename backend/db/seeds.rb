@@ -47,9 +47,9 @@ end
 
 # Crear usuarios de prueba
 users = []
-users << User.create!(name: "Juan Pérez", email: "juan@example.com", password: "password123")
-users << User.create!(name: "Ana Gómez", email: "ana@example.com", password: "password123")
-users << User.create!(name: "Luis Torres", email: "luis@example.com", password: "password123")
+users << User.create!(name: "Juan", email: "juan@example.com", password: "password123", password_confirmation: "password123", last_name: "Peréz", city: "Barranquilla", address: "Calle 123", role: "User")
+users << User.create!(name: "Ana", email: "ana@example.com", password: "password123", password_confirmation: "password123", last_name: "Goméz", city: "Barranquilla", address: "Calle 123", role: "User")
+users << User.create!(name: "Luis", email: "luis@example.com", password: "password123", password_confirmation: "password123", last_name: "Torres", city: "Barranquilla", address: "Calle 123", role: "User")
 
 # Modificar el created_at del primer usuario (un mes después)
 user_to_update = users.first
