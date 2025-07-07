@@ -14,6 +14,7 @@
       </a>
     </div>
 
+
     <!-- Opciones del menú -->
     <div class="collapse navbar-collapse justify-content-center order-lg-2" id="navbarNav">
       <ul class="navbar-nav">
@@ -52,7 +53,7 @@
 
         <!-- Iconos debajo de las opciones del menú solo en pantallas pequeñas -->
         <div class="d-flex mt-3 flex-row align-items-center d-lg-none">
-          <% if user_signed_in? %>
+           <% if user_signed_in? %>
             <a href="<%= profile_path %>" class="text-decoration-none text-reset">
               <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
             </a>
@@ -78,6 +79,11 @@
 
     <!-- Iconos a la derecha solo en pantallas grandes -->
     <div class="d-flex align-items-center gap-3 order-lg-3 ms-auto d-none d-lg-flex">
+      <!-- Enlace al inicio -->
+      <%= link_to root_path, class: "text-decoration-none text-reset" do %>
+        <i class="bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+      <% end %>
+
       <% if user_signed_in? %>
         <a href="<%= profile_path %>" class="text-decoration-none text-reset">
           <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>

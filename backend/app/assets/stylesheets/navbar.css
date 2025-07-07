@@ -76,3 +76,16 @@ body[data-theme="light"] .img-logo {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
 }
+
+.nav-link {
+  color: var(--bs-body-color);
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--bs-primary);
+  }
+}
+
+[data-bs-theme="dark"] .nav-link {
+  color: var(--bs-light);
+}
