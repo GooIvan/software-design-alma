@@ -51,6 +51,10 @@ users << User.create!(name: "Juan Pérez", email: "juan@example.com", password: 
 users << User.create!(name: "Ana Gómez", email: "ana@example.com", password: "password123")
 users << User.create!(name: "Luis Torres", email: "luis@example.com", password: "password123")
 
+# Modificar el created_at del primer usuario (un mes después)
+user_to_update = users.first
+user_to_update.update!(created_at: 1.month.from_now)
+
 # Categorías con productos únicos por cada una
 categories = [
   {
