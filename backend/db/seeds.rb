@@ -33,6 +33,18 @@ categories = category_names.map do |name|
   Category.find_or_create_by!(name: name)
 end
 
+# Crear productos en cada categoría
+products = []
+categories.each do |category|
+  3.times do |i|
+    products << Product.create!(
+      name: "#{category.name} Producto #{i + 1}",
+      price: rand(10..100),
+      category: category
+    )
+  end
+end
+
 # Categorías con productos únicos por cada una
 categories = [
   {
