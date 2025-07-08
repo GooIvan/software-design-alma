@@ -1,17 +1,22 @@
-import 'package:design_alma/feature/login/screens/login_screen.dart';
-import 'package:design_alma/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:design_alma/routes/routes.dart';
+import 'package:design_alma/app/main_scaffold.dart';
+import 'package:design_alma/feature/login/screens/login_screen.dart';
 
-import 'feature/categories/repositories/category_repository.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
-  runApp(MyApp());
+  final prefs = await SharedPreferences.getInstance();
+  final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  final CategoryRepository categoryRepository = CategoryRepository();
+  final bool isLoggedIn;
 
-  MyApp({super.key});
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'DesignAlma App',
-      initialRoute: AppRoute.home,
+      home: isLoggedIn ? MainScaffold(initialIndex: 4) : const LoginScreen(),
       routes: appRoute.routes,
     );
   }
