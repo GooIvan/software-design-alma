@@ -62,28 +62,12 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-body[data-theme="dark"] .profile-container {
-  background: #1a1a1a;
-  color: #f0f0f0;
-}
-
-body[data-theme="dark"] .login-button {
-  background-color: #fff;
-  color: #000;
-}
-
 /* Enlaces */
 .login-link {
   text-decoration: underline;
-}
-
-body[data-theme="dark"] .login-link {
-  color: white;
-}
-
-.login-link {
   color: inherit;
 }
+
 .login-link:hover {
   color: inherit;
 }

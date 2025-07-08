@@ -1,17 +1,12 @@
 /* app/assets/stylesheets/navbar.css */
 
-body[data-theme="dark"] .navbar {
-  background-color: black;
-  color: white;
-}
-
-body[data-theme="light"] .navbar {
+.navbar {
   background-color: white;
   color: black;
 }
 
-/* *Modificar el logo a negro solido si el tema es light */
-body[data-theme="light"] .img-logo {
+/* Modify logo to solid black for light theme */
+.img-logo {
   filter: brightness(0) grayscale(100%) contrast(100%);
 }
 

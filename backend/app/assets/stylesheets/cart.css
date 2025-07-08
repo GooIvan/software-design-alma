@@ -183,21 +183,6 @@
   display: block;
 }
 
-body[data-theme="dark"] .side-cart {
-  background-color: black;
-  color: white;
-}
-
-body[data-theme="dark"] .cart-button {
-  background-color: white;
-  color: black;
-}
-
-body[data-theme="dark"] .descp-item {
-  background-color: black;
-  color: white;
-}
-
 .custom-btn-close {
   background-color: transparent;
   border: 0;
@@ -212,10 +197,6 @@ body[data-theme="dark"] .descp-item {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 2rem;
-}
-
-body[data-theme="dark"] .custom-btn-close {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'><path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/></svg>");
 }
 
 .side-cart-overlay {

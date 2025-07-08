@@ -3,7 +3,6 @@ import "@hotwired/turbo-rails";
 import "controllers";
 
 import { initSidebar } from "custom/init_sidebar";
-import { initDarkMode } from "custom/init_dark_mode";
 import { initChangeLanguage } from "custom/init_change_lenguage";
 import { initChartJsUsersLastMonth } from "custom/init_chart_js_users_last_month";
 import { initCarouselImages } from "custom/init_carousel_images";
@@ -35,13 +34,6 @@ document.addEventListener("turbo:load", () => {
     initSidebar();
   } catch (e) {
     console.warn("Sidebar error:", e);
-  }
-
-  //* === MODO OSCURO ===
-  try {
-    initDarkMode();
-  } catch (e) {
-    console.warn("Dark mode error:", e);
   }
 
   //* === CAMBIO DE IDIOMA ===

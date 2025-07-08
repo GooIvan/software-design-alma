@@ -109,18 +109,10 @@
   transition: z-index 0.3s;
 }
 
-body[data-theme="dark"] .bg-box {
-  background-color: white;
-  color: black;
-}
-
 .bg-box {
   padding: 0.5rem 1rem;
   position: relative;
   z-index: 1;
-}
-
-body[data-theme="light"] .bg-box {
   background-color: white;
   color: black;
 }
@@ -136,8 +128,8 @@ body[data-theme="light"] .bg-box {
   width: 100%;
 }
 
-/* ☀️ Estilo para modo claro */
-body[data-theme="dark"] .inverse-box {
+/* Default inverse box style */
+.inverse-box {
   background-color: white;
   color: #222;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);

@@ -57,24 +57,6 @@
   text-decoration: none;
 }
 
-/* Estilos para el modo oscuro */
-body[data-theme="dark"] .footer::before {
-  background-color: #121212;
-}
-
-body[data-theme="dark"] .footer {
-  background-color: whitesmoke;
-  color: black;
-}
-
-body[data-theme="dark"] .bi-pe {
-  color: black;
-}
-
-body[data-theme="dark"] .footer-logo {
-  filter: brightness(0) grayscale(100%) contrast(100%);
-}
-
 /* Tablet: quitar padding lateral */
 @media (max-width: 1024px) {
   .footer {

@@ -17,28 +17,12 @@ body {
   flex-direction: column;
 }
 
-/* 2. Tema claro */
-body[data-theme="light"],
-html[data-theme="light"] {
-  background-color: #0f0f0f !important;
-}
-
-/* 3. Tema oscuro */
-body[data-theme="dark"],
-html[data-theme="dark"] {
-  background-color: whitesmoke !important;
-}
-
 .c-scroll {
   position: relative;
   z-index: 1;
   background-color: white;
   border-bottom-left-radius: 37px;
   border-bottom-right-radius: 37px;
-}
-
-body[data-theme="dark"] .c-scroll {
-  background-color: #121212;
 }
 
 main {

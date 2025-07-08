@@ -28,29 +28,6 @@
     <% if flash[:item_added] %>
       <meta name="cart-item-added" content="true">
     <% end %>
-
-    <!-- Control de temas -->
-    <style>
-      html[data-theme="dark"],
-      html[data-theme="light"] {
-        color: inherit;
-        background-color: inherit;
-      }
-
-      body[data-theme="dark"] {
-        background-color: #121212;
-        color: white;
-      }
-
-      body[data-theme="light"] {
-        background-color: white;
-        color: black;
-      }
-
-      body {
-        transition: background-color 0.3s, color 0.3s;
-      }
-    </style>
   </head>
 
   <body>
