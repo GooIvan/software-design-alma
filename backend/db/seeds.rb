@@ -74,57 +74,6 @@ categories = [
   }
 ]
 
-products = []
-
-categories.each do |data|
-  category = Category.find_or_initialize_by(name: data[:name])
-  category_image_path = Rails.root.join("db", data[:image])
-
-  if File.exist?(category_image_path)
-    unless category.image.attached?
-      category.image.attach(
-        io: File.open(category_image_path),
-        filename: File.basename(category_image_path),
-        content_type: "image/webp"
-      )
-    end
-  else
-    puts "⚠️  Imagen de categoría no encontrada: #{category_image_path}"
-  end
-
-  if category.save
-    puts "✅ Categoría '#{category.name}' creada con imagen"
-
-    product_data = data[:product]
-    product = category.products.find_or_initialize_by(name: product_data[:name])
-    product.description = product_data[:description]
-    product.price = product_data[:price]
-    product.stock = product_data[:stock]
-    product.sizes = product_data[:sizes]
-    product_image_path = Rails.root.join("db", product_data[:image])
-
-    if File.exist?(product_image_path)
-      unless product.image.attached?
-        product.image.attach(
-          io: File.open(product_image_path),
-          filename: File.basename(product_image_path),
-          content_type: "image/webp"
-        )
-      end
-    else
-      puts "⚠️  Imagen de producto no encontrada: #{product_image_path}"
-    end
-
-    if product.save
-      puts "🛒 Producto '#{product.name}' creado en categoría '#{category.name}'"
-      products << product
-    else
-      puts "❌ Error al crear producto: #{product.errors.full_messages.join(", ")}"
-    end
-  else
-    puts "❌ Error al crear categoría '#{category.name}': #{category.errors.full_messages.join(", ")}"
-  end
-end
 
 # 🧪 Crear usuarios de prueba
 test_users = [
@@ -160,16 +109,20 @@ else
   puts "❌ No hay suficientes productos para crear una orden"
 end
 
+products = []
+
 categories.each do |data|
   category = Category.find_or_initialize_by(name: data[:name])
   category_image_path = Rails.root.join("db", data[:image])
 
   if File.exist?(category_image_path)
-    category.image.attach(
-      io: File.open(category_image_path),
-      filename: File.basename(category_image_path),
-      content_type: "image/webp"
-    )
+    unless category.image.attached?
+      category.image.attach(
+        io: File.open(category_image_path),
+        filename: File.basename(category_image_path),
+        content_type: "image/webp"
+      )
+    end
   else
     puts "⚠️  Imagen de categoría no encontrada: #{category_image_path}"
   end
@@ -186,17 +139,20 @@ categories.each do |data|
     product_image_path = Rails.root.join("db", product_data[:image])
 
     if File.exist?(product_image_path)
-      product.image.attach(
-        io: File.open(product_image_path),
-        filename: File.basename(product_image_path),
-        content_type: "image/webp"
-      )
+      unless product.image.attached?
+        product.image.attach(
+          io: File.open(product_image_path),
+          filename: File.basename(product_image_path),
+          content_type: "image/webp"
+        )
+      end
     else
       puts "⚠️  Imagen de producto no encontrada: #{product_image_path}"
     end
 
     if product.save
       puts "🛒 Producto '#{product.name}' creado en categoría '#{category.name}'"
+      products << product
     else
       puts "❌ Error al crear producto: #{product.errors.full_messages.join(", ")}"
     end
