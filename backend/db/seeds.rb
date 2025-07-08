@@ -21,45 +21,6 @@ end
 
 user.save if user.changed?
 
-# Limpieza de datos anteriores (opcional si no usas db:reset)
-Order.destroy_all
-Product.destroy_all
-User.destroy_all
-Category.destroy_all
-
-# Crear categorías si no existen
-category_names = ['Electrónica', 'Ropa', 'Libros']
-categories = category_names.map do |name|
-  Category.find_or_create_by!(name: name)
-end
-
-# Crear productos en cada categoría
-products = []
-categories.each do |category|
-  3.times do |i|
-    products << Product.create!(
-      name: "#{category.name} Producto #{i + 1}",
-      price: rand(10..100),
-      category: category
-    )
-  end
-end
-
-# Crear usuarios de prueba
-users = []
-users << User.create!(name: "Juan", email: "juan@example.com", password: "password123", password_confirmation: "password123", last_name: "Peréz", city: "Barranquilla", address: "Calle 123", role: "User")
-users << User.create!(name: "Ana", email: "ana@example.com", password: "password123", password_confirmation: "password123", last_name: "Goméz", city: "Barranquilla", address: "Calle 123", role: "User")
-users << User.create!(name: "Luis", email: "luis@example.com", password: "password123", password_confirmation: "password123", last_name: "Torres", city: "Barranquilla", address: "Calle 123", role: "User")
-
-# Modificar el created_at del primer usuario (un mes después)
-user_to_update = users.first
-user_to_update.update!(created_at: 1.month.from_now)
-
-# Crear una orden con 3 productos distintos para el primer usuario
-order = Order.create!(user: user_to_update)
-order.products << products.sample(3)
-
-puts "✅ Base de datos sembrada con éxito."
 
 # Categorías con productos únicos por cada una
 categories = [
@@ -112,6 +73,81 @@ categories = [
     }
   }
 ]
+
+products = []
+
+categories.each do |data|
+  category = Category.find_or_initialize_by(name: data[:name])
+  category_image_path = Rails.root.join("db", data[:image])
+
+  if File.exist?(category_image_path)
+    unless category.image.attached?
+      category.image.attach(
+        io: File.open(category_image_path),
+        filename: File.basename(category_image_path),
+        content_type: "image/webp"
+      )
+    end
+  else
+    puts "⚠️  Imagen de categoría no encontrada: #{category_image_path}"
+  end
+
+  if category.save
+    puts "✅ Categoría '#{category.name}' creada con imagen"
+
+    product_data = data[:product]
+    product = category.products.find_or_initialize_by(name: product_data[:name])
+    product.description = product_data[:description]
+    product.price = product_data[:price]
+    product.stock = product_data[:stock]
+    product.sizes = product_data[:sizes]
+    product_image_path = Rails.root.join("db", product_data[:image])
+
+    if File.exist?(product_image_path)
+      unless product.image.attached?
+        product.image.attach(
+          io: File.open(product_image_path),
+          filename: File.basename(product_image_path),
+          content_type: "image/webp"
+        )
+      end
+    else
+      puts "⚠️  Imagen de producto no encontrada: #{product_image_path}"
+    end
+
+    if product.save
+      puts "🛒 Producto '#{product.name}' creado en categoría '#{category.name}'"
+      products << product
+    else
+      puts "❌ Error al crear producto: #{product.errors.full_messages.join(", ")}"
+    end
+  else
+    puts "❌ Error al crear categoría '#{category.name}': #{category.errors.full_messages.join(", ")}"
+  end
+end
+
+# 🧪 Crear usuarios de prueba
+test_users = [
+  { name: "Juan", last_name: "Pérez", email: "juan@example.com" },
+  { name: "Ana", last_name: "Gómez", email: "ana@example.com" },
+  { name: "Luis", last_name: "Torres", email: "luis@example.com" }
+]
+
+created_users = test_users.map do |data|
+  user = User.find_or_initialize_by(email: data[:email])
+  user.name = data[:name]
+  user.last_name = data[:last_name]
+  user.password = "test1234"
+  user.password_confirmation = "test1234"
+  user.city = "Ciudad"
+  user.address = "Dirección 123"
+  user.role = "customer"
+  user.save!
+  user
+end
+
+# 📅 Modificar created_at del primer usuario
+created_users.first.update!(created_at: 1.month.from_now)
 
 categories.each do |data|
   category = Category.find_or_initialize_by(name: data[:name])
