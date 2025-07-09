@@ -6,6 +6,7 @@ class Admin::DashboardController < ApplicationController
   def index
     @home_video = HomeVideo.first_or_initialize
     @users = User.all
+    @orders = Order.all
     @category = Category.all
 
     @labels = (1..12).map { |m| Date::MONTHNAMES[m] }
@@ -14,6 +15,13 @@ class Admin::DashboardController < ApplicationController
     @usuarios_por_mes = (1..12).map do |month|
       month_str = month.to_s.rjust(2, '0') # '01', '02', ..., '12'
       User.where("strftime('%Y', created_at) = ? AND strftime('%m', created_at) = ?", year, month_str).count
+    end
+
+    @ordenes_pagadas_por_mes = (1..12).map do |month|
+      month_str = month.to_s.rjust(2, '0')
+      Order.where(status: "paid")
+          .where("strftime('%Y', created_at) = ? AND strftime('%m', created_at) = ?", year, month_str)
+          .count
     end
   end
 

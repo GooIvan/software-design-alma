@@ -147,6 +147,9 @@ en:
   remove: Remove
 
   #TODO: ADMIN
+  dashboard:
+    total_active_users: Total active users
+    total_paid_orders: Total paid orders
   overview: Overview
   home: Home
   users: Users
@@ -154,7 +157,6 @@ en:
   message_help_1: Welcome to your admin panel! If you have any questions,
   message_help_2: we’re here to help.
   go_now: Go now
-  total_active_users: Total active users
   last_7_days: Last 7 days
   management: Management
   products: Products

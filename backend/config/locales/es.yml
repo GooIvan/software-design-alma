@@ -145,6 +145,9 @@ es:
   checkout: Verificar
 
   #TODO: ADMIN
+  dashboard:
+    total_active_users: Total de usuarios activos
+    total_paid_orders: Total de órdenes pagadas
   overview: Vista general
   home: Inicio
   users: Usuarios
@@ -152,7 +155,6 @@ es:
   message_help_1: ¡Bienvenido a tu panel de administración! Si tienes alguna duda,
   message_help_2: estamos aquí para ayudarte.
   go_now: Ir ahora
-  total_active_users: Usuarios activos totales
   last_7_days: Últimos 7 días
   management: Gestión
   products: Productos

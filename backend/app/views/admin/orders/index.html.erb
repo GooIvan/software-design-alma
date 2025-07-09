@@ -1,4 +1,11 @@
-<h1>Órdenes</h1>
+<div class="m-3">
+  <%= render 'shared/form_errors', object: @order %>
+  <%= render 'shared/form_exited', object: @order %>
+</div>
+
+<h1 class="text-center">Órdenes</h1>
+
+<%= link_to "Crear Orden", new_admin_order_path, class: "btn btn-primary mb-3 mt-3" %>
 
 <table class="table">
   <thead>
