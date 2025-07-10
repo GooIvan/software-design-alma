@@ -21,6 +21,7 @@ end
 
 user.save if user.changed?
 
+products = []
 
 # Categorías con productos únicos por cada una
 categories = [
@@ -74,43 +75,6 @@ categories = [
   }
 ]
 
-
-# 🧪 Crear usuarios de prueba
-test_users = [
-  { name: "Juan", last_name: "Pérez", email: "juan@example.com" },
-  { name: "Ana", last_name: "Gómez", email: "ana@example.com" },
-  { name: "Luis", last_name: "Torres", email: "luis@example.com" }
-]
-
-created_users = test_users.map do |data|
-  user = User.find_or_initialize_by(email: data[:email])
-  user.name = data[:name]
-  user.last_name = data[:last_name]
-  user.password = "test1234"
-  user.password_confirmation = "test1234"
-  user.city = "Ciudad"
-  user.address = "Dirección 123"
-  user.role = "customer"
-  user.save!
-  user
-end
-
-# 📅 Modificar created_at del primer usuario
-created_users.first.update!(created_at: 1.month.from_now)
-
-# 🧾 Crear orden con múltiples productos (mínimo 3) para ese usuario
-if products.size >= 3
-  order = Order.create!(user: created_users.first)
-  selected_products = products.sample(3)
-  selected_products.each { |product| order.products << product }
-
-  puts "📦 Orden creada con #{selected_products.size} productos para #{created_users.first.email}"
-else
-  puts "❌ No hay suficientes productos para crear una orden"
-end
-
-products = []
-
 categories.each do |data|
   category = Category.find_or_initialize_by(name: data[:name])
   category_image_path = Rails.root.join("db", data[:image])
@@ -159,6 +123,40 @@ categories.each do |data|
   else
     puts "❌ Error al crear categoría '#{category.name}': #{category.errors.full_messages.join(", ")}"
   end
+end
+
+# 🧪 Crear usuarios de prueba
+test_users = [
+  { name: "Juan", last_name: "Pérez", email: "juan@example.com" },
+  { name: "Ana", last_name: "Gómez", email: "ana@example.com" },
+  { name: "Luis", last_name: "Torres", email: "luis@example.com" }
+]
+
+created_users = test_users.map do |data|
+  user = User.find_or_initialize_by(email: data[:email])
+  user.name = data[:name]
+  user.last_name = data[:last_name]
+  user.password = "test1234"
+  user.password_confirmation = "test1234"
+  user.city = "Ciudad"
+  user.address = "Dirección 123"
+  user.role = "customer"
+  user.save!
+  user
+end
+
+# 📅 Modificar created_at del primer usuario
+created_users.first.update!(created_at: 1.month.from_now)
+
+# 🧾 Crear orden con múltiples productos (mínimo 3) para ese usuario
+if products.size >= 3
+  order = Order.create!(user: created_users.first)
+  selected_products = products.sample(3)
+  selected_products.each { |product| order.products << product }
+
+  puts "📦 Orden creada con #{selected_products.size} productos para #{created_users.first.email}"
+else
+  puts "❌ No hay suficientes productos para crear una orden"
 end
   
 # rake db:seed
