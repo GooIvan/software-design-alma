@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../models/category_model.dart';
 import '../bloc/category_bloc.dart';
 import '../bloc/category_state.dart';
-import '../models/category_model.dart';
+import 'product_detail_screen.dart';  // Nueva pantalla
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
@@ -37,36 +38,47 @@ class CategoryScreen extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   final category = categories[index];
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 4,
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.network(
-                              category.imageUrl,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.broken_image, size: 48),
+                  return GestureDetector(
+                    onTap: () {
+                      // Navegar a la pantalla de detalle del producto
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailScreen(category: category),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      elevation: 4,
+                      color: const Color.fromARGB(255, 255, 254, 254),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.network(
+                                category.imageUrl,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(Icons.broken_image, size: 48),
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          category.name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
+                          const SizedBox(height: 8),
+                          Text(
+                            category.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                      ],
+                          const SizedBox(height: 8),
+                        ],
+                      ),
                     ),
                   );
                 },
