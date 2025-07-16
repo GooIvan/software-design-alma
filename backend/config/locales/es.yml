@@ -47,6 +47,8 @@ es:
               blank: "El correo electrónico es obligatorio"
             password:
               blank: "La contraseña es obligatoria"
+            phone:
+              blank: "El teléfono es obligatorio"
         product:
           attributes:
             name:
@@ -145,9 +147,10 @@ es:
   checkout: Verificar
 
   #TODO: ADMIN
-  dashboard:
-    total_active_users: Total de usuarios activos
-    total_paid_orders: Total de órdenes pagadas
+  admin:
+    dashboard:
+      total_active_users: Total de usuarios activos
+      total_paid_orders: Total de órdenes pagadas
   overview: Vista general
   home: Inicio
   users: Usuarios

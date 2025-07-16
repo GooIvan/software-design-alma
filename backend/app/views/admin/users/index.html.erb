@@ -22,7 +22,7 @@
         <i class="bi bi-search me-1 text-primary"></i> <%= t('filter_name') %>
       </label>
       <div class="input-group shadow-sm">
-        <%= text_field_tag :name, params[:name], class: "form-control", id: "nameSearch", style: "height: 50px;" %>
+        <%= text_field_tag :name, params[:name], class: "form-control", id: "nameSearch", placeholder: "Alma Empresa", style: "height: 50px;" %>
       </div>
     <% end %>
   </div>
@@ -67,7 +67,7 @@
   <table class="table table-hover align-middle mb-0">
     <thead>
     <tr id="selection-bar" class="d-none">
-      <th colspan="7" class="text-white bg-selected px-4 rounded">
+      <th colspan="8" class="text-white bg-selected px-4 rounded">
         <div class="d-flex justify-content-between align-items-center w-100">
           <span id="selection-count"></span>
           <button type="submit" class="btn p-0 border-0 bg-transparent text-primary">

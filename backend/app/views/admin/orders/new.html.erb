@@ -54,19 +54,19 @@
     </div>
 
     <div class="mb-2">
-      <select class="form-select product-select" name="order[order_items][__INDEX__][product_id]" required>
+      <select class="form-select product-select" name="order[order_items_attributes][__INDEX__][product_id]" required>
         <option value="">Selecciona un producto</option>
       </select>
     </div>
 
     <div class="mb-2">
-      <select class="form-select size-select" name="order[order_items][__INDEX__][size]" required>
+      <select class="form-select size-select" name="order[order_items_attributes][__INDEX__][size]" required>
         <option value="">Selecciona una talla</option>
       </select>
     </div>
 
     <div class="mb-2">
-      <input type="number" class="form-control" name="order[order_items][__INDEX__][quantity]" min="1" value="1" required>
+      <input type="number" class="form-control" name="order[order_items_attributes][__INDEX__][quantity]" min="1" value="1" required>
     </div>
   </div>
 </template>

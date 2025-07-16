@@ -48,7 +48,8 @@ Rails.application.routes.draw do
       end
 
       # Órdenes (admin)
-      resources :orders, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      delete "orders/bulk_delete", to: "orders#bulk_delete", as: :bulk_delete_admin_orders
+      resources :orders
     end
 
     # Categorías y productos (público)

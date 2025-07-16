@@ -42,7 +42,7 @@
     <!-- Columna izquierda: texto -->
     <div class="d-flex flex-column justify-content-center">
       <div class="fw-bold mb-1">
-        <%= t('dashboard.total_active_users') %>
+        <%= t('admin.dashboard.total_active_users') %>
       </div>
       <div class="fs-3 fw-bold mb-1"><%= @users.all.size %></div>
       <div class="d-flex align-items-center gap-2 text-success">
@@ -71,7 +71,7 @@
     <!-- Columna izquierda: texto -->
     <div class="d-flex flex-column justify-content-center">
       <div class="fw-bold mb-1">
-        <%= t('dashboard.total_paid_orders') %>
+        <%= t('admin.dashboard.total_paid_orders') %>
       </div>
       <div class="fs-3 fw-bold mb-1"><%= @orders.where(status: "paid").count %></div>
       <div class="d-flex align-items-center gap-2 text-success">

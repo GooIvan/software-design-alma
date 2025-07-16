@@ -685,6 +685,12 @@
   background-color: #d6fdd6;
   color: green !important;
 }
+
+.bg-pending-ok {
+  background-color: #fff3cd;
+  color: #856404 !important;
+}
+
 .hover-opacity:hover {
   opacity: 0.6;
   transition: opacity 0.2s ease-in-out;

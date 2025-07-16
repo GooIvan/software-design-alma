@@ -1,33 +1,211 @@
-<div class="m-3">
-  <%= render 'shared/form_errors', object: @order %>
-  <%= render 'shared/form_exited', object: @order %>
+<h1 class="text-center mb-3">
+  <%= t('orders.orders') %>
+</h1>
+
+<div class="row g-3 mb-4">
+  <!-- Filtro por estado -->
+  <div class="col-12 col-md-3">
+    <%= form_with url: admin_orders_path(locale: I18n.locale), method: :get, local: true do %>
+      <%# Mantener filtros activos %>
+      <%= hidden_field_tag :id, params[:id] if params[:id].present? %>
+      <%= hidden_field_tag :user_email, params[:user_email] if params[:user_email].present? %>
+
+      <label class="form-label fw-semibold text-muted mb-1">
+        <i class="bi bi-funnel-fill me-1 text-primary"></i> <%= t('status') %>
+      </label>
+      <%= select_tag :status,
+        options_for_select(@statuses.prepend(t("all")), params[:status]),
+        class: "form-select shadow-sm", onchange: "this.form.submit()", style: "height: 50px;" %>
+    <% end %>
+  </div>
+
+  <!-- Filtro por ID -->
+  <div class="col-12 col-md-3">
+    <%= form_with url: admin_orders_path(locale: I18n.locale), method: :get, local: true do %>
+      <%# Mantener filtros activos %>
+      <%= hidden_field_tag :status, params[:status] if params[:status].present? %>
+      <%= hidden_field_tag :user_email, params[:user_email] if params[:user_email].present? %>
+
+      <label class="form-label fw-semibold text-muted mb-1">
+        <i class="bi bi-hash me-1 text-primary"></i> <%= t('orders.id') %>
+      </label>
+      <div class="input-group shadow-sm">
+        <%= text_field_tag :id, params[:id], class: "form-control", placeholder: "Ej: 101", style: "height: 50px;" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Filtro por Email -->
+  <div class="col-12 col-md-6">
+    <%= form_with url: admin_orders_path(locale: I18n.locale), method: :get, local: true do %>
+      <%# Mantener filtros activos %>
+      <%= hidden_field_tag :status, params[:status] if params[:status].present? %>
+      <%= hidden_field_tag :id, params[:id] if params[:id].present? %>
+
+      <label class="form-label fw-semibold text-muted mb-1">
+        <i class="bi bi-search me-1 text-primary"></i> <%= t('orders.user') %>
+      </label>
+      <div class="input-group shadow-sm">
+        <%= text_field_tag :user_email, params[:user_email], class: "form-control", placeholder: "user@example.com", style: "height: 50px;" %>
+      </div>
+    <% end %>
+  </div>
 </div>
 
-<h1 class="text-center">Órdenes</h1>
+<% total_results = @orders.count %>
+<% status_filter = params[:status].present? && !["all", "todas"].include?(params[:status].downcase) %>
+<% email_filter = params[:user_email].present? %>
+<% id_filter = params[:id].present? %>
+
+<% if total_results > 0 && (status_filter || email_filter || id_filter) %>
+  <p class="text-muted px-4 fw-semibold">
+    <%= t("results_found#{'_plural' if total_results > 1}", count: total_results).html_safe %>
+  </p>
+<% end %>
+
+<% if status_filter || email_filter || id_filter %>
+  <div class="d-flex align-items-center px-4 mb-4">
+    <div>
+      <% if status_filter %>
+        <span class="me-3">
+          <strong><%= t('status') %></strong>
+          <span class="ms-2 bg-gray"><%= params[:status] %></span>
+        </span>
+      <% end %>
+
+      <% if id_filter %>
+        <span class="me-3">
+          <strong><%= t('orders.id') %></strong>
+          <span class="ms-2 bg-gray"><%= params[:id] %></span>
+        </span>
+      <% end %>
+
+      <% if email_filter %>
+        <span class="me-3">
+          <strong><%= t('orders.user') %></strong>
+          <span class="ms-2 bg-gray"><%= params[:user_email] %></span>
+        </span>
+      <% end %>
+    </div>
+
+    <%= link_to admin_orders_path(locale: I18n.locale), class: "clear-bt text-danger text-decoration-none fw-bold" do %>
+      <i class="bi bi-trash-fill hover-opacity"></i>
+      <span><%= t('clear') %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<%= form_with url: "/#{I18n.locale}/admin/orders/bulk_delete", method: :delete do %>
+  <div class="table-responsive table-personalized">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr id="selection-bar" class="d-none">
+          <th colspan="6" class="text-white bg-selected px-4 rounded">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <span id="selection-count"></span>
+              <button type="submit" class="btn p-0 border-0 bg-transparent text-primary">
+                <i class="bi bi-trash-fill fs-4 hover-opacity"></i>
+              </button>
+            </div>
+          </th>
+        </tr>
+        <tr class="table-light no-thead-border">
+          <th style="width: 2%;"><input type="checkbox" id="select-all"></th>
+          <th style="width: 50%;"><%= t('orders.id') %> / <%= t('orders.user') %></th>
+          <th class="d-none d-md-table-cell text-center text-nowrap" style="width: 14%;"><%= t('orders.total') %></th>
+          <th class="d-none d-md-table-cell text-center text-nowrap" style="width: 14%;"><%= t('orders.date') %></th>
+          <th class="d-none d-md-table-cell text-center text-nowrap" style="width: 14%;"><%= t('orders.status') %></th>
+          <th class="d-none d-md-table-cell text-center text-nowrap" style="width: 14%;"><%= t('actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders.each do |order| %>
+          <tr>
+            <td>
+              <input type="checkbox" name="selected_orders[]" value="<%= order.id %>" class="order-checkbox">
+            </td>
+
+            <!-- ID + Email a la izquierda -->
+            <td>
+              <div class="fw-bold">#<%= order.id %></div>
+              <div class="text-muted small"><%= order.user.email %></div>
+
+              <!-- Para móvil -->
+              <div class="d-md-none mt-2">
+                <div><strong><%= t('orders.total') %>:</strong> $<%= number_to_currency(order.total, unit: "", precision: 0) %></div>
+              </div>
+            </td>
+
+            <!-- Columnas visibles solo en escritorio -->
+            <td class="d-none d-md-table-cell text-center text-nowrap px-1">
+              $<%= number_to_currency(order.total, unit: "", precision: 0) %>
+            </td>
+            <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= l(order.created_at, format: :short) %></td>
+            <td class="d-none d-md-table-cell text-center text-nowrap px-1">
+              <span class="badge 
+                <%= case order.status
+                    when 'paid' then 'bg-secondary-ok'
+                    when 'pending' then 'bg-pending-ok'
+                    when 'cancelled' then 'bg-danger-ok'
+                    end %>">
+                <%= order.status.capitalize %>
+              </span>
+            </td>
+            <td class="d-none d-md-table-cell text-center text-nowrap px-1">
+              <div class="d-flex justify-content-center">
+                <%= link_to admin_order_path(order), class: 'text-decoration-none text-body mx-1' do %>
+                  <i class="bi bi-eye-fill fs-4 hover-opacity"></i>
+                <% end %>
+
+                <%= button_to admin_order_path(order),
+                    method: :delete,
+                    data: { confirm: "¿Estás seguro de que deseas eliminar esta orden?" },
+                    class: 'btn p-0 border-0 bg-transparent text-danger mx-1' do %>
+                  <i class="bi bi-trash-fill fs-4 hover-opacity"></i>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
 
 <%= link_to "Crear Orden", new_admin_order_path, class: "btn btn-primary mb-3 mt-3" %>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Usuario</th>
-      <th>Estado</th>
-      <th>Total</th>
-      <th>Fecha</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @orders.each do |order| %>
-      <tr>
-        <td><%= order.id %></td>
-        <td><%= order.user.email %></td>
-        <td><%= order.status %></td>
-        <td>$<%= number_to_currency(order.total, unit: "", precision: 0) %></td>
-        <td><%= l(order.created_at, format: :short) %></td>
-        <td><%= link_to "Ver", admin_order_path(order), class: "btn btn-sm btn-outline-dark" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<script>
+  document.addEventListener("turbo:load", function () {
+    const selectAll = document.getElementById("select-all");
+    const checkboxes = document.querySelectorAll(".order-checkbox");
+    const selectionBar = document.getElementById("selection-bar");
+    const selectionCount = document.getElementById("selection-count");
+
+    function updateSelectionUI() {
+      const selected = document.querySelectorAll(".order-checkbox:checked").length;
+      if (selected > 0) {
+        selectionBar.classList.remove("d-none");
+        selectionCount.textContent = `${selected} seleccionadas`;
+      } else {
+        selectionBar.classList.add("d-none");
+        selectionCount.textContent = "";
+      }
+    }
+
+    if (selectAll) {
+      selectAll.addEventListener("change", function () {
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        updateSelectionUI();
+      });
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", () => {
+        selectAll.checked = [...checkboxes].every(c => c.checked);
+        updateSelectionUI();
+      });
+    });
+
+    updateSelectionUI();
+  });
+</script>

@@ -3,7 +3,7 @@ class User < ApplicationRecord
         :recoverable, :rememberable, :validatable
 
   # Validaciones de presencia y longitud mínima
-  validates :name, :last_name, :city, :address, presence: true
+  validates :name, :last_name, :city, :phone, :address, presence: true
 
   # Validación de formato de email
   VALID_EMAIL_REGEX = /\A[^@\s]+@[^@\s]+\z/

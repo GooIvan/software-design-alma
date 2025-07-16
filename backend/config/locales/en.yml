@@ -47,6 +47,8 @@ en:
               blank: "Email can't be blank"
             password:
               blank: "Password can't be blank"
+            phone:
+              blank: "Phone can't be blank"
         product:
           attributes:
             name:
@@ -147,9 +149,20 @@ en:
   remove: Remove
 
   #TODO: ADMIN
-  dashboard:
-    total_active_users: Total active users
-    total_paid_orders: Total paid orders
+  admin:
+    dashboard:
+      total_active_users: Total active users
+      total_paid_orders: Total paid orders
+    orders:
+      orders: Órdenes
+      new_order: Nueva Orden
+      id: ID
+      user: Usuario
+      status: Estado
+      total: Total
+      date: Fecha
+      no_orders: No hay órdenes registradas.
+  
   overview: Overview
   home: Home
   users: Users
