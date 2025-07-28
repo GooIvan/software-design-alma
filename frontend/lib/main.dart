@@ -1,17 +1,13 @@
-import 'package:design_alma/feature/login/screens/login_screen.dart';
-import 'package:design_alma/routes/routes.dart';
 import 'package:flutter/material.dart';
-
-import 'feature/categories/repositories/category_repository.dart';
+import 'package:design_alma/routes/routes.dart';
+import 'package:design_alma/screens/logo_intro.dart'; // 👈 Tu animación Lottie
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final CategoryRepository categoryRepository = CategoryRepository();
-
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'DesignAlma App',
-      initialRoute: AppRoute.home,
+      home: const LogoIntro(), // 👈 Se muestra enseguida al abrir
       routes: appRoute.routes,
     );
   }

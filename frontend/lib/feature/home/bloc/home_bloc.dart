@@ -16,8 +16,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // Simula una carga desde una API o base de datos
       await Future.delayed(const Duration(seconds: 2));
       final categories = [
-        Categories(name: "Camisetas"),
-        Categories(name: "Tazas"),
+        Categories(name: "Camisetas", description: "Tallas: M L", precio: 32.000),
+        Categories(name: "Tazas", description: "De Losa", precio: 15.000),
       ];
 
       emit(HomeLoaded(categories));
