@@ -76,5 +76,15 @@
     </div>
     <!-- Footer -->
     <%= render 'shared/footer' %>
+
+    <div data-controller="modal" data-modal-target="container" class="modal-overlay" style="display: none;" data-action="click->modal#backgroundClose">
+      <div class="modal-content" data-modal-target="content" data-action="click->modal#stopPropagation">
+        <button data-action="click->modal#close" class="close-button">&times;</button>
+        <a href="https://wa.me/573024373488" target="_blank" rel="noopener">
+          <img src="<%= asset_path('designalma_modal.png') %>" alt="Promo Design Alma" class="modal-image" />
+        </a>
+      </div>
+    </div>
+
   </body>
 </html>

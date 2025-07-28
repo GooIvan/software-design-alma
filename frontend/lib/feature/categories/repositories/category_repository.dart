@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/category_model.dart';
 
 class CategoryRepository {
-  final String _baseUrl = 'https://mocki.io/v1/fd8115f4-f0c0-407d-ba6d-865da1364433';
+  final String _baseUrl = 'https://mocki.io/v1/f8ba5803-eed5-4492-b782-5350de5c3595';
 
   Future<List<CategoryModel>> getCategories() async {
     final response = await http.get(Uri.parse(_baseUrl));

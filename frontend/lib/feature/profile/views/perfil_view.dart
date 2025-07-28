@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class PerfilView extends StatelessWidget {
   final String nombreUsuario;
+  final VoidCallback onCerrarSesion;
 
   const PerfilView({
     super.key,
     required this.nombreUsuario,
+    required this.onCerrarSesion,
   });
 
   @override
@@ -44,7 +46,7 @@ class PerfilView extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.logout),
           title: const Text('Cerrar sesión'),
-          onTap: () {},
+          onTap: onCerrarSesion,
         ),
       ],
     );
