@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:design_alma/routes/routes.dart';
-import 'package:design_alma/app/main_scaffold.dart';
-import 'package:design_alma/feature/login/screens/login_screen.dart';
+import 'package:design_alma/screens/logo_intro.dart'; // 👈 Tu animación Lottie
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  final prefs = await SharedPreferences.getInstance();
-  final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
-  runApp(MyApp(isLoggedIn: isLoggedIn));
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLoggedIn;
-
-  const MyApp({super.key, required this.isLoggedIn});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'DesignAlma App',
-      home: isLoggedIn ? MainScaffold(initialIndex: 4) : const LoginScreen(),
+      home: const LogoIntro(), // 👈 Se muestra enseguida al abrir
       routes: appRoute.routes,
     );
   }
