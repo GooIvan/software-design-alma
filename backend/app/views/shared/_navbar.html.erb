@@ -79,9 +79,15 @@
       </ul>
     </div>
 
+    
     <!-- Íconos en desktop -->
     <div class="d-flex align-items-center gap-3 order-lg-3 ms-auto d-none d-lg-flex">
-      <% if user_signed_in? %>
+      <!-- Enlace al inicio -->
+      <%= link_to root_path, class: "text-decoration-none text-reset" do %>
+        <i class="nvi bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+      <% end %>
+      
+    <% if user_signed_in? %>
         <a href="<%= profile_path %>" class="text-decoration-none text-reset">
           <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
         </a>
