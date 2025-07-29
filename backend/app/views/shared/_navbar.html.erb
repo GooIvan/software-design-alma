@@ -54,34 +54,47 @@
         </li>
 
         <!-- Íconos en móvil -->
-        <li class="nav-item d-lg-none mt-3">
-          <div class="d-flex flex-row align-items-center gap-3">
-            <% if user_signed_in? %>
-              <a href="<%= profile_path %>" class="text-decoration-none text-reset">
-                <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
-              </a>
-            <% else %>
-              <a href="<%= new_user_session_path %>" class="text-decoration-none text-reset">
-                <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
-              </a>
-            <% end %>
+        <div class="d-flex d-lg-none flex-row gap-3 mt-3 mb-2">
+  <%= link_to root_path, class: "text-decoration-none text-reset" do %>
+    <i class="nvi bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+  <% end %>
 
-            <%= render partial: 'shared/cart/cart_icon', locals: {
-              icon_id: "cart-toggle",
-              extra_classes: "d-lg-none",
-              cart_items_count: cart_items_count
-            } %>
+  <% if user_signed_in? %>
+    <a href="<%= profile_path %>" class="text-decoration-none text-reset">
+      <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+    </a>
+  <% else %>
+    <a href="<%= new_user_session_path %>" class="text-decoration-none text-reset">
+      <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+    </a>
+  <% end %>
 
-            <i id="theme-toggle" class="nvi bi bi-sun" style="cursor: pointer; font-size: 1.5rem;" tabindex="0"></i>
-            <i id="internalization" class="nvi bi bi-globe" style="font-size: 1.5rem; cursor: pointer;" tabindex="0"></i>
-          </div>
-        </li>
+  <!-- Carrito: eliminamos mx-5 y dejamos solo clases comunes -->
+  <%= render partial: 'shared/cart/cart_icon', locals: {
+    icon_id: "cart-toggle",
+    extra_classes: "d-lg-none",  # sin márgenes laterales extra
+    cart_items_count: cart_items_count
+  } %>
+
+  <!-- Tema oscuro/claro -->
+  <i id="theme-toggle" class="nvi bi bi-sun" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+
+  <!-- Internacionalización -->
+  <i id="internalization" class="nvi bi bi-globe" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+</div>
+
       </ul>
     </div>
 
+    
     <!-- Íconos en desktop -->
     <div class="d-flex align-items-center gap-3 order-lg-3 ms-auto d-none d-lg-flex">
-      <% if user_signed_in? %>
+      <!-- Enlace al inicio -->
+      <%= link_to root_path, class: "text-decoration-none text-reset" do %>
+        <i class="nvi bi bi-house" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
+      <% end %>
+      
+    <% if user_signed_in? %>
         <a href="<%= profile_path %>" class="text-decoration-none text-reset">
           <i class="nvi bi bi-person" style="font-size: 1.7rem; cursor: pointer;" tabindex="0"></i>
         </a>
