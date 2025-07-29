@@ -165,7 +165,11 @@ en:
       no_orders: No orders found
       actions: Actions
       details: Details
+      subtotal: Subtotal
+      discount: Discount
       customer_info: Customer info
+      shipping: Shipping
+      payment: Payment
   
   overview: Overview
   home: Home

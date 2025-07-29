@@ -163,7 +163,11 @@ es:
       no_orders: No hay órdenes registradas.
       actions: Acciones
       details: Detalles
+      subtotal: Subtotal
+      discount: Descuento
       customer_info: Información del cliente
+      shipping: Envío
+      payment: Pago
 
   home: Inicio
   users: Usuarios
