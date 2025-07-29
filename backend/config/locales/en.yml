@@ -154,14 +154,18 @@ en:
       total_active_users: Total active users
       total_paid_orders: Total paid orders
     orders:
-      orders: Órdenes
-      new_order: Nueva Orden
+      order: Order
+      orders: Orders
+      create_order: Create Order
       id: ID
-      user: Usuario
-      status: Estado
+      user: User
+      status: Status
       total: Total
-      date: Fecha
-      no_orders: No hay órdenes registradas.
+      date: Date
+      no_orders: No orders found
+      actions: Actions
+      details: Details
+      customer_info: Customer info
   
   overview: Overview
   home: Home

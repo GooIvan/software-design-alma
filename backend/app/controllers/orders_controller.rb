@@ -7,24 +7,23 @@ class OrdersController < ApplicationController
       return
     end
 
-    # Crear orden con usuario actual (o temporal si no hay login)
-    @order = Order.create!(
-      user: current_user,  # o User.first si estás en desarrollo
-      status: :pending,
-      total: current_cart.cart_items.sum { |item| item.product.price * item.quantity }
-    )
-
-    # Agregar items de carrito
-    current_cart.cart_items.each do |cart_item|
-      @order.order_items.create!(
-        product: cart_item.product,
-        size: cart_item.size,
-        quantity: cart_item.quantity,
-        price: cart_item.product.price
-      )
+    # Construir los atributos para order_items desde el carrito
+    order_items_attributes = current_cart.cart_items.map do |item|
+      {
+        product_id: item.product.id,
+        quantity: item.quantity,
+        size: item.size
+      }
     end
 
-    # Vaciar carrito
+    # Crear la orden con los items (el modelo calculará los precios y total)
+    @order = Order.create!(
+      user: current_user,
+      status: :pending,
+      order_items_attributes: order_items_attributes
+    )
+
+    # Vaciar el carrito
     current_cart.cart_items.destroy_all
 
     redirect_back fallback_location: root_path(locale: I18n.locale), notice: "Orden creada exitosamente."

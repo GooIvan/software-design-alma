@@ -721,3 +721,9 @@
 .clear-bt:hover {
   background-color: rgba(255, 0, 0, 0.321);
 }
+
+@media (max-width: 1550px) {
+  .titulo-res {
+    margin-top: 3rem;
+  }
+}

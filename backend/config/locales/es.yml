@@ -151,7 +151,20 @@ es:
     dashboard:
       total_active_users: Total de usuarios activos
       total_paid_orders: Total de órdenes pagadas
-  overview: Vista general
+    orders:
+      order: Orden
+      orders: Órdenes
+      create_order: Crear Orden
+      id: ID
+      user: Usuario
+      status: Estado
+      total: Total
+      date: Fecha
+      no_orders: No hay órdenes registradas.
+      actions: Acciones
+      details: Detalles
+      customer_info: Información del cliente
+
   home: Inicio
   users: Usuarios
   welcome: ¡Bienvenido de nuevo

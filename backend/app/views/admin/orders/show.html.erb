@@ -1,47 +1,85 @@
-<h1>Detalle de la Orden #<%= @order.id %></h1>
+<h2 class="titulo-res fw-bold">
+  <%= t("admin.orders.order") %> #<%= @order.id %>
+  <span class="ms-2 badge 
+    <%= case @order.status
+        when 'paid' then 'bg-secondary-ok'
+        when 'pending' then 'bg-pending-ok'
+        when 'cancelled' then 'bg-danger-ok'
+        end %>">
+    <%= @order.status.capitalize %>
+  </span>
+</h2>
+<p class="text-muted"><%= l(@order.created_at, format: :short) %></p>
 
-<div class="mb-4">
-  <strong>Usuario:</strong> <%= @order.user.email %><br>
-  <strong>Estado:</strong> <%= @order.status.humanize %><br>
-  <strong>Total:</strong> $<%= number_to_currency(@order.total, unit: "", precision: 0) %><br>
-  <strong>Fecha de creación:</strong> <%= l(@order.created_at, format: :short) %>
-</div>
+<div class="mt-4 gap-3 div-cards">
+  <div class="cards shadow-sm p-4 w-66 d-flex flex-column">
 
-<h2>Items de la orden</h2>
+    <!-- CAJA 1: Detalles de productos -->
+    <div>
+      <p class='fs-5 fw-bold'>
+        <%= t('admin.orders.details') %>
+      </p>
 
-<% if @order.order_items.any? %>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Talla</th>
-        <th>Cantidad</th>
-        <th>Precio unitario</th>
-        <th>Subtotal</th>
-      </tr>
-    </thead>
-    <tbody>
+      <!-- fila de productos -->
       <% @order.order_items.each do |item| %>
-        <tr>
-          <td><%= item.product.name %></td>
-          <td><%= item.size %></td>
-          <td><%= item.quantity %></td>
-          <td>$<%= number_to_currency(item.price, unit: "", precision: 0) %></td>
-          <td>$<%= number_to_currency(item.price * item.quantity, unit: "", precision: 0) %></td>
-        </tr>
+        <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
+          <!-- Imagen del producto -->
+          <% if item.product.image.attached? %>
+            <%= image_tag url_for(item.product.image), class: "rounded me-4", style: "width: 65px; height: 65px; object-fit: cover;" %>
+          <% else %>
+            <div class="rounded me-4" style="width: 65px; height: 65px; background-color: red;"></div>
+          <% end %>
+
+          <!-- Información del producto -->
+          <div class="flex-grow-1">
+            <div class="fw-semibold fs-6"><%= item.product.name %></div>
+            <div class="text-muted small">#<%= item.product.id %></div>
+          </div>
+
+          <!-- Talla (oculta en móviles) -->
+          <div class="text-end fw-semibold me-5 small d-none d-md-block">
+            <%= item.size %>
+          </div>
+
+          <!-- Cantidad (oculta en móviles) -->
+          <div class="text-end fw-semibold me-5 small d-none d-md-block">
+            x<%= item.quantity %>
+          </div>
+
+          <!-- Subtotal (oculta en móviles) -->
+          <div class="fw-bold fs-6 d-none d-md-block">
+            $<%= number_to_currency(item.price * item.quantity, unit: "", precision: 0) %>
+          </div>
+        </div>
       <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <div class="alert alert-info">No hay items en esta orden.</div>
-<% end %>
+    </div>
 
-<div class="d-flex flex-row gap-2">
-  <%= button_to "Eliminar orden", admin_order_path(@order), 
-                method: :delete,
-                data: { confirm: "¿Estás seguro de que deseas eliminar esta orden?" },
-                class: "btn btn-danger mt-3" %>
+    <!-- Segunda fila -->
+    <div class="form-row-responsive gap-3 mt-5">
+      <div class="upload-box flex-grow-1">
+        <div class="floating-folder folder-unit">
+          <div class="front-side">
+            <div class="folder-tab"></div>
+            <div class="folder-cover"></div>
+          </div>
+          <div class="back-side folder-cover"></div>
+        </div>
+        <label class="file-upload-btn">
+            <%= t('Upload_mp4_file') %>
+        </label>
+      </div>
 
-  <%= link_to "Volver a la lista", admin_orders_path, class: "btn btn-outline-secondary mt-3" %>
+      <div class="input-container border flex-grow-1">
+      </div>
+    </div>
+  </div>
+
+  <!-- BOX 2: Details user -->
+  <div class="cards shadow-sm p-4 d-flex flex-column">
+    <p class='fs-5 fw-bold'>Categorias populares</p>
+    <p class='fs-6'>Estas son las categorias mas compradas por los clientes</p>
+    <%= image_tag('admins/grafico-torta-basico-1.png', alt: 'Gráfico torta', class: 'img-fluid w-100', style: 'max-width: 600px; height: auto;') %>
+  </div>
 </div>
+
 

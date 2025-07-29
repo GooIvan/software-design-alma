@@ -1,4 +1,4 @@
-<h1 class="text-center mb-3">
+<h1 class="text-center mb-3 fw-bold">
   <%= t('users') %>
 </h1>
 
@@ -115,7 +115,7 @@
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.city %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.address %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.phone %></td>
-            <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.created_at.strftime("%Y-%m-%d") %></td>
+            <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.created_at.strftime("%d/%m/%Y") %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1">
               <span class="badge <%= user.admin? ? 'bg-danger-ok' : 'bg-secondary-ok' %>">
                 <%= user.admin? ? "Admin" : "User" %>
@@ -144,7 +144,7 @@
 
 <div class="mt-4 text-end">
   <%= link_to new_admin_user_path, class: 'btn btn-success' do %>
-    <i class="bi bi-plus-circle"></i> <%= t('add_user') %>
+    <div class="fw-bold"><%= t('add_user') %></div> 
   <% end %>
 </div>
 
