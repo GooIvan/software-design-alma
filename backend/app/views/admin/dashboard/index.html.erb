@@ -129,11 +129,26 @@
 
 <div class="mt-4 gap-3 div-cards">
   <!-- futura analisis categorias compradas home -->
-  <div class="cards shadow-sm p-4 d-flex flex-column">
-    <p class='fs-5 fw-bold'>Categorias populares</p>
-    <p class='fs-6'>Estas son las categorias mas compradas por los clientes</p>
-    <%= image_tag('admins/grafico-torta-basico-1.png', alt: 'Gráfico torta', class: 'img-fluid w-100', style: 'max-width: 600px; height: auto;') %>
-  </div>
+<div class="cards shadow-sm p-4 d-flex flex-column">
+  <p class="fs-5 fw-bold"><%= t('admin.dashboard.popular_categories') %></p>
+  <p class="fs-6"><%= t('admin.dashboard.popular_categories_message') %></p>
+
+  <% if @categories_labels.present? && @categories_values.present? %>
+    <canvas 
+      id="topCategoriesChart"
+      class="img-fluid"
+      style="max-width: 600px; height: auto; width: 25rem;"
+      data-chart-type="pie"
+      data-label="Categorías más vendidas"
+      data-labels='<%= raw @categories_labels.to_json %>'
+      data-values='<%= raw @categories_values.to_json %>'
+      data-colors='<%= raw @categories_colors.to_json %>'>
+    </canvas>
+  <% else %>
+    <div class="text-muted small">No hay datos suficientes para mostrar el gráfico.</div>
+  <% end %>
+</div>
+
   
   <!-- Caja personalizar home -->
   <div class="cards shadow-sm p-4 w-66 d-flex flex-column">

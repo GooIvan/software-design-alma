@@ -1,32 +1,39 @@
-<h1 class="text-center">Categorías</h1>
+<h1 class="text-center mb-4">Categorías</h1>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @categories.each do |category| %>
-      <tr>
-        <td><%= category.name %></td>
-        <td>
-          <div class="btn-group" role="group">
-          <%= link_to "Editar", edit_admin_category_path(category), class: "btn btn-sm btn-warning" %>
-          <%= button_to 'Eliminar', admin_category_path(category),
-            method: :delete,
-            form: { data: { turbo: false } },
-            onclick: "return confirm('¿Estás seguro de que deseas eliminar esta categoría?, todos los productos asociados a esta categoría serán eliminados.')",
-            class: 'btn btn-danger mx-3'
-          %>
-          <%= link_to "Ver", admin_category_products_path(category), class: "btn btn-sm btn-success" %>
-          </div>
-        </td>
+<div class="table-responsive table-personalized">
+  <table class="table table-hover align-middle mb-0">
+    <thead>
+      <tr class="table-light no-thead-border">
+        <th style="width: 70%;">Nombre</th>
+        <th class="text-center text-nowrap" style="width: 30%;">Acciones</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @categories.each do |category| %>
+        <tr>
+          <!-- Nombre -->
+          <td>
+            <div class="fw-bold"><%= category.name %></div>
+          </td>
 
-<%= link_to "Nueva categoría", new_admin_category_path, class: "btn btn-primary mb-3" %>
+          <!-- Acciones -->
+          <td class="text-center text-nowrap px-1">
+            <div class="d-flex justify-content-center gap-2">
+              <%= link_to edit_admin_category_path(category), class: 'text-decoration-none text-warning' do %>
+                <i class="bi bi-pencil-square fs-5 hover-opacity"></i>
+              <% end %>
 
+              <%= link_to admin_category_products_path(category), class: 'text-decoration-none text-success' do %>
+                <i class="bi bi-eye-fill fs-5 hover-opacity"></i>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="mt-3">
+  <%= link_to "Nueva categoría", new_admin_category_path, class: "btn btn-primary" %>
+</div>

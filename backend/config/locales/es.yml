@@ -151,6 +151,9 @@ es:
     dashboard:
       total_active_users: Total de usuarios activos
       total_paid_orders: Total de órdenes pagadas
+      popular_categories: Popular categories
+      popular_categories_message: Categorías con más productos vendidos
+
     orders:
       order: Orden
       orders: Órdenes

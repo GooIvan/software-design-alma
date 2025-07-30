@@ -15,6 +15,7 @@ class Product < ApplicationRecord
 
   # *
   has_many :cart_items
+  has_many :order_items
 
   def formatted_price
     ActionController::Base.helpers.number_to_currency(price, unit: "", separator: ",", delimiter: ".", precision: 0)

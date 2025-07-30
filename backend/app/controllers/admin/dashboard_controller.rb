@@ -23,6 +23,18 @@ class Admin::DashboardController < ApplicationController
           .where("strftime('%Y', created_at) = ? AND strftime('%m', created_at) = ?", year, month_str)
           .count
     end
+
+    #* Aqui calculamos las categorias con los productos mas vendidos
+    @top_categories = Category
+      .joins(products: { order_items: :order })
+      .where(orders: { status: 'paid' })
+      .group('categories.name')
+      .select('categories.name, SUM(order_items.quantity) as total_vendidos')
+      .order('total_vendidos DESC')
+
+    @categories_labels = @top_categories.map(&:name)
+    @categories_values = @top_categories.map { |c| c.total_vendidos.to_i }
+    @categories_colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"] # o genera colores aleatorios si son dinámicos
   end
 
   def update_home_video
