@@ -47,6 +47,14 @@ categories = [
       stock: 40,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/product_taza.webp"
+    },
+    {
+      name: "Taza mágica negra",
+      description: "Taza que revela tu diseño con calor.",
+      price: 25000,
+      stock: 30,
+      sizes: ["MEDIUM"],
+      image: "seeds/images/products/product_taza.webp"
     }
   },
   {
