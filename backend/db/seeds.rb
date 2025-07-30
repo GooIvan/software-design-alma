@@ -141,5 +141,8 @@ created_users = test_users.map do |data|
   user.save!
   user
 end
+
+# 📅 Modificar created_at del primer usuario
+created_users.first.update!(created_at: 1.month.from_now)
   
 # rake db:seed
