@@ -125,7 +125,7 @@ end
 # 🧪 Crear usuarios de prueba
 test_users = [
   { name: "Juan", last_name: "Pérez", email: "juan@example.com", password: "test1234", password_confirmation: "test1234", city: "Ciudad", address: "Dirección 123", role: "customer"},
-  { name: "Ana", last_name: "Gómez", email: "ana@example.com" },
+  { name: "Ana", last_name: "Gómez", email: "ana@example.com", password: "test1234", password_confirmation: "test1234", city: "Ciudad", address: "Dirección 123", role: "customer" },
   { name: "Luis", last_name: "Torres", email: "luis@example.com" }
 ]
 
