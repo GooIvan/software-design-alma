@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../bloc/category_bloc.dart';
 import '../bloc/category_event.dart';
 import '../repositories/category_repository.dart';
 import '../screens/category_screen.dart';
-import 'package:design_alma/screens/products_page.dart';
-
+import 'package:design_alma/screens/products_page.dart' as screen; 
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:design_alma/models/product_model.dart' as model;
+import '../../../services/product_service.dart';
 
 class HomeScreen extends StatefulWidget {
   final CategoryRepository categoryRepository;
@@ -19,13 +20,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
-
+  int _currentCarouselIndex = 0;
   final List<String> _tabs = ['HOME', 'PRODUCTOS', 'CATEGORÍA'];
+
+  late Future<List<model.Product>> _futureProducts;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: _tabs.length, vsync: this);
+    _futureProducts = ProductService.fetchProducts();
   }
 
   @override
@@ -42,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         elevation: 1,
         leading: IconButton(
           icon: const Icon(Icons.menu, color: Colors.black),
-          onPressed: () {}, // TODO: abrir drawer
+          onPressed: () {},
         ),
         title: const Text('HOME', style: TextStyle(color: Colors.black)),
         actions: [
@@ -73,15 +77,120 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildHomeContent() {
-    return const Center(child: Text('Contenido HOME'));
+    return FutureBuilder<List<model.Product>>(
+      future: _futureProducts,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error al cargar productos: ${snapshot.error}'));
+        }
+
+        final productos = snapshot.data ?? [];
+
+        return Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Lo más nuevo',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 280,
+                autoPlay: true,
+                enableInfiniteScroll: true,
+                enlargeCenterPage: true,
+                viewportFraction: 0.8,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentCarouselIndex = index;
+                  });
+                },
+              ),
+              items: productos.map((producto) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+  borderRadius: BorderRadius.circular(12),
+  child: Image.network(
+    producto.imageUrl,
+    fit: BoxFit.cover, // ✅ que llene el contenedor sin deformarse
+    height: 200,
+    width: double.infinity,
+    loadingBuilder: (context, child, loadingProgress) {
+      if (loadingProgress == null) return child;
+      return Center(child: CircularProgressIndicator());
+    },
+    errorBuilder: (context, error, stackTrace) =>
+        Center(child: Icon(Icons.error)),
+  ),
+),
+
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  producto.name,
+                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(producto.formattedPrice),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(productos.length, (index) {
+                return Container(
+                  width: 8.0,
+                  height: 8.0,
+                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _currentCarouselIndex == index
+                        ? Colors.black
+                        : Colors.grey.shade400,
+                  ),
+                );
+              }),
+            ),
+            const SizedBox(height: 20),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildProductosContent() {
-    return const ProductsPage();
+    return const screen.ProductsPage();
   }
 
   Widget _buildCategoriaContent() {
-    // 🧩 Este ejemplo muestra una cuadrícula mock, luego puedes integrarla con tus productos reales
     final dummyItems = List.generate(6, (index) => {
           'name': 'Producto ${index + 1}',
           'price': '\$${(index + 1) * 10}',

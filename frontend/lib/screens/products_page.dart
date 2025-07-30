@@ -36,7 +36,7 @@ class _ProductsPageState extends State<ProductsPage> {
   List<Product> products = [];
 
   Future<void> fetchProducts() async {
-    final response = await http.get(Uri.parse('http://192.168.101.108:3000/api/products'));
+    final response = await http.get(Uri.parse('http://localhost:3000/api/products'));
 
     if (response.statusCode == 200) {
       final List data = json.decode(response.body);
