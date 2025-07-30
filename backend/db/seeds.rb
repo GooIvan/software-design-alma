@@ -35,6 +35,14 @@ categories = [
       stock: 30,
       sizes: ["XS", "S", "M", "L", "XL"],
       image: "seeds/images/products/product_camiseta.webp"
+    },
+    {
+      name: "Camiseta Negra Edición Limitada",
+      description: "Diseño exclusivo para eventos.",
+      price: 40000,
+      stock: 20,
+      sizes: ["M", "L"],
+      image: "seeds/images/products/product_camiseta.webp"
     }
   },
   {
