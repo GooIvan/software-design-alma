@@ -75,6 +75,14 @@ categories = [
       stock: 20,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/product_mousepad.webp"
+    },
+    {
+      name: "Mousepad Gamer Personalizado",
+      description: "Superficie optimizada para precisión.",
+      price: 18000,
+      stock: 50,
+      sizes: ["25x20cm", "30x25cm"],
+      image: "seeds/images/products/product_mousepad.webp"
     }
   },
   {
