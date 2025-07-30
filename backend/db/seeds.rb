@@ -21,6 +21,8 @@ end
 
 user.save if user.changed?
 
+products = []
+
 # Categorías con productos únicos por cada una
 categories = [
   {
@@ -99,6 +101,7 @@ categories.each do |data|
     product_image_path = Rails.root.join("db", product_data[:image])
 
     if File.exist?(product_image_path)
+      unless product.image.attached?
       product.image.attach(
         io: File.open(product_image_path),
         filename: File.basename(product_image_path),
@@ -110,6 +113,7 @@ categories.each do |data|
 
     if product.save
       puts "🛒 Producto '#{product.name}' creado en categoría '#{category.name}'"
+      products << product
     else
       puts "❌ Error al crear producto: #{product.errors.full_messages.join(", ")}"
     end
@@ -117,5 +121,12 @@ categories.each do |data|
     puts "❌ Error al crear categoría '#{category.name}': #{category.errors.full_messages.join(", ")}"
   end
 end
+
+# 🧪 Crear usuarios de prueba
+test_users = [
+  { name: "Juan", last_name: "Pérez", email: "juan@example.com" },
+  { name: "Ana", last_name: "Gómez", email: "ana@example.com" },
+  { name: "Luis", last_name: "Torres", email: "luis@example.com" }
+]
   
 # rake db:seed
