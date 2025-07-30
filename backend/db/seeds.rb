@@ -101,7 +101,6 @@ categories.each do |data|
     product_image_path = Rails.root.join("db", product_data[:image])
 
     if File.exist?(product_image_path)
-      unless product.image.attached?
       product.image.attach(
         io: File.open(product_image_path),
         filename: File.basename(product_image_path),
@@ -145,16 +144,8 @@ end
 # 📅 Modificar created_at del primer usuario
 created_users.first.update!(created_at: 1.month.from_now)
 
-# 🧾 Crear orden con múltiples productos (mínimo 3) para ese usuario
-if products.size >= 3
-  order = Order.create!(user: created_users.first)
-  selected_products = products.sample(3)
-  selected_products.each { |product| order.products << product }
 
-  puts "📦 Orden creada con #{selected_products.size} productos para #{created_users.first.email}"
-else
-  puts "❌ No hay suficientes productos para crear una orden"
-end
+
   
   
 # rake db:seed
