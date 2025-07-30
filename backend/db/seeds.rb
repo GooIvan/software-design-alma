@@ -128,5 +128,18 @@ test_users = [
   { name: "Ana", last_name: "Gómez", email: "ana@example.com" },
   { name: "Luis", last_name: "Torres", email: "luis@example.com" }
 ]
+
+created_users = test_users.map do |data|
+  user = User.find_or_initialize_by(email: data[:email])
+  user.name = data[:name]
+  user.last_name = data[:last_name]
+  user.password = "test1234"
+  user.password_confirmation = "test1234"
+  user.city = "Ciudad"
+  user.address = "Dirección 123"
+  user.role = "customer"
+  user.save!
+  user
+end
   
 # rake db:seed
