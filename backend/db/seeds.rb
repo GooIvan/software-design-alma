@@ -87,6 +87,14 @@ categories = [
       stock: 50,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/product_funda.webp"
+    },
+    {
+      name: "Funda Samsung Galaxy con diseño",
+      description: "Estilo y protección para tu Galaxy.",
+      price: 21000,
+      stock: 35,
+      sizes: ["Galaxy S21", "Galaxy A32"],
+      image: "seeds/images/products/product_funda.webp"
     }
   }
 ]
