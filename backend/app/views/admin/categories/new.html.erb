@@ -12,11 +12,9 @@
     <%= form.label :image, "Imagen", class: "form-label" %>
     <%= form.file_field :image, class: "form-control" %>
 
-    <% if @category.image.attached? %>
-      <div class="mt-2">
+    <% if @category.persisted? && @category.image.attached? %>
         <%= image_tag @category.image, class: "img-fluid", style: "max-width: 200px;" %>
-      </div>
-    <% end %>
+      <% end %>
   </div>
 
   <%= form.submit "Crear categoría", class: "btn btn-primary" %>
