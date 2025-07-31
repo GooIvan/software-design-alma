@@ -5,14 +5,18 @@ class Admin::UsersController < ApplicationController
   before_action :set_user, only: [ :show, :edit, :update, :destroy ]  # Cargar el usuario antes de las acciones
 
   def index
-    @cities = User.distinct.pluck(:city).compact.sort  # Obtener todas las ciudades
+    @cities = User.distinct.pluck(:city).compact.sort
     @users = User.all
-    if params[:city].present? && params[:city] != "Todas"
+
+    city_param = params[:city].to_s.strip.downcase
+
+    if city_param.present? && !["todas", "all"].include?(city_param)
       @users = @users.where(city: params[:city])
     end
 
     if params[:name].present?
-      @users = @users.where("LOWER(name) LIKE :query OR LOWER(last_name) LIKE :query", query: "%#{params[:name].downcase}%")
+      name_query = params[:name].downcase
+      @users = @users.where("LOWER(name) LIKE :query OR LOWER(last_name) LIKE :query", query: "%#{name_query}%")
     end
   end
 

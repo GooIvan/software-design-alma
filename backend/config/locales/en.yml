@@ -47,6 +47,8 @@ en:
               blank: "Email can't be blank"
             password:
               blank: "Password can't be blank"
+            phone:
+              blank: "Phone can't be blank"
         product:
           attributes:
             name:
@@ -68,6 +70,10 @@ en:
               blank: "Category name can't be blank"
             image:
               blank: "Category image can't be blank"
+
+  time:
+    formats:
+      short: "%d/%m/%Y %H:%M"
 
   #TODO: Titulo
   title: Alma Designs
@@ -143,6 +149,31 @@ en:
   remove: Remove
 
   #TODO: ADMIN
+  admin:
+    dashboard:
+      total_active_users: Total active users
+      total_paid_orders: Total paid orders
+      popular_categories: Categorías populares
+      popular_categories_message: Categories with the most sold products
+
+    orders:
+      order: Order
+      orders: Orders
+      create_order: Create Order
+      id: ID
+      user: User
+      status: Status
+      total: Total
+      date: Date
+      no_orders: No orders found
+      actions: Actions
+      details: Details
+      subtotal: Subtotal
+      discount: Discount
+      customer_info: Customer info
+      shipping: Shipping
+      payment: Payment
+  
   overview: Overview
   home: Home
   users: Users
@@ -150,7 +181,6 @@ en:
   message_help_1: Welcome to your admin panel! If you have any questions,
   message_help_2: we’re here to help.
   go_now: Go now
-  total_active_users: Total active users
   last_7_days: Last 7 days
   management: Management
   products: Products

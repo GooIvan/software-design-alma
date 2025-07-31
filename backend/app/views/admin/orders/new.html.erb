@@ -1,0 +1,78 @@
+<h1 class="text-center">Crear Nueva Orden</h1>
+
+<div class="m-3">
+  <%= render 'shared/form_errors', object: @order %>
+  <%= render 'shared/form_exited', object: @order %>
+</div>
+
+<%= form_with(model: @order, url: admin_orders_path, data: { turbo: false }, html: { id: "order-form" }) do |form| %>
+  <% if @order.errors.any? %>
+    <div class="alert alert-danger">
+      <h4>Errores:</h4>
+      <ul>
+        <% @order.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :user_id, "Usuario" %>
+    <%= form.collection_select :user_id, User.all, :id, :email, prompt: "Selecciona un usuario", class: "form-select", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status %> 
+    <%= form.select :status, Order.statuses.keys, { selected: Order.statuses.keys.first }, class: "form-select", required: true %>
+  </div>
+
+  <h4>Productos</h4>
+
+  <div id="order-items-container"></div>
+
+  <div class="mb-3">
+    <button type="button" id="add-item-btn" class="btn btn-outline-secondary">
+      Añadir producto
+    </button>
+  </div>
+
+  <%= form.submit "Crear Orden", class: "btn btn-primary" %>
+  <%= link_to "Volver a la lista", admin_orders_path, class: "btn btn-outline-secondary" %>
+<% end %>
+
+<% #Este form es el dinamico %>
+<template id="order-item-template">
+  <div class="border p-3 mb-3 order-item-group">
+    <div class="mb-2">
+      <select class="form-select category-select" required>
+        <option value="">Selecciona categoría</option>
+        <% @categories.each do |cat| %>
+          <option value="<%= cat.id %>"><%= cat.name %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="mb-2">
+      <select class="form-select product-select" name="order[order_items_attributes][__INDEX__][product_id]" required>
+        <option value="">Selecciona un producto</option>
+      </select>
+    </div>
+
+    <div class="mb-2">
+      <select class="form-select size-select" name="order[order_items_attributes][__INDEX__][size]" required>
+        <option value="">Selecciona una talla</option>
+      </select>
+    </div>
+
+    <div class="mb-2">
+      <input type="number" class="form-control" name="order[order_items_attributes][__INDEX__][quantity]" min="1" value="1" required>
+    </div>
+  </div>
+</template>
+
+<script>
+  window.categoryToProducts = <%= raw @categories.includes(:products).map { |cat|
+    [cat.id, cat.products.map { |p| { id: p.id, name: p.name, sizes: p.sizes } }]
+  }.to_h.to_json %>;
+</script>

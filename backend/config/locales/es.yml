@@ -47,6 +47,8 @@ es:
               blank: "El correo electrónico es obligatorio"
             password:
               blank: "La contraseña es obligatoria"
+            phone:
+              blank: "El teléfono es obligatorio"
         product:
           attributes:
             name:
@@ -68,6 +70,10 @@ es:
               blank: "El nombre de la categoría es obligatorio"
             image:
               blank: "La imagen de la categoría es obligatoria"
+
+  time:
+    formats:
+      short: "%d/%m/%Y %H:%M"
 
   #TODO: Titulo
   title: Diseños Alma
@@ -141,14 +147,37 @@ es:
   checkout: Verificar
 
   #TODO: ADMIN
-  overview: Vista general
+  admin:
+    dashboard:
+      total_active_users: Total de usuarios activos
+      total_paid_orders: Total de órdenes pagadas
+      popular_categories: Popular categories
+      popular_categories_message: Categorías con más productos vendidos
+
+    orders:
+      order: Orden
+      orders: Órdenes
+      create_order: Crear Orden
+      id: ID
+      user: Usuario
+      status: Estado
+      total: Total
+      date: Fecha
+      no_orders: No hay órdenes registradas.
+      actions: Acciones
+      details: Detalles
+      subtotal: Subtotal
+      discount: Descuento
+      customer_info: Información del cliente
+      shipping: Envío
+      payment: Pago
+
   home: Inicio
   users: Usuarios
   welcome: ¡Bienvenido de nuevo
   message_help_1: ¡Bienvenido a tu panel de administración! Si tienes alguna duda,
   message_help_2: estamos aquí para ayudarte.
   go_now: Ir ahora
-  total_active_users: Usuarios activos totales
   last_7_days: Últimos 7 días
   management: Gestión
   products: Productos

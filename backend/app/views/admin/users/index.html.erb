@@ -1,6 +1,18 @@
-<h1 class="text-center mb-3">
-  <%= t('users') %>
-</h1>
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold"><%= t('users') %></h1>
+  <%= link_to new_admin_user_path, class: "cssbuttons-io-button" do %>
+    <svg
+      height="24"
+      width="24"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M0 0h24v24H0z" fill="none"></path>
+      <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path>
+    </svg>
+    <span><%= t("add_user") %></span>
+  <% end %>
+</div>
 
 <div class="row g-3 mb-4">
   <!-- Filtro por ciudad (25% en md, 100% en móvil) -->
@@ -22,7 +34,7 @@
         <i class="bi bi-search me-1 text-primary"></i> <%= t('filter_name') %>
       </label>
       <div class="input-group shadow-sm">
-        <%= text_field_tag :name, params[:name], class: "form-control", id: "nameSearch", style: "height: 50px;" %>
+        <%= text_field_tag :name, params[:name], class: "form-control", id: "nameSearch", placeholder: "Alma Empresa", style: "height: 50px;" %>
       </div>
     <% end %>
   </div>
@@ -115,7 +127,7 @@
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.city %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.address %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.phone %></td>
-            <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.created_at.strftime("%Y-%m-%d") %></td>
+            <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= user.created_at.strftime("%d/%m/%Y") %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1">
               <span class="badge <%= user.admin? ? 'bg-danger-ok' : 'bg-secondary-ok' %>">
                 <%= user.admin? ? "Admin" : "User" %>
@@ -141,12 +153,6 @@
     </table>
   </div>
 <% end %>
-
-<div class="mt-4 text-end">
-  <%= link_to new_admin_user_path, class: 'btn btn-success' do %>
-    <i class="bi bi-plus-circle"></i> <%= t('add_user') %>
-  <% end %>
-</div>
 
 <script>
   document.addEventListener("turbo:load", function () {
