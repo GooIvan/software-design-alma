@@ -2,11 +2,6 @@ Rails.application.routes.draw do
   # 🚨 Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # 📱 API para Flutter (sin localización)
-  namespace :api do
-    resources :products, only: [:index, :show]
-  end
-
   # 🌍 Rutas con localización
   scope "(:locale)", locale: /en|es/ do
     # 🔐 Devise
@@ -18,6 +13,11 @@ Rails.application.routes.draw do
     # 🏠 Home
     get "home", to: "home#index"
     root "home#index"
+
+    # 📱 API para Flutter (sin localización)
+    namespace :api do
+      resources :products, only: [:index, :show]
+    end
 
     # 🛒 Carrito dentro del scope
     resources :cart_items, only: [:create, :destroy, :update] do
