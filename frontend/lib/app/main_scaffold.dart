@@ -19,7 +19,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   late int _selectedIndex;
 
   final List<Widget> _pages = [
-    HomeScreen(categoryRepository: CategoryRepository()),
+    const HomeScreen(),
     const HomePage(),
     const Placeholder(),
     const Placeholder(),
