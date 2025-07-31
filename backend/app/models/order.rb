@@ -10,6 +10,10 @@ class Order < ApplicationRecord
 
   before_validation :set_item_prices_and_total
 
+  def self.cleanup_empty!
+    Order.left_joins(:order_items).where(order_items: { id: nil }).destroy_all
+  end
+
   private
 
   def set_item_prices_and_total

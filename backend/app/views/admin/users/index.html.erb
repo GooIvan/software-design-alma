@@ -1,6 +1,18 @@
-<h1 class="text-center mb-3 fw-bold">
-  <%= t('users') %>
-</h1>
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold"><%= t('users') %></h1>
+  <%= link_to new_admin_user_path, class: "cssbuttons-io-button" do %>
+    <svg
+      height="24"
+      width="24"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M0 0h24v24H0z" fill="none"></path>
+      <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path>
+    </svg>
+    <span><%= t("add_user") %></span>
+  <% end %>
+</div>
 
 <div class="row g-3 mb-4">
   <!-- Filtro por ciudad (25% en md, 100% en móvil) -->
@@ -141,12 +153,6 @@
     </table>
   </div>
 <% end %>
-
-<div class="mt-4 text-end">
-  <%= link_to new_admin_user_path, class: 'btn btn-success' do %>
-    <div class="fw-bold"><%= t('add_user') %></div> 
-  <% end %>
-</div>
 
 <script>
   document.addEventListener("turbo:load", function () {

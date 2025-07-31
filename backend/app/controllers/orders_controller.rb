@@ -19,7 +19,7 @@ class OrdersController < ApplicationController
     # Crear la orden con los items (el modelo calculará los precios y total)
     @order = Order.create!(
       user: current_user,
-      status: :pending,
+      status: :paid,
       order_items_attributes: order_items_attributes
     )
 

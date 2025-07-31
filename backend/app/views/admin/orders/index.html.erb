@@ -1,6 +1,18 @@
-<h1 class="text-center mb-3 fw-bold">
-  <%= t('admin.orders.orders') %>
-</h1>
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold"><%= t('admin.orders.orders') %></h1>
+  <%= link_to new_admin_order_path, class: "cssbuttons-io-button" do %>
+    <svg
+      height="24"
+      width="24"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M0 0h24v24H0z" fill="none"></path>
+      <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path>
+    </svg>
+    <span><%= t("admin.orders.create_order") %></span>
+  <% end %>
+</div>
 
 <div class="row g-3 mb-4">
   <!-- Filtro por estado -->
@@ -185,8 +197,6 @@
     </table>
   </div>
 <% end %>
-
-<%= link_to t("admin.orders.create_order"), new_admin_order_path, class: "btn btn-primary mb-3 mt-3 fw-bold" %>
 
 <script>
   document.addEventListener("turbo:load", function () {
