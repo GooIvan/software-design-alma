@@ -40,10 +40,26 @@ categories = [
     {
       name: "Camiseta Negra Edición Limitada",
       description: "Diseño exclusivo para eventos.",
-      price: 40000,
+      price: 45000,
       stock: 20,
       sizes: ["M", "L"],
-      image: "seeds/images/products/product_camiseta.webp"
+      image: "seeds/images/products/Camiseta_Negra_Edicion_Limitada.webp"
+    },
+    {
+      name: "Camiseta Blanca Clásica",
+      description: "Camiseta básica blanca de alta calidad.",
+      price: 35000,
+      stock: 25,
+      sizes: ["S", "M", "L", "XL"],
+      image: "seeds/images/products/Camiseta_Blanca_Clasica.webp"
+    },
+    {
+      name: "Camiseta Oversize Estilo Urbano",
+      description: "Diseño amplio y moderno ideal para looks urbanos.",
+      price: 45000,
+      stock: 20,
+      sizes: ["M", "L", "XL"],
+      image: "seeds/images/products/Camiseta_Overside_Estilo_Urbano.webp"
     }
    ]
   },
@@ -64,8 +80,24 @@ categories = [
       description: "Taza que revela tu diseño con calor.",
       price: 25000,
       stock: 30,
-      sizes: ["MEDIUM"],
-      image: "seeds/images/products/product_taza.webp"
+      sizes: ["MEDIUM", "SMALL"],
+      image: "seeds/images/products/Taza_Magica_Negra.webp"
+    },
+    {
+      name: "Taza con frase motivadora",
+      description: "Ideal para iniciar tu día con buena energía.",
+      price: 18000,
+      stock: 60,
+      sizes: ["MEDIUM", "BIG"],
+      image: "seeds/images/products/Taza_Con_Frase_Motivadora.webp"
+    },
+    {
+      name: "Taza minimalista blanca",
+      description: "Diseño sencillo, elegante y funcional.",
+      price: 16000,
+      stock: 40,
+      sizes: ["MEDIUM", "SMALL"],
+      image: "seeds/images/products/Taza_minimalista_Blanca.webp"
     }
    ]
   },
@@ -86,8 +118,24 @@ categories = [
       description: "Superficie optimizada para precisión.",
       price: 18000,
       stock: 50,
-      sizes: ["25x20cm", "30x25cm"],
-      image: "seeds/images/products/product_mousepad.webp"
+      sizes: ["MEDIUM", "BIG"],
+      image: "seeds/images/products/Mousepad_Gamer_Personalizado.webp"
+    },
+    {
+      name: "Mousepad Antideslizante",
+      description: "Base de goma para mayor adherencia.",
+      price: 22000,
+      stock: 35,
+      sizes: ["MEDIUM", "BIG"],
+      image: "seeds/images/products/Mousepad_Antideslizante.webp"
+    },
+    {
+      name: "Mousepad con LED RGB",
+      description: "Iluminación multicolor para gamers.",
+      price: 50000,
+      stock: 15,
+      sizes: ["BIG"],
+      image: "seeds/images/products/Mousepad_Con_LED_RGB.webp"
     }
    ]
   },
@@ -108,8 +156,24 @@ categories = [
       description: "Estilo y protección para tu Galaxy.",
       price: 21000,
       stock: 35,
-      sizes: ["Galaxy S21", "Galaxy A32"],
-      image: "seeds/images/products/product_funda.webp"
+      sizes: ["M", "L"],
+      image: "seeds/images/products/Funda_Samsung_Galaxy_Diseño.webp"
+    },
+    {
+      name: "Funda Transparente Ultrafina",
+      description: "Protección discreta y elegante.",
+      price: 12000,
+      stock: 45,
+      sizes: ["M", "L"],
+      image: "seeds/images/products/Funda_Transparente_Ultrafina.webp"
+    },
+    {
+      name: "Funda con soporte plegable",
+      description: "Ideal para ver películas o videollamadas.",
+      price: 19000,
+      stock: 30,
+      sizes: ["M", "L", "XL"],
+      image: "seeds/images/products/Funda_Con_Soporte_Plegable.webp"
     }
    ]
   }
