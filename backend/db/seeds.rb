@@ -14,6 +14,7 @@ user = User.find_or_create_by!(email: "alma@designalma.com") do |user|
   user.password_confirmation = "admin123"
   user.name = "Alma"
   user.last_name = "Empresa"
+  user.phone = 131313131
   user.city = "Barranquilla"
   user.address = "Calle 123"
   user.role = "admin"

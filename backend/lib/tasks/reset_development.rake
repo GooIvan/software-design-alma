@@ -5,6 +5,8 @@ namespace :db do
     ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF;")
 
     puts "🗑️ Eliminando registros..."
+    OrderItem.delete_all
+    Order.delete_all
     CartItem.delete_all
     Cart.delete_all
     Product.delete_all

@@ -349,7 +349,7 @@
 }
 
 /* Analiticas */
-#usuariosChart {
+#ChartsID {
   max-width: 50%;
   display: block;
 }
@@ -685,6 +685,12 @@
   background-color: #d6fdd6;
   color: green !important;
 }
+
+.bg-pending-ok {
+  background-color: #fff3cd;
+  color: #856404 !important;
+}
+
 .hover-opacity:hover {
   opacity: 0.6;
   transition: opacity 0.2s ease-in-out;
@@ -714,4 +720,36 @@
 }
 .clear-bt:hover {
   background-color: rgba(255, 0, 0, 0.321);
+}
+
+@media (max-width: 1550px) {
+  .titulo-res {
+    margin-top: 3rem;
+  }
+}
+
+.text-shiping {
+  font-size: 0.9rem;
+}
+
+.cssbuttons-io-button {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 0.7em 1.4em 0.7em 1.1em;
+  color: white;
+  background: linear-gradient(0deg, #0b5ed7 0%, #0d6efd 100%);
+  border: none;
+  box-shadow: 0 0.7em 1.5em -0.5em #0d6dfd23;
+  letter-spacing: 0.05em;
+  border-radius: 20em;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.cssbuttons-io-button svg {
+  margin-right: 6px;
 }

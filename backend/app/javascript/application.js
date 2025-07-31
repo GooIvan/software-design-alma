@@ -5,8 +5,10 @@ import "controllers";
 import { initSidebar } from "custom/init_sidebar";
 import { initDarkMode } from "custom/init_dark_mode";
 import { initChangeLanguage } from "custom/init_change_lenguage";
-import { initChartJsUsersLastMonth } from "custom/init_chart_js_users_last_month";
 import { initCarouselImages } from "custom/init_carousel_images";
+import { initChartJsLastMonth } from "custom/init_chart_js_last_month";
+import { initChartJsPie } from "custom/init_chart_js_pie";
+import { initOrderItems } from "custom/admin/init_order_items";
 
 // Mostrar el loader al iniciar una navegación Turbo
 document.addEventListener("turbo:visit", () => {
@@ -53,7 +55,7 @@ document.addEventListener("turbo:load", () => {
 
   //* === CHART.JS: Usuarios por mes ===
   try {
-    initChartJsUsersLastMonth();
+    initChartJsLastMonth();
   } catch (e) {
     console.warn("Chart.js error:", e);
   }
@@ -63,5 +65,17 @@ document.addEventListener("turbo:load", () => {
     initCarouselImages();
   } catch (e) {
     console.warn("Carousel error:", e);
+  }
+
+  try {
+    initOrderItems();
+  } catch (e) {
+    console.warn("OrderItems error:", e);
+  }
+
+  try {
+    initChartJsPie();
+  } catch (e) {
+    console.warn("OrderItems error:", e);
   }
 });

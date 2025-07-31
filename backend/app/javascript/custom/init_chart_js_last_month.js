@@ -1,8 +1,9 @@
-export function initChartJsUsersLastMonth() {
-  const chartEl = document.getElementById("usuariosChart");
-  if (chartEl) {
+export function initChartJsLastMonth() {
+  document.querySelectorAll("canvas[id$='Chart']").forEach((chartEl) => {
     const labels = JSON.parse(chartEl.dataset.labels || "[]");
     const values = JSON.parse(chartEl.dataset.values || "[]");
+    const label = chartEl.dataset.label || "Datos";
+    const color = chartEl.dataset.color || "rgba(54, 162, 235, 0.6)";
 
     const ctx = chartEl.getContext("2d");
 
@@ -12,10 +13,10 @@ export function initChartJsUsersLastMonth() {
         labels: labels,
         datasets: [
           {
-            label: "Usuarios registrados",
+            label: label,
             data: values,
-            backgroundColor: "rgba(54, 162, 235, 0.6)",
-            borderColor: "rgba(54, 162, 235, 1)",
+            backgroundColor: color,
+            borderColor: color.replace("0.6", "1"),
             barThickness: 5,
           },
         ],
@@ -24,31 +25,30 @@ export function initChartJsUsersLastMonth() {
         plugins: {
           legend: { display: false },
           tooltip: {
-            enabled: false, // Desactiva el tooltip por defecto
+            enabled: false,
             external: function (context) {
-              // Crear el div si no existe
               let tooltipEl = document.getElementById("chartjs-tooltip");
               if (!tooltipEl) {
                 tooltipEl = document.createElement("div");
                 tooltipEl.id = "chartjs-tooltip";
-                tooltipEl.style.position = "absolute";
-                tooltipEl.style.background = "white";
-                tooltipEl.style.borderRadius = "4px";
-                tooltipEl.style.padding = "6px 8px";
-                tooltipEl.style.fontSize = "0.875rem";
-                tooltipEl.style.color = "#333";
-                tooltipEl.style.whiteSpace = "nowrap";
-                tooltipEl.style.pointerEvents = "none";
-                tooltipEl.style.boxShadow = "0 1px 30px rgba(0, 0, 0, 0.1)";
-                tooltipEl.style.zIndex = "9999";
-                tooltipEl.style.transition = "opacity 0.2s ease";
-                tooltipEl.style.opacity = "0";
+                tooltipEl.style.cssText = `
+                  position: absolute;
+                  background: white;
+                  border-radius: 4px;
+                  padding: 6px 8px;
+                  font-size: 0.875rem;
+                  color: #333;
+                  white-space: nowrap;
+                  pointer-events: none;
+                  box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+                  z-index: 9999;
+                  transition: opacity 0.2s ease;
+                  opacity: 0;
+                `;
                 document.body.appendChild(tooltipEl);
               }
 
               const tooltipModel = context.tooltip;
-
-              // Ocultar si no hay tooltip
               if (!tooltipModel || tooltipModel.opacity === 0) {
                 tooltipEl.style.opacity = "0";
                 return;
@@ -67,14 +67,13 @@ export function initChartJsUsersLastMonth() {
                       width: 8px;
                       height: 8px;
                       border-radius: 50%;
-                      background-color: blue;">
+                      background-color: ${color};">
                     </span>
                     <span class="fw-bold text-dark">${value}</span>
                   </div>
                 </div>
-                `;
+              `;
 
-              // Posicionar el tooltip encima del punto
               const canvasRect = context.chart.canvas.getBoundingClientRect();
               const tooltipWidth = tooltipEl.offsetWidth;
 
@@ -86,20 +85,16 @@ export function initChartJsUsersLastMonth() {
               }px`;
               tooltipEl.style.top = `${
                 canvasRect.top + window.pageYOffset + tooltipModel.caretY - 40
-              }px`; // 40px arriba del punto
+              }px`;
               tooltipEl.style.opacity = "1";
             },
           },
         },
         scales: {
-          x: {
-            display: false, // Oculta los nombres de los meses
-          },
-          y: {
-            display: false, // Oculta el eje Y
-          },
+          x: { display: false },
+          y: { display: false },
         },
       },
     });
-  }
+  });
 }

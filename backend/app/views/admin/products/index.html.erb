@@ -1,6 +1,18 @@
-<h1 class="mb-4 text-center">Productos</h1>
-
-<%= link_to "Nuevo Producto", new_admin_category_product_path(@category), class: "btn btn-primary mb-4" %>
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold"><%= t('Productos') %></h1>
+  <%= link_to new_admin_category_product_path, class: "cssbuttons-io-button" do %>
+    <svg
+      height="24"
+      width="24"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M0 0h24v24H0z" fill="none"></path>
+      <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path>
+    </svg>
+    <span><%= t("Nuevo Producto") %></span>
+  <% end %>
+</div>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
   <% @category.products.each do |product| %>
@@ -21,13 +33,15 @@
         </div>
 
         <div class="card-footer d-flex justify-content-between">
-          <%= link_to "Editar", edit_admin_category_product_path(@category ,product), class: "btn btn-sm btn-secondary" %>
-          <%= button_to 'Eliminar', admin_category_product_path(@category, product),
+          <%= link_to edit_admin_category_product_path(@category ,product), class: 'text-decoration-none text-dark' do %>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="mt-2 fs-5 iconify iconify--solar minimal__iconify__root css-eadae1" id="«r63»" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m11.4 18.161l7.396-7.396a10.3 10.3 0 0 1-3.326-2.234a10.3 10.3 0 0 1-2.235-3.327L5.839 12.6c-.577.577-.866.866-1.114 1.184a6.6 6.6 0 0 0-.749 1.211c-.173.364-.302.752-.56 1.526l-1.362 4.083a1.06 1.06 0 0 0 1.342 1.342l4.083-1.362c.775-.258 1.162-.387 1.526-.56q.647-.308 1.211-.749c.318-.248.607-.537 1.184-1.114m9.448-9.448a3.932 3.932 0 0 0-5.561-5.561l-.887.887l.038.111a8.75 8.75 0 0 0 2.092 3.32a8.75 8.75 0 0 0 3.431 2.13z"></path></svg>
+          <% end %>
+          <%= button_to admin_category_product_path(@category, product),
             method: :delete,
             form: { data: { turbo: false } },
-            onclick: "return confirm('¿Estás seguro de que deseas eliminar esta producto?')",
-            class: 'btn btn-danger'
-          %>
+            class: 'btn p-0 border-0 bg-transparent text-danger mx-1' do %>
+              <i class="bi bi-trash-fill fs-4 hover-opacity"></i>
+          <% end %>
         </div>
       </div>
     </div>
