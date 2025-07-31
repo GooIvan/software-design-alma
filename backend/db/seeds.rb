@@ -38,28 +38,20 @@ categories = [
       image: "seeds/images/products/product_camiseta.webp"
     },
     {
-      name: "Camiseta Negra Edición Limitada",
+      name: "Camiseta Negra",
       description: "Diseño exclusivo para eventos.",
       price: 45000,
       stock: 20,
-      sizes: ["M", "L"],
+      sizes: ["XS","S","M", "L", "XL"],
       image: "seeds/images/products/Camiseta_Negra_Edicion_Limitada.webp"
     },
     {
-      name: "Camiseta Blanca Clásica",
+      name: "Camiseta Blanca",
       description: "Camiseta básica blanca de alta calidad.",
       price: 35000,
       stock: 25,
-      sizes: ["S", "M", "L", "XL"],
+      sizes: ["XS","S", "M", "L", "XL"],
       image: "seeds/images/products/Camiseta_Blanca_Clasica.webp"
-    },
-    {
-      name: "Camiseta Oversize Estilo Urbano",
-      description: "Diseño amplio y moderno ideal para looks urbanos.",
-      price: 45000,
-      stock: 20,
-      sizes: ["M", "L", "XL"],
-      image: "seeds/images/products/Camiseta_Overside_Estilo_Urbano.webp"
     }
    ]
   },
@@ -84,20 +76,12 @@ categories = [
       image: "seeds/images/products/Taza_Magica_Negra.webp"
     },
     {
-      name: "Taza con frase motivadora",
+      name: "Taza con frase",
       description: "Ideal para iniciar tu día con buena energía.",
       price: 18000,
       stock: 60,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/Taza_Con_Frase_Motivadora.webp"
-    },
-    {
-      name: "Taza minimalista blanca",
-      description: "Diseño sencillo, elegante y funcional.",
-      price: 16000,
-      stock: 40,
-      sizes: ["MEDIUM", "SMALL"],
-      image: "seeds/images/products/Taza_minimalista_Blanca.webp"
     }
    ]
   },
@@ -114,7 +98,7 @@ categories = [
       image: "seeds/images/products/product_mousepad.webp"
     },
     {
-      name: "Mousepad Gamer Personalizado",
+      name: "Mousepad Gamer",
       description: "Superficie optimizada para precisión.",
       price: 18000,
       stock: 50,
@@ -122,20 +106,12 @@ categories = [
       image: "seeds/images/products/Mousepad_Gamer_Personalizado.webp"
     },
     {
-      name: "Mousepad Antideslizante",
+      name: "Mousepad Negro",
       description: "Base de goma para mayor adherencia.",
       price: 22000,
       stock: 35,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/Mousepad_Antideslizante.webp"
-    },
-    {
-      name: "Mousepad con LED RGB",
-      description: "Iluminación multicolor para gamers.",
-      price: 50000,
-      stock: 15,
-      sizes: ["BIG"],
-      image: "seeds/images/products/Mousepad_Con_LED_RGB.webp"
     }
    ]
   },
@@ -152,7 +128,7 @@ categories = [
       image: "seeds/images/products/product_funda.webp"
     },
     {
-      name: "Funda Samsung Galaxy con diseño",
+      name: "Funda Samsung",
       description: "Estilo y protección para tu Galaxy.",
       price: 21000,
       stock: 35,
@@ -160,20 +136,12 @@ categories = [
       image: "seeds/images/products/Funda_Samsung_Galaxy_Diseño.webp"
     },
     {
-      name: "Funda Transparente Ultrafina",
+      name: "Funda Transparente",
       description: "Protección discreta y elegante.",
       price: 12000,
       stock: 45,
       sizes: ["M", "L"],
       image: "seeds/images/products/Funda_Transparente_Ultrafina.webp"
-    },
-    {
-      name: "Funda con soporte plegable",
-      description: "Ideal para ver películas o videollamadas.",
-      price: 19000,
-      stock: 30,
-      sizes: ["M", "L", "XL"],
-      image: "seeds/images/products/Funda_Con_Soporte_Plegable.webp"
     }
    ]
   }
@@ -195,6 +163,9 @@ categories.each do |data|
 
   if category.save
     puts "✅ Categoría '#{category.name}' creada con imagen"
+
+    # 🧹 Eliminar productos antiguos antes de crear nuevos
+    category.products.destroy_all
 
     data[:products].each do |product_data|
       product = category.products.find_or_initialize_by(name: product_data[:name])
