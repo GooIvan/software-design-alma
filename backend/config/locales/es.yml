@@ -3,7 +3,7 @@ es:
     errors:
       messages:
         record_invalid: "La validación falló: %{errors}"
-        taken: "ya ha sido tomado"
+        taken: "Ya existe, elige otro nombre"
         blank: "no puede estar en blanco"
         invalid: "no es válido"
         too_short: "es demasiado corto (mínimo %{count} caracteres)"
