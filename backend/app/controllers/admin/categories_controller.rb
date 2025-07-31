@@ -13,8 +13,13 @@ class Admin::CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
 
-    if @category.save
-      redirect_to admin_categories_path, notice: "Categoría creada correctamente."
+    if Category.exists?(name: @category.name)
+      flash[:alert] = "Ya existe una categoría con ese nombre."
+      render :new, status: :unprocessable_entity
+    
+     elsif @category.save
+      redirect_to @category, notice: 'Categoría creada exitosamente.'
+
     else
       render :new, status: :unprocessable_entity
     end
