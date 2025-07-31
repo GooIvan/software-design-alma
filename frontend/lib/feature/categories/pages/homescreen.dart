@@ -4,250 +4,234 @@ import '../bloc/category_bloc.dart';
 import '../bloc/category_event.dart';
 import '../repositories/category_repository.dart';
 import '../screens/category_screen.dart';
-import 'package:design_alma/screens/products_page.dart' as screen; 
+import 'package:design_alma/screens/products_page.dart' as screen;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:design_alma/models/product_model.dart' as model;
 import '../../../services/product_service.dart';
 
 class HomeScreen extends StatefulWidget {
-  final CategoryRepository categoryRepository;
-
-  const HomeScreen({super.key, required this.categoryRepository});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  late TabController _tabController;
-  int _currentCarouselIndex = 0;
-  final List<String> _tabs = ['HOME', 'PRODUCTOS', 'CATEGORÍA'];
-
-  late Future<List<model.Product>> _futureProducts;
+class _HomeScreenState extends State<HomeScreen> {
+  List<model.Product> _products = [];
+  int _currentIndex = 0;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _tabs.length, vsync: this);
-    _futureProducts = ProductService.fetchProducts();
+    _loadProducts();
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  Future<void> _loadProducts() async {
+    try {
+      final products = await ProductService.fetchProducts();
+      setState(() {
+        _products = products;
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Error cargando productos: $e');
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.black),
-          onPressed: () {},
-        ),
-        title: const Text('HOME', style: TextStyle(color: Colors.black)),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined, color: Colors.black),
-            onPressed: () {
-              // TODO: Navegar al carrito
-            },
-          ),
-        ],
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Colors.black,
-          tabs: _tabs.map((tab) => Tab(text: tab)).toList(),
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildHomeContent(),
-          _buildProductosContent(),
-          _buildCategoriaContent(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHomeContent() {
-    return FutureBuilder<List<model.Product>>(
-      future: _futureProducts,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Error al cargar productos: ${snapshot.error}'));
-        }
-
-        final productos = snapshot.data ?? [];
-
-        return Column(
+    return SafeArea(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Lo más nuevo',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 280,
-                autoPlay: true,
-                enableInfiniteScroll: true,
-                enlargeCenterPage: true,
-                viewportFraction: 0.8,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentCarouselIndex = index;
-                  });
-                },
-              ),
-              items: productos.map((producto) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-  borderRadius: BorderRadius.circular(12),
-  child: Image.network(
-    producto.imageUrl,
-    fit: BoxFit.cover, // ✅ que llene el contenedor sin deformarse
-    height: 200,
-    width: double.infinity,
-    loadingBuilder: (context, child, loadingProgress) {
-      if (loadingProgress == null) return child;
-      return Center(child: CircularProgressIndicator());
-    },
-    errorBuilder: (context, error, stackTrace) =>
-        Center(child: Icon(Icons.error)),
-  ),
-),
-
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  producto.name,
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(producto.formattedPrice),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(productos.length, (index) {
-                return Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentCarouselIndex == index
-                        ? Colors.black
-                        : Colors.grey.shade400,
+            // Encabezado con logo y botones
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Logo
+                  Image.asset(
+                    'assets/logo.png',
+                    height: 100,
+                    color: Colors.black,
                   ),
-                );
-              }),
-            ),
-            const SizedBox(height: 20),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildProductosContent() {
-    return const screen.ProductsPage();
-  }
-
-  Widget _buildCategoriaContent() {
-    final dummyItems = List.generate(6, (index) => {
-          'name': 'Producto ${index + 1}',
-          'price': '\$${(index + 1) * 10}',
-          'image': 'https://via.placeholder.com/150'
-        });
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'CATEGORÍA',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: GridView.builder(
-              itemCount: dummyItems.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.75,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              itemBuilder: (_, index) {
-                final item = dummyItems[index];
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  Row(
                     children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                          child: Image.network(
-                            item['image']!,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {},
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(item['name']!, style: const TextStyle(fontWeight: FontWeight.bold)),
-                            Text(item['price']!),
-                          ],
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.more_vert_outlined),
+                        onPressed: () {},
                       ),
                     ],
                   ),
-                );
-              },
+                ],
+              ),
+            ),
+
+            // Título
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  'Lo más nuevo',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Carrusel corregido
+            _isLoading
+                ? const CircularProgressIndicator()
+                : _products.isEmpty
+                    ? const Text('No hay productos')
+                    : Column(
+                        children: [
+                          SizedBox(
+                            height:
+                                390, // <- Ajusta aquí si usas más contenido en _buildProductCard
+                            child: CarouselSlider.builder(
+                              itemCount: _products.length,
+                              options: CarouselOptions(
+                                height: 370, // No mayor que el SizedBox padre
+                                enlargeCenterPage: true,
+                                autoPlay: true,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _currentIndex = index;
+                                  });
+                                },
+                              ),
+                              itemBuilder: (context, index, realIdx) {
+                                final product = _products[index];
+                                return _buildProductCard(product);
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: _products.asMap().entries.map((entry) {
+                              return Container(
+                                width: 8,
+                                height: 8,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _currentIndex == entry.key
+                                      ? Colors.black
+                                      : Colors.grey[300],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+
+            const SizedBox(height: 24), // Espacio final
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductCard(model.Product product) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Imagen
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    product.imageUrl,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          // Nombre del producto
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              product.name,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Precio + Botón "+"
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Precio
+                Text(
+                  product.formattedPrice,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                  ),
+                ),
+
+                // Botón "+"
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
