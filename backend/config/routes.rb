@@ -17,30 +17,34 @@ Rails.application.routes.draw do
       patch 'update_home_video', to: 'dashboard#update_home_video', as: :update_home_video
 
       delete 'users/bulk_delete', to: 'users#bulk_delete', as: :bulk_delete_admin_users
-      resources :users, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
+      resources :users, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+
       resources :categories, param: :slug do
         resources :products
       end
     end
 
     resources :categories, param: :slug do
-      resources :products, only: [ :index, :show ]
+      resources :products, only: [:index, :show]
     end
   end
 
-  # config/routes.rb
-resources :cart_items, only: [:create, :destroy, :update]
+  # 🛒 Carrito
+  resources :cart_items, only: [:create, :destroy, :update]
 
+  resource :cart, only: [:show] do
+    resources :cart_items, only: [:update, :destroy]
+  end
 
-resource :cart, only: [:show] do
-  resources :cart_items, only: [:update, :destroy]
-end
+  resources :cart_items do
+    patch :update_quantity, on: :member
+  end
 
-resources :cart_items do
-  patch :update_quantity, on: :member
-end
+  # ✅ API para Flutter
+  namespace :api do
+    resources :products, only: [:index, :show]
+  end
 
-
-  # Ruta para el health check
+  # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 end
