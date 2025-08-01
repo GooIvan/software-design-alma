@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../feature/categories/pages/homescreen.dart';
-import '../feature/categories/repositories/category_repository.dart';
-import '../feature/home/pages/homepage.dart';
+import '../feature/home/pages/homescreen.dart';
 import '../feature/profile/pages/profile_page.dart';
 
 class MainScaffold extends StatefulWidget {
-  final CategoryRepository categoryRepository = CategoryRepository();
   final int initialIndex;
 
-  MainScaffold({super.key, this.initialIndex = 0});
+  const MainScaffold({super.key, this.initialIndex = 0});
 
   @override
   State<MainScaffold> createState() => _MainScaffoldState();
@@ -20,7 +17,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    const HomePage(),
+    const Placeholder(),
     const Placeholder(),
     const Placeholder(),
     const PerfilPage(),
@@ -65,7 +62,7 @@ class _MainScaffoldState extends State<MainScaffold> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_outlined),
                   activeIcon: Icon(Icons.home),
-                  label: 'Comprar',
+                  label: 'Inicio',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.manage_search_outlined),
@@ -89,7 +86,6 @@ class _MainScaffoldState extends State<MainScaffold> {
               ],
             ),
           ),
-
           Positioned(
             bottom: 5,
             child: GestureDetector(
@@ -97,7 +93,7 @@ class _MainScaffoldState extends State<MainScaffold> {
               child: SizedBox(
                 width: 70,
                 height: 70,
-                child: Image.asset('../../assets/icon_trending.png'),
+                child: Image.asset('assets/icon_trending.png'),
               ),
             ),
           ),

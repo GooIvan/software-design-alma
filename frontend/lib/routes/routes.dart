@@ -15,6 +15,6 @@ class AppRoute {
     login: (context) => const LoginScreen(),
     forgotPassword: (context) => const ForgotPasswordScreen(),
     register: (context) => const RegisterScreen(),
-    perfil: (context) => MainScaffold(initialIndex: 4),
+    perfil: (context) => const MainScaffold(initialIndex: 4),
   };
 }
