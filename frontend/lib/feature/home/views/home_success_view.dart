@@ -28,11 +28,10 @@ class HomeSuccessView extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                'Lo más nuevo',
+                'Lo nuevo',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
                 ),
               ),
             ),

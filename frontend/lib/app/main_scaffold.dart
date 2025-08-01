@@ -46,9 +46,6 @@ class _MainScaffoldState extends State<MainScaffold> {
           Container(
             decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(
-                top: BorderSide(color: Colors.black12, width: 1),
-              ),
             ),
             child: BottomNavigationBar(
               currentIndex: _selectedIndex,
@@ -56,17 +53,18 @@ class _MainScaffoldState extends State<MainScaffold> {
               type: BottomNavigationBarType.fixed,
               selectedItemColor: Colors.black,
               unselectedItemColor: Colors.grey,
-              showUnselectedLabels: true,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
               elevation: 0,
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  activeIcon: Icon(Icons.home),
+                  icon: Icon(Icons.home_outlined, size: 32),
+                  activeIcon: Icon(Icons.home, size: 32),
                   label: 'Inicio',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.manage_search_outlined),
-                  activeIcon: Icon(Icons.manage_search),
+                  icon: Icon(Icons.manage_search_outlined, size: 32),
+                  activeIcon: Icon(Icons.manage_search, size: 32),
                   label: 'Categorías',
                 ),
                 BottomNavigationBarItem(
@@ -74,13 +72,13 @@ class _MainScaffoldState extends State<MainScaffold> {
                   label: '',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart_outlined),
-                  activeIcon: Icon(Icons.shopping_cart),
+                  icon: Icon(Icons.shopping_cart_outlined, size: 32),
+                  activeIcon: Icon(Icons.shopping_cart, size: 32),
                   label: 'Carrito',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline),
-                  activeIcon: Icon(Icons.person),
+                  icon: Icon(Icons.person_outline, size: 32),
+                  activeIcon: Icon(Icons.person, size: 32),
                   label: 'Yo',
                 ),
               ],
