@@ -16,12 +16,11 @@ user = User.find_or_create_by!(email: "alma@designalma.com") do |user|
   user.last_name = "Empresa"
   user.city = "Barranquilla"
   user.address = "Calle 123"
+  user.phone = 123456789
   user.role = "admin"
 end
 
 user.save if user.changed?
-
-products = []
 
 # Categorías con productos únicos por cada una
 categories = [
@@ -199,9 +198,9 @@ end
 
 # 🧪 Crear usuarios de prueba
 test_users = [
-  { name: "Juan", last_name: "Pérez", email: "juan@example.com", password: "test1234", password_confirmation: "test1234", city: "Ciudad", address: "Dirección 123", role: "customer"},
-  { name: "Ana", last_name: "Gómez", email: "ana@example.com", password: "test1234", password_confirmation: "test1234", city: "Ciudad", address: "Dirección 123", role: "customer"},
-  { name: "Luis", last_name: "Torres", email: "luis@example.com", password: "test1234", password_confirmation: "test1234", city: "Ciudad", address: "Dirección 123", role: "customer"}
+  { name: "Juan", last_name: "Pérez", email: "juan@example.com", password: "test1234", password_confirmation: "test1234", city: "Ciudad", phone: 123456789, address: "Dirección 123", role: "customer"},
+  { name: "Ana", last_name: "Gómez", email: "ana@example.com", password: "test1234", password_confirmation: "test1234", city: "Ciudad", phone: 123456789, address: "Dirección 123", role: "customer"},
+  { name: "Luis", last_name: "Torres", email: "luis@example.com", password: "test1234", password_confirmation: "test1234", city: "Ciudad", phone: 123456789, address: "Dirección 123", role: "customer"}
 ]
 
 created_users = test_users.map do |data|
@@ -211,6 +210,7 @@ created_users = test_users.map do |data|
   user.password = "test1234"
   user.password_confirmation = "test1234"
   user.city = "Ciudad"
+  user.phone = data[:phone]
   user.address = "Dirección 123"
   user.role = "customer"
   user.save!
