@@ -32,19 +32,36 @@ class ProductCard extends StatelessWidget {
           // Imagen
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: AspectRatio(
                 aspectRatio: 1,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(20),
                   child: Image.network(
                     product.imageUrl,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
           ),
+
+          // Nombre de la categoría
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              product.categoryName,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+
+          const SizedBox(height: 4),
 
           // Nombre del producto
           Padding(
@@ -71,10 +88,10 @@ class ProductCard extends StatelessWidget {
               children: [
                 // Precio
                 Text(
-                  product.formattedPrice,
+                  "\$${product.formattedPrice}",
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                     color: Colors.black87,
                   ),
                 ),

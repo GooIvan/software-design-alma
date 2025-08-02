@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../feature/home/pages/homescreen.dart';
+import '../feature/home/presentation/pages/homescreen.dart';
 import '../feature/profile/pages/profile_page.dart';
 
 class MainScaffold extends StatefulWidget {
