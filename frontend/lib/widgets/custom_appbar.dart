@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
   });
@@ -13,7 +13,7 @@ class CustomAppBar extends StatelessWidget {
         // Logo
         Image.asset(
           'assets/logo.png',
-          height: 100,
+          height: 200,
           color: Colors.black,
         ),
         Row(
@@ -31,4 +31,7 @@ class CustomAppBar extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(80.0);
 }

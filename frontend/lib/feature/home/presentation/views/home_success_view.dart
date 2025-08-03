@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../models/category_model.dart';
 import '../../../../models/product_model.dart';
-import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/product_card.dart';
 import '../../../../widgets/square_image_widget.dart';
 
@@ -20,30 +19,13 @@ class HomeSuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (products.isEmpty) {
-      return RefreshIndicator(
-        onRefresh: onRefresh ?? () async {},
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: const [
-            SizedBox(height: 300),
-            Center(child: Text('No hay productos')),
-          ],
-        ),
-      );
-    }
-
     return RefreshIndicator(
       onRefresh: onRefresh ?? () async {},
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.only(bottom: 24),
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-            child: CustomAppBar(),
-          ),
-          // Titulo de la sección
+          // Sección: "Lo nuevo"
           const Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -58,7 +40,10 @@ class HomeSuccessView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          // Carrusel de productos nuevos
+          // Carrusel de productos nuevos 
+        if (products.isEmpty)
+          const Center(child: Text('No hay productos'))
+        else
           CarouselSlider.builder(
             itemCount: products.length,
             options: CarouselOptions(
@@ -71,13 +56,13 @@ class HomeSuccessView extends StatelessWidget {
             },
           ),
           const SizedBox(height: 16),
-          // Titulo de la sección 2
+          // Sección: "Categorias"
           const Align(
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                'Categorias',
+                'Categorías',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -86,9 +71,12 @@ class HomeSuccessView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          // Carrusel de las categorias
-          CarouselSlider.builder(
-              itemCount: categories.length > 5 ? 5 : products.length,
+          // Carrusel de las categorías
+          if (categories.isEmpty)
+            const Center(child: Text('No hay categorías'))
+          else
+            CarouselSlider.builder(
+              itemCount: categories.length,
               options: CarouselOptions(
                 height: 150,
                 enlargeCenterPage: true,
@@ -100,7 +88,8 @@ class HomeSuccessView extends StatelessWidget {
                   imageUrl: categories[index].imageUrl,
                   size: 120,
                 );
-              }),
+              },
+            ),
         ],
       ),
     );
