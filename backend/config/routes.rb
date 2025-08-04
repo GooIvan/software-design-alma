@@ -14,18 +14,24 @@ Rails.application.routes.draw do
     get "home", to: "home#index"
     root "home#index"
 
-    # 📱 API para Flutter (sin localización)
+    # === API para Flutter (sin localización) ===
+
     namespace :api do
-      resources :products, only: [:index, :show]
+      resources :products, only: [ :index, :show ] do
+        collection do
+          get :latest  # esto define /api/products/latest
+        end
+      end
+      resources :categories, only: [ :index ]
     end
 
     # 🛒 Carrito dentro del scope
-    resources :cart_items, only: [:create, :destroy, :update] do
+    resources :cart_items, only: [ :create, :destroy, :update ] do
       patch :update_quantity, on: :member
     end
 
-    resource :cart, only: [:show] do
-      resources :cart_items, only: [:update, :destroy]
+    resource :cart, only: [ :show ] do
+      resources :cart_items, only: [ :update, :destroy ]
     end
 
     # 🛠️ Admin
@@ -33,7 +39,7 @@ Rails.application.routes.draw do
       get "dashboard", to: "dashboard#index"
       patch "update_home_video", to: "dashboard#update_home_video", as: :update_home_video
 
-      resource :home_video, only: [:edit, :update]
+      resource :home_video, only: [ :edit, :update ]
       delete "home_video/delete_all", to: "home_video#delete_all", as: :delete_all_home_video
 
       delete "users/bulk_delete", to: "users#bulk_delete", as: :bulk_delete_admin_users
@@ -49,11 +55,11 @@ Rails.application.routes.draw do
 
     # 🛍️ Público: categorías y productos
     resources :categories, param: :slug do
-      resources :products, only: [:index, :show]
+      resources :products, only: [ :index, :show ]
     end
 
     # 📦 Órdenes para usuarios y 💳 Pago
-    resources :orders, only: [:create, :show] do
+    resources :orders, only: [ :create, :show ] do
       member do
         get :payment
         get :success, to: "payments#success", as: :payment_success

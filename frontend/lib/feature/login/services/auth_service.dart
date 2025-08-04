@@ -7,7 +7,7 @@ class AuthService {
 
   Future<Map<String, dynamic>?> login(String email, String password) async {
     final response = await http.get(
-      Uri.parse("https://mocki.io/v1/51dfd773-1fd6-4452-9e6b-dc61869f2fb9"),
+      Uri.parse("https://mocki.io/v1/19e2afc2-82d5-4c58-ac72-cd4f808b178b"),
     );
 
     if (response.statusCode == 200) {

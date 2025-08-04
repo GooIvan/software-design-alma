@@ -27,11 +27,6 @@ class PerfilPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => PerfilBloc()..add(CargarPerfil()),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Mi Perfil'),
-          backgroundColor: const Color.fromARGB(255, 70, 140, 247),
-          // Eliminamos el botón de cerrar sesión del AppBar
-        ),
         body: BlocBuilder<PerfilBloc, PerfilState>(
           builder: (context, state) {
             if (state is PerfilLoading) {

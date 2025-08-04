@@ -3,7 +3,12 @@ module Api
     include Rails.application.routes.url_helpers
 
     def index
-      products = Product.all.with_attached_image
+      products = Product.order(created_at: :desc).with_attached_image
+      render json: products.map { |product| serialize_product(product) }
+    end
+
+    def latest
+      products = Product.order(created_at: :desc).limit(4).with_attached_image
       render json: products.map { |product| serialize_product(product) }
     end
 
@@ -23,6 +28,7 @@ module Api
         sizes: product.sizes,
         stock: product.stock,
         category_id: product.category_id,
+        category_name: product.category.name,
         image_url: product.image.attached? ? url_for(product.image) : nil
       }
     end

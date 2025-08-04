@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:design_alma/routes/routes.dart';
-import 'package:design_alma/screens/logo_intro.dart'; // 👈 Tu animación Lottie
+import 'package:design_alma/screens/logo_intro.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -14,9 +15,14 @@ class MyApp extends StatelessWidget {
     final appRoute = AppRoute();
 
     return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+        textTheme: GoogleFonts.poppinsTextTheme(),
+        colorSchemeSeed: Colors.white,
+      ),
       debugShowCheckedModeBanner: false,
       title: 'DesignAlma App',
-      home: const LogoIntro(), // 👈 Se muestra enseguida al abrir
+      home: const LogoIntro(),
       routes: appRoute.routes,
     );
   }
