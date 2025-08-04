@@ -52,7 +52,21 @@ Rails.application.routes.draw do
       resources :products, only: [:index, :show]
     end
 
-    # 📦 Órdenes para usuarios
-    resources :orders, only: [:create, :show]
+    # 📦 Órdenes para usuarios y 💳 Pago
+    resources :orders, only: [:create, :show] do
+      member do
+        get :payment
+        get :success, to: "payments#success", as: :payment_success
+        post :confirmation, to: "payments#confirmation", as: :payment_confirmation
+      end
+    end
+
+    resources :orders do
+      member do
+        get :payment
+        get :pay_with_card    # muestra el formulario
+        post :pay_with_card   # procesa el pago
+      end
+    end
   end
 end

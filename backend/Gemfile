@@ -63,4 +63,8 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'rack-cors', require: 'rack/cors'
+gem "rack-cors", require: "rack/cors"
+
+gem "httparty"
+
+gem "nokogiri"
