@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
 class PerfilView extends StatelessWidget {
-  final String nombreUsuario;
-  final VoidCallback onCerrarSesion;
+  final String? nombreUsuario;
+  final VoidCallback? onCerrarSesion;
 
   const PerfilView({
     super.key,
-    required this.nombreUsuario,
-    required this.onCerrarSesion,
+    this.nombreUsuario,
+    this.onCerrarSesion,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool estaLogueado = nombreUsuario != null && nombreUsuario!.isNotEmpty;
+
     return ListView(
       children: [
         const SizedBox(height: 20),
@@ -23,7 +25,7 @@ class PerfilView extends StatelessWidget {
         const SizedBox(height: 10),
         Center(
           child: Text(
-            nombreUsuario,
+            estaLogueado ? nombreUsuario! : 'Invitado',
             style: const TextStyle(fontSize: 18),
           ),
         ),
@@ -31,23 +33,30 @@ class PerfilView extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.account_circle),
           title: const Text('Mi cuenta'),
-          onTap: () {},
+          onTap: estaLogueado ? () {} : null,
         ),
         ListTile(
           leading: const Icon(Icons.receipt_long),
           title: const Text('Mis pedidos'),
-          onTap: () {},
+          onTap: estaLogueado ? () {} : null,
         ),
         ListTile(
           leading: const Icon(Icons.settings),
           title: const Text('Configuración'),
           onTap: () {},
         ),
-        ListTile(
-          leading: const Icon(Icons.logout),
-          title: const Text('Cerrar sesión'),
-          onTap: onCerrarSesion,
-        ),
+        if (estaLogueado)
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Cerrar sesión'),
+            onTap: onCerrarSesion,
+          )
+        else
+          ListTile(
+            leading: const Icon(Icons.login),
+            title: const Text('Iniciar sesión'),
+            onTap: () => Navigator.pushNamed(context, '/login'),
+          ),
       ],
     );
   }
