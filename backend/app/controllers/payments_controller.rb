@@ -27,6 +27,7 @@ class PaymentsController < ApplicationController
   private
 
   def valid_signature?(params)
+    #! MOVER A ENV PARA SEGURIDAD
     api_key = "4Vj8eK4rloUd272L48hsrarnUA" # clave sandbox pública de PayU Colombia
     signature_string = [
       api_key,

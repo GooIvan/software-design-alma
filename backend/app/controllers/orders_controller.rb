@@ -58,6 +58,7 @@ class OrdersController < ApplicationController
         flash[:notice] = "Pago aprobado"
       else
         error = response[:message] || "Error desconocido"
+        @order.update(status: :cancelled)
         flash[:alert] = "Pago fallido: #{error}"
       end
 

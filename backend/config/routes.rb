@@ -59,19 +59,13 @@ Rails.application.routes.draw do
     end
 
     # 📦 Órdenes para usuarios y 💳 Pago
-    resources :orders, only: [ :create, :show ] do
-      member do
-        get :payment
-        get :success, to: "payments#success", as: :payment_success
-        post :confirmation, to: "payments#confirmation", as: :payment_confirmation
-      end
-    end
-
     resources :orders do
       member do
         get :payment
-        get :pay_with_card    # muestra el formulario
-        post :pay_with_card   # procesa el pago
+        get :pay_with_card
+        post :pay_with_card
+        get :success, to: "payments#success", as: :payment_success
+        post :confirmation, to: "payments#confirmation", as: :payment_confirmation
       end
     end
   end
