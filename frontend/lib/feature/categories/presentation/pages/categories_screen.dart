@@ -20,7 +20,12 @@ class CategoriesScreen extends StatelessWidget {
               return const CategoriesLoadingView();
             }
             if (state is CategoriesError) {
-              return CategoriesErrorView(message: state.message);
+              return CategoriesErrorView(
+                message: state.message,
+                onRetry: () {
+                  context.read<CategoriesBloc>().add(LoadCategories());
+                },
+              );
             }
             if (state is CategoriesLoaded) {
               return CategoriesSuccessView(

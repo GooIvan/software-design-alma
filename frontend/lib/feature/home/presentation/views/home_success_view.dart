@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../models/category_model.dart';
 import '../../../../models/product_model.dart';
+import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/product_card.dart';
 import '../../../../widgets/square_image_widget.dart';
 
@@ -47,12 +48,20 @@ class HomeSuccessView extends StatelessWidget {
           CarouselSlider.builder(
             itemCount: products.length,
             options: CarouselOptions(
-              height: 370,
+              height: 280,
               enlargeCenterPage: true,
               autoPlay: true,
+              viewportFraction: 0.7,
             ),
             itemBuilder: (context, index, realIdx) {
-              return ProductCard(product: products[index]);
+              return GestureDetector(
+                onTap: () {
+                  print('Tocaste el producto: "${products[index].name}"');
+                  // Aquí puedes agregar la navegación o acción que quieras
+                  _showToProduct(context);
+                },
+                child: ProductCard(product: products[index]),
+              );
             },
           ),
           const SizedBox(height: 16),
@@ -93,5 +102,10 @@ class HomeSuccessView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _showToProduct(BuildContext context) {
+    // Aquí puedes agregar la lógica para añadir el producto al carrito
+    CustomAlert.error(context, 'No hay vista del producto');
   }
 }

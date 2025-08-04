@@ -45,20 +45,51 @@ class CategoriesSuccessView extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final category = categories[index];
-                return Row(
-                  children: [
-                    SquareImageWidget(
-                      imageUrl: category.imageUrl,
-                      size: 60,
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.grey[200]!,
+                      width: 1,
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Text(
-                        category.name,
-                        style: const TextStyle(fontSize: 18),
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12),
+                      onTap: () {
+                        // Aquí puedes agregar la navegación o acción deseada
+                        print('Categoría seleccionada: ${category.name}');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            SquareImageWidget(
+                              imageUrl: category.imageUrl,
+                              size: 60,
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Text(
+                                category.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                              color: Colors.grey[400],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
+                  ),
                 );
               },
             ),
