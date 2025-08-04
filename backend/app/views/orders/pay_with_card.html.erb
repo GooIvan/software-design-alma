@@ -1,0 +1,28 @@
+<h2>Pagar con Tarjeta</h2>
+
+<p><strong>Orden:</strong> <%= @order.id %></p>
+<p><strong>Total:</strong> <%= number_to_currency(@order.total, precision: 0) %></p>
+
+<%= form_with url: pay_with_card_order_path(@order), method: :post, local: true do %>
+  <div class="form-group">
+    <%= label_tag :card_name, "Nombre en la tarjeta" %>
+    <%= text_field_tag :card_name, nil, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :card_number, "Número de tarjeta" %>
+    <%= text_field_tag :card_number, nil, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :expiration, "Fecha de expiración (YYYY/MM)" %>
+    <%= text_field_tag :expiration, nil, class: "form-control", placeholder: "2026/12", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :cvv, "Código de seguridad (CVV)" %>
+    <%= text_field_tag :cvv, nil, class: "form-control", required: true %>
+  </div>
+
+  <%= submit_tag "Pagar Ahora", class: "btn btn-primary mt-3" %>
+<% end %>
