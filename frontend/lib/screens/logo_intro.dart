@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:design_alma/feature/login/screens/login_screen.dart';
-import 'package:design_alma/app/main_scaffold.dart';
+
+import '../routes/routes.dart';
 
 class LogoIntro extends StatefulWidget {
   const LogoIntro({super.key});
@@ -20,17 +19,9 @@ class _LogoIntroState extends State<LogoIntro> with TickerProviderStateMixin {
 
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final prefs = await SharedPreferences.getInstance();
-    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
     if (!mounted) return;
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) =>
-            isLoggedIn ? MainScaffold(initialIndex: 4) : const LoginScreen(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed(AppRoute.main);
   }
 
   @override

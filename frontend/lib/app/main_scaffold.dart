@@ -1,15 +1,18 @@
+import 'package:design_alma/widgets/custom_appbar.dart';
+import 'package:design_alma/widgets/custom_bottom_navbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../feature/categories/pages/homescreen.dart';
-import '../feature/categories/repositories/category_repository.dart';
-import '../feature/home/pages/homepage.dart';
+import '../feature/categories/presentation/pages/categories_screen.dart';
+import '../feature/home/presentation/pages/homescreen.dart';
+import '../feature/home/data/bloc/home_bloc.dart';
+import '../feature/home/data/repositories/home_repository.dart';
 import '../feature/profile/pages/profile_page.dart';
 
 class MainScaffold extends StatefulWidget {
-  final CategoryRepository categoryRepository = CategoryRepository();
   final int initialIndex;
 
-  MainScaffold({super.key, this.initialIndex = 0});
+  const MainScaffold({super.key, this.initialIndex = 0});
 
   @override
   State<MainScaffold> createState() => _MainScaffoldState();
@@ -17,19 +20,19 @@ class MainScaffold extends StatefulWidget {
 
 class _MainScaffoldState extends State<MainScaffold> {
   late int _selectedIndex;
-
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const HomePage(),
-    const Placeholder(),
-    const Placeholder(),
-    const PerfilPage(),
-  ];
+  late final HomeBloc _homeBloc;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
+    _homeBloc = HomeBloc(HomeRepository())..add(LoadHome());
+  }
+
+  @override
+  void dispose() {
+    _homeBloc.close();
+    super.dispose();
   }
 
   void _onItemTapped(int index) {
@@ -38,70 +41,28 @@ class _MainScaffoldState extends State<MainScaffold> {
     });
   }
 
+  late final List<Widget> _pages = [
+    BlocProvider.value(
+      value: _homeBloc,
+      child: const HomeScreen(),
+    ),
+    const CategoriesScreen(),
+    const Placeholder(),
+    const Placeholder(),
+    const PerfilPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(color: Colors.black12, width: 1),
-              ),
-            ),
-            child: BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.black,
-              unselectedItemColor: Colors.grey,
-              showUnselectedLabels: true,
-              elevation: 0,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  activeIcon: Icon(Icons.home),
-                  label: 'Comprar',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.manage_search_outlined),
-                  activeIcon: Icon(Icons.manage_search),
-                  label: 'Categorías',
-                ),
-                BottomNavigationBarItem(
-                  icon: SizedBox.shrink(),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart_outlined),
-                  activeIcon: Icon(Icons.shopping_cart),
-                  label: 'Carrito',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline),
-                  activeIcon: Icon(Icons.person),
-                  label: 'Yo',
-                ),
-              ],
-            ),
-          ),
-
-          Positioned(
-            bottom: 5,
-            child: GestureDetector(
-              onTap: () => _onItemTapped(2),
-              child: SizedBox(
-                width: 70,
-                height: 70,
-                child: Image.asset('../../assets/icon_trending.png'),
-              ),
-            ),
-          ),
-        ],
+      appBar: const CustomAppBar(),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

@@ -1,2 +1,54 @@
-<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <div class="card shadow-sm rounded-3">
+        <div class="card-body">
+
+          <h2 class="mb-4 text-center">🧾 Resumen de tu orden</h2>
+
+          <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>ID de la orden:</strong>
+              <span><%= @order.id %></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>Estado:</strong>
+              <span><%= @order.status.capitalize %></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>Total:</strong>
+              <span>$<%= number_to_currency(@order.total, unit: "", delimiter: ".", precision: 0) %></span>
+            </li>
+          </ul>
+
+          <h4 class="mt-4">🛍️ Productos</h4>
+          <ul class="list-group mb-4">
+            <% @order.order_items.each do |item| %>
+              <li class="list-group-item">
+                <strong><%= item.product.name %></strong><br>
+                <small class="text-muted">Talla: <%= item.size %> &nbsp;|&nbsp; Cantidad: <%= item.quantity %></small>
+              </li>
+            <% end %>
+          </ul>
+
+          <% if @order.paid? %>
+            <div class="alert alert-success text-center">
+              ✅ ¡Gracias! Tu pago fue aprobado.
+            </div>
+          <% else %>
+            <div class="alert alert-danger text-center">
+              ⛔ El pago no fue aprobado.
+            </div>
+          <% end %>
+
+          <div class="text-center mt-4">
+            <%= link_to "Volver al inicio", root_path, class: "btn btn-primary px-4" %>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

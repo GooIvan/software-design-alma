@@ -75,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                 );
 
                 // ✅ Navegación con ruta nombrada para mantener MainScaffold tras refresh
-                Navigator.pushReplacementNamed(context, AppRoute.perfil);
+                Navigator.pushReplacementNamed(context, AppRoute.main);
               }
             },
             builder: (context, state) {

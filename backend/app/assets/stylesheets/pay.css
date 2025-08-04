@@ -1,0 +1,76 @@
+/* Estilo moderno del botón */
+.btn-payu {
+  background: linear-gradient(135deg, #24a853, #17863e);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-payu:hover {
+  background: linear-gradient(135deg, #1e9447, #126b32);
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Spinner oculto inicialmente */
+.spinner {
+  display: none;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  animation: spin 0.6s linear infinite;
+}
+
+/* Placeholder más tenue */
+::placeholder {
+  color: #a0a0a0;
+  opacity: 0.7;
+}
+
+.input-error {
+  border-color: #db2235 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #b8b8b8 !important; /* Gris claro */
+  opacity: 1 !important;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* También podrías animar errores si quieres */
+/* Mensajes de error de campos */
+.error-message {
+  display: none;
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.error-message.show {
+  display: block;
+  opacity: 1;
+}
+
+input[name='card_number'] {
+  margin-bottom: 0.25rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
