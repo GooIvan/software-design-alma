@@ -2,18 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:design_alma/routes/routes.dart';
 import 'package:design_alma/screens/logo_intro.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  final storage = FlutterSecureStorage();
+  final token = await storage.read(key: 'authToken');
+
+
+  final bool isLoggedIn = token != null;
+
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
-    final appRoute = AppRoute();
-
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
@@ -22,8 +30,9 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'DesignAlma App',
-      home: const LogoIntro(),
-      routes: appRoute.routes,
+
+      initialRoute: AppRoute.main,
+      routes: AppRoute.routes,
     );
   }
 }
