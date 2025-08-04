@@ -18,8 +18,11 @@ class PerfilPage extends StatelessWidget {
     await prefs.remove('isLoggedIn');
     await prefs.remove('userEmail');
 
-    // Navegar al login eliminando historial
-    Navigator.pushNamedAndRemoveUntil(context, AppRoute.login, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, AppRoute.main, (route) => false);
+  }
+
+  void _iniciarSesion(BuildContext context) {
+    Navigator.pushNamed(context, AppRoute.login);
   }
 
   @override
@@ -32,11 +35,23 @@ class PerfilPage extends StatelessWidget {
             if (state is PerfilLoading) {
               return const PerfilLoadingView();
             } else if (state is PerfilError) {
-              return PerfilErrorView(
-                mensaje: state.mensaje,
-                onRetry: () {
-                  context.read<PerfilBloc>().add(CargarPerfil());
-                },
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(state.mensaje),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => context.read<PerfilBloc>().add(CargarPerfil()),
+                      child: const Text('Reintentar'),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => _iniciarSesion(context),
+                      child: const Text('Iniciar sesión'),
+                    ),
+                  ],
+                ),
               );
             } else if (state is PerfilLoaded) {
               return PerfilView(
@@ -44,7 +59,21 @@ class PerfilPage extends StatelessWidget {
                 onCerrarSesion: () => _cerrarSesion(context),
               );
             }
-            return const SizedBox.shrink();
+
+
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('No has iniciado sesión.'),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => _iniciarSesion(context),
+                    child: const Text('Iniciar sesión'),
+                  ),
+                ],
+              ),
+            );
           },
         ),
       ),
