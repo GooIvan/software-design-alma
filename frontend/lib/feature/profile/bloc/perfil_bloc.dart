@@ -16,21 +16,23 @@ class PerfilBloc extends Bloc<PerfilEvent, PerfilState> {
       try {
         final token = await _storage.read(key: 'authToken');
 
-        if (token == null) {
+        if (token == null || token.isEmpty) {
         
           emit(PerfilLoaded(nombreUsuario: ''));
-        } else {
-          final userData = await _authService.getUserData();
-          final nombre = userData['name'];
+          return;
+        }
 
-          if (nombre != null && nombre.isNotEmpty) {
-            emit(PerfilLoaded(nombreUsuario: nombre));
-          } else {
-            emit(PerfilError(mensaje: 'No se pudo cargar el nombre de usuario.'));
-          }
+      
+        final userData = await _authService.getUserData();
+        final nombre = userData['name'];
+
+        if (nombre != null && nombre.isNotEmpty) {
+          emit(PerfilLoaded(nombreUsuario: nombre));
+        } else {
+          emit(PerfilError(mensaje: 'No se pudo obtener el nombre del usuario.'));
         }
       } catch (e) {
-        emit(PerfilError(mensaje: 'Error al cargar el perfil.'));
+        emit(PerfilError(mensaje: 'Error al cargar el perfil: ${e.toString()}'));
       }
     });
   }
