@@ -227,16 +227,18 @@ es:
 
   #TODO: Orden
   order:
-  show:
-      title: "Detalles de la orden"
-      order_number: "Número de orden"
-      order_date: "Fecha de la orden"
+    show:
+      title: "🧾 Resumen de tu orden"
+      order_number: "ID de la orden"
+      state: "Estado"
       total: "Total"
-      product: "Producto"
+      product: "🛍️ Productos"
       size: "Talla"
       quantity: "Cantidad"
-      price: "Precio"
-  payment:
+      pay: "✅ ¡Gracias! Tu pago fue aprobado."
+      pay_error: "⛔ El pago no fue aprobado."
+      bottom_back: "Volver al inicio"
+    payment:
       title: "Paga tu orden con tarjeta"
       pay_now: "Pagar ahora"
       card_number: "Número de tarjeta"
