@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../bloc/perfil_bloc.dart';
 import '../bloc/perfil_event.dart';
 import '../bloc/perfil_state.dart';
 import '../views/perfil_loading_view.dart';
-import '../views/perfil_error_view.dart';
 import '../views/perfil_view.dart';
 import '../../../routes/routes.dart';
 
@@ -17,12 +17,17 @@ class PerfilPage extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('isLoggedIn');
     await prefs.remove('userEmail');
-
-    Navigator.pushNamedAndRemoveUntil(context, AppRoute.main, (route) => false);
+    const storage = FlutterSecureStorage();
+    await storage.delete(key: 'authToken');
+    context.read<PerfilBloc>().add(CargarPerfil());
   }
 
   void _iniciarSesion(BuildContext context) {
     Navigator.pushNamed(context, AppRoute.login);
+  }
+
+  void _registrarse(BuildContext context) {
+    Navigator.pushNamed(context, AppRoute.register);
   }
 
   @override
@@ -30,6 +35,7 @@ class PerfilPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => PerfilBloc()..add(CargarPerfil()),
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: BlocBuilder<PerfilBloc, PerfilState>(
           builder: (context, state) {
             if (state is PerfilLoading) {
@@ -46,7 +52,7 @@ class PerfilPage extends StatelessWidget {
                       child: const Text('Reintentar'),
                     ),
                     const SizedBox(height: 16),
-                    ElevatedButton(
+                    FilledButton(
                       onPressed: () => _iniciarSesion(context),
                       child: const Text('Iniciar sesión'),
                     ),
@@ -54,26 +60,59 @@ class PerfilPage extends StatelessWidget {
                 ),
               );
             } else if (state is PerfilLoaded) {
-              return PerfilView(
-                nombreUsuario: state.nombreUsuario,
-                onCerrarSesion: () => _cerrarSesion(context),
-              );
+              final estaInvitado = state.nombreUsuario.isEmpty;
+
+              if (estaInvitado) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.person_outline, size: 100, color: Colors.lightBlue),
+                        const SizedBox(height: 20),
+                        const Text(
+                          '¡Bienvenido!',
+                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Estás navegando como invitado. Para disfrutar todas las funciones, inicia sesión o crea una cuenta.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16, color: Colors.black54),
+                        ),
+                        const SizedBox(height: 30),
+                        FilledButton(
+                          onPressed: () => _iniciarSesion(context),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: Colors.lightBlue,
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                          ),
+                          child: const Text('Iniciar sesión', style: TextStyle(color: Colors.white)),
+                        ),
+                        const SizedBox(height: 12),
+                        TextButton.icon(
+                          onPressed: () => _registrarse(context),
+                          icon: const Icon(Icons.person_add_alt, color: Colors.lightBlue),
+                          label: const Text(
+                            'Registrarse',
+                            style: TextStyle(color: Colors.lightBlue, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return PerfilView(
+                  nombreUsuario: state.nombreUsuario,
+                  onCerrarSesion: () => _cerrarSesion(context),
+                );
+              }
             }
 
-
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('No has iniciado sesión.'),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () => _iniciarSesion(context),
-                    child: const Text('Iniciar sesión'),
-                  ),
-                ],
-              ),
-            );
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
