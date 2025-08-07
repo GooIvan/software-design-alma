@@ -4,6 +4,7 @@ import 'package:design_alma/screens/logo_intro.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -12,8 +13,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appRoute = AppRoute();
-
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
@@ -22,8 +21,11 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'DesignAlma App',
-      home: const LogoIntro(),
-      routes: appRoute.routes,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LogoIntro(),
+        ...AppRoute.routes,
+      },
     );
   }
 }
