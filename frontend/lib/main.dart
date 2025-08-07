@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:design_alma/routes/routes.dart';
 import 'package:design_alma/screens/logo_intro.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'core/di/service_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Inicializar Service Locator para optimizar rendimiento
+  sl.initialize();
+
   runApp(const MyApp());
 }
 

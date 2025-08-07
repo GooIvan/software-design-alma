@@ -30,7 +30,7 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Imagen
+          // Imagen optimizada
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
@@ -41,6 +41,26 @@ class ProductCard extends StatelessWidget {
                   child: Image.network(
                     product.imageUrl,
                     fit: BoxFit.cover,
+                    // Optimizaciones de rendimiento
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        color: Colors.grey[200],
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey[200],
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          color: Colors.grey,
+                          size: 40,
+                        ),
+                      );
+                    },
+                    // Optimización de memoria
+                    cacheWidth: 200,
+                    cacheHeight: 200,
                   ),
                 ),
               ),
@@ -148,7 +168,7 @@ class ProductCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              
+
               // Título
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -170,7 +190,7 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               // Producto info
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -214,9 +234,9 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               // Lista de tallas
               if (product.sizes.isEmpty)
                 const Padding(
@@ -270,7 +290,7 @@ class ProductCard extends StatelessWidget {
                     ],
                   ),
                 ),
-              
+
               const SizedBox(height: 30),
             ],
           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../widgets/skeleton_loader.dart';
+import '../../../../widgets/skeleton_loader.dart';
 
 class HomeLoadingCategoriesView extends StatelessWidget {
   const HomeLoadingCategoriesView({super.key});

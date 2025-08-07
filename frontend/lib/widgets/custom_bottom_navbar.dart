@@ -5,7 +5,7 @@ class CustomBottomNavBar extends StatelessWidget {
   final Function(int) onTap;
 
   const CustomBottomNavBar({
-    super.key, 
+    super.key,
     required this.currentIndex,
     required this.onTap,
   });
@@ -58,7 +58,7 @@ class CustomBottomNavBar extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 5,
+          bottom: 30,
           child: GestureDetector(
             onTap: () => onTap(2),
             child: SizedBox(

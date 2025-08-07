@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class HomeErrorCategoriesView extends StatelessWidget {
-  final String message;
+class HomeErrorView extends StatelessWidget {
+  final String title;
   final VoidCallback? onRetry;
 
-  const HomeErrorCategoriesView({
+  const HomeErrorView({
     super.key,
-    required this.message,
+    required this.title,
     this.onRetry,
   });
 
@@ -15,9 +15,8 @@ class HomeErrorCategoriesView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Vista de error para categorías
         Container(
-          height: 150,
+          height: 180,
           margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: Colors.orange.shade50,
@@ -37,7 +36,7 @@ class HomeErrorCategoriesView extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Error al cargar categorías',
+                    title,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -46,20 +45,20 @@ class HomeErrorCategoriesView extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
-                  if (onRetry != null)
-                    ElevatedButton(
-                      onPressed: onRetry,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange.shade400,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                        minimumSize: const Size(80, 28),
-                      ),
-                      child: const Text(
-                        'Reintentar',
-                        style: TextStyle(fontSize: 12),
-                      ),
+                  ElevatedButton(
+                    onPressed: onRetry,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange.shade400,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 4),
+                      minimumSize: const Size(80, 28),
                     ),
+                    child: const Text(
+                      'Reintentar',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -22,8 +22,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     });
 
     on<RefreshCategories>((event, emit) async {
+      emit(CategoryLoading());
       try {
-        final categories = await repository.fetchCategories();
+        // Usar el método refresh que ignora el caché
+        final categories = await repository.refreshCategories();
         emit(CategoryLoaded(categories));
       } catch (e) {
         print('Error al refrescar categorías: $e');

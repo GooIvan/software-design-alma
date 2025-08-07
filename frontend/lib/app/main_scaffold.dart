@@ -3,11 +3,11 @@ import 'package:design_alma/widgets/custom_bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import '../core/di/service_locator.dart';
 import '../feature/categories/presentation/pages/categories_screen.dart';
+import '../feature/home/data/bloc/category/category_bloc.dart';
+import '../feature/home/data/bloc/product/product_bloc.dart';
 import '../feature/home/presentation/pages/homescreen.dart';
-import '../feature/home/data/bloc/blocs.dart';
-import '../feature/home/data/repositories/home_repository.dart';
 import '../feature/profile/pages/profile_page.dart';
 
 class MainScaffold extends StatefulWidget {
@@ -30,9 +30,9 @@ class _MainScaffoldState extends State<MainScaffold> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
-    final repository = HomeRepository();
-    _productBloc = ProductBloc(repository)..add(LoadProducts());
-    _categoryBloc = CategoryBloc(repository)..add(LoadCategories());
+    // Usar Service Locator para obtener instancias optimizadas
+    _productBloc = sl.createProductBloc()..add(LoadProducts());
+    _categoryBloc = sl.createCategoryBloc()..add(LoadCategories());
     _checkLoginStatus();
   }
 
@@ -73,7 +73,7 @@ class _MainScaffoldState extends State<MainScaffold> {
     ];
 
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isLoggedIn: _isLoggedIn),
       body: IndexedStack(
         index: _selectedIndex,
         children: pages,
