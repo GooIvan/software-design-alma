@@ -35,7 +35,6 @@ class PerfilPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => PerfilBloc()..add(CargarPerfil()),
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: BlocBuilder<PerfilBloc, PerfilState>(
           builder: (context, state) {
             if (state is PerfilLoading) {
@@ -76,13 +75,7 @@ class PerfilPage extends StatelessWidget {
                           '¡Bienvenido!',
                           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Estás navegando como invitado. Para disfrutar todas las funciones, inicia sesión o crea una cuenta.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16, color: Colors.black54),
-                        ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 20),
                         FilledButton(
                           onPressed: () => _iniciarSesion(context),
                           style: FilledButton.styleFrom(
