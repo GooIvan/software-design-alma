@@ -5,16 +5,32 @@ import '../../../../models/product_model.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/product_card.dart';
 import '../../../../widgets/square_image_widget.dart';
+import 'loadings/home_loading_products_view.dart';
+import 'loadings/home_loading_categories_view.dart';
+import 'errors/home_error_products_view.dart';
+import 'errors/home_error_categories_view.dart';
 
 class HomeSuccessView extends StatelessWidget {
-  final List<Product> products;
-  final List<Category> categories;
+  final List<Product>? products;
+  final List<Category>? categories;
+  final bool isProductLoading;
+  final bool isCategoryLoading;
+  final String? productError;
+  final String? categoryError;
+  final VoidCallback? onRetryProducts;
+  final VoidCallback? onRetryCategories;
   final Future<void> Function()? onRefresh;
 
   const HomeSuccessView({
     super.key,
-    required this.products,
-    required this.categories,
+    this.products,
+    this.categories,
+    this.isProductLoading = false,
+    this.isCategoryLoading = false,
+    this.productError,
+    this.categoryError,
+    this.onRetryProducts,
+    this.onRetryCategories,
     this.onRefresh,
   });
 
@@ -42,11 +58,18 @@ class HomeSuccessView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           // Carrusel de productos nuevos 
-        if (products.isEmpty)
+        if (productError != null)
+          HomeErrorProductsView(
+            message: productError!,
+            onRetry: onRetryProducts,
+          )
+        else if (isProductLoading)
+          const HomeLoadingProductsView()
+        else if (products == null || products!.isEmpty)
           const Center(child: Text('No hay productos'))
         else
           CarouselSlider.builder(
-            itemCount: products.length,
+            itemCount: products!.length,
             options: CarouselOptions(
               height: 280,
               enlargeCenterPage: true,
@@ -56,11 +79,11 @@ class HomeSuccessView extends StatelessWidget {
             itemBuilder: (context, index, realIdx) {
               return GestureDetector(
                 onTap: () {
-                  print('Tocaste el producto: "${products[index].name}"');
+                  print('Tocaste el producto: "${products![index].name}"');
                   // Aquí puedes agregar la navegación o acción que quieras
                   _showToProduct(context);
                 },
-                child: ProductCard(product: products[index]),
+                child: ProductCard(product: products![index]),
               );
             },
           ),
@@ -81,11 +104,18 @@ class HomeSuccessView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           // Carrusel de las categorías
-          if (categories.isEmpty)
+          if (categoryError != null)
+            HomeErrorCategoriesView(
+              message: categoryError!,
+              onRetry: onRetryCategories,
+            )
+          else if (isCategoryLoading)
+            const HomeLoadingCategoriesView()
+          else if (categories == null || categories!.isEmpty)
             const Center(child: Text('No hay categorías'))
           else
             CarouselSlider.builder(
-              itemCount: categories.length,
+              itemCount: categories!.length,
               options: CarouselOptions(
                 height: 150,
                 enlargeCenterPage: true,
@@ -94,7 +124,7 @@ class HomeSuccessView extends StatelessWidget {
               ),
               itemBuilder: (context, index, realIdx) {
                 return SquareImageWidget(
-                  imageUrl: categories[index].imageUrl,
+                  imageUrl: categories![index].imageUrl,
                   size: 120,
                 );
               },

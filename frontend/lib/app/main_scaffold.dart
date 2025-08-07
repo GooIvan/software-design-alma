@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../feature/categories/presentation/pages/categories_screen.dart';
 import '../feature/home/presentation/pages/homescreen.dart';
-import '../feature/home/data/bloc/home_bloc.dart';
+import '../feature/home/data/bloc/blocs.dart';
 import '../feature/home/data/repositories/home_repository.dart';
 import '../feature/profile/pages/profile_page.dart';
 
@@ -21,7 +21,8 @@ class MainScaffold extends StatefulWidget {
 
 class _MainScaffoldState extends State<MainScaffold> {
   late int _selectedIndex;
-  late final HomeBloc _homeBloc;
+  late final ProductBloc _productBloc;
+  late final CategoryBloc _categoryBloc;
   bool _isLoggedIn = false;
   final _storage = const FlutterSecureStorage();
 
@@ -29,7 +30,9 @@ class _MainScaffoldState extends State<MainScaffold> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
-    _homeBloc = HomeBloc(HomeRepository())..add(LoadHome());
+    final repository = HomeRepository();
+    _productBloc = ProductBloc(repository)..add(LoadProducts());
+    _categoryBloc = CategoryBloc(repository)..add(LoadCategories());
     _checkLoginStatus();
   }
 
@@ -42,7 +45,8 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   @override
   void dispose() {
-    _homeBloc.close();
+    _productBloc.close();
+    _categoryBloc.close();
     super.dispose();
   }
 
@@ -55,8 +59,11 @@ class _MainScaffoldState extends State<MainScaffold> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      BlocProvider.value(
-        value: _homeBloc,
+      MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _productBloc),
+          BlocProvider.value(value: _categoryBloc),
+        ],
         child: const HomeScreen(),
       ),
       const CategoriesScreen(),
