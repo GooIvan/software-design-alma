@@ -68,12 +68,11 @@ class _MainScaffoldState extends State<MainScaffold> {
       ),
       const CategoriesScreen(),
       const Placeholder(),
-      const Placeholder(),
       const PerfilPage(),
     ];
 
     return Scaffold(
-      appBar: CustomAppBar(isLoggedIn: _isLoggedIn),
+      appBar: const CustomAppBar(),
       body: IndexedStack(
         index: _selectedIndex,
         children: pages,

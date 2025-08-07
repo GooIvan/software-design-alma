@@ -41,6 +41,7 @@ class HomeSuccessView extends StatelessWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.only(bottom: 24),
         children: [
+          const SizedBox(height: 16),
           // Sección: "Lo nuevo"
           const Align(
             alignment: Alignment.centerLeft,
@@ -71,7 +72,7 @@ class HomeSuccessView extends StatelessWidget {
               itemCount: products!.length,
               options: CarouselOptions(
                 height: 300,
-                enlargeCenterPage: true,
+                enlargeCenterPage: false,
                 autoPlay: true,
                 viewportFraction: 0.5,
               ),
@@ -117,8 +118,8 @@ class HomeSuccessView extends StatelessWidget {
               itemCount: categories!.length,
               options: CarouselOptions(
                 height: 150,
-                enlargeCenterPage: true,
-                autoPlay: true,
+                enlargeCenterPage: false,
+                autoPlay: false,
                 viewportFraction: 0.4,
               ),
               itemBuilder: (context, index, realIdx) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../models/product_model.dart' as model;
 import 'custom_alert.dart';
 
@@ -14,16 +13,15 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -35,7 +33,7 @@ class ProductCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: AspectRatio(
-                aspectRatio: 1,
+                aspectRatio: 3 / 4, // Imagen más alta
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
@@ -124,7 +122,7 @@ class ProductCard extends StatelessWidget {
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(
@@ -158,7 +156,6 @@ class ProductCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Handle bar
               Container(
                 width: 40,
                 height: 4,
@@ -174,10 +171,10 @@ class ProductCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         'Selecciona una talla',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -234,7 +231,6 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
 
               // Lista de tallas

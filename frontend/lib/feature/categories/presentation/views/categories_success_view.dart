@@ -20,6 +20,7 @@ class CategoriesSuccessView extends StatelessWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.only(bottom: 24),
         children: [
+          const SizedBox(height: 16),
           const Align(
             alignment: Alignment.centerLeft,
             child: Padding(

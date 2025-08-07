@@ -1,49 +1,68 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool isLoggedIn;
-
-  const CustomAppBar({
-    super.key,
-    this.isLoggedIn = false,
-  });
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Logo
-          Image.asset(
-            'assets/logo.png',
-            height: 200,
-            color: Colors.black,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4), // Sombra hacia abajo
           ),
-          Row(
+        ],
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+          child: Row(
             children: [
-              IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {},
+              // Avatar de usuario
+              Image.asset(
+                'assets/logo.png',
+                height: 200,
+                color: Colors.black,
               ),
-              if (isLoggedIn)
-                IconButton(
-                  icon: const Icon(Icons.notifications_outlined),
-                  onPressed: () {},
-                )
-              else
-                IconButton(
-                  icon: const Icon(Icons.login),
-                  onPressed: () {},
+
+              // Campo de búsqueda
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.grey.shade300, width: 1.0),
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.search, color: Colors.black54),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Buscar producto',
+                            hintStyle: TextStyle(color: Colors.black87),
+                          ),
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              IconButton(
-                icon: const Icon(Icons.more_vert_outlined),
-                onPressed: () {},
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
