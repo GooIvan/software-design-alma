@@ -41,11 +41,6 @@ class HomeScreen extends StatelessWidget {
 
                   productBloc.add(RefreshProducts());
                   categoryBloc.add(RefreshCategories());
-                  try {
-                    print('✅ Refresh completado');
-                  } catch (e) {
-                    print('⚠️ Timeout o error en refresh: $e');
-                  }
                 },
               );
             },

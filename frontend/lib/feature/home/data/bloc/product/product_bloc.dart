@@ -24,8 +24,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<RefreshProducts>((event, emit) async {
       emit(ProductLoading());
       try {
-        // Usar el método refresh que ignora el caché
-        final products = await repository.refreshProducts();
+        final products = await repository.fetchProducts();
         emit(ProductLoaded(products));
       } catch (e) {
         print('Error al refrescar productos: $e');
