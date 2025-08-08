@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../feature/cart/data/bloc/cart_bloc.dart';
+import '../routes/routes.dart';
+import 'blinking_dot.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -60,6 +64,33 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ),
+
+              // Cart icon with badge
+              const SizedBox(width: 10),
+              BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) {
+                  return Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoute.cart);
+                        },
+                        icon: const Icon(
+                          Icons.shopping_cart_outlined,
+                          color: Colors.black87,
+                          size: 28,
+                        ),
+                      ),
+                      if (state.totalItems > 0)
+                        Positioned(
+                          right: 8,
+                          top: 8,
+                          child: const BlinkingDot(), // circulito parpadeante
+                        ),
+                    ],
+                  );
+                },
+              )
             ],
           ),
         ),

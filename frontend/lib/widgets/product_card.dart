@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/product_model.dart' as model;
+import '../feature/cart/data/bloc/cart_bloc.dart';
 import 'custom_alert.dart';
 
 class ProductCard extends StatelessWidget {
@@ -296,8 +298,18 @@ class ProductCard extends StatelessWidget {
   }
 
   void _addToCart(BuildContext context, String selectedSize) {
-    print('Producto al carrito: "${product.name}", "$selectedSize"');
-    // Aquí puedes agregar la lógica para añadir el producto al carrito
+    // Agregar al carrito usando BLoC
+    context.read<CartBloc>().add(
+          AddToCart(
+            product: product,
+            size: selectedSize,
+            quantity: 1,
+          ),
+        );
+
+    // Mostrar mensaje de éxito
     CustomAlert.success(context, 'Producto agregado al carrito');
+
+    print('Producto agregado al carrito: "${product.name}", "$selectedSize"');
   }
 }

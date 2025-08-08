@@ -63,9 +63,9 @@ class CustomBottomNavBar extends StatelessWidget {
                 label: 'Categorías',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart_outlined, size: 28),
-                activeIcon: Icon(Icons.shopping_cart, size: 32),
-                label: 'Carrito',
+                icon: Icon(Icons.favorite_outline_outlined, size: 28),
+                activeIcon: Icon(Icons.favorite, size: 32),
+                label: 'Favoritos',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline, size: 28),

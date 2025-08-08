@@ -53,6 +53,11 @@ class PerfilView extends StatelessWidget {
                 onTap: () {},
               ),
               _buildOptionTile(
+                icon: Icons.info,
+                title: 'Acerda de',
+                onTap: () {},
+              ),
+              _buildOptionTile(
                 icon: Icons.settings,
                 title: 'Configuración',
                 onTap: () {},

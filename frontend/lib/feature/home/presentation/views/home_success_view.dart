@@ -136,6 +136,6 @@ class HomeSuccessView extends StatelessWidget {
 
   void _showToProduct(BuildContext context) {
     // Aquí puedes agregar la lógica para añadir el producto al carrito
-    CustomAlert.error(context, 'No hay vista del producto');
+    CustomAlert.warning(context, 'No hay vista del producto');
   }
 }
