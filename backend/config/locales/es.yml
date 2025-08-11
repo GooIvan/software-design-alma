@@ -129,7 +129,10 @@ es:
   add_to_cart: Añadir al carrito
   no_products: Esta categoría no tiene productos disponibles
   show_more: Ver más
-  product:
+  products:
+    size: "Talla"
+    quantity: "Cantidad"
+    add_to_cart: "AÑADIR AL CARRITO"
     low_stock_plural: ¡Apresúrate, quedan solo %{count} unidades!
     low_stock_singular: ¡Apresúrate, queda solo 1 unidad!
 
