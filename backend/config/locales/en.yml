@@ -212,14 +212,14 @@ en:
   results_found_plural: "<strong class='text-dark'>%{count}</strong> results found"
 
 
-#TODO: Recuperar contraseña
+  #TODO: Recuperar contraseña
   forgot_password_title: "Forgot your password?"
   remembered_your_password: "Remembered your password?"
   send_reset_password_instructions: "Send email"
   reset_instructions_note: "We will send you a recovery email"
   sign_in: "Sign in"
 
-#TODO: Footer
+  #TODO: Footer
   footer:
     company_name: Designs Alma
     contact_us: Contact us
@@ -228,3 +228,37 @@ en:
     redund_policy: Refund Policy
     privacy_policy: Privacy Policy
     search: Search
+
+  #TODO: Orden
+  order:
+    show:
+      title: "🧾 Your Order Summary"
+      order_number: "Order ID"
+      state: "Status"
+      total: "Total"
+      product: "🛍️ Products"
+      size: "Size"
+      quantity: "Quantity"
+      pay: "✅ Thank you! Your payment was approved."
+      pay_error: "⛔ Payment was not approved."
+      bottom_back: "Back"
+    payment:
+      title: "Pay for your order by card"
+      security: "Your data is secure and encrypted"
+      info: "Payment information"
+      card_number: "Card number"
+      empty_number: "This field is required"
+      expiration_date: "Expiration date"
+      empty_date: "Select month and year"
+      cvv: "CVV"
+      empty_cvv: "Enter the security code"
+      name_on_card: "Name on card"
+      name: "Full name"
+      empty_namecard: "Incorrect name"
+      pay: "Pay now"
+      order_summary: "Order summary"
+      size: "Size"
+      subtotal: "Subtotal"
+      discount: "Discount"
+      total: "Total"
+      processing: "Processing"

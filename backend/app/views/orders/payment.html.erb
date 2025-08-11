@@ -6,26 +6,26 @@
 
 <div class="container py-5">
   <div class="text-center mb-4">
-    <h2 class="mt-3 fw-bold">Paga tu orden con tarjeta</h2>
-    <p class="text-muted">Tus datos están seguros y encriptados</p>
+    <h2 class="mt-3 fw-bold"><%= t("order.payment.title") %></h2>
+    <p class="text-muted"><%= t("order.payment.security") %></p>
   </div>
 
   <div class="row justify-content-center">
     <div class="col-lg-6">
       <%= form_with url: pay_with_card_order_path(@order), method: :post, local: true, scope: nil do %>
         <div class="card p-4 shadow-sm">
-          <h5 class="mb-4 fw-semibold">Información de pago</h5>
+          <h5 class="mb-4 fw-semibold"><%= t("order.payment.info") %></h5>
           <div class="mb-3">
-            <label for="card_number" class="form-label">Número de tarjeta</label>
+            <label for="card_number" class="form-label"><%= t("order.payment.card_number") %>:</label>
             <%= text_field_tag :card_number, nil, class: "form-control", id: "card_number", placeholder: "4111 1111 1111 1111", required: true %>
-            <div class="invalid-feedback">Este campo es obligatorio</div>
+            <div class="invalid-feedback"><%= t("order.payment.empty_number") %></div>
             <div class="d-flex justify-content-end mt-2">
               <%= image_tag "card_brands.png", alt: "Visa y MasterCard", style: "width: 80px;" %>
             </div>
           </div>
 
         <div class="mb-3">
-          <label for="expiration_select" class="form-label">Fecha de expiración</label>
+          <label for="expiration_select" class="form-label"><%= t("order.payment.expiration_date") %>:</label>
           <div class="d-flex gap-2">
             <%= select_tag :expiration_month,
               options_for_select((1..12).map { |m| [sprintf("%02d", m), sprintf("%02d", m)] }),
@@ -35,26 +35,26 @@
               options_for_select((Date.today.year..(Date.today.year + 10)).map { |y| [y, y] }),
               prompt: "YYYY", class: "form-select", id: "expiration_year", required: true %>
           </div>
-          <div class="invalid-feedback">Selecciona mes y año</div>
+          <div class="invalid-feedback"><%= t("order.payment.empty_date") %></div>
         </div>
 
           <div class="mb-3">
-            <label for="cvv" class="form-label">Código CVV</label>
+            <label for="cvv" class="form-label"><%= t("order.payment.cvv") %>:</label>
             <%= text_field_tag :cvv, nil, class: "form-control", id: "cvv", placeholder: "123", required: true %>
-            <div class="invalid-feedback">Este campo es obligatorio</div>
+            <div class="invalid-feedback"><%= t("order.payment.empty_cvv") %></div>
           </div>
 
           <div class="mb-3">
-            <label for="card_name" class="form-label">Nombre en la tarjeta</label>
-            <%= text_field_tag :card_name, nil, class: "form-control", id: "card_name", placeholder: "Nombre completo", required: true %>
-            <div class="invalid-feedback">Este campo es obligatorio</div>
+            <label for="card_name" class="form-label"><%= t("order.payment.name_on_card") %>:</label>
+            <%= text_field_tag :card_name, nil, class: "form-control", id: "card_name", placeholder: t("order.payment.name"), required: true %>
+            <div class="invalid-feedback"><%= t("order.payment.empty_namecard") %></div>
           </div>
 
           <%= hidden_field_tag :expiration, "", id: "expiration_hidden" %>
 
           <button type="submit" class="btn btn-success w-100 mt-3" id="pay-button">
             <span class="spinner-border spinner-border-sm d-none" id="spinner" role="status" aria-hidden="true"></span>
-            <span id="btn-text">Pagar ahora</span>
+            <span id="btn-text"><%= t("order.payment.pay") %></span>
           </button>
 
           <div class="text-center mt-3">
@@ -67,7 +67,7 @@
     <div class="col-lg-4 mt-4 mt-lg-0">
       <div class="card shadow-sm p-3">
         <h5 class="mb-3 text-center fw-bold">
-          <%= t("orders.summary", default: "Resumen de la orden") %>
+          <%= t("order.payment.order_summary") %>
         </h5>
 
         <!-- Productos -->
@@ -85,7 +85,7 @@
               <div class="fw-semibold fs-6"><%= item.product.name %></div>
               <div class="text-muted small">#<%= item.product.id %></div>
               <% if item.size.present? %>
-                <div class="small text-muted">Talla: <%= item.size %></div>
+                <div class="small text-muted"><%= t("order.payment.size") %>: <%= item.size %></div>
               <% end %>
             </div>
 
@@ -106,7 +106,7 @@
           <ul class="list-unstyled">
             <li class="d-flex justify-content-between py-2">
               <span class="text-muted">
-                <%= t("orders.subtotal", default: "Subtotal") %>
+                <%= t("order.payment.subtotal") %>:
               </span>
               <strong>
                 <%= number_to_currency(subtotal, unit: "$", precision: 0, delimiter: ".") %>
@@ -115,7 +115,7 @@
             <% if 20000.to_i > 0 %>
               <li class="d-flex justify-content-between py-2">
                 <span class="text-muted">
-                  <%= t("orders.discount", default: "Descuento") %>
+                  <%= t("order.payment.discount") %>:
                 </span>
                 <strong class="text-success">
                   - <%= number_to_currency(discount, unit: "$", precision: 0, delimiter: ".") %>
@@ -126,7 +126,7 @@
 
           <div class="d-flex justify-content-between pt-3 border-top mt-3 fs-5">
             <strong>
-              <%= t("orders.total", default: "Total") %>
+              <%= t("order.payment.total") %>:
             </strong>
             <strong>
               <%= number_to_currency(subtotal - discount, unit: "$", precision: 0, delimiter: ".") %>
@@ -171,7 +171,7 @@ document.querySelector("#expiration_hidden").value = `${year}/${month}`;
       const spinner = document.querySelector("#spinner");
       const buttonText = document.querySelector("#btn-text");
       spinner.classList.remove("d-none");
-      buttonText.textContent = "Procesando...";
+      buttonText.textContent = "<%= j t('order.payment.processing') %>";
     });
   });
 <% end %>

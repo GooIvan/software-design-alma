@@ -12,13 +12,18 @@ class LogoIntro extends StatefulWidget {
 
 class _LogoIntroState extends State<LogoIntro> with TickerProviderStateMixin {
   double _opacity = 1.0;
+  bool _hasStarted = false;
 
   void _startFadeAndRedirect() async {
-    await Future.delayed(const Duration(seconds: 3)); // Espera animación
-    setState(() => _opacity = 0.0); // Fade out
+    if (_hasStarted) return;
+    _hasStarted = true;
+
+    await Future.delayed(const Duration(seconds: 3));
+    if (!mounted) return;
+
+    setState(() => _opacity = 0.0);
 
     await Future.delayed(const Duration(milliseconds: 500));
-
     if (!mounted) return;
 
     Navigator.of(context).pushReplacementNamed(AppRoute.main);
@@ -39,7 +44,7 @@ class _LogoIntroState extends State<LogoIntro> with TickerProviderStateMixin {
               fit: BoxFit.contain,
               repeat: false,
               onLoaded: (_) {
-                _startFadeAndRedirect(); // 👈 Solo inicia después de cargar
+                _startFadeAndRedirect();
               },
             ),
           ),

@@ -7,45 +7,45 @@
       <div class="card shadow-sm rounded-3">
         <div class="card-body">
 
-          <h2 class="mb-4 text-center">🧾 Resumen de tu orden</h2>
+          <h2 class="mb-4 text-center"><%= t('order.show.title') %></h2>
 
           <ul class="list-group list-group-flush mb-4">
             <li class="list-group-item d-flex justify-content-between">
-              <strong>ID de la orden:</strong>
+              <strong><%= t('order.show.order_number') %>:</strong>
               <span><%= @order.id %></span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
-              <strong>Estado:</strong>
+              <strong><%= t('order.show.state') %>:</strong>
               <span><%= @order.status.capitalize %></span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
-              <strong>Total:</strong>
+              <strong><%= t('order.show.total') %>:</strong>
               <span>$<%= number_to_currency(@order.total, unit: "", delimiter: ".", precision: 0) %></span>
             </li>
           </ul>
 
-          <h4 class="mt-4">🛍️ Productos</h4>
+          <h4 class="mt-4"><%= t('order.show.product') %>:</h4>
           <ul class="list-group mb-4">
             <% @order.order_items.each do |item| %>
               <li class="list-group-item">
                 <strong><%= item.product.name %></strong><br>
-                <small class="text-muted">Talla: <%= item.size %> &nbsp;|&nbsp; Cantidad: <%= item.quantity %></small>
+                <small class="text-muted"><%= t('order.show.size') %>: <%= item.size %> &nbsp;|&nbsp;<%= t('order.show.quantity') %>: <%= item.quantity %></small>
               </li>
             <% end %>
           </ul>
 
           <% if @order.paid? %>
             <div class="alert alert-success text-center">
-              ✅ ¡Gracias! Tu pago fue aprobado.
+              <%= t('order.show.pay') %>
             </div>
           <% else %>
             <div class="alert alert-danger text-center">
-              ⛔ El pago no fue aprobado.
+              <%= t('order.show.pay_error') %>
             </div>
           <% end %>
 
           <div class="text-center mt-4">
-            <%= link_to "Volver al inicio", root_path, class: "btn btn-primary px-4" %>
+            <%= link_to t('order.show.bottom_back'), root_path, class: "btn btn-primary px-4" %>
           </div>
 
         </div>
