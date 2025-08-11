@@ -74,3 +74,90 @@ input[name='card_number'] {
     transform: rotate(360deg);
   }
 }
+
+[data-theme="dark"] {
+  --bg-elev-1: #1b1b1b;
+  --bg-elev-2: #242424;
+  --muted: #bdbdbd;
+  --text: #e6e6e6;
+  --border: #2a2a2a;
+}
+
+/* Cards y contenedores */
+[data-theme="dark"] .card,
+[data-theme="dark"] .card.shadow-sm,
+[data-theme="dark"] .card-body {
+  background-color: var(--bg-elev-1) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+/* List group items (resumen de la orden) */
+[data-theme="dark"] .list-group,
+[data-theme="dark"] .list-group-flush .list-group-item,
+[data-theme="dark"] .list-group-item {
+  background-color: transparent !important;
+  color: var(--text) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Texto secundario (muted) */
+[data-theme="dark"] .text-muted,
+[data-theme="dark"] p.text-muted {
+  color: var(--muted) !important;
+}
+
+/* Botones primarios (bootstrap) */
+[data-theme="dark"] .btn-primary {
+  background-color: #0d6efd !important; /* o el tono que uses en dark */
+  border-color: #0d6efd !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+/* Placeholders en inputs */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: #1e1e1e !important;
+  color: var(--text) !important;
+  border: 1px solid #333 !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #8d8d8d !important;
+}
+
+/* Mensajes de error / validación */
+[data-theme="dark"] .input-error {
+  border-color: #db2235 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+}
+
+[data-theme="dark"] .error-message {
+  color: #ff8a8a !important;
+}
+
+/* Order summary específico */
+[data-theme="dark"] .order-summary {
+  background-color: var(--bg-elev-2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Asegurar que enlaces y badges se vean */
+[data-theme="dark"] a,
+[data-theme="dark"] .badge {
+  color: inherit !important;
+}
+
+/* Si usas .btn-payu (estilo personalizado), ya lo tienes, pero aseguramos contraste */
+[data-theme="dark"] .btn-payu {
+  /* si quieres, ajustar gradiente para dark */
+  background: linear-gradient(135deg, #1e9447, #126b32) !important;
+}
