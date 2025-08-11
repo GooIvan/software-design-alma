@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   # 🚨 Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # 🌍 Rutas con localización
   scope "(:locale)", locale: /en|es/ do
     # 🔐 Devise
     devise_for :users
@@ -14,24 +13,28 @@ Rails.application.routes.draw do
     get "home", to: "home#index"
     root "home#index"
 
-    # === API para Flutter (sin localización) ===
+    # 🛍️ Vista web: Productos más populares (basado en ventas pagadas)
+    get "most_popular", to: "most_popular#index", as: :most_popular
 
+    # === API para Flutter ===
     namespace :api do
-      resources :products, only: [ :index, :show ] do
+      resources :products, only: [:index, :show] do
         collection do
-          get :latest  # esto define /api/products/latest
+          get :latest
+          # Nueva API de productos más populares usando la misma lógica del medidor
+          get :most_popular, to: "products#most_popular"
         end
       end
-      resources :categories, only: [ :index ]
+      resources :categories, only: [:index]
     end
 
-    # 🛒 Carrito dentro del scope
-    resources :cart_items, only: [ :create, :destroy, :update ] do
+    # 🛒 Carrito
+    resources :cart_items, only: [:create, :destroy, :update] do
       patch :update_quantity, on: :member
     end
 
-    resource :cart, only: [ :show ] do
-      resources :cart_items, only: [ :update, :destroy ]
+    resource :cart, only: [:show] do
+      resources :cart_items, only: [:update, :destroy]
     end
 
     # 🛠️ Admin
@@ -39,7 +42,7 @@ Rails.application.routes.draw do
       get "dashboard", to: "dashboard#index"
       patch "update_home_video", to: "dashboard#update_home_video", as: :update_home_video
 
-      resource :home_video, only: [ :edit, :update ]
+      resource :home_video, only: [:edit, :update]
       delete "home_video/delete_all", to: "home_video#delete_all", as: :delete_all_home_video
 
       delete "users/bulk_delete", to: "users#bulk_delete", as: :bulk_delete_admin_users
@@ -55,10 +58,10 @@ Rails.application.routes.draw do
 
     # 🛍️ Público: categorías y productos
     resources :categories, param: :slug do
-      resources :products, only: [ :index, :show ]
+      resources :products, only: [:index, :show]
     end
 
-    # 📦 Órdenes para usuarios y 💳 Pago
+    # 📦 Órdenes
     resources :orders do
       member do
         get :payment
