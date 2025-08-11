@@ -135,6 +135,14 @@ en:
     add_to_cart: "ADD TO CART"
     low_stock_plural: Hurry up, only %{count} units left!
     low_stock_singular: Hurry up, only 1 unit left!
+  
+  #TODO: Perfil
+  profile:
+    title: "Profile of"
+    email: "Email:"
+    address: "Registered address:"
+    logout: "Log out"
+    admin_panel: "Admin Panel"
 
 
   #TODO: Carrito

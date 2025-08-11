@@ -135,6 +135,15 @@ es:
     add_to_cart: "AÑADIR AL CARRITO"
     low_stock_plural: ¡Apresúrate, quedan solo %{count} unidades!
     low_stock_singular: ¡Apresúrate, queda solo 1 unidad!
+  
+  #TODO: Perfil
+  profile:
+    title: "Perfil de"
+    email: "Email:"
+    address: "Dirección registrada:"
+    logout: "Cerrar sesión"
+    admin_panel: "Panel de Administración"
+
 
   #TODO: Carrito
   cart: CARRITO
