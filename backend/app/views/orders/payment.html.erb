@@ -13,7 +13,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-6">
       <%= form_with url: pay_with_card_order_path(@order), method: :post, local: true, scope: nil do %>
-        <div class="card p-4 shadow-sm">
+        <div class="card-payment p-4 shadow-sm">
           <h5 class="mb-4 fw-semibold"><%= t("order.payment.info") %></h5>
           <div class="mb-3">
             <label for="card_number" class="form-label"><%= t("order.payment.card_number") %>:</label>
@@ -52,10 +52,11 @@
 
           <%= hidden_field_tag :expiration, "", id: "expiration_hidden" %>
 
-          <button type="submit" class="btn btn-success w-100 mt-3" id="pay-button">
-            <span class="spinner-border spinner-border-sm d-none" id="spinner" role="status" aria-hidden="true"></span>
+          <button type="submit" class="btn btn-success btn-payu-page w-100 mt-3" id="pay-button">
+            <span class="spinner-page d-none" id="spinner" role="status" aria-hidden="true"></span>
             <span id="btn-text"><%= t("order.payment.pay") %></span>
-          </button>
+        </button>
+
 
           <div class="text-center mt-3">
             <%= image_tag "payu-secure.png", alt: "Paga seguro con PayU", style: "height: 26px;" %>
@@ -65,7 +66,7 @@
     </div>
 
     <div class="col-lg-4 mt-4 mt-lg-0">
-      <div class="card shadow-sm p-3">
+      <div class="card-payment p-4 shadow-sm p-3">
         <h5 class="mb-3 text-center fw-bold">
           <%= t("order.payment.order_summary") %>
         </h5>
