@@ -1,5 +1,5 @@
 /* Estilo moderno del botón */
-.btn-payu {
+.btn-payu-page {
   background: linear-gradient(135deg, #24a853, #17863e);
   color: #fff;
   font-weight: bold;
@@ -12,14 +12,14 @@
   justify-content: center;
 }
 
-.btn-payu:hover {
+.btn-payu-page:hover {
   background: linear-gradient(135deg, #1e9447, #126b32);
   transform: scale(1.02);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Spinner oculto inicialmente */
-.spinner {
+.spinner-page {
   display: none;
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-top: 2px solid white;
@@ -84,9 +84,9 @@ input[name='card_number'] {
 }
 
 /* Cards y contenedores */
-[data-theme="dark"] .card,
-[data-theme="dark"] .card.shadow-sm,
-[data-theme="dark"] .card-body {
+[data-theme="dark"] .card-payment,
+[data-theme="dark"] .card-payment.shadow-sm,
+[data-theme="dark"] .card-payment-body {
   background-color: var(--bg-elev-1) !important;
   color: var(--text) !important;
   border-color: var(--border) !important;
