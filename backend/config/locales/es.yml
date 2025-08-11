@@ -225,3 +225,36 @@ es:
     privacy_policy: Política de privacidad
     search: Buscar
 
+  #TODO: Orden
+  order:
+    show:
+      title: "🧾 Resumen de tu orden"
+      order_number: "ID de la orden"
+      state: "Estado"
+      total: "Total"
+      product: "🛍️ Productos"
+      size: "Talla"
+      quantity: "Cantidad"
+      pay: "✅ ¡Gracias! Tu pago fue aprobado."
+      pay_error: "⛔ El pago no fue aprobado."
+      bottom_back: "Volver al inicio"
+    payment:
+      title: "Paga tu orden con tarjeta"
+      security: "Tus datos están seguros y encriptados"
+      info: "Información de pago"
+      card_number: "Número de tarjeta"
+      empty_number: "Este campo es obligatorio"
+      expiration_date: "Fecha de expiración"
+      empty_date: "Selecciona mes y año"
+      cvv: "Código CVV"
+      empty_cvv: "Ingresa el codigo de seguridad"
+      name_on_card: "Nombre en la tarjeta"
+      name: "Nombre completo"
+      empty_namecard: "Nombre incorrecto"
+      pay: "Pagar ahora"
+      order_summary: "Resumen de la orden"
+      size: "Talla"
+      subtotal: "Subtotal"
+      discount: "Descuento"
+      total: "Total"
+      processing: "Procesando"
