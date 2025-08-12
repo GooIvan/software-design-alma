@@ -12,7 +12,6 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CategoriesBloc(CategoriesRepository())..add(LoadCategories()),
       child: SafeArea(
         child: BlocBuilder<CategoriesBloc, CategoriesState>(
           builder: (context, state) {

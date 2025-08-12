@@ -10,42 +10,37 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocBuilder<ProductBloc, ProductState>(
-        builder: (context, productState) {
-          return BlocBuilder<CategoryBloc, CategoryState>(
-            builder: (context, categoryState) {
-              // En todos los casos, mostrar vista success pero este valida si products o categories son null o no, para mostrar el contenido correcto
-              return HomeSuccessView(
-                products: productState is ProductLoaded
-                    ? productState.products
-                    : null,
-                categories: categoryState is CategoryLoaded
-                    ? categoryState.categories
-                    : null,
-                isProductLoading: productState is ProductLoading ||
-                    productState is ProductInitial,
-                isCategoryLoading: categoryState is CategoryLoading ||
-                    categoryState is CategoryInitial,
-                productError:
-                    productState is ProductError ? productState.message : null,
-                categoryError: categoryState is CategoryError
-                    ? categoryState.message
-                    : null,
-                onRetryProducts: () =>
-                    context.read<ProductBloc>().add(LoadProducts()),
-                onRetryCategories: () =>
-                    context.read<CategoryBloc>().add(LoadCategories()),
-                onRefresh: () async {
-                  final productBloc = context.read<ProductBloc>();
-                  final categoryBloc = context.read<CategoryBloc>();
-
-                  productBloc.add(RefreshProducts());
-                  categoryBloc.add(RefreshCategories());
-                },
-              );
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<ProductBloc, ProductState>(
+            listener: (context, state) {
+              if (state is ProductLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Cargando productos...')),
+                );
+              }
             },
-          );
-        },
+          ),
+          BlocListener<CategoryBloc, CategoryState>(
+            listener: (context, state) {
+              // Aquí efectos secundarios para CategoryState
+            },
+          ),
+        ],
+        child: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, productState) {
+            return BlocBuilder<CategoryBloc, CategoryState>(
+              builder: (context, categoryState) {
+                // Aquí construyes la UI con ambos estados
+                // OJO: Esta sigue siendo anidación, pero solo para construir UI,
+                // sin listeners para no saturar.
+                return Text(
+                  'Productos: ${productState.toString()}, Categorías: ${categoryState.toString()}',
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
