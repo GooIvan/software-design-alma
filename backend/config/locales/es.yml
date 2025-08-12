@@ -161,6 +161,8 @@ es:
 
   #TODO: ADMIN
   admin:
+    sidebar:
+      products: Productos
     dashboard:
       total_active_users: "Total de usuarios activos"
       total_paid_orders: "Total de órdenes pagadas"

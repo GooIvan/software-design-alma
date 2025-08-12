@@ -160,6 +160,8 @@ en:
 
   #TODO: ADMIN
   admin:
+    sidebar:
+      products: Products
     dashboard:
       total_active_users: Total active users
       total_paid_orders: Total paid orders
