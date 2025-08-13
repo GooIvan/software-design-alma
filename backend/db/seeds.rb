@@ -90,6 +90,14 @@ categories = [
       stock: 60,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/Taza_Con_Frase_Motivadora.webp"
+    },
+    {
+      name: "Taza Minimalista",
+      description: "Ideal taza minimalista con un diseño blanco simple",
+      price: 18500,
+      stock: 50,
+      sizes: ["MEDIUM", "SMALL"],
+      image: "seeds/images/products/Taza_minimalista_Blanca.webp"
     }
    ]
   },
