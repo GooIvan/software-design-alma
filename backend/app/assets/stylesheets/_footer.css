@@ -59,20 +59,20 @@
 
 /* Estilos para el modo oscuro */
 body[data-theme="dark"] .footer::before {
-  background-color: #121212;
+  background-color: #121212; /* Fondo principal oscuro */
 }
 
 body[data-theme="dark"] .footer {
-  background-color: whitesmoke;
-  color: black;
+  background-color: #1e1e1e; /* Gris oscuro más claro que #121212 */
+  color: #f1f1f1; /* Texto claro para contraste */
 }
 
 body[data-theme="dark"] .bi-pe {
-  color: black;
+  color: #f1f1f1;
 }
 
 body[data-theme="dark"] .footer-logo {
-  filter: brightness(0) grayscale(100%) contrast(100%);
+  filter: brightness(0) invert(1); /* Invertir para que el logo sea claro */
 }
 
 /* Tablet: quitar padding lateral */
@@ -81,6 +81,7 @@ body[data-theme="dark"] .footer-logo {
     padding: 40px 0;
   }
 }
+
 
 /* Celular: alinear contenido, reducir tipografía */
 @media (max-width: 767px) {

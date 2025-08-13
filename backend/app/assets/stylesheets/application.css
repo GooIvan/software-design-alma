@@ -26,7 +26,7 @@ html[data-theme="light"] {
 /* 3. Tema oscuro */
 body[data-theme="dark"],
 html[data-theme="dark"] {
-  background-color: whitesmoke !important;
+  background-color: #1e1e1e !important;
 }
 
 .c-scroll {
