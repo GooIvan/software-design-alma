@@ -148,7 +148,7 @@ categories = [
       description: "Funda resistente con diseño moderno.",
       price: 15000,
       stock: 50,
-      sizes: ["MEDIUM", "BIG"],
+      sizes: ["M", "L"],
       image: "seeds/images/products/product_funda.webp"
     },
     {
@@ -166,6 +166,14 @@ categories = [
       stock: 45,
       sizes: ["M", "L"],
       image: "seeds/images/products/Funda_Transparente_Ultrafina.webp"
+    },
+    {
+      name: "Funda Plegable",
+      description: "Accesorio protector con tapa que cubre tanto la parte frontal como trasera del dispositivo.",
+      price: 25000,
+      stock: 30,
+      sizes: ["M", "L"],
+      image: "seeds/images/products/Funda_Con_Soporte_Plegable.webp"
     }
    ]
   }
