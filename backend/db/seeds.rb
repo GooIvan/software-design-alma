@@ -128,6 +128,14 @@ categories = [
       stock: 35,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/Mousepad_Antideslizante.webp"
+    },
+    {
+      name: "Mousepad LED",
+      description: "Superficie deslizante para mouse resistente y elegante",
+      price: 35000,
+      stock: 30,
+      sizes: ["MEDIUM", "BIG"],
+      image: "seeds/images/products/Mousepad_Con_LED_RGB.webp"
     }
    ]
   },
