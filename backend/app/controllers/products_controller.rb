@@ -13,6 +13,10 @@ class ProductsController < ApplicationController
   private
 
   def set_category
-    @category = Category.find_by!(slug: params[:category_slug] || params[:category_id])
+  @category = Category.find_by(slug: params[:category_slug] || params[:category_id])
+   unless @category
+    redirect_to root_path, alert: "La categoría no existe."
+   end
   end
+
 end
