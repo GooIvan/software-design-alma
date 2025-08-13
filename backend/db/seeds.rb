@@ -52,6 +52,14 @@ categories = [
       stock: 25,
       sizes: ["XS","S", "M", "L", "XL"],
       image: "seeds/images/products/Camiseta_Blanca_Clasica.webp"
+    },
+    {
+      name: "Camiseta Verde",
+      description: "Camiseta Overside verde de alta calidad.",
+      price: 20000,
+      stock: 15,
+      sizes: ["XS","S", "M", "L", "XL"],
+      image: "seeds/images/products/Camiseta_Overside_Estilo_Urbano.webp"
     }
    ]
   },
