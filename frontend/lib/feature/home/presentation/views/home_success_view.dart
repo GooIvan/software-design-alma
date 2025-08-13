@@ -68,25 +68,7 @@ class HomeSuccessView extends StatelessWidget {
           else if (products == null || products!.isEmpty)
             const Center(child: Text('No hay productos'))
           else
-            CarouselSlider.builder(
-              itemCount: products!.length,
-              options: CarouselOptions(
-                height: 300,
-                enlargeCenterPage: false,
-                autoPlay: true,
-                viewportFraction: 0.5,
-              ),
-              itemBuilder: (context, index, realIdx) {
-                return GestureDetector(
-                  onTap: () {
-                    print('Tocaste el producto: "${products![index].name}"');
-                    // Aquí puedes agregar la navegación o acción que quieras
-                    _showToProduct(context);
-                  },
-                  child: ProductCard(product: products![index]),
-                );
-              },
-            ),
+
           const SizedBox(height: 16),
           // Sección: "Categorias"
           const Align(

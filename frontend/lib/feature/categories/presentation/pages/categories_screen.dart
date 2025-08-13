@@ -12,6 +12,7 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
+      create: (context) => CategoriesBloc(CategoriesRepository())..add(LoadCategories()),
       child: SafeArea(
         child: BlocBuilder<CategoriesBloc, CategoriesState>(
           builder: (context, state) {
@@ -34,7 +35,6 @@ class CategoriesScreen extends StatelessWidget {
                 },
               );
             }
-
             return const SizedBox(); // fallback
           },
         ),
