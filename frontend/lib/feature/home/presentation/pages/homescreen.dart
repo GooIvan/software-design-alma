@@ -13,6 +13,11 @@ import '../views/products/views_products_success.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  Future<void> _refreshData(BuildContext context) async {
+    sl<ProductBloc>().add(LoadProducts());
+    sl<CategoryBloc>().add(LoadCategories());
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -26,73 +31,74 @@ class HomeScreen extends StatelessWidget {
       ],
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                //?: bloc relacionado a los productos
-                const SizedBox(height: 16),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      'Lo nuevo',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+          child: RefreshIndicator(
+            onRefresh: () => _refreshData(context),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  //?: bloc relacionado a los productos
+                  const SizedBox(height: 16),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'Lo nuevo',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                BlocBuilder<ProductBloc, ProductState>(
-                  builder: (context, state) {
-                    if (state is ProductLoading) {
-                      //?: Vista de carga
-                      return const ViewProductsLoading();
-                    } else if (state is ProductError) {
-                      //! Vista de error
-                      return const ViewProductsError(
-                          title: 'Error al cargar productos');
-                    } else if (state is ProductLoaded) {
-                      return ViewProductsSuccess(products: state.products);
-                    }
-                    return const SizedBox();
-                  },
-                ),
-                //?: bloc relacionado a las categorías
-                const SizedBox(height: 16),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      'Categorías',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+                  const SizedBox(height: 16),
+                  BlocBuilder<ProductBloc, ProductState>(
+                    builder: (context, state) {
+                      if (state is ProductLoading) {
+                        return const ViewProductsLoading();
+                      } else if (state is ProductError) {
+                        return const ViewProductsError(
+                            title: 'Error al cargar productos');
+                      } else if (state is ProductLoaded) {
+                        return ViewProductsSuccess(products: state.products);
+                      }
+                      return const SizedBox();
+                    },
+                  ),
+                  //?: bloc relacionado a las categorías
+                  const SizedBox(height: 16),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'Categorías',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                BlocBuilder<CategoryBloc, CategoryState>(
-                  builder: (context, state) {
-                    if (state is CategoryLoading) {
-                      //?: Vista de carga
-                      return const ViewsCategoriesLoading();
-                    } else if (state is CategoryError) {
-                      //! Vista de error
-                      return const ViewCategoriesError(
-                          title: 'Error al cargar categorías');
-                    } else if (state is CategoryLoaded) {
-                      return ViewCategoriesSuccess(
-                          categories: state.categories);
-                    }
-                    return const SizedBox();
-                  },
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  BlocBuilder<CategoryBloc, CategoryState>(
+                    builder: (context, state) {
+                      if (state is CategoryLoading) {
+                        return const ViewsCategoriesLoading();
+                      } else if (state is CategoryError) {
+                        return const ViewCategoriesError(
+                            title: 'Error al cargar categorías');
+                      } else if (state is CategoryLoaded) {
+                        return ViewCategoriesSuccess(
+                            categories: state.categories);
+                      }
+                      return const SizedBox();
+                    },
+                  ),
+                  const SizedBox(height: 100),
+                ],
+              ),
             ),
           ),
         ),

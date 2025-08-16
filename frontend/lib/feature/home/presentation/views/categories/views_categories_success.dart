@@ -15,7 +15,7 @@ class ViewCategoriesSuccess extends StatelessWidget {
 
   void _showToCategory(BuildContext context, Category category) {
     // Aquí puedes implementar la navegación a la vista de la categoría
-    CustomAlert.info(context, 'Categoría: "${category.name}" aún sin vista');
+    CustomAlert.info(context, 'Vista de categoría no implementada');
   }
 
   @override

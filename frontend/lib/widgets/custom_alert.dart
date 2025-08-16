@@ -13,7 +13,7 @@ class CustomAlert {
   static void show(BuildContext context, String message, AlertType type) {
     Color backgroundColor;
     IconData icon;
-    
+
     switch (type) {
       case AlertType.success:
         backgroundColor = const Color(0xFF28A745); // Verde Bootstrap
@@ -32,6 +32,9 @@ class CustomAlert {
         icon = Icons.info_outline;
         break;
     }
+
+    // Limpiar cualquier SnackBar existente antes de mostrar uno nuevo
+    ScaffoldMessenger.of(context).clearSnackBars();
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
