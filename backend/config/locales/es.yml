@@ -40,9 +40,9 @@ es:
             last_name:
               blank: "El apellido es obligatorio"
             city:
-              blank: "La ciudad es obligatorio"
+              blank: "La ciudad es obligatoria"
             address:
-              blank: "La dirección es obligatorio"
+              blank: "La dirección es obligatoria"
             email:
               blank: "El correo electrónico es obligatorio"
             password:
@@ -82,17 +82,17 @@ es:
   login: Iniciar sesión
   sign_up: Registrarse
   not_registered: ¿No tienes una cuenta?
+  login_here: ¿Ya tienes cuenta? Inicia sesión aquí.
   sign_up_here: Regístrate aquí.
   remember_me: Recuérdame
   sign_in: Iniciar sesión
   forgot_password: ¿Olvidaste tu contraseña?
-  login_here: ¿Ya tienes cuenta? Inicia sesión aquí.
   message_minium: caracteres mínimos
   confirm_password: Confirmar contraseña
 
   #TODO: En general
-  notice-good: ¡Accion realizada correctamente!
-  notice-bad: Ocurrió un error. Por favor, inténtalo de nuevo.
+  notice-good: "¡Acción realizada correctamente!"
+  notice-bad: "Ocurrió un error. Por favor, inténtalo de nuevo."
   info: Más información
   email: Correo electrónico
   password: Contraseña
@@ -108,7 +108,7 @@ es:
   catalog: "Catalogo"
   customize: "Personaliza tu combo"
   categories: "Categorías"
-  no_categories_available: "No hay Categorías"
+  no_categories_available: "No hay categorías"
 
   #TODO: Productos a vender
   t-shirts: Camisetas
@@ -121,109 +121,124 @@ es:
   stone_photos: Fotos en piedra
 
   #TODO: Eslogans
-  slogan: ¡Haz tu diseño único!
-  slogan2: Diseños personalizados
-  slogan3: Calidad garantizada
-  slogan4: Bienvenido a Diseños Alma
+  slogan: "¡Haz tu diseño único!"
+  slogan2: "Diseños personalizados"
+  slogan3: "Calidad garantizada"
+  slogan4: "Bienvenido a Diseños Alma"
 
-  #TODO: Productos
-  add_to_cart: Añadir al carrito
-  no_products: Esta categoría no tiene productos disponibles
-  show_more: Ver más
-  product:
-    low_stock_plural: ¡Apresúrate, quedan solo %{count} unidades!
-    low_stock_singular: ¡Apresúrate, queda solo 1 unidad!
+  #TODO: Productos (claves usadas en las vistas)
+  products:
+    size: "Talla"
+    quantity: "Cantidad"
+    add_to_cart: "AÑADIR AL CARRITO"
+    low_stock_plural: "¡Apresúrate, quedan solo %{count} unidades!"
+    low_stock_singular: "¡Apresúrate, queda solo 1 unidad!"
+  # claves de compatibilidad / atajos si se usan en otras vistas
+  add_to_cart: "Añadir al carrito"
+  no_products: "Esta categoría no tiene productos disponibles"
+  show_more: "Ver más"
+
+  #TODO: Perfil
+  profile:
+    title: "Perfil de"
+    email: "Email:"
+    address: "Dirección registrada:"
+    logout: "Cerrar sesión"
+    admin_panel: "Panel de Administración"
 
   #TODO: Carrito
   cart: CARRITO
   items: artículo
   quantity: cantidad
   shop_all: COMPRAR TODO
-  home: INICIO
+  home_label: INICIO
   shop: TIENDA
-  size: Talla
-  size_obligatory: Debes seleccionar al menos una talla.
-  empty_cart: El carrito está vacío.
-  your_cart: Tu Carrito de Compras
+  size_label: Talla
+  size_obligatory: "Debes seleccionar al menos una talla."
+  empty_cart: "El carrito está vacío."
+  your_cart: "Tu Carrito de Compras"
   checkout: Verificar
+  remove: Eliminar
 
   #TODO: ADMIN
   admin:
+    sidebar:
+      products: Productos
     dashboard:
-      total_active_users: Total de usuarios activos
-      total_paid_orders: Total de órdenes pagadas
-      popular_categories: Popular categories
-      popular_categories_message: Categorías con más productos vendidos
+      total_active_users: "Total de usuarios activos"
+      total_paid_orders: "Total de órdenes pagadas"
+      popular_categories: "Categorías populares"
+      popular_categories_message: "Categorías con más productos vendidos"
 
     orders:
       order: Orden
       orders: Órdenes
-      create_order: Crear Orden
+      create_order: "Crear orden"
       id: ID
       user: Usuario
       status: Estado
       total: Total
       date: Fecha
-      no_orders: No hay órdenes registradas.
+      no_orders: "No hay órdenes registradas."
       actions: Acciones
       details: Detalles
       subtotal: Subtotal
       discount: Descuento
-      customer_info: Información del cliente
+      customer_info: "Información del cliente"
       shipping: Envío
       payment: Pago
 
-  home: Inicio
-  users: Usuarios
-  welcome: ¡Bienvenido de nuevo
-  message_help_1: ¡Bienvenido a tu panel de administración! Si tienes alguna duda,
-  message_help_2: estamos aquí para ayudarte.
+  overview: Resumen
+  home_label: Inicio
+  users_label: Usuarios
+  welcome: "¡Bienvenido de nuevo!"
+  message_help_1: "¡Bienvenido a tu panel de administración! Si tienes alguna duda,"
+  message_help_2: "estamos aquí para ayudarte."
   go_now: Ir ahora
-  last_7_days: Últimos 7 días
+  last_7_days: "Últimos 7 días"
   management: Gestión
-  products: Productos
-  customize_home: Personalizar Inicio
-  title_h2: Titulo
-  placeholder_title_h2: Escribe tu titulo aqui
+  products_label: Productos
+  customize_home: "Personalizar Inicio"
+  title_h2: Título
+  placeholder_title_h2: "Escribe tu título aquí"
   slogan_h2: Eslogan
-  placeholder_slogan_h2: Escribe tu eslogan aqui
-  Upload_mp4_file: Subir archivo MP4
-  text_color: Color del texto
+  placeholder_slogan_h2: "Escribe tu eslogan aquí"
+  Upload_mp4_file: "Subir archivo MP4"
+  text_color: "Color del texto"
   save: Guardar
   clear: Limpiar
-  are_you_sure: ¿Estás seguro? Esto eliminará todos los videos.
-  panel_title: Panel de Administración
+  are_you_sure: "¿Estás seguro? Esto eliminará todos los videos."
+  panel_title: "Panel de Administración"
 
   #TODO: ADMIN USERS
-  filter_city: Filtrar por ciudad
-  search_name: Buscar por nombre
+  filter_city: "Filtrar por ciudad"
+  search_name: "Buscar por nombre"
   city: Ciudad
   name: Nombre
   address: Dirección
   created: Creado
   role: Rol
   actions: Acciones
-  add_user: Agregar Usuario
+  add_user: "Agregar Usuario"
   all: Todas
   results_found: "<strong class='text-dark'>%{count}</strong> resultado encontrado"
   results_found_plural: "<strong class='text-dark'>%{count}</strong> resultados encontrados"
-
 
   #TODO: Recuperar contraseña
   forgot_password_title: "¿Olvidaste tu contraseña?"
   remembered_your_password: "¿Recordaste tu contraseña?"
   send_reset_password_instructions: "Enviar correo"
   reset_instructions_note: "Enviaremos un correo electrónico de recuperación"
-  sign_in: "Inicia sesión"
+  sign_in_label: "Inicia sesión"
 
   #TODO: Footer
   footer:
     company_name: Diseños Alma
     contact_us: Contáctanos
-    terms_of_service: Términos de servicio
-    shipping_policy: Política de envío
-    redund_policy: Política de reembolso
-    privacy_policy: Política de privacidad
+    terms_of_service: "Términos de servicio"
+    shipping_policy: "Política de envío"
+    redund_policy: "Política de reembolso"
+    privacy_policy: "Política de privacidad"
     search: Buscar
 
   #TODO: Orden
@@ -248,13 +263,12 @@ es:
       expiration_date: "Fecha de expiración"
       empty_date: "Selecciona mes y año"
       cvv: "Código CVV"
-      empty_cvv: "Ingresa el codigo de seguridad"
+      empty_cvv: "Ingresa el código de seguridad"
       name_on_card: "Nombre en la tarjeta"
       name: "Nombre completo"
       empty_namecard: "Nombre incorrecto"
       pay: "Pagar ahora"
       order_summary: "Resumen de la orden"
-      size: "Talla"
       subtotal: "Subtotal"
       discount: "Descuento"
       total: "Total"
