@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../widgets/skeleton_loader.dart';
 
-class HomeLoadingCategoriesView extends StatelessWidget {
-  const HomeLoadingCategoriesView({super.key});
+import '../../../../../widgets/skeleton_loader.dart';
+
+class ViewsCategoriesLoading extends StatelessWidget {
+  const ViewsCategoriesLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,8 @@ class HomeLoadingCategoriesView extends StatelessWidget {
             separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
               return const SkeletonLoader(
-                width: 120, 
-                height: 120, 
+                width: 120,
+                height: 120,
                 borderRadius: 20,
               );
             },

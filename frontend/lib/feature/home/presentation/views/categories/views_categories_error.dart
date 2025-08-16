@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HomeErrorView extends StatelessWidget {
+class ViewCategoriesError extends StatelessWidget {
   final String title;
   final VoidCallback? onRetry;
 
-  const HomeErrorView({
+  const ViewCategoriesError({
     super.key,
     required this.title,
     this.onRetry,

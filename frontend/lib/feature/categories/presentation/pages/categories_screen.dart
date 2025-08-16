@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/bloc/categories_bloc.dart';
+import '../../data/bloc/category_bloc.dart';
 import '../../data/repositories/categories_repository.dart';
 import '../views/categories_loading_view.dart';
 import '../views/categories_error_view.dart';
@@ -11,27 +11,27 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CategoriesBloc(CategoriesRepository())..add(LoadCategories()),
+    return BlocProvider.value(
+      value: CategoryBloc(CategoryRepository())..add(LoadCategories()),
       child: SafeArea(
-        child: BlocBuilder<CategoriesBloc, CategoriesState>(
+        child: BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {
-            if (state is CategoriesLoading) {
+            if (state is CategoryLoading) {
               return const CategoriesLoadingView();
             }
-            if (state is CategoriesError) {
+            if (state is CategoryError) {
               return CategoriesErrorView(
                 message: state.message,
                 onRetry: () {
-                  context.read<CategoriesBloc>().add(LoadCategories());
+                  context.read<CategoryBloc>().add(LoadCategories());
                 },
               );
             }
-            if (state is CategoriesLoaded) {
+            if (state is CategoryLoaded) {
               return CategoriesSuccessView(
                 categories: state.categories,
                 onRefresh: () async {
-                  context.read<CategoriesBloc>().add(LoadCategories());
+                  context.read<CategoryBloc>().add(LoadCategories());
                 },
               );
             }

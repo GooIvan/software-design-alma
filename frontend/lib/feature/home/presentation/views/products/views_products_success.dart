@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../../../models/product_model.dart';
+import '../../../../../widgets/custom_alert.dart';
 import '../../../../../widgets/product_card.dart';
 
 class ViewProductsSuccess extends StatelessWidget {
@@ -14,9 +15,7 @@ class ViewProductsSuccess extends StatelessWidget {
 
   void _showToProduct(BuildContext context) {
     // Aquí puedes implementar la navegación a la vista del producto
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Navegar al detalle del producto')),
-    );
+    CustomAlert.warning(context, 'No hay vista del producto');
   }
 
   @override
