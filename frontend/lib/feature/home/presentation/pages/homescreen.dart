@@ -58,8 +58,12 @@ class HomeScreen extends StatelessWidget {
                       if (state is ProductLoading) {
                         return const ViewProductsLoading();
                       } else if (state is ProductError) {
-                        return const ViewProductsError(
-                            title: 'Error al cargar productos');
+                        return ViewProductsError(
+                          title: 'Error al cargar productos',
+                          onRetry: () {
+                            context.read<ProductBloc>().add(LoadProducts());
+                          },
+                        );
                       } else if (state is ProductLoaded) {
                         return ViewProductsSuccess(products: state.products);
                       }
@@ -87,8 +91,12 @@ class HomeScreen extends StatelessWidget {
                       if (state is CategoryLoading) {
                         return const ViewsCategoriesLoading();
                       } else if (state is CategoryError) {
-                        return const ViewCategoriesError(
-                            title: 'Error al cargar categorías');
+                        return ViewCategoriesError(
+                          title: 'Error al cargar categorías',
+                          onRetry: () {
+                            context.read<CategoryBloc>().add(LoadCategories());
+                          },
+                        );
                       } else if (state is CategoryLoaded) {
                         return ViewCategoriesSuccess(
                             categories: state.categories);
