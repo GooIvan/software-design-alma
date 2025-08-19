@@ -82,6 +82,10 @@ body[data-theme="light"] .img-logo {
   transition: color 0.3s;
 }
 
+/* Abrir dropdown con hover */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
 
 [data-bs-theme="dark"] .nav-link {
   color: var(--bs-light);

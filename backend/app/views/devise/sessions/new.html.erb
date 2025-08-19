@@ -49,9 +49,12 @@
 
       <!-- Remember me switch -->
       <% if devise_mapping.rememberable? %>
-        <div class="field mt-2">
-          <%= f.check_box :remember_me %>
-          <%= f.label :remember_me, t('remember_me') %>
+        <div class="field mt-3 d-flex align-items-center justify-content-center">
+          <label class="custom-checkbox mb-0">
+            <%= f.check_box :remember_me, id: "user_remember_me", class: "d-none" %>
+            <span class="checkmark"></span>
+          </label>
+          <%= f.label :remember_me, t('remember_me'), class: "mb-0 ms-1" %>
         </div>
       <% end %>
 
@@ -92,5 +95,27 @@
         location.reload();
       }
     }, 2000);
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const emailField = document.getElementById("user_email");
+    const rememberCheckbox = document.getElementById("user_remember_me");
+    const loginForm = document.querySelector('form[action*="sign_in"]'); // solo el de login
+
+    // Rellenar email si está guardado
+    const savedEmail = localStorage.getItem("remember_email");
+    if (savedEmail) {
+      emailField.value = savedEmail;
+      rememberCheckbox.checked = true;
+    }
+
+    // Guardar email antes de enviar
+    loginForm.addEventListener("submit", function () {
+      if (rememberCheckbox.checked) {
+        localStorage.setItem("remember_email", emailField.value);
+      } else {
+        localStorage.removeItem("remember_email");
+      }
+    });
   });
 </script>
