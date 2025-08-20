@@ -126,13 +126,23 @@ en:
   slogan4: Welcome to Alma Designs
 
   #TODO: Productos
+  products:
+    size: "Size"
+    quantity: "Quantity"
+    add_to_cart: "ADD TO CART"
+    low_stock_plural: Hurry up, only %{count} units left!
+    low_stock_singular: Hurry up, only 1 unit left!
   add_to_cart: Add to cart
   no_products: This category has no products available
   show_more: Show more
-  product:
-    low_stock_plural: Hurry up, only %{count} units left!
-    low_stock_singular: Hurry up, only 1 unit left!
-
+  
+  #TODO: Perfil
+  profile:
+    title: "Profile of"
+    email: "Email:"
+    address: "Registered address:"
+    logout: "Log out"
+    admin_panel: "Admin Panel"
 
   #TODO: Carrito
   cart: CART
@@ -150,10 +160,13 @@ en:
 
   #TODO: ADMIN
   admin:
+    sidebar:
+      products: Products
+      home: Home
     dashboard:
       total_active_users: Total active users
       total_paid_orders: Total paid orders
-      popular_categories: Categorías populares
+      popular_categories: Popular categories
       popular_categories_message: Categories with the most sold products
 
     orders:
@@ -175,15 +188,15 @@ en:
       payment: Payment
   
   overview: Overview
-  home: Home
-  users: Users
+  home_label: Home
+  users_label: Users
   welcome: Welcome back
   message_help_1: Welcome to your admin panel! If you have any questions,
   message_help_2: we’re here to help.
   go_now: Go now
   last_7_days: Last 7 days
   management: Management
-  products: Products
+  products_label: Products
   customize_home: Customize Home
   title_h2: Title
   placeholder_title_h2: Write your title here
@@ -197,7 +210,6 @@ en:
   panel_title: Admin Panel
 
   #TODO: ADMIN USERS
-  users: Users
   filter_city: Filter by city
   search_name: Search by name
   city: City
@@ -211,15 +223,14 @@ en:
   results_found: "<strong class='text-dark'>%{count}</strong> result found"
   results_found_plural: "<strong class='text-dark'>%{count}</strong> results found"
 
-
-#TODO: Recuperar contraseña
+  #TODO: Recuperar contraseña
   forgot_password_title: "Forgot your password?"
   remembered_your_password: "Remembered your password?"
   send_reset_password_instructions: "Send email"
   reset_instructions_note: "We will send you a recovery email"
-  sign_in: "Sign in"
+  sign_in_label: "Sign in"
 
-#TODO: Footer
+  #TODO: Footer
   footer:
     company_name: Designs Alma
     contact_us: Contact us
@@ -228,3 +239,37 @@ en:
     redund_policy: Refund Policy
     privacy_policy: Privacy Policy
     search: Search
+
+  #TODO: Orden
+  order:
+    show:
+      title: "🧾 Your Order Summary"
+      order_number: "Order ID"
+      state: "Status"
+      total: "Total"
+      product: "🛍️ Products"
+      size: "Size"
+      quantity: "Quantity"
+      pay: "✅ Thank you! Your payment was approved."
+      pay_error: "⛔ Payment was not approved."
+      bottom_back: "Back"
+    payment:
+      title: "Pay for your order by card"
+      security: "Your data is secure and encrypted"
+      info: "Payment information"
+      card_number: "Card number"
+      empty_number: "This field is required"
+      expiration_date: "Expiration date"
+      empty_date: "Select month and year"
+      cvv: "CVV"
+      empty_cvv: "Enter the security code"
+      name_on_card: "Name on card"
+      name: "Full name"
+      empty_namecard: "Incorrect name"
+      pay: "Pay now"
+      order_summary: "Order summary"
+      size: "Size"
+      subtotal: "Subtotal"
+      discount: "Discount"
+      total: "Total"
+      processing: "Processing"
