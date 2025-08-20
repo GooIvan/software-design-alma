@@ -80,10 +80,7 @@ class CartEmptyWidget extends StatelessWidget {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/main',
-                        (route) => false,
-                      );
+                      Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
