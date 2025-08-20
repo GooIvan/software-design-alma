@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../../../models/category_model.dart';
-import '../../../../../widgets/custom_alert.dart';
 import '../../../../../widgets/square_image_widget.dart';
+import '../../../../products/presentation/pages/product_screen.dart';
 
 class ViewCategoriesSuccess extends StatelessWidget {
   final List<Category> categories;
@@ -12,11 +12,6 @@ class ViewCategoriesSuccess extends StatelessWidget {
     super.key,
     required this.categories,
   });
-
-  void _showToCategory(BuildContext context, Category category) {
-    // Aquí puedes implementar la navegación a la vista de la categoría
-    CustomAlert.info(context, 'Vista de categoría no implementada');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +40,12 @@ class ViewCategoriesSuccess extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 print('Tocaste la categoría: "${category.name}"');
-                _showToCategory(context, category);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ProductScreen(categoryName: category.name),
+                  ),
+                );
               },
               child: SquareImageWidget(
                 imageUrl: category.imageUrl,

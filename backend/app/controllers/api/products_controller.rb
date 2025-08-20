@@ -2,8 +2,10 @@ module Api
   class ProductsController < ApplicationController
     include Rails.application.routes.url_helpers
 
+    before_action :set_category, only: [:index, :show]
+
     def index
-      products = Product.order(created_at: :desc).with_attached_image
+      products = @category.products.with_attached_image
       render json: products.map { |product| serialize_product(product) }
     end
 
@@ -13,11 +15,16 @@ module Api
     end
 
     def show
-      product = Product.find(params[:id])
+      product = @category.products.find(params[:id])
       render json: serialize_product(product)
     end
 
     private
+
+    def set_category
+      normalized_slug = params[:category_slug].strip.downcase.gsub(' ', '-')
+      @category = Category.find_by!(slug: normalized_slug)
+    end
 
     def serialize_product(product)
       {
