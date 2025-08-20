@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/service_locator.dart';
 import '../../data/bloc/category_bloc.dart';
 import '../../data/repositories/categories_repository.dart';
 import '../views/categories_loading_view.dart';
@@ -11,8 +12,9 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: CategoryBloc(CategoryRepository())..add(LoadCategories()),
+    return BlocProvider(
+      create: (context) =>
+          CategoryBloc(sl<CategoryRepository>())..add(LoadCategories()),
       child: SafeArea(
         child: BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {

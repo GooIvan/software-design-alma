@@ -8,7 +8,6 @@ import '../feature/home/data/bloc/product/product_bloc.dart';
 import '../feature/home/data/repositories/home_repository.dart';
 import '../feature/home/presentation/pages/homescreen.dart';
 import '../feature/profile/pages/profile_page.dart';
-import '../feature/cart/data/bloc/cart_bloc.dart';
 
 class MainScaffold extends StatefulWidget {
   final int initialIndex;
@@ -23,7 +22,6 @@ class _MainScaffoldState extends State<MainScaffold> {
   late int _selectedIndex;
   late final ProductBloc _productBloc;
   late final CategoryBloc _categoryBloc;
-  late final CartBloc _cartBloc;
 
   @override
   void initState() {
@@ -32,14 +30,12 @@ class _MainScaffoldState extends State<MainScaffold> {
     final homeRepository = HomeRepository();
     _productBloc = ProductBloc(homeRepository)..add(LoadProducts());
     _categoryBloc = CategoryBloc(homeRepository)..add(LoadCategories());
-    _cartBloc = CartBloc();
   }
 
   @override
   void dispose() {
     _productBloc.close();
     _categoryBloc.close();
-    _cartBloc.close();
     super.dispose();
   }
 
@@ -64,18 +60,15 @@ class _MainScaffoldState extends State<MainScaffold> {
       const PerfilPage(),
     ];
 
-    return BlocProvider.value(
-      value: _cartBloc,
-      child: Scaffold(
-        appBar: const CustomAppBar(),
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: pages,
-        ),
-        bottomNavigationBar: CustomBottomNavBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-        ),
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: pages,
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

@@ -78,4 +78,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     // Por ahora solo emitimos el estado actual
     emit(state);
   }
+
+  @override
+  void emit(CartState state) {
+    print('CartBloc emitted state: totalItems=${state.totalItems}');
+    super.emit(state);
+  }
 }

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:design_alma/routes/routes.dart';
 import 'package:design_alma/screens/logo_intro.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/di/service_locator.dart';
+import 'feature/cart/data/bloc/cart_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,19 +18,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        textTheme: GoogleFonts.poppinsTextTheme(),
-        colorSchemeSeed: Colors.white,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => CartBloc()),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          useMaterial3: true,
+          textTheme: GoogleFonts.poppinsTextTheme(),
+          colorSchemeSeed: Colors.white,
+        ),
+        debugShowCheckedModeBanner: false,
+        title: 'DesignAlma App',
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const LogoIntro(),
+          ...AppRoute.routes,
+        },
       ),
-      debugShowCheckedModeBanner: false,
-      title: 'DesignAlma App',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const LogoIntro(),
-        ...AppRoute.routes,
-      },
     );
   }
 }

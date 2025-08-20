@@ -69,6 +69,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               const SizedBox(width: 10),
               BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
+                  print(
+                      'CartBloc state updated: totalItems=${state.totalItems}');
                   return Stack(
                     children: [
                       IconButton(
@@ -82,10 +84,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       ),
                       if (state.totalItems > 0)
-                        Positioned(
+                        const Positioned(
                           right: 8,
                           top: 8,
-                          child: const BlinkingDot(), // circulito parpadeante
+                          child: BlinkingDot(), // circulito parpadeante
                         ),
                     ],
                   );
