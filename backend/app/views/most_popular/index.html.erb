@@ -1,0 +1,104 @@
+<h1 class=" p-4 text-uppercase fw-bold mb-5 mt-5"><%= t('most_popular') %></h1>
+
+<% if @products.present? %>
+  <div class="container-fluid py-5" id="most_popular">
+    <!-- Vista escritorio -->
+    <div class="d-none d-md-block">
+      <div class="row justify-content-start justify-content-lg-center">
+        <% @products.each do |product| %>
+          <div class="col-md-6 col-lg-3 mb-4 px-3 d-flex justify-content-center">
+            <div class="product-card w-100" style="max-width: 300px;">
+              <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block" do %>
+                <% if product.image.attached? %>
+                  <%= image_tag product.image, 
+                        class: "card-img-top rounded-img p-2", 
+                        style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px;" %>
+                <% else %>
+                  <%= image_tag "placeholder.svg", 
+                        class: "card-img-top rounded-img p-2", 
+                        style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px;" %>
+                <% end %>
+              <% end %>
+
+              <div class="card-body pt-3 text-center">
+                <h5 class="ct card-title text-uppercase fw-bold"><%= product.name %></h5>
+                <p class="fw-bold fs-5"><%= number_to_currency(product.price) %></p>
+              </div>
+
+              <div class="d-flex justify-content-center">
+                <%= link_to category_product_path(product.category, product), 
+                      class: "cssbuttons-io-button d-inline-flex align-items-center gap-2 text-decoration-none" do %>
+                  <%= t("show_more") %>
+                  <div class="icon">
+                    <svg height="24" width="24" viewBox="0 0 24 24">
+                      <path d="M0 0h24v24H0z" fill="none"></path>
+                      <path
+                        d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Vista móvil con carrusel automático -->
+    <div id="mostPopularCarousel" class="carousel slide d-md-none" data-bs-ride="carousel" data-bs-interval="3000">
+      <div class="carousel-inner">
+        <% @products.each_with_index do |product, index| %>
+          <div class="carousel-item <%= 'active' if index == 0 %>">
+            <div class="d-flex justify-content-center">
+              <div class="product-card" style="max-width: 300px;">
+                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block" do %>
+                  <% if product.image.attached? %>
+                    <%= image_tag product.image, 
+                          class: "card-img-top rounded-img p-2", 
+                          style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px;" %>
+                  <% else %>
+                    <%= image_tag "placeholder.svg", 
+                          class: "card-img-top rounded-img p-2", 
+                          style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px;" %>
+                  <% end %>
+                <% end %>
+
+                <div class="card-body pt-3 text-center">
+                  <h5 class="ct card-title text-uppercase fw-bold"><%= product.name %></h5>
+                  <p class="fw-bold fs-5"><%= number_to_currency(product.price) %></p>
+                </div>
+
+                <div class="d-flex justify-content-center mb-3">
+                  <%= link_to category_product_path(product.category, product), 
+                        class: "cssbuttons-io-button d-inline-flex align-items-center gap-2 text-decoration-none" do %>
+                    <%= t("show_more") %>
+                    <div class="icon">
+                      <svg height="24" width="24" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"></path>
+                        <path
+                          d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="text-center py-5">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#1E90FF" viewBox="0 0 24 24" class="mb-3">
+      <path d="M7 4v2h10V4H7zm0 4v2h10V8H7zm-4 4v2h18v-2H3zm0 4v2h18v-2H3z"/>
+    </svg>
+    <p class="fs-5 mb-0" style="color: #1E90FF;">
+      <%= t('no_products', default: 'No hay productos disponibles.') %>
+    </p>
+  </div>
+<% end %>

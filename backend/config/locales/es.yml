@@ -104,7 +104,8 @@ es:
 
   #TODO: Opciones
   new_arrivals: "Lo más nuevo"
-  catalog: "Catálogo"
+  most_popular: "Lo más popular"
+  catalog: "Catalogo"
   customize: "Personaliza tu combo"
   categories: "Categorías"
   no_categories_available: "No hay categorías"
