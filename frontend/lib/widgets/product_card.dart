@@ -149,8 +149,8 @@ class ProductCard extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return BlocProvider.value(
-          value: cartBloc,
+        return BlocProvider(
+          create: (_) => cartBloc,
           child: Container(
             decoration: const BoxDecoration(
               color: Colors.white,

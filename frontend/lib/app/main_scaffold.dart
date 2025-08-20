@@ -2,6 +2,7 @@ import 'package:design_alma/widgets/custom_appbar.dart';
 import 'package:design_alma/widgets/custom_bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../core/di/service_locator.dart';
 import '../feature/categories/presentation/pages/categories_screen.dart';
 import '../feature/home/data/bloc/category/category_bloc.dart';
 import '../feature/home/data/bloc/product/product_bloc.dart';
@@ -50,8 +51,12 @@ class _MainScaffoldState extends State<MainScaffold> {
     final List<Widget> pages = [
       MultiBlocProvider(
         providers: [
-          BlocProvider.value(value: _productBloc),
-          BlocProvider.value(value: _categoryBloc),
+          BlocProvider(
+            create: (_) => sl<ProductBloc>(),
+          ),
+          BlocProvider(
+            create: (_) => sl<CategoryBloc>(),
+          ),
         ],
         child: const HomeScreen(),
       ),
