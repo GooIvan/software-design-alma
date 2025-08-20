@@ -162,6 +162,7 @@ en:
   admin:
     sidebar:
       products: Products
+      home: Home
     dashboard:
       total_active_users: Total active users
       total_paid_orders: Total paid orders

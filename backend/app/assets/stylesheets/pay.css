@@ -84,10 +84,19 @@ input[name='card_number'] {
 }
 
 /* Cards y contenedores */
-[data-theme="dark"] .card-payment,
-[data-theme="dark"] .card-payment.shadow-sm,
-[data-theme="dark"] .card-payment-body {
+[data-theme="dark"] .card-payment{
+   background-color: var(--bg-elev-1) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .card-payment.shadow-sm{
   background-color: var(--bg-elev-1) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+[data-theme="dark"] .card-payment-body {
+  background-color: transparent !important;
   color: var(--text) !important;
   border-color: var(--border) !important;
 }
@@ -120,16 +129,21 @@ input[name='card_number'] {
 }
 
 /* Placeholders en inputs */
-[data-theme="dark"] input,
-[data-theme="dark"] textarea,
-[data-theme="dark"] select {
+[data-theme="dark"] .custom-form-input{
   background-color: #1e1e1e !important;
   color: var(--text) !important;
   border: 1px solid #333 !important;
 }
 
-[data-theme="dark"] input::placeholder,
-[data-theme="dark"] textarea::placeholder {
+[data-theme="dark"] .custom-form-textarea,
+[data-theme="dark"] .custom-form-select {
+  background-color: #1e1e1e !important;
+  color: var(--text) !important;
+  border: 1px solid #333 !important;
+}
+
+[data-theme="dark"] .custom-form-input::placeholder,
+[data-theme="dark"] .custom-form-textarea::placeholder {
   color: #8d8d8d !important;
 }
 
@@ -160,4 +174,66 @@ input[name='card_number'] {
 [data-theme="dark"] .btn-payu {
   /* si quieres, ajustar gradiente para dark */
   background: linear-gradient(135deg, #1e9447, #126b32) !important;
+}
+
+/* Label */
+.custom-form-label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+/* Input y Textarea */
+.custom-form-input,
+.custom-form-textarea {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.custom-form-textarea {
+  resize: vertical;
+}
+
+/* Select */
+.custom-form-select {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+}
+
+/* Invalid feedback */
+.custom-invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: #dc3545;
+}
+
+.was-validated .custom-form-input:invalid ~ .custom-invalid-feedback,
+.was-validated .custom-form-select:invalid ~ .custom-invalid-feedback,
+.custom-form-input.is-invalid ~ .custom-invalid-feedback,
+.custom-form-select.is-invalid ~ .custom-invalid-feedback {
+  display: block;
 }

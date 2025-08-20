@@ -163,6 +163,7 @@ es:
   admin:
     sidebar:
       products: Productos
+      home: Inicio
     dashboard:
       total_active_users: "Total de usuarios activos"
       total_paid_orders: "Total de órdenes pagadas"

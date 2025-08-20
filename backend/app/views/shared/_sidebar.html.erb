@@ -34,7 +34,7 @@
             <%= link_to admin_dashboard_path, class: "text-decoration-none" do %>
               <li class="bg-text-icon mb-2 d-flex align-items-center <%= 'active' if current_page?(admin_dashboard_path) %>">
                 <img src="<%= asset_path('admins/ic-dashboard.svg') %>" class="text-icon me-2">
-                <span class="text-h2-panel-admin"><%= t("home") %></span>
+                <span class="text-h2-panel-admin"><%= t("admin.sidebar.home") %></span>
               </li>
             <% end %>
           </ul>
