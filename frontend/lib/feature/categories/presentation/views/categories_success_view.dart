@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../models/category_model.dart';
+import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/square_image_widget.dart';
 
 class CategoriesSuccessView extends StatelessWidget {
@@ -20,6 +21,7 @@ class CategoriesSuccessView extends StatelessWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.only(bottom: 24),
         children: [
+          const SizedBox(height: 16),
           const Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -60,6 +62,8 @@ class CategoriesSuccessView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       onTap: () {
                         // Aquí puedes agregar la navegación o acción deseada
+                        CustomAlert.warning(
+                            context, 'VIsta de categorias en desarrollo');
                         print('Categoría seleccionada: ${category.name}');
                       },
                       child: Padding(

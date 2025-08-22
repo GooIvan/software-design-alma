@@ -19,8 +19,7 @@ class HomeRepository {
   }
 
   Future<List<Category>> fetchCategories() async {
-    final response =
-        await http.get(Uri.parse('${Api.baseUrl}/api/categories'));
+    final response = await http.get(Uri.parse('${Api.baseUrl}/api/categories'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);

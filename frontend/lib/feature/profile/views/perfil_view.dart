@@ -12,21 +12,21 @@ class PerfilView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool estaLogueado = nombreUsuario != null && nombreUsuario!.isNotEmpty;
+    final bool estaLogueado =
+        nombreUsuario != null && nombreUsuario!.isNotEmpty;
     const Color azulCielo = Color(0xFF6EC6FF); // Azul cielo claro
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
             const SizedBox(height: 20),
-            Center(
+            const Center(
               child: CircleAvatar(
                 radius: 50,
                 backgroundColor: azulCielo,
-                child: const Icon(Icons.person, size: 50, color: Colors.white),
+                child: Icon(Icons.person, size: 50, color: Colors.white),
               ),
             ),
             const SizedBox(height: 16),
@@ -41,7 +41,6 @@ class PerfilView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-
             if (estaLogueado) ...[
               _buildOptionTile(
                 icon: Icons.account_circle,
@@ -51,6 +50,11 @@ class PerfilView extends StatelessWidget {
               _buildOptionTile(
                 icon: Icons.receipt_long,
                 title: 'Mis pedidos',
+                onTap: () {},
+              ),
+              _buildOptionTile(
+                icon: Icons.info,
+                title: 'Acerda de',
                 onTap: () {},
               ),
               _buildOptionTile(

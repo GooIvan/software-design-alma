@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../models/category_model.dart';
 
-class CategoriesRepository {
+class CategoryRepository {
   Future<List<Category>> fetchCategories() async {
     final response =
         await http.get(Uri.parse('${Api.baseUrl}/api/categories'));
