@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../about/pages/AboutPage.dart';
 
 class PerfilView extends StatelessWidget {
   final String? nombreUsuario;
@@ -54,8 +55,15 @@ class PerfilView extends StatelessWidget {
               ),
               _buildOptionTile(
                 icon: Icons.info,
-                title: 'Acerda de',
-                onTap: () {},
+                title: 'Acerca de',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AboutPage(),
+                    ),
+                  );
+                },
               ),
               _buildOptionTile(
                 icon: Icons.settings,
