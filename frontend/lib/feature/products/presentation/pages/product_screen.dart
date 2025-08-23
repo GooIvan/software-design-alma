@@ -13,8 +13,8 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: sl<ProductBloc>()..add(LoadProducts(categoryName)),
+    return BlocProvider(
+      create: (context) => sl<ProductBloc>()..add(LoadProducts(categoryName)),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
