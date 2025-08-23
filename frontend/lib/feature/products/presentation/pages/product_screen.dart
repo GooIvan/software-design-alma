@@ -17,7 +17,15 @@ class ProductScreen extends StatelessWidget {
       value: sl<ProductBloc>()..add(LoadProducts(categoryName)),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Products in $categoryName'),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text(
+            categoryName,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         body: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, state) {
