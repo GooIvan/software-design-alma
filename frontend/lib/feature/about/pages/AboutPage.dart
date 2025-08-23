@@ -17,7 +17,6 @@ class AboutPage extends StatelessWidget {
   final String documentationUrl =
       "https://gooivan.github.io/software-design-alma/";
 
-      
   // Método para abrir enlaces
   Future<void> _launchUrl(String url) async {
     final Uri uri = Uri.parse(url);
@@ -29,6 +28,9 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Acerca de"),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -36,7 +38,7 @@ class AboutPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
-                "Contributors",
+                "Contribuidores",
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -47,9 +49,34 @@ class AboutPage extends StatelessWidget {
               // Lista de contribuidores
               Expanded(
                 child: ListView(
-                  children: contributors
-                      .map((contrib) => _contributorCard(contrib))
-                      .toList(),
+                  children: [
+                    ...contributors
+                        .map((contrib) => _contributorCard(contrib))
+                        .toList(),
+
+                    const SizedBox(height: 30),
+
+                    // Apartado de documentación
+                    const Text(
+                      "Documentación del Proyecto",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 10),
+
+                    ElevatedButton.icon(
+                      onPressed: () => _launchUrl(documentationUrl),
+                      icon: const Icon(Icons.book),
+                      label: const Text("Ver Documentación"),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 12),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -59,37 +86,81 @@ class AboutPage extends StatelessWidget {
     );
   }
 
-  // Widget para cada contribuidor
-  Widget _contributorCard(Map<String, String> contrib) {
-    return GestureDetector(
-      onTap: () => _launchUrl(contrib["github"]!),
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            // Ícono de GitHub
-            const Icon(
-              Icons
-                  .account_circle, // 👈 Aquí puedes poner un ícono de GitHub personalizado
-              size: 40,
-              color: Colors.black,
-            ),
-            const SizedBox(width: 12),
 
-            // Nombre
-            Text(
-              contrib["name"]!,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+  Widget _contributorCard(Map<String, String> contrib) {
+    return _HoverAnimatedCard(
+      name: contrib["name"]!,
+      url: contrib["github"]!,
+      onTap: () => _launchUrl(contrib["github"]!),
+    );
+  }
+}
+
+
+class _HoverAnimatedCard extends StatefulWidget {
+  final String name;
+  final String url;
+  final VoidCallback onTap;
+
+  const _HoverAnimatedCard({
+    required this.name,
+    required this.url,
+    required this.onTap,
+  });
+
+  @override
+  State<_HoverAnimatedCard> createState() => _HoverAnimatedCardState();
+}
+
+class _HoverAnimatedCardState extends State<_HoverAnimatedCard> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          margin: const EdgeInsets.symmetric(vertical: 6),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: _isHovered ? Colors.blue.shade50 : Colors.white,
+            border: Border.all(
+                color: _isHovered ? Colors.blue : Colors.black, width: 1.5),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: _isHovered
+                ? [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    )
+                  ]
+                : [],
+          ),
+          child: Row(
+            children: [
+              Icon(
+                Icons.account_circle,
+                size: _isHovered ? 45 : 40,
+                color: _isHovered ? Colors.blue : Colors.black,
               ),
-            ),
-          ],
+              const SizedBox(width: 12),
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 200),
+                style: TextStyle(
+                  fontSize: _isHovered ? 18 : 16,
+                  fontWeight: FontWeight.w600,
+                  color: _isHovered ? Colors.blue : Colors.black,
+                ),
+                child: Text(widget.name),
+              ),
+            ],
+          ),
         ),
       ),
     );
