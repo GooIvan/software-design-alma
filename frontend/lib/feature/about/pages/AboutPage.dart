@@ -29,7 +29,15 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Acerca de"),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: const Text(
+          'Acerca de',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -37,45 +45,54 @@ class AboutPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                "Contribuidores",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               const SizedBox(height: 20),
 
               // Lista de contribuidores
               Expanded(
                 child: ListView(
                   children: [
-                    ...contributors
-                        .map((contrib) => _contributorCard(contrib))
-                        .toList(),
-
-                    const SizedBox(height: 30),
-
-                    // Apartado de documentación
+                    const SizedBox(height: 10),
                     const Text(
                       "Documentación del Proyecto",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 10),
-
+                    const SizedBox(height: 12),
                     ElevatedButton.icon(
                       onPressed: () => _launchUrl(documentationUrl),
-                      icon: const Icon(Icons.book),
-                      label: const Text("Ver Documentación"),
+                      label: const Text(
+                        "Ver",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12),
+                            horizontal: 24, vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        elevation: 6,
+                        backgroundColor: Colors.blue.shade600,
+                        foregroundColor: Colors.white,
+                        shadowColor: Colors.blueAccent.withOpacity(0.4),
+                      ).copyWith(
+                        overlayColor:
+                            WidgetStateProperty.all(Colors.blue.shade800),
                       ),
                     ),
+                    const SizedBox(height: 40),
+                    const Text(
+                      "Contribuidores",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    ...contributors.map((contrib) => _contributorCard(contrib)),
                   ],
                 ),
               ),
@@ -86,7 +103,6 @@ class AboutPage extends StatelessWidget {
     );
   }
 
-
   Widget _contributorCard(Map<String, String> contrib) {
     return _HoverAnimatedCard(
       name: contrib["name"]!,
@@ -95,7 +111,6 @@ class AboutPage extends StatelessWidget {
     );
   }
 }
-
 
 class _HoverAnimatedCard extends StatefulWidget {
   final String name;
@@ -124,40 +139,81 @@ class _HoverAnimatedCardState extends State<_HoverAnimatedCard> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          margin: const EdgeInsets.symmetric(vertical: 6),
-          padding: const EdgeInsets.all(12),
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+          padding: const EdgeInsets.all(16),
+          transform: _isHovered
+              ? (() {
+                  final matrix = Matrix4.identity();
+                  matrix.scale(1.03); // pequeño zoom
+                  return matrix;
+                })()
+              : Matrix4.identity(),
           decoration: BoxDecoration(
             color: _isHovered ? Colors.blue.shade50 : Colors.white,
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
-                color: _isHovered ? Colors.blue : Colors.black, width: 1.5),
-            borderRadius: BorderRadius.circular(12),
+              color: _isHovered ? Colors.blue.shade400 : Colors.grey.shade300,
+              width: 1.5,
+            ),
             boxShadow: _isHovered
                 ? [
                     BoxShadow(
-                      color: Colors.blue.withOpacity(0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+                      color: Colors.blue.withOpacity(0.25),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
                     )
                   ]
-                : [],
+                : [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    )
+                  ],
           ),
           child: Row(
             children: [
-              Icon(
-                Icons.account_circle,
-                size: _isHovered ? 45 : 40,
-                color: _isHovered ? Colors.blue : Colors.black,
-              ),
-              const SizedBox(width: 12),
-              AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 200),
-                style: TextStyle(
-                  fontSize: _isHovered ? 18 : 16,
-                  fontWeight: FontWeight.w600,
-                  color: _isHovered ? Colors.blue : Colors.black,
+              // Icono más estilizado
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color:
+                      _isHovered ? Colors.blue.shade100 : Colors.grey.shade100,
                 ),
-                child: Text(widget.name),
+                padding: const EdgeInsets.all(8),
+                child: Icon(
+                  Icons.account_circle_rounded,
+                  size: _isHovered ? 46 : 40,
+                  color:
+                      _isHovered ? Colors.blue.shade600 : Colors.grey.shade700,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 250),
+                  style: TextStyle(
+                    fontSize: _isHovered ? 18 : 16,
+                    fontWeight: FontWeight.w600,
+                    color: _isHovered
+                        ? Colors.blue.shade800
+                        : Colors.grey.shade900,
+                  ),
+                  child: Text(widget.name, overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              // Flechita sutil cuando haces hover
+              AnimatedOpacity(
+                opacity: _isHovered ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 18,
+                  color: Colors.blue.shade600,
+                ),
               ),
             ],
           ),
