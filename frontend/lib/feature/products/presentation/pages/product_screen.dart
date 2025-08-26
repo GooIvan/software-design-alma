@@ -36,6 +36,9 @@ class ProductScreen extends StatelessWidget {
               return ProductErrorView(
                 categoryName: categoryName,
                 message: 'Error al cargar los productos',
+                onRetry: () {
+                  context.read<ProductBloc>().add(LoadProducts(categoryName));
+                },
               );
             }
             if (state is ProductLoaded) {
