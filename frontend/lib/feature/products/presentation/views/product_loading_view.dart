@@ -6,21 +6,23 @@ class ProductLoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 280,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: 5,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          return const SkeletonLoader(
-            width: 200,
-            height: 280,
-            borderRadius: 20,
-          );
-        },
+    return GridView.builder(
+      padding: const EdgeInsets.all(12),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 0.6,
       ),
+      itemCount: 6,
+      itemBuilder: (context, index) {
+        return const SkeletonLoader(
+          width: double.infinity,
+          height: double.infinity,
+          borderRadius: 20,
+        );
+      },
     );
   }
 }
