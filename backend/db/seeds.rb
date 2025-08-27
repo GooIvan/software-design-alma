@@ -52,6 +52,14 @@ categories = [
       stock: 25,
       sizes: ["XS","S", "M", "L", "XL"],
       image: "seeds/images/products/Camiseta_Blanca_Clasica.webp"
+    },
+    {
+      name: "Camiseta Verde",
+      description: "Camiseta Overside verde de alta calidad.",
+      price: 50000,
+      stock: 15,
+      sizes: ["XS","S", "M", "L", "XL"],
+      image: "seeds/images/products/Camiseta_Overside_Estilo_Urbano.webp"
     }
    ]
   },
@@ -82,6 +90,14 @@ categories = [
       stock: 60,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/Taza_Con_Frase_Motivadora.webp"
+    },
+    {
+      name: "Taza Minimalista",
+      description: "Ideal taza minimalista con un diseño blanco simple",
+      price: 18500,
+      stock: 50,
+      sizes: ["MEDIUM", "SMALL"],
+      image: "seeds/images/products/Taza_minimalista_Blanca.webp"
     }
    ]
   },
@@ -112,6 +128,14 @@ categories = [
       stock: 35,
       sizes: ["MEDIUM", "BIG"],
       image: "seeds/images/products/Mousepad_Antideslizante.webp"
+    },
+    {
+      name: "Mousepad LED",
+      description: "Superficie deslizante para mouse resistente y elegante",
+      price: 35000,
+      stock: 30,
+      sizes: ["MEDIUM", "BIG"],
+      image: "seeds/images/products/Mousepad_Con_LED_RGB.webp"
     }
    ]
   },
@@ -124,7 +148,7 @@ categories = [
       description: "Funda resistente con diseño moderno.",
       price: 15000,
       stock: 50,
-      sizes: ["MEDIUM", "BIG"],
+      sizes: ["M", "L"],
       image: "seeds/images/products/product_funda.webp"
     },
     {
@@ -142,6 +166,14 @@ categories = [
       stock: 45,
       sizes: ["M", "L"],
       image: "seeds/images/products/Funda_Transparente_Ultrafina.webp"
+    },
+    {
+      name: "Funda Plegable",
+      description: "Accesorio protector con tapa que cubre tanto la parte frontal como trasera del dispositivo.",
+      price: 25000,
+      stock: 30,
+      sizes: ["M", "L"],
+      image: "seeds/images/products/Funda_Con_Soporte_Plegable.webp"
     }
    ]
   }

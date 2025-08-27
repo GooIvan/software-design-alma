@@ -1,3 +1,4 @@
+import 'package:get_it/get_it.dart';
 import '../../../core/di/service_locator.dart';
 import '../data/bloc/category_bloc.dart';
 import '../data/repositories/categories_repository.dart';

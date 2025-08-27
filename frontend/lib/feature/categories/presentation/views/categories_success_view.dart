@@ -1,6 +1,7 @@
 import 'package:design_alma/feature/products/presentation/pages/product_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../models/category_model.dart';
+import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/square_image_widget.dart';
 
 class CategoriesSuccessView extends StatelessWidget {
