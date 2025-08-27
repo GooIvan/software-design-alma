@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../feature/cart/data/bloc/cart_bloc.dart';
+import '../feature/products/show/presentation/pages/product_screen.dart';
 import '../models/product_model.dart';
 import 'custom_alert.dart';
 
@@ -19,21 +20,36 @@ class ProductCard extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {}, // Aquí podrías abrir detalle del producto
+        onTap: () {
+          print(
+              'Tocaste la categoría: "${product.name}" con id: "${product.id}"');
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ProductScreen(
+                categoryName: product.categoryName,
+                id: product.id,
+              ),
+            ),
+          );
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover, // llena el espacio aunque recorte un poco
-                  width: double.infinity,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
-                    Icons.image_not_supported,
-                    size: 40,
-                    color: Colors.grey,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.network(
+                    product.imageUrl,
+                    fit:
+                        BoxFit.cover, // llena el espacio aunque recorte un poco
+                    width: double.infinity,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.image_not_supported,
+                      size: 40,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
@@ -71,13 +87,17 @@ class ProductCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "\$${product.formattedPrice}",
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green[700],
-                                ),
+                      Expanded(
+                        child: Text(
+                          "\$${product.formattedPrice}",
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green[700],
+                                  ),
+                          overflow: TextOverflow
+                              .ellipsis, // recorta si es demasiado largo
+                        ),
                       ),
                       IconButton(
                         onPressed: () => _showSizeSelector(context),

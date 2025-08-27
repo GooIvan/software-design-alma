@@ -18,14 +18,18 @@ Rails.application.routes.draw do
 
     # === API para Flutter ===
     namespace :api do
+      # 🛒 Productos
       resources :products, only: [:index, :show] do
         collection do
           get :latest
-          # Nueva API de productos más populares usando la misma lógica del medidor
           get :most_popular, to: "products#most_popular"
         end
       end
-      resources :categories, only: [:index]
+
+      # 🏷️ Categorías
+      resources :categories, param: :slug, only: [:index, :show] do
+        resources :products, only: [:index, :show]
+      end
     end
 
     # 🛒 Carrito

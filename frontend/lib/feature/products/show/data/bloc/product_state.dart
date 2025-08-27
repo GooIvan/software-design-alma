@@ -12,12 +12,12 @@ class ProductInitial extends ProductState {}
 class ProductLoading extends ProductState {}
 
 class ProductLoaded extends ProductState {
-  final List<Product> products;
+  final Product product;
 
-  const ProductLoaded(this.products);
+  const ProductLoaded(this.product);
 
   @override
-  List<Object> get props => [products];
+  List<Object> get props => [product];
 }
 
 class ProductError extends ProductState {

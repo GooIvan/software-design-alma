@@ -11,21 +11,23 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository repository;
 
   ProductBloc(this.repository) : super(ProductInitial()) {
-    on<LoadProducts>((event, emit) async {
+    on<LoadProduct>((event, emit) async {
       emit(ProductLoading());
       try {
-        final productos = await repository.fetchProducts(event.categoryName);
-        emit(ProductLoaded(productos));
+        final product =
+            await repository.fetchProduct(event.categoryName, event.id);
+        emit(ProductLoaded(product));
       } catch (e) {
         print('Error al cargar productos: $e');
         emit(const ProductError("Error al cargar productos"));
       }
     });
 
-    on<RefreshProducts>((event, emit) async {
+    on<RefreshProduct>((event, emit) async {
       emit(ProductLoading());
       try {
-        final productos = await repository.fetchProducts(event.categoryName);
+        final productos =
+            await repository.fetchProduct(event.categoryName, event.id);
         emit(ProductLoaded(productos));
       } catch (e) {
         print('Error al refrescar productos: $e');

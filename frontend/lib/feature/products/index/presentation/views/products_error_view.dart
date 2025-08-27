@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProductErrorView extends StatelessWidget {
-  const ProductErrorView({
+class ProductsErrorView extends StatelessWidget {
+  const ProductsErrorView({
     super.key,
     required this.categoryName,
     required this.message,

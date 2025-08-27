@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../models/product_model.dart';
-import '../../../../widgets/product_card.dart';
-import '../../../products/data/bloc/product_bloc.dart'; // 👈 corregí el import
+import '../../../../../models/product_model.dart';
+import '../../../../../widgets/product_card.dart';
+import '../../data/bloc/products_bloc.dart'; // 👈 corregí el import
 
-class ProductSuccessView extends StatelessWidget {
+class ProductsSuccessView extends StatelessWidget {
   final List<Product> products;
 
-  const ProductSuccessView({super.key, required this.products});
+  const ProductsSuccessView({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ProductSuccessView extends StatelessWidget {
       onRefresh: () async {
         // Aquí mandamos el evento correcto
         context
-            .read<ProductBloc>()
+            .read<ProductsBloc>()
             .add(RefreshProducts(products.first.categoryName));
       },
       child: GridView.builder(

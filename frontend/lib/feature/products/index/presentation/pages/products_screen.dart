@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/di/service_locator.dart';
-import '../../data/bloc/product_bloc.dart';
-import '../views/product_error_view.dart';
-import '../views/product_loading_view.dart';
-import '../views/product_success_view.dart';
+import '../../../../../core/di/service_locator.dart';
+import '../../data/bloc/products_bloc.dart';
+import '../views/products_error_view.dart';
+import '../views/products_loading_view.dart';
+import '../views/products_success_view.dart';
 
-class ProductScreen extends StatelessWidget {
+class ProductsScreen extends StatelessWidget {
   final String categoryName;
 
-  const ProductScreen({super.key, required this.categoryName});
+  const ProductsScreen({super.key, required this.categoryName});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<ProductBloc>()..add(LoadProducts(categoryName)),
+      create: (context) => sl<ProductsBloc>()..add(LoadProducts(categoryName)),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -27,22 +27,22 @@ class ProductScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: BlocBuilder<ProductBloc, ProductState>(
+        body: BlocBuilder<ProductsBloc, ProductsState>(
           builder: (context, state) {
-            if (state is ProductLoading) {
-              return const ProductLoadingView();
+            if (state is ProductsLoading) {
+              return const ProductsLoadingView();
             }
-            if (state is ProductError) {
-              return ProductErrorView(
+            if (state is ProductsError) {
+              return ProductsErrorView(
                 categoryName: categoryName,
                 message: 'Error al cargar los productos',
                 onRetry: () {
-                  context.read<ProductBloc>().add(LoadProducts(categoryName));
+                  context.read<ProductsBloc>().add(LoadProducts(categoryName));
                 },
               );
             }
-            if (state is ProductLoaded) {
-              return ProductSuccessView(
+            if (state is ProductsLoaded) {
+              return ProductsSuccessView(
                 products: state.products,
               );
             }

@@ -1,9 +1,8 @@
-import 'package:design_alma/feature/products/data/bloc/product_bloc.dart';
-
-import '../../../core/di/service_locator.dart';
+import '../../../../core/di/service_locator.dart';
+import '../data/bloc/product_bloc.dart';
 import '../data/repositories/product_repository.dart' show ProductRepository;
 
-void initProductsModule() {
+void initProductModule() {
   // Registro del Repository
   sl.registerLazySingleton<ProductRepository>(() => ProductRepository());
 

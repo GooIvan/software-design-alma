@@ -7,36 +7,74 @@ class ViewProductsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Simular carrusel de productos
-        SizedBox(
-          height: 280,
-          child: _ProductSkeletonList(),
-        ),
-      ],
-    );
-  }
-}
+    return SizedBox(
+      height: 320, // altura aproximada de la card incluyendo padding
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: 3, // cantidad de placeholders
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        itemBuilder: (context, index) {
+          return Container(
+            width: 200, // ancho de cada card
+            decoration: BoxDecoration(
+              color: Colors.grey[50],
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey[200]!, width: 1),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Imagen del producto
+                  Expanded(
+                    child: SkeletonLoader(
+                      width: double.infinity,
+                      height: double.infinity,
+                      borderRadius: 16,
+                    ),
+                  ),
+                  SizedBox(height: 10),
 
-class _ProductSkeletonList extends StatelessWidget {
-  const _ProductSkeletonList();
+                  // Categoría
+                  SkeletonLoader(
+                    width: 80,
+                    height: 14,
+                    borderRadius: 8,
+                  ),
+                  SizedBox(height: 6),
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: 3,
-      separatorBuilder: (_, __) => const SizedBox(width: 12),
-      itemBuilder: (context, index) {
-        return const SkeletonLoader(
-          width: 200,
-          height: 280,
-          borderRadius: 20,
-        );
-      },
+                  // Nombre del producto
+                  SkeletonLoader(
+                    width: double.infinity,
+                    height: 20,
+                    borderRadius: 8,
+                  ),
+                  SizedBox(height: 20),
+
+                  // Precio + botón agregar
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SkeletonLoader(
+                        width: 60,
+                        height: 20,
+                        borderRadius: 8,
+                      ),
+                      SkeletonLoader(
+                        width: 32,
+                        height: 32,
+                        borderRadius: 8,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
