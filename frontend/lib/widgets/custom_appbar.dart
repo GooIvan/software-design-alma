@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../feature/cart/data/bloc/cart_bloc.dart';
 import '../routes/routes.dart';
 import 'blinking_dot.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -78,9 +79,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           Navigator.pushNamed(context, AppRoute.cart);
                         },
                         icon: const Icon(
-                          Icons.shopping_cart_outlined,
+                          FeatherIcons.shoppingCart, 
                           color: Colors.black87,
-                          size: 28,
+                          size: 26,
                         ),
                       ),
                       if (state.totalItems > 0)
