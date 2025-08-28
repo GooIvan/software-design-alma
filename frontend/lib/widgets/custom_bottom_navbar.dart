@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -10,70 +12,58 @@ class CustomBottomNavBar extends StatelessWidget {
     required this.onTap,
   });
 
-  static const Color orange = Color(0xFFFF5722);
-  static const Color orangeLight = Color(0xFFFF8A50);
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 20,
-            offset: const Offset(0, -4),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: 12, // 👈 esto crea el efecto flotante
       ),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          splashColor: orangeLight.withOpacity(0.2),
-          highlightColor: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(24)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 20,
+              offset: const Offset(0, -4),
+            ),
+          ],
         ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-          child: BottomNavigationBar(
-            currentIndex: currentIndex,
-            onTap: onTap,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: orange,
-            unselectedItemColor: Colors.grey.shade800,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            backgroundColor: Colors.white,
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400),
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined, size: 28),
-                activeIcon: Icon(Icons.home, size: 32),
-                label: 'Inicio',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.manage_search_outlined, size: 28),
-                activeIcon: Icon(Icons.manage_search, size: 32),
-                label: 'Categorías',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_outline_outlined, size: 28),
-                activeIcon: Icon(Icons.favorite, size: 32),
-                label: 'Favoritos',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline, size: 28),
-                activeIcon: Icon(Icons.person, size: 32),
-                label: 'Perfil',
-              ),
-            ],
-          ),
+        child: SalomonBottomBar(
+          currentIndex: currentIndex,
+          onTap: onTap,
+          items: [
+            /// Inicio
+            SalomonBottomBarItem(
+              icon: const Icon(FeatherIcons.home),
+              title: const Text("Inicio"),
+              selectedColor: Colors.blue,
+            ),
+
+            /// Categorías
+            SalomonBottomBarItem(
+              icon: const Icon(FeatherIcons.grid),
+              title: const Text("Categorías"),
+              selectedColor: Colors.orange,
+            ),
+
+            /// Favoritos
+            SalomonBottomBarItem(
+              icon: const Icon(FeatherIcons.heart),
+              title: const Text("Favoritos"),
+              selectedColor: Colors.red,
+            ),
+
+            /// Perfil
+            SalomonBottomBarItem(
+              icon: const Icon(FeatherIcons.user),
+              title: const Text("Perfil"),
+              selectedColor: Colors.purple,
+            ),
+          ],
         ),
       ),
     );
