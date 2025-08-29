@@ -31,6 +31,7 @@ module Api
         id: product.id,
         name: product.name,
         price: product.price,
+        description: product.description,
         formatted_price: product.formatted_price,
         sizes: product.sizes,
         stock: product.stock,

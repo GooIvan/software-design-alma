@@ -78,38 +78,13 @@ class _ProductSuccessViewState extends State<ProductSuccessView> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 6),
-            const Text(
-              "Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo.",
-              style: TextStyle(color: Colors.grey),
+            Text(
+              widget.product.description,
+              style: const TextStyle(color: Colors.grey),
             ),
-            const SizedBox(height: 4),
-            TextButton(
-              onPressed: () {},
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("Read more", style: TextStyle(color: Colors.redAccent)),
-                  Icon(Icons.arrow_right_alt, color: Colors.redAccent),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
           ],
         ),
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              offset: const Offset(0, -2),
-              blurRadius: 6,
-            )
-          ],
-        ),
-        child: Row(),
       ),
       bottomSheet: SizedBox(
         width: double.infinity,
@@ -120,9 +95,7 @@ class _ProductSuccessViewState extends State<ProductSuccessView> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          onPressed: () {
-            // TODO: agregar al carrito
-          },
+          onPressed: () {},
           child: const Text(
             "Add to cart",
             style: TextStyle(

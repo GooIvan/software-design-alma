@@ -2,6 +2,7 @@ class Product {
   final int id;
   final String name;
   final double price;
+  final String description;
   final String formattedPrice;
   final List<String> sizes;
   final int stock;
@@ -13,6 +14,7 @@ class Product {
     required this.id,
     required this.name,
     required this.price,
+    required this.description,
     required this.formattedPrice,
     required this.sizes,
     required this.stock,
@@ -32,6 +34,7 @@ class Product {
       categoryId: json['category_id'],
       categoryName: json['category_name'],
       imageUrl: json['image_url'],
+      description: json['description'],
     );
   }
 }
