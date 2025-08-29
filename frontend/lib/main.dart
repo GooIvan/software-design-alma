@@ -21,15 +21,17 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => CartBloc()),
-      ],
+      ], 
       child: MaterialApp(
-        theme: ThemeData(
-          useMaterial3: true,
-          textTheme: GoogleFonts.poppinsTextTheme(),
-          colorSchemeSeed: Colors.white,
-        ),
         debugShowCheckedModeBanner: false,
         title: 'DesignAlma App',
+        theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: Colors.white,
+          textTheme: GoogleFonts.robotoTextTheme(
+            Theme.of(context).textTheme,
+          ),
+        ),
         initialRoute: '/',
         routes: {
           '/': (context) => const LogoIntro(),
