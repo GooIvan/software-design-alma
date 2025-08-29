@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../../../widgets/skeleton_loader.dart';
 
@@ -7,16 +8,18 @@ class ViewProductsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 320, // altura aproximada de la card incluyendo padding
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: 3, // cantidad de placeholders
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          return Container(
-            width: 200, // ancho de cada card
+    return CarouselSlider.builder(
+      itemCount: 3, // cantidad de placeholders
+      options: CarouselOptions(
+        height: 300,
+        enlargeCenterPage: false,
+        autoPlay: false,
+        viewportFraction: 0.5, // igual que en el success
+      ),
+      itemBuilder: (context, index, realIdx) {
+        return SizedBox(
+          width: 200, // mismo ancho que en el success
+          child: Container(
             decoration: BoxDecoration(
               color: Colors.grey[50],
               borderRadius: BorderRadius.circular(16),
@@ -27,7 +30,7 @@ class ViewProductsLoading extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Imagen del producto
+                  // Imagen
                   Expanded(
                     child: SkeletonLoader(
                       width: double.infinity,
@@ -45,7 +48,7 @@ class ViewProductsLoading extends StatelessWidget {
                   ),
                   SizedBox(height: 6),
 
-                  // Nombre del producto
+                  // Nombre
                   SkeletonLoader(
                     width: double.infinity,
                     height: 20,
@@ -53,7 +56,7 @@ class ViewProductsLoading extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
 
-                  // Precio + botón agregar
+                  // Precio + botón
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -72,9 +75,9 @@ class ViewProductsLoading extends StatelessWidget {
                 ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

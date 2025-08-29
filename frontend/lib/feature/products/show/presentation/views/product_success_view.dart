@@ -1,18 +1,46 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../widgets/custom_alert.dart';
+import '../../../../cart/data/bloc/cart_bloc.dart';
+import '../widgets/bottom_buttons.dart';
 import '../widgets/size_selector.dart';
 import 'package:flutter/material.dart';
 import '../../../../../models/product_model.dart';
 
-class ProductSuccessView extends StatefulWidget {
+class ProductSuccessView extends StatelessWidget {
   final Product product;
 
-  const ProductSuccessView({super.key, required this.product});
+  // controlador reactivo para manejar la talla seleccionada
+  final ValueNotifier<String?> selectedSize = ValueNotifier<String?>(null);
 
-  @override
-  State<ProductSuccessView> createState() => _ProductSuccessViewState();
-}
+  ProductSuccessView({super.key, required this.product});
 
-class _ProductSuccessViewState extends State<ProductSuccessView> {
-  int quantity = 1;
+  void _handleAddCart(BuildContext context) {
+    final cartBloc = context.read<CartBloc>(); // Obtener CartBloc del contexto
+
+    if (selectedSize.value == null) {
+      CustomAlert.warning(context, 'Por favor, selecciona una talla');
+      return;
+    }
+    cartBloc.add(
+      AddToCart(
+        product: product,
+        size: selectedSize.value!,
+        quantity: 1,
+      ),
+    );
+
+    CustomAlert.success(context, 'Producto agregado al carrito');
+
+    print('Producto agregado al carrito: "${product.name}", "$selectedSize"');
+  }
+
+  void _handleBuyNow(BuildContext context) {
+    if (selectedSize.value == null) {
+      CustomAlert.warning(context, 'Por favor, selecciona una talla');
+      return;
+    }
+    CustomAlert.warning(context, 'Funcionalidad no implementada');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +54,7 @@ class _ProductSuccessViewState extends State<ProductSuccessView> {
 
             // Categoria
             Text(
-              widget.product.categoryName,
+              product.categoryName,
               style: const TextStyle(
                 color: Colors.blueAccent,
                 fontSize: 18,
@@ -37,7 +65,7 @@ class _ProductSuccessViewState extends State<ProductSuccessView> {
 
             // Nombre
             Text(
-              widget.product.name,
+              product.name,
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -52,7 +80,7 @@ class _ProductSuccessViewState extends State<ProductSuccessView> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(26),
                 child: Image.network(
-                  widget.product.imageUrl,
+                  product.imageUrl,
                   height: 400,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -68,7 +96,12 @@ class _ProductSuccessViewState extends State<ProductSuccessView> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            SizeSelector(sizes: widget.product.sizes),
+            SizeSelector(
+              sizes: product.sizes,
+              onSizeSelected: (size) {
+                selectedSize.value = size; // ✅ actualiza talla
+              },
+            ),
 
             const SizedBox(height: 20),
 
@@ -79,29 +112,17 @@ class _ProductSuccessViewState extends State<ProductSuccessView> {
             ),
             const SizedBox(height: 6),
             Text(
-              widget.product.description,
+              product.description,
               style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 40),
           ],
         ),
       ),
-      bottomSheet: SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          onPressed: () {},
-          child: const Text(
-            "Add to cart",
-            style: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ),
+      // Botones fijos abajo
+      bottomSheet: BottomButtons(
+        handleAddCart: () => _handleAddCart(context),
+        handleBuyNow: () => _handleBuyNow(context),
       ),
     );
   }

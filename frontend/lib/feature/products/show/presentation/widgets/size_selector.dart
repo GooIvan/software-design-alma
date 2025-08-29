@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 
 class SizeSelector extends StatefulWidget {
   final List<String> sizes;
-  const SizeSelector({super.key, required this.sizes});
+  final ValueChanged<String?> onSizeSelected; // <- Callback al padre
+
+  const SizeSelector({
+    super.key,
+    required this.sizes,
+    required this.onSizeSelected,
+  });
 
   @override
   State<SizeSelector> createState() => _SizeSelectorState();
 }
 
 class _SizeSelectorState extends State<SizeSelector> {
-  final List<String> selectedSizes = [];
+  String? selectedSize;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +23,9 @@ class _SizeSelectorState extends State<SizeSelector> {
       spacing: 10,
       runSpacing: 10,
       children: widget.sizes.map((size) {
-        final isSelected = selectedSizes.contains(size);
+        final isSelected = selectedSize == size;
 
-        return FilterChip(
+        return ChoiceChip(
           label: Text(size),
           selected: isSelected,
           selectedColor: Colors.blueAccent.withOpacity(0.2),
@@ -36,12 +42,9 @@ class _SizeSelectorState extends State<SizeSelector> {
           ),
           onSelected: (selected) {
             setState(() {
-              if (selected) {
-                selectedSizes.add(size);
-              } else {
-                selectedSizes.remove(size);
-              }
+              selectedSize = selected ? size : null;
             });
+            widget.onSizeSelected(selectedSize); // Notificar al padre
           },
         );
       }).toList(),
