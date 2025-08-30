@@ -11,11 +11,33 @@ class EmptyFavoritesPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Ícono de favoritos vacío
-            Icon(
-              Icons.favorite_border,
-              size: 100,
-              color: Colors.grey.shade400,
-            ),
+              // Ícono con sombra y animación de rebote
+              TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 800),
+                curve: Curves.elasticOut,
+                tween: Tween(begin: 0.8, end: 1.0),
+                builder: (context, scale, child) {
+                  return Transform.scale(scale: scale, child: child);
+                },
+                child: Container(
+                  width: 140,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.grey[200]!, Colors.grey[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.favorite_border,
+                    size: 70,
+                    color: Colors.grey[400],
+                  ),
+                ),
+              ),
+
             const SizedBox(height: 20),
 
             // Título
