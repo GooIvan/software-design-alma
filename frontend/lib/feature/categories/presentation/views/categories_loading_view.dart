@@ -44,20 +44,20 @@ class CategoriesLoadingView extends StatelessWidget {
                   width: 1,
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
+              child: const Padding(
+                padding: EdgeInsets.all(12),
                 child: Row(
                   children: [
                     // Imagen cuadrada shimmer
-                    const SkeletonLoader(
+                    SkeletonLoader(
                       width: 60,
                       height: 60,
                       borderRadius: 8,
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16),
 
                     // Texto shimmer
-                    const Expanded(
+                    Expanded(
                       child: SkeletonLoader(
                         width: double.infinity,
                         height: 20,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../../../widgets/skeleton_loader.dart';
 
@@ -7,34 +8,74 @@ class ViewProductsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Simular carrusel de productos
-        SizedBox(
-          height: 280,
-          child: _ProductSkeletonList(),
-        ),
-      ],
-    );
-  }
-}
+    return CarouselSlider.builder(
+      itemCount: 3, // cantidad de placeholders
+      options: CarouselOptions(
+        height: 300,
+        enlargeCenterPage: false,
+        autoPlay: false,
+        viewportFraction: 0.5, // igual que en el success
+      ),
+      itemBuilder: (context, index, realIdx) {
+        return SizedBox(
+          width: 200, // mismo ancho que en el success
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[50],
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey[200]!, width: 1),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Imagen
+                  Expanded(
+                    child: SkeletonLoader(
+                      width: double.infinity,
+                      height: double.infinity,
+                      borderRadius: 16,
+                    ),
+                  ),
+                  SizedBox(height: 10),
 
-class _ProductSkeletonList extends StatelessWidget {
-  const _ProductSkeletonList();
+                  // Categoría
+                  SkeletonLoader(
+                    width: 80,
+                    height: 14,
+                    borderRadius: 8,
+                  ),
+                  SizedBox(height: 6),
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: 3,
-      separatorBuilder: (_, __) => const SizedBox(width: 12),
-      itemBuilder: (context, index) {
-        return const SkeletonLoader(
-          width: 200,
-          height: 280,
-          borderRadius: 20,
+                  // Nombre
+                  SkeletonLoader(
+                    width: double.infinity,
+                    height: 20,
+                    borderRadius: 8,
+                  ),
+                  SizedBox(height: 20),
+
+                  // Precio + botón
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SkeletonLoader(
+                        width: 60,
+                        height: 20,
+                        borderRadius: 8,
+                      ),
+                      SkeletonLoader(
+                        width: 32,
+                        height: 32,
+                        borderRadius: 8,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       },
     );

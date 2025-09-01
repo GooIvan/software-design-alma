@@ -1,6 +1,6 @@
+import 'package:design_alma/feature/products/index/presentation/pages/products_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../models/category_model.dart';
-import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/square_image_widget.dart';
 
 class CategoriesSuccessView extends StatelessWidget {
@@ -16,6 +16,7 @@ class CategoriesSuccessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: Colors.black,
       onRefresh: onRefresh ?? () async {},
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -61,10 +62,12 @@ class CategoriesSuccessView extends StatelessWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(12),
                       onTap: () {
-                        // Aquí puedes agregar la navegación o acción deseada
-                        CustomAlert.warning(
-                            context, 'VIsta de categorias en desarrollo');
-                        print('Categoría seleccionada: ${category.name}');
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ProductsScreen(categoryName: category.name),
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(12),
