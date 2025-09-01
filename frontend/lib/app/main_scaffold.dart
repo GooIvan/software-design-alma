@@ -9,6 +9,7 @@ import '../feature/home/data/bloc/product/product_bloc.dart';
 import '../feature/home/data/repositories/home_repository.dart';
 import '../feature/home/presentation/pages/homescreen.dart';
 import '../feature/profile/pages/profile_page.dart';
+import '../feature/favorites/presentation/pages/empty_favorites_page.dart';
 
 class MainScaffold extends StatefulWidget {
   final int initialIndex;
@@ -61,7 +62,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         child: const HomeScreen(),
       ),
       const CategoriesScreen(),
-      const Placeholder(),
+      const EmptyFavoritesPage(),
       const PerfilPage(),
     ];
 
