@@ -4,15 +4,12 @@ class Order < ApplicationRecord
 
   enum :status, { pending: 0, paid: 1, cancelled: 2 }
 
-  validates :total, presence: true
+  after_update :decrease_stock, if: :status_changed_to_paid?
 
+  validates :total, presence: true
   accepts_nested_attributes_for :order_items, allow_destroy: true
 
   before_validation :set_item_prices_and_total
-
-  def self.cleanup_empty!
-    Order.left_joins(:order_items).where(order_items: { id: nil }).destroy_all
-  end
 
   private
 
@@ -27,5 +24,24 @@ class Order < ApplicationRecord
         self.total += item.price * item.quantity.to_i
       end
     end
+  end
+
+  def decrease_stock
+    transaction do
+      order_items.each do |item|
+        product = item.product
+        next unless product.present?
+
+        if product.stock >= item.quantity
+          product.update!(stock: product.stock - item.quantity)
+        else
+          raise ActiveRecord::Rollback, "Stock insuficiente para #{product.name}"
+        end
+      end
+    end
+  end
+
+  def status_changed_to_paid?
+    saved_change_to_status? && paid?
   end
 end

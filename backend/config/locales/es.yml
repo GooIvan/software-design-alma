@@ -244,6 +244,8 @@ es:
 
   #TODO: Orden
   order:
+    cart:
+      not_stock: "%{product} no tiene stock suficiente (disponible: %{stock})"
     show:
       title: "🧾 Resumen de tu orden"
       order_number: "ID de la orden"

@@ -243,6 +243,8 @@ en:
 
   #TODO: Orden
   order:
+    cart:
+      not_stock: "%{product} does not have enough stock (available: %{stock})"
     show:
       title: "🧾 Your Order Summary"
       order_number: "Order ID"
