@@ -17,11 +17,11 @@
       <h2 class="hellstar-title mb-2"><%= @product.name.upcase %></h2>
       <% if (2..5).include?(@product.stock) %>
   <div class="alert alert-warning fw-semibold mt-2">
-    <%= t("product.low_stock_plural", count: @product.stock) %>
+    <%= t("products.low_stock_plural", count: @product.stock) %>
   </div>
 <% elsif @product.stock == 1 %>
   <div class="alert alert-warning fw-semibold mt-2">
-    <%= t("product.low_stock_singular") %>
+    <%= t("products.low_stock_singular") %>
   </div>
 <% end %>
 
