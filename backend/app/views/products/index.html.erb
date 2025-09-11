@@ -3,48 +3,36 @@
   <%= render 'shared/form_exited', object: @category %>
 </div>
 
-<div class="index-products p-4"> 
+<div class="index-products p-4">
   <h1 class="text-uppercase fw-bold mb-5 mt-5"><%= @category.name %></h1>
 
   <% if @products.present? %>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       <% @products.each do |product| %>
-        <div class="col mb-5 d-flex">
-          <div class="h-100 w-100 d-flex flex-column">
-            
-            <% if product.stock > 0 %>
-              <!-- Producto con stock -->
+        <div class="col mb-5">
+          <div class="d-flex flex-column align-items-start h-100">
+
+            <div class="w-100">
               <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block" do %>
                 <% if product.image.attached? %>
-                  <%= image_tag product.image, class: "card-img-top rounded-img", style: "height: 400px; object-fit: cover;" %>
+                  <%= image_tag product.image,
+                        class: "card-img-top rounded-img #{'out-of-stock-img' if product.stock == 0}",
+                        style: "height: 400px; object-fit: cover; width: 100%;" %>
                 <% else %>
-                  <%= image_tag "placeholder.svg", class: "card-img-top rounded-img", style: "height: 200px; object-fit: cover;" %>
+                  <%= image_tag "placeholder.svg",
+                        class: "card-img-top rounded-img #{'out-of-stock-img' if product.stock == 0}",
+                        style: "height: 200px; object-fit: cover; width: 100%;" %>
                 <% end %>
               <% end %>
-            <% else %>
-              <!-- Producto sin stock (imagen gris, no es link) -->
-              <div class="image-zoom-container d-block">
-                <% if product.image.attached? %>
-                  <%= image_tag product.image, 
-                        class: "card-img-top rounded-img out-of-stock-img", 
-                        style: "height: 400px; object-fit: cover; filter: grayscale(100%); opacity: 0.6;" %>
-                <% else %>
-                  <%= image_tag "placeholder.svg", 
-                        class: "card-img-top rounded-img out-of-stock-img", 
-                        style: "height: 200px; object-fit: cover; filter: grayscale(100%); opacity: 0.6;" %>
-                <% end %>
-              </div>
-            <% end %>
+            </div>
 
-            <div class="card-body d-flex flex-column mt-auto">
-              <div class="h-30 p-2">
-                <h5 class="card-title text-uppercase fw-bold"><%= product.name %></h5>
-              </div>
+            <div class="d-flex flex-column justify-content-start flex-grow-1 w-100 mt-3 text-start">
+              <h5 class="card-title text-uppercase fw-bold"><%= product.name %></h5>
 
               <% if product.stock > 0 %>
-                <!-- Formulario normal -->
-                <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "w-100 mt-auto" } do %>
+                <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "mt-auto w-100" } do %>
                   <%= hidden_field_tag :product_id, product.id %>
+
                   <div class="mb-3">
                     <label class="form-label fw-bold">Talla</label>
                     <div class="d-flex flex-wrap gap-3 mt-2 justify-content-start">
@@ -56,28 +44,41 @@
                       <% end %>
                     </div>
                   </div>
-                  <p class="card-text fs-4 fw-bold color-green">$ <%= product.formatted_price %> </p>
 
-                  <button type="submit" class="button w-100 mt-auto">
+                  <p class="card-text fs-4 fw-bold color-green">$ <%= product.formatted_price %></p>
+
+                  <button type="submit" class="button w-100">
                     <%= t("add_to_cart") %>
-                    <svg class="cartIcon" viewBox="0 0 576 512"><path d="..."></path></svg>
+                    <svg class="cartIcon" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>
                   </button>
                 <% end %>
               <% else %>
-                <!-- Botón deshabilitado si no hay stock -->
-                <p class="card-text fs-4 fw-bold text-danger">Agotado</p>
-                <button class="button w-100 btn-disabled mt-auto" disabled style="background-color: #ccc; cursor: not-allowed;">
-                  No disponible
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Talla</label>
+                  <div class="d-flex flex-wrap gap-3 mt-2 justify-content-start">
+                    <% product.sizes.each do |size| %>
+                      <input type="radio" disabled class="btn-check">
+                      <label class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold disabled text-muted" style="pointer-events: none; opacity: 0.6;">
+                        <%= size %>
+                      </label>
+                    <% end %>
+                  </div>
+                </div>
+
+                <p class="card-text fs-4 fw-bold text-muted">$ <%= product.formatted_price %></p>
+
+                <button class="btn btn-secondary w-100" style="pointer-events: none; border-radius: 20px;" disabled>
+                  <%= t("not_available", default: "Agotado") %>
                 </button>
               <% end %>
             </div>
+
           </div>
         </div>
+
       <% end %>
     </div>
   <% else %>
-    <p class="text-danger">
-      <%= t("no_products") %>
-    </p>
+    <p class="text-danger"><%= t("no_products") %></p>
   <% end %>
 </div>
