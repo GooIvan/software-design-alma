@@ -16,15 +16,18 @@
     <div class="col-md-6">
       <h2 class="hellstar-title mb-2"><%= @product.name.upcase %></h2>
       <% if (2..5).include?(@product.stock) %>
-  <div class="alert alert-warning fw-semibold mt-2">
-    <%= t("products.low_stock_plural", count: @product.stock) %>
-  </div>
-<% elsif @product.stock == 1 %>
-  <div class="alert alert-warning fw-semibold mt-2">
-    <%= t("products.low_stock_singular") %>
-  </div>
-<% end %>
-
+        <div class="alert alert-warning fw-semibold mt-2">
+          <%= t("products.low_stock_plural", count: @product.stock) %>
+        </div>
+      <% elsif @product.stock == 1 %>
+        <div class="alert alert-warning fw-semibold mt-2">
+          <%= t("products.low_stock_singular") %>
+        </div>
+      <% elsif @product.stock == 0 %>
+        <div class="alert alert-danger fw-semibold mt-2">
+          <%= t("products.out_of_stock") %>
+        </div>
+      <% end %>
 
       <p class="hellstar-price mb-3"><%= number_to_currency(@product.price, unit: "$", precision: 0) %></p>
 
@@ -35,25 +38,49 @@
         <%= f.hidden_field :product_id, value: @product.id %>
 
         <!-- Tallas -->
-        <div class="mb-3">
-           <label class="form-label fw-bold"><%= t("products.size") %></label>
-           <div class="d-flex flex-wrap gap-3 mt-2">
-             <% @product.sizes.each_with_index do |size, index| %>
-               <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check", checked: index == 0 %>
-               <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
-                 <%= size %>
-               </label>
-             <% end %>
-           </div>
-         </div>
+        <% if @product.stock > 0 %>
+          <div class="mb-3">
+            <label class="form-label fw-bold"><%= t("products.size") %></label>
+            <div class="d-flex flex-wrap gap-3 mt-2">
+              <% @product.sizes.each_with_index do |size, index| %>
+                <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check", checked: index == 0 %>
+                <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
+                  <%= size %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <div class="mb-3">
+            <label class="form-label fw-bold"><%= t("products.size") %></label>
+            <div class="d-flex flex-wrap gap-3 mt-2">
+              <% @product.sizes.each_with_index do |size, index| %>
+                <input type="radio" disabled class="btn-check">
+                <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
+                  <%= size %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
 
         <!-- Cantidad -->
         <div class="mb-3">
           <label class="form-label fw-bold"><%= t("products.quantity") %></label>
-          <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold" %>
+          <% if @product.stock == 0 %>
+            <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold", disabled: true %>
+          <% else %>
+            <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold" %>
+          <% end %>
         </div>
 
-<%= f.submit t("products.add_to_cart"), class: "btn btn-dark w-100 hellstar-add-to-cart" %>
+        <% if @product.stock == 0 %>
+          <button class="btn btn-secondary w-100 fw-bold" style="pointer-events: none; border-radius: 20px; width: 100%; height: 50px;" disabled>
+            <%= t('products.sold_out') %>
+          </button>
+        <% else %>
+          <%= f.submit t("products.add_to_cart"), class: "btn btn-dark w-100 hellstar-add-to-cart", style: "border-radius: 20px; width: 100%;" %>
+        <% end  %>
       <% end %>
     </div>
   </div>
