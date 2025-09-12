@@ -7,7 +7,7 @@ import '../../data/bloc/category/category_bloc.dart';
 import '../../data/bloc/product/product_bloc.dart';
 import '../views/products/views_products_error.dart';
 import '../views/products/views_products_loading.dart';
-import '../../../../widgets/custom_appbar.dart';
+import '../../../products/show/presentation/pages/product_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 
                 // Most Popular section
                 _buildMostPopularSection(context),
-                const SizedBox(height: 32),
+                const SizedBox(height: 100),
                 
                 // Special For You section
                 _buildSpecialForYouSection(context),
@@ -312,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Column(
                 children: [
                   Container(
-                    height: 220,
+                    height: 280, // Aumentar altura para mejor visualización (era 220)
                     child: PageView.builder(
                       controller: _pageController,
                       onPageChanged: (index) {
@@ -429,7 +429,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    childAspectRatio: 0.65, // Más alto que antes (era 0.75)
+                    childAspectRatio: 0.55, // Más alto (era 0.65) para mejor visualización de imágenes
                   ),
                   itemCount: specialProducts.length,
                   itemBuilder: (context, index) {
@@ -449,175 +449,217 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildProductCard(dynamic product, {required bool isHorizontal}) {
     return GestureDetector(
       onTap: () {
-        // TODO: Navegar a detalles del producto
+        // Navegar a detalles del producto como en el código viejo
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProductScreen(
+              categoryName: product.categoryName ?? 'general',
+              id: product.id,
+            ),
+          ),
+        );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Imagen del producto (sin contenedor con bordes)
-          Expanded(
-            flex: isHorizontal ? 3 : 4,
-            child: Stack(
-              children: [
-                // Imagen del producto o placeholder
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F6FA),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: product.imageUrl != null && product.imageUrl!.isNotEmpty
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.network(
-                            product.imageUrl!,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey.shade400),
-                                ),
-                              );
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF5F6FA),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.shopping_bag_outlined,
-                                        size: isHorizontal ? 30 : 40,
-                                        color: Colors.grey.shade400,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        'Sin imagen',
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.grey.shade500,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Imagen del producto con más altura
+            Expanded(
+              flex: isHorizontal ? 3 : 5, // Mayor proporción para la imagen
+              child: Stack(
+                children: [
+                  // Imagen del producto o placeholder
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF8F9FA),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
+                    ),
+                    child: product.imageUrl != null && product.imageUrl!.isNotEmpty
+                        ? ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16),
+                            ),
+                            child: Image.network(
+                              product.imageUrl!,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.grey.shade400),
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFF8F9FA),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(16),
+                                      topRight: Radius.circular(16),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.shopping_bag_outlined,
+                                          size: isHorizontal ? 35 : 50,
+                                          color: Colors.grey.shade400,
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          'Sin imagen',
+                                          style: TextStyle(
+                                            fontSize: isHorizontal ? 11 : 13,
+                                            color: Colors.grey.shade500,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                      : Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF5F6FA),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.shopping_bag_outlined,
-                                  size: isHorizontal ? 30 : 40,
-                                  color: Colors.grey.shade400,
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Sin imagen',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.grey.shade500,
+                                );
+                              },
+                            ),
+                          )
+                        : Container(
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFF8F9FA),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(16),
+                                topRight: Radius.circular(16),
+                              ),
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.shopping_bag_outlined,
+                                    size: isHorizontal ? 35 : 50,
+                                    color: Colors.grey.shade400,
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Sin imagen',
+                                    style: TextStyle(
+                                      fontSize: isHorizontal ? 11 : 13,
+                                      color: Colors.grey.shade500,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+                  ),
+                  // Botón de favoritos
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: GestureDetector(
+                      onTap: () {
+                        // TODO: Agregar/quitar de favoritos
+                      },
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.95),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
-                ),
-                // Botón de favoritos
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: GestureDetector(
-                    onTap: () {
-                      // TODO: Agregar/quitar de favoritos
-                    },
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.15),
-                            blurRadius: 4,
-                            offset: const Offset(0, 1),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.favorite_border,
-                        size: 18,
-                        color: Color(0xFF6C7175),
+                        child: const Icon(
+                          Icons.favorite_border,
+                          size: 20,
+                          color: Color(0xFF6C7175),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          // Información del producto (fuera del contenedor, sin bordes)
-          const SizedBox(height: 8), // Espaciado entre imagen y texto
-          // Nombre del producto
-          Text(
-            product.name ?? 'Producto sin nombre',
-            style: TextStyle(
-              fontSize: isHorizontal ? 12 : 14,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF1A1D1F),
-              height: 1.1,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 4),
-          // Precio
-          Row(
-            children: [
-              // Precio actual
-              Text(
-                '\$${product.price?.toStringAsFixed(2) ?? '0.00'}',
-                style: TextStyle(
-                  fontSize: isHorizontal ? 14 : 16,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF1A1D1F),
-                ),
+                ],
               ),
-              const SizedBox(width: 8),
-              // Precio original tachado
-              if (!isHorizontal && product.originalPrice != null && product.originalPrice! > product.price!)
-                Flexible(
-                  child: Text(
-                    '\$${product.originalPrice!.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF9CA3AF),
-                      decoration: TextDecoration.lineThrough,
-                      fontWeight: FontWeight.w400,
+            ),
+            // Información del producto
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Nombre del producto
+                  Text(
+                    product.name ?? 'Producto sin nombre',
+                    style: TextStyle(
+                      fontSize: isHorizontal ? 13 : 15,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF1A1D1F),
+                      height: 1.2,
                     ),
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                ),
-            ],
-          ),
-        ],
+                  const SizedBox(height: 6),
+                  // Precio
+                  Row(
+                    children: [
+                      // Precio actual
+                      Text(
+                        '\$${product.price?.toStringAsFixed(2) ?? '0.00'}',
+                        style: TextStyle(
+                          fontSize: isHorizontal ? 15 : 17,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF29B6F6),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      // Precio original tachado
+                      if (!isHorizontal && product.originalPrice != null && product.originalPrice! > product.price!)
+                        Expanded(
+                          child: Text(
+                            '\$${product.originalPrice!.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF9CA3AF),
+                              decoration: TextDecoration.lineThrough,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
