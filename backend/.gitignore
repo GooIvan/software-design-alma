@@ -34,5 +34,5 @@
 /config/master.key
 
 # Ignore changes to the database.
-/backend/db/*.sqlite3
-/backend/db/*.sqlite3-*
+*.sqlite3
+*.sqlite3-*
