@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: Colors.white,
-          textTheme: GoogleFonts.robotoTextTheme(
+          textTheme: GoogleFonts.quanticoTextTheme(
             Theme.of(context).textTheme,
           ),
         ),
