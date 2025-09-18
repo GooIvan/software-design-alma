@@ -70,7 +70,8 @@ class ProductCard extends StatelessWidget {
                           return const Center(
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF29B6F6)),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Color(0xFF29B6F6)),
                             ),
                           );
                         },
@@ -149,7 +150,8 @@ class ProductCard extends StatelessWidget {
                 children: [
                   // Categoría con estilo pill
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: const Color(0xFF29B6F6).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),

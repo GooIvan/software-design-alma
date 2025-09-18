@@ -30,36 +30,39 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12), // Reducido de 20,16,20,16 a 16,12,16,12
           child: Row(
             children: [
               // Avatar de usuario circular
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: const Color(0xFF29B6F6).withOpacity(0.1),
-                  border: Border.all(
-                    color: const Color(0xFF29B6F6).withOpacity(0.3),
-                    width: 2,
-                  ),
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/logo.png',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(
-                        FeatherIcons.user,
-                        color: Color(0xFF29B6F6),
-                        size: 24,
-                      );
-                    },
-                  ),
-                ),
+              Image.asset(
+                'assets/logo.png',
+                height: 200, // Tamaño grande como en tu código original
+                fit: BoxFit.contain,
+                color: Colors.black, // Filtro negro como en tu código anterior
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.06),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      FeatherIcons.user,
+                      color: Colors.grey.shade600,
+                      size: 35,
+                    ),
+                  );
+                },
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 12), // Reducido de 16 a 12
 
               // Campo de búsqueda mejorado
               Expanded(
@@ -111,7 +114,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
 
-              const SizedBox(width: 16),
+              const SizedBox(width: 12), // Reducido de 16 a 12
 
               // Icono de carrito con badge mejorado
               BlocBuilder<CartBloc, CartState>(
