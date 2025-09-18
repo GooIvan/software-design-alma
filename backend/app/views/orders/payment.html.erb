@@ -19,9 +19,15 @@
           <!-- Campo número de tarjeta -->
           <div class="mb-3">
             <label for="card_number" class="custom-form-label"><%= t("order.payment.card_number") %>:</label>
-            <%= text_field_tag :card_number, nil, class: "custom-form-input", id: "card_number", placeholder: "4111 1111 1111 1111", required: true %>
-            <div class="custom-invalid-feedback"><%= t("order.payment.empty_number") %></div>
-            <div class="d-flex justify-content-end mt-2">
+            <%= text_field_tag :card_number, nil,
+              class: "custom-form-input",
+              id: "card_number",
+              placeholder: "4111 1111 1111 1111",
+              required: true,
+              inputmode: "numeric",
+              pattern: "[0-9 ]*" %>
+              <div class="custom-invalid-feedback"><%= t("order.payment.empty_number") %></div>
+              <div class="d-flex justify-content-end mt-2">
               <%= image_tag "card_brands.png", alt: "Visa y MasterCard", style: "width: 80px;" %>
             </div>
           </div>
@@ -44,7 +50,7 @@
           <!-- CVV -->
           <div class="mb-3">
             <label for="cvv" class="custom-form-label"><%= t("order.payment.cvv") %>:</label>
-            <%= text_field_tag :cvv, nil, class: "custom-form-input", id: "cvv", placeholder: "123", required: true %>
+            <%= number_field_tag :cvv, nil, class: "custom-form-input", id: "cvv", placeholder: "123", required: true %>
             <div class="custom-invalid-feedback"><%= t("order.payment.empty_cvv") %></div>
           </div>
 
@@ -141,11 +147,23 @@
           </div>
         </div>
       </div>
+
+      <div class="card__container mt-4">
+        <!-- MasterCard -->
+        <%= render 'shared/master_card' %>
+      </div>
     </div>
   </div>
 </div>
 
 <%= javascript_tag do %>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cardInput = document.getElementById("card_number");
+    cardInput.addEventListener("input", () => {
+      cardInput.value = cardInput.value.replace(/[^0-9 ]/g, ""); // solo numeros y espacios
+    });
+  });
+
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     if (!form) return;
@@ -180,5 +198,39 @@ document.querySelector("#expiration_hidden").value = `${year}/${month}`;
       spinner.classList.remove("d-none");
       buttonText.textContent = "<%= j t('order.payment.processing') %>";
     });
+
+    const cardNumberField = document.querySelector("#card_number");
+    const cardNameField = document.querySelector("#card_name");
+    const expirationMonthField = document.querySelector("#expiration_month");
+    const expirationYearField = document.querySelector("#expiration_year");
+
+    const cardNumberDisplay = document.querySelector(".card__number");
+    const cardNameDisplay = document.querySelector(".card__name");
+    const cardExpDateDisplay = document.querySelector(".card__exp-date");
+
+    // Update card number
+    cardNumberField.addEventListener("input", function () {
+      const formattedNumber = cardNumberField.value.replace(/[^0-9]/g, "").replace(/(.{4})/g, "$1 ").trim();
+      cardNumberDisplay.textContent = formattedNumber || "0123 4567 8901 2345";
+    });
+
+    // Update card name
+    cardNameField.addEventListener("input", function () {
+      cardNameDisplay.textContent = cardNameField.value || "ㅤㅤㅤㅤ";
+    });
+
+    // Update expiration date with independent defaults
+    function updateExpirationDate() {
+      const defaultMonth = "MM";
+      const defaultYear = "YYYY";
+
+      const month = expirationMonthField.value.padStart(-2) || defaultMonth;
+      const year = expirationYearField.value.slice(-2) || defaultYear;
+
+      cardExpDateDisplay.textContent = `${month}/${year}`;
+    }
+
+    expirationMonthField.addEventListener("input", updateExpirationDate);
+    expirationYearField.addEventListener("input", updateExpirationDate);
   });
 <% end %>

@@ -69,3 +69,8 @@
 .min-h {
   min-height: 5rem;
 }
+
+.out-of-stock-img {
+  filter: grayscale(100%);
+  opacity: 0.6;
+}

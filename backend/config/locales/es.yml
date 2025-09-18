@@ -133,6 +133,7 @@ es:
     add_to_cart: "AÑADIR AL CARRITO"
     low_stock_plural: "¡Apresúrate, quedan solo %{count} unidades!"
     low_stock_singular: "¡Apresúrate, queda solo 1 unidad!"
+    sold_out: "Agotado"
   # claves de compatibilidad / atajos si se usan en otras vistas
   add_to_cart: "Añadir al carrito"
   no_products: "Esta categoría no tiene productos disponibles"
@@ -244,6 +245,8 @@ es:
 
   #TODO: Orden
   order:
+    cart:
+      not_stock: "%{product} no tiene stock suficiente (disponible: %{stock})"
     show:
       title: "🧾 Resumen de tu orden"
       order_number: "ID de la orden"
