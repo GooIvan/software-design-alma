@@ -63,7 +63,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       ),
       const CategoriesScreen(),
       const EmptyFavoritesPage(),
-      const PerfilPage(),
+      const ProfilePage(),
     ];
 
     return Scaffold(
