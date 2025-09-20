@@ -1,5 +1,3 @@
-import 'package:get_it/get_it.dart';
-
 import '../../../core/di/service_locator.dart';
 import '../data/bloc/category/category_bloc.dart';
 import '../data/bloc/product/product_bloc.dart';

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/main_scaffold.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../../widgets/custom_alert.dart';
-import '../../../profile/pages/profile_page.dart';
 import '../../data/bloc/register_bloc.dart';
-import '../../data/bloc/register_event.dart';
 import '../../data/bloc/register_state.dart';
 import '../views/register_initial_view.dart';
 import '../views/register_loading_view.dart';
@@ -48,21 +47,21 @@ class RegisterPage extends StatelessWidget {
           child: BlocConsumer<RegisterBloc, RegisterState>(
             listener: (context, state) {
               if (state.status == RegisterStatus.success) {
-                CustomAlert.success(context, 'Registro exitoso');
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const ProfilePage(),
+                    builder: (_) => const MainScaffold(initialIndex: 3),
                   ),
                 );
+                CustomAlert.success(context, 'Registro exitoso');
+              } else if (state.status == RegisterStatus.failure) {
+                final friendlyMessage = _parseRegisterError(state.errorMessage);
+                CustomAlert.error(context, friendlyMessage);
               }
             },
             builder: (context, state) {
               if (state.status == RegisterStatus.loading) {
                 return const RegisterLoadingView();
-              } else if (state.status == RegisterStatus.failure) {
-                final friendlyMessage = _parseRegisterError(state.errorMessage);
-                CustomAlert.error(context, friendlyMessage);
               }
               return const RegisterInitialView();
             },

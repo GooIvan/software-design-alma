@@ -4,6 +4,7 @@ import '../../feature/categories/core/categories_injection.dart';
 import '../../feature/home/core/home_injection.dart';
 import '../../feature/products/index/core/products_injection.dart';
 import '../../feature/products/show/core/product_injection.dart';
+import '../../feature/profile/core/profile_injection.dart';
 import '../../feature/register/core/register_injection.dart';
 
 final sl = GetIt.instance;
@@ -11,6 +12,9 @@ final sl = GetIt.instance;
 void init() {
   //* Se inicializa el módulo de Home
   initHomeModule();
+
+  //* Se inicializa el módulo de Profile
+  initProfileModule();
 
   //* Se inicializa el módulo de Register
   initRegisterModule();
