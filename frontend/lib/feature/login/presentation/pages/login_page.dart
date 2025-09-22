@@ -54,7 +54,9 @@ class LoginPage extends StatelessWidget {
         create: (_) => sl<LoginBloc>(),
         child: Scaffold(
             appBar: AppBar(
-              title: const Text('Login'),
+              automaticallyImplyLeading: true, // agrega la flecha de regreso
+              elevation: 0,
+              backgroundColor: Colors.white,
             ),
             body: Center(
                 child: BlocConsumer<LoginBloc, LoginState>(
