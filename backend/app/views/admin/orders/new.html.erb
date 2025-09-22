@@ -6,17 +6,6 @@
 </div>
 
 <%= form_with(model: @order, url: admin_orders_path, data: { turbo: false }, html: { id: "order-form" }) do |form| %>
-  <% if @order.errors.any? %>
-    <div class="alert alert-danger">
-      <h4>Errores:</h4>
-      <ul>
-        <% @order.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <div class="mb-3">
     <%= form.label :user_id, "Usuario" %>
     <%= form.collection_select :user_id, User.all, :id, :email, prompt: "Selecciona un usuario", class: "form-select", required: true %>

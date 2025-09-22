@@ -65,7 +65,7 @@ textarea::placeholder {
   opacity: 1;
 }
 
-input[name='card_number'] {
+input[name="card_number"] {
   margin-bottom: 0.25rem;
 }
 
@@ -84,13 +84,13 @@ input[name='card_number'] {
 }
 
 /* Cards y contenedores */
-[data-theme="dark"] .card-payment{
-   background-color: var(--bg-elev-1) !important;
+[data-theme="dark"] .card-payment {
+  background-color: var(--bg-elev-1) !important;
   color: var(--text) !important;
   border-color: var(--border) !important;
 }
 
-[data-theme="dark"] .card-payment.shadow-sm{
+[data-theme="dark"] .card-payment.shadow-sm {
   background-color: var(--bg-elev-1) !important;
   color: var(--text) !important;
   border-color: var(--border) !important;
@@ -107,7 +107,7 @@ input[name='card_number'] {
 [data-theme="dark"] .list-group-item {
   background-color: transparent !important;
   color: var(--text) !important;
-  border-color: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
 }
 
 /* Texto secundario (muted) */
@@ -129,7 +129,7 @@ input[name='card_number'] {
 }
 
 /* Placeholders en inputs */
-[data-theme="dark"] .custom-form-input{
+[data-theme="dark"] .custom-form-input {
   background-color: #1e1e1e !important;
   color: var(--text) !important;
   border: 1px solid #333 !important;
@@ -196,7 +196,7 @@ input[name='card_number'] {
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.375rem;
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .custom-form-textarea {

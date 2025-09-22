@@ -133,6 +133,7 @@ en:
     add_to_cart: "ADD TO CART"
     low_stock_plural: Hurry up, only %{count} units left!
     low_stock_singular: Hurry up, only 1 unit left!
+    sold_out: "Sold out"
   add_to_cart: Add to cart
   no_products: This category has no products available
   show_more: Show more
@@ -243,6 +244,8 @@ en:
 
   #TODO: Orden
   order:
+    cart:
+      not_stock: "%{product} does not have enough stock (available: %{stock})"
     show:
       title: "🧾 Your Order Summary"
       order_number: "Order ID"

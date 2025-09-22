@@ -58,6 +58,10 @@ class Admin::OrdersController < ApplicationController
       @categories = Category.all
       render :new, status: :unprocessable_entity
     elsif @order.save
+      if @order.paid?
+        @order.send(:decrease_stock)
+      end
+
       redirect_to admin_orders_path, notice: "Orden creada exitosamente."
     else
       @products = Product.all
