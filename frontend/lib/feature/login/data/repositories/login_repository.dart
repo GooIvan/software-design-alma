@@ -4,30 +4,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../global/api.dart';
 import '../../../../models/user_model.dart';
 
-class RegisterRepository {
-  Future<User> register({
+class LoginRepository {
+  Future<User> login({
     required String email,
     required String password,
-    required String passwordConfirmation,
-    required String name,
-    required String lastName,
-    required String city,
-    required String phone,
-    required String address,
   }) async {
     final response = await http.post(
-      Uri.parse('${Api.baseUrl}/es/api/auth'),
+      Uri.parse('${Api.baseUrl}/es/api/auth/sign_in'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'user': {
           'email': email,
           'password': password,
-          'password_confirmation': passwordConfirmation,
-          'name': name,
-          'last_name': lastName,
-          'city': city,
-          'phone': phone,
-          'address': address,
         }
       }),
     );
@@ -47,8 +35,8 @@ class RegisterRepository {
 
       return User.fromJson(data['user']);
     } else {
-      print('Error al registrar: ${response.body}');
-      throw Exception('Error al registrar: ${response.body}');
+      print('Error al iniciar sesión: ${response.body}');
+      throw Exception('Error al iniciar sesión: ${response.body}');
     }
   }
 

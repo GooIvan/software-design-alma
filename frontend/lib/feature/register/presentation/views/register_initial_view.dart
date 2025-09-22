@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/bloc/register_bloc.dart';
-import '../../data/bloc/register_event.dart';
-import '../../data/bloc/register_state.dart';
 
 class RegisterInitialView extends StatefulWidget {
   const RegisterInitialView({super.key});
@@ -57,80 +55,63 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterBloc, RegisterState>(
-      listener: (context, state) {
-        if (state.status == RegisterStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Registro exitoso: ${state.user?.email}')),
-          );
-        } else if (state.status == RegisterStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${state.errorMessage}')),
-          );
-        }
-      },
-      builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: [
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  validator: (v) =>
-                      v == null || v.isEmpty ? 'Ingrese su email' : null,
-                ),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(labelText: 'Contraseña'),
-                  obscureText: true,
-                  validator: (v) =>
-                      v == null || v.length < 6 ? 'Mínimo 6 caracteres' : null,
-                ),
-                TextFormField(
-                  controller: _passwordConfirmController,
-                  decoration:
-                      const InputDecoration(labelText: 'Confirmar Contraseña'),
-                  obscureText: true,
-                  validator: (v) =>
-                      v != _passwordController.text ? 'No coincide' : null,
-                ),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Nombre'),
-                  validator: (v) =>
-                      v == null || v.isEmpty ? 'Ingrese su nombre' : null,
-                ),
-                TextFormField(
-                  controller: _lastNameController,
-                  decoration: const InputDecoration(labelText: 'Apellido'),
-                ),
-                TextFormField(
-                  controller: _cityController,
-                  decoration: const InputDecoration(labelText: 'Ciudad'),
-                ),
-                TextFormField(
-                  controller: _phoneController,
-                  decoration: const InputDecoration(labelText: 'Teléfono'),
-                ),
-                TextFormField(
-                  controller: _addressController,
-                  decoration: const InputDecoration(labelText: 'Dirección'),
-                ),
-                const SizedBox(height: 20),
-                state.status == RegisterStatus.loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : ElevatedButton(
-                        onPressed: () => _onRegisterPressed(context),
-                        child: const Text('Registrar'),
-                      ),
-              ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          children: [
+            TextFormField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+              validator: (v) =>
+                  v == null || v.isEmpty ? 'Ingrese su email' : null,
             ),
-          ),
-        );
-      },
+            TextFormField(
+              controller: _passwordController,
+              decoration: const InputDecoration(labelText: 'Contraseña'),
+              obscureText: true,
+              validator: (v) =>
+                  v == null || v.length < 6 ? 'Mínimo 6 caracteres' : null,
+            ),
+            TextFormField(
+              controller: _passwordConfirmController,
+              decoration:
+                  const InputDecoration(labelText: 'Confirmar Contraseña'),
+              obscureText: true,
+              validator: (v) =>
+                  v != _passwordController.text ? 'No coincide' : null,
+            ),
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Nombre'),
+              validator: (v) =>
+                  v == null || v.isEmpty ? 'Ingrese su nombre' : null,
+            ),
+            TextFormField(
+              controller: _lastNameController,
+              decoration: const InputDecoration(labelText: 'Apellido'),
+            ),
+            TextFormField(
+              controller: _cityController,
+              decoration: const InputDecoration(labelText: 'Ciudad'),
+            ),
+            TextFormField(
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'Teléfono'),
+            ),
+            TextFormField(
+              controller: _addressController,
+              decoration: const InputDecoration(labelText: 'Dirección'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => _onRegisterPressed(context),
+              child: const Text('Registrar'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

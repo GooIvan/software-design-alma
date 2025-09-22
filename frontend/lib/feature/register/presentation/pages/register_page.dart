@@ -5,7 +5,6 @@ import '../../../../app/main_scaffold.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../data/bloc/register_bloc.dart';
-import '../../data/bloc/register_state.dart';
 import '../views/register_initial_view.dart';
 import '../views/register_loading_view.dart';
 

@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import '../../../login/presentation/pages/login_page.dart';
 import '../../../register/presentation/pages/register_page.dart';
 
 class ProfileInitialView extends StatelessWidget {
@@ -51,7 +52,12 @@ class ProfileInitialView extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton.icon(
-                    onPressed: () => {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const LoginPage()),
+                      );
+                    },
                     icon: const Icon(Icons.login),
                     label: const Text('Iniciar sesión'),
                     style: FilledButton.styleFrom(

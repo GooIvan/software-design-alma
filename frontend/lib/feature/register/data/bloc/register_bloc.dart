@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../repositories/register_repository.dart';
-import 'register_event.dart';
-import 'register_state.dart';
+import 'package:equatable/equatable.dart';
+import '../../../../models/user_model.dart';
+part 'register_event.dart';
+part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final RegisterRepository repository;

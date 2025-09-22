@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../feature/categories/core/categories_injection.dart';
 import '../../feature/home/core/home_injection.dart';
+import '../../feature/login/core/login_injection.dart';
 import '../../feature/products/index/core/products_injection.dart';
 import '../../feature/products/show/core/product_injection.dart';
 import '../../feature/profile/core/profile_injection.dart';
@@ -18,6 +19,9 @@ void init() {
 
   //* Se inicializa el módulo de Register
   initRegisterModule();
+
+  //* Se inicializa el módulo de Login
+  initLoginModule();
 
   //* Se inicializa el módulo de Categories
   initCategoriesModule();

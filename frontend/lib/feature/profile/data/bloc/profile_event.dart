@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'profile_bloc.dart';
 
 abstract class ProfileEvent extends Equatable {
   const ProfileEvent();

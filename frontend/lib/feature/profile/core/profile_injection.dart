@@ -1,6 +1,5 @@
 import 'package:design_alma/feature/profile/data/bloc/profile_bloc.dart';
 import '../../../core/di/service_locator.dart';
-import '../data/bloc/profile_event.dart';
 import '../data/repositories/profile_repository.dart';
 
 void initProfileModule() {
