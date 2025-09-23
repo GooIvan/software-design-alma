@@ -2,6 +2,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :validatable
 
+  # Relaciones
+  has_many :orders, dependent: :destroy
+
   # Validaciones de presencia y longitud mínima
   validates :name, :last_name, :city, :phone, :address, presence: true
 

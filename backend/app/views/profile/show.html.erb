@@ -1,28 +1,257 @@
-<div style="margin-top: 2rem; margin-bottom: 10rem;">
-  <div class="profile-container">
-  <div class="m-3">
-    <h1 class="text-uppercase title-devise mb-4 mt-5"><%= t("profile.title") %> <%= current_user.name %></h1>
+<%= stylesheet_link_tag "profile", media: "all" %>
 
-    <div class="mb-4 text-center">
-      <p><strong><%= t("profile.email") %></strong> <%= current_user.email %></p>
-      <p><strong><%= t("profile.address") %></strong> <%= current_user.address %></p>
+<div class="c-scroll">
+  <div class="profile-container">
+    <h1 class="profile-title title-devise">
+      <i data-feather="user" class="me-2"></i>
+      <%= t("profile.title") %> <%= current_user.name %>
+    </h1>
+
+    <!-- Información del perfil -->
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card profile-card">
+          <div class="card-header profile-card-header bg-primary text-white">
+            <h5>
+              <i data-feather="info"></i>
+              Información Personal
+            </h5>
+          </div>
+          <div class="card-body profile-card-body">
+            <div class="profile-info-item">
+              <div class="profile-info-label">
+                <i data-feather="mail"></i>
+                <%= t("profile.email") %>
+              </div>
+              <p class="profile-info-value"><%= current_user.email %></p>
+            </div>
+            
+            <div class="profile-info-item">
+              <div class="profile-info-label">
+                <i data-feather="user"></i>
+                Nombre completo
+              </div>
+              <p class="profile-info-value"><%= current_user.name %> <%= current_user.last_name %></p>
+            </div>
+            
+            <div class="profile-info-item">
+              <div class="profile-info-label">
+                <i data-feather="phone"></i>
+                Teléfono
+              </div>
+              <p class="profile-info-value"><%= current_user.phone %></p>
+            </div>
+            
+            <div class="profile-info-item">
+              <div class="profile-info-label">
+                <i data-feather="map-pin"></i>
+                <%= t("profile.address") %>
+              </div>
+              <p class="profile-info-value"><%= current_user.address %>, <%= current_user.city %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card profile-card">
+          <div class="card-header profile-card-header bg-success text-white">
+            <h5>
+              <i data-feather="bar-chart"></i>
+              Estadísticas de Compras
+            </h5>
+          </div>
+          <div class="card-body profile-card-body">
+            <div class="row profile-stats">
+              <div class="col-4 profile-stat-item">
+                <div class="profile-stat-divider"></div>
+                <div class="profile-stat-number text-primary"><%= @orders.count %></div>
+                <div class="profile-stat-label">Total órdenes</div>
+              </div>
+              <div class="col-4 profile-stat-item">
+                <div class="profile-stat-divider"></div>
+                <div class="profile-stat-number text-success"><%= @orders.paid.count %></div>
+                <div class="profile-stat-label">Órdenes pagadas</div>
+              </div>
+              <div class="col-4 profile-stat-item">
+                <div class="profile-stat-number text-warning"><%= @orders.pending.count %></div>
+                <div class="profile-stat-label">Pendientes</div>
+              </div>
+            </div>
+            
+            <div class="profile-total-spent">
+              <div class="text-center">
+                <strong class="text-success">Total gastado:</strong>
+                <h4 class="text-success mb-0">$<%= number_to_currency(@orders.paid.sum(:total), unit: "", precision: 0) %></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Botón logout -->
-    <div class="mt-4 mb-3 text-center">
-      <%= button_to destroy_user_session_path, method: :delete, class: "login-button d-flex justify-content-center align-items-center gap-2" do %>
-        <i data-feather="log-out"></i>
-        <span><%= t("profile.logout") %></span>
+    <div class="profile-section-divider"></div>
+
+    <!-- Historial de órdenes -->
+    <div class="card profile-card">
+      <div class="card-header profile-card-header bg-info text-white">
+        <h5>
+          <i data-feather="shopping-bag"></i>
+          <%= t("profile.order_history") %>
+        </h5>
+      </div>
+      <div class="card-body profile-card-body p-0">
+        <% if @orders.any? %>
+          <div class="table-responsive">
+            <table class="table table-hover profile-orders-table mb-0">
+              <thead>
+                <tr>
+                  <th>
+                    <i data-feather="hash" class="me-1"></i>
+                    <%= t("profile.order_number") %>
+                  </th>
+                  <th>
+                    <i data-feather="calendar" class="me-1"></i>
+                    <%= t("profile.order_date") %>
+                  </th>
+                  <th>
+                    <i data-feather="tag" class="me-1"></i>
+                    <%= t("profile.order_status") %>
+                  </th>
+                  <th>
+                    <i data-feather="dollar-sign" class="me-1"></i>
+                    <%= t("profile.order_total") %>
+                  </th>
+                  <th class="d-none d-md-table-cell">
+                    <i data-feather="package" class="me-1"></i>
+                    Productos
+                  </th>
+                  <th>
+                    <i data-feather="eye" class="me-1"></i>
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @orders.limit(10).each do |order| %>
+                  <tr>
+                    <td>
+                      <strong class="text-primary">#<%= order.id %></strong>
+                    </td>
+                    <td>
+                      <span class="text-muted small">
+                        <%= l(order.created_at, format: :short) %>
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge profile-order-badge
+                        <%= case order.status
+                            when 'paid' then 'bg-success'
+                            when 'pending' then 'bg-warning text-dark'
+                            when 'cancelled' then 'bg-danger'
+                            end %>">
+                        <i data-feather="<%= case order.status
+                                            when 'paid' then 'check-circle'
+                                            when 'pending' then 'clock'
+                                            when 'cancelled' then 'x-circle'
+                                            end %>"></i>
+                        <%= t("profile.#{order.status}_status") %>
+                      </span>
+                    </td>
+                    <td>
+                      <strong class="text-success">
+                        $<%= number_to_currency(order.total, unit: "", precision: 0) %>
+                      </strong>
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                      <div class="d-flex flex-wrap">
+                        <% order.order_items.limit(2).each do |item| %>
+                          <span class="badge profile-product-badge bg-light text-dark border" 
+                                title="<%= item.product.name %> - Talla: <%= item.size %> - Cantidad: <%= item.quantity %>">
+                            <%= truncate(item.product.name, length: 12) %>
+                          </span>
+                        <% end %>
+                        <% if order.order_items.count > 2 %>
+                          <span class="badge profile-product-badge bg-secondary text-white">
+                            +<%= order.order_items.count - 2 %>
+                          </span>
+                        <% end %>
+                      </div>
+                    </td>
+                    <td>
+                      <%= link_to order_path(order), 
+                          class: "btn btn-sm btn-outline-primary profile-details-btn" do %>
+                        <i data-feather="eye" class="me-1"></i>
+                        <span class="d-none d-sm-inline"><%= t("profile.view_details") %></span>
+                        <span class="d-sm-none">Ver</span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+
+          <% if @orders.count > 10 %>
+            <div class="text-center p-3 border-top">
+              <small class="text-muted">
+                Mostrando las 10 órdenes más recientes de <%= @orders.count %> totales
+              </small>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="profile-empty-state">
+            <i data-feather="shopping-cart" class="profile-empty-icon"></i>
+            <h5 class="profile-empty-title"><%= t("profile.no_orders") %></h5>
+            <p class="profile-empty-description">
+              ¡Explora nuestros productos y haz tu primera compra!
+            </p>
+            <%= link_to "Ir a la tienda", root_path, 
+                class: "btn btn-primary profile-action-btn" do %>
+              <i data-feather="shopping-bag"></i>
+              <span>Explorar productos</span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="profile-section-divider"></div>
+
+    <!-- Botones de acción -->
+    <div class="row">
+      <div class="col-md-6">
+        <%= button_to destroy_user_session_path, method: :delete, 
+            class: "btn profile-action-btn profile-logout-btn w-100" do %>
+          <i data-feather="log-out"></i>
+          <span><%= t("profile.logout") %></span>
+        <% end %>
+      </div>
+      <% if current_user.admin? %>
+        <div class="col-md-6">
+          <%= link_to admin_dashboard_path, 
+              class: "btn profile-action-btn profile-admin-btn w-100" do %>
+            <i data-feather="settings"></i>
+            <span><%= t("profile.admin_panel") %></span>
+          <% end %>
+        </div>
       <% end %>
     </div>
-
-    <!-- Botón de admin -->
-    <% if current_user.admin? %>
-      <div class="text-center">
-        <%= link_to t("profile.admin_panel"), admin_dashboard_path, class: "btn btn-warning mt-2 px-4 py-2" %>
-      </div>
-    <% end %>
   </div>
 </div>
 
-</div>
+<script>
+  // Inicializar iconos de Feather cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+  });
+  
+  // También inicializar después de eventos Turbo
+  document.addEventListener('turbo:load', function() {
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+  });
+</script>
