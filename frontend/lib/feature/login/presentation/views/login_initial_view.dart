@@ -1,3 +1,4 @@
+import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -226,7 +227,10 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      // TODO: Navegar a recuperar contraseña
+                      CustomAlert.warning(
+                        context,
+                        'Funcionalidad no implementada',
+                      );
                     },
                     child: const Text(
                       '¿Olvidaste tu contraseña?',

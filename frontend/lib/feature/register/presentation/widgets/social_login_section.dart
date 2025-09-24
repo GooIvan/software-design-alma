@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../../../../widgets/custom_alert.dart';
-import '../../../register/presentation/pages/register_page.dart';
+import '../../../login/presentation/pages/login_page.dart';
 
 class SocialLoginSection extends StatelessWidget {
   const SocialLoginSection({super.key});
@@ -74,7 +73,7 @@ class SocialLoginSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("¿No tienes cuenta?",
+            const Text("¿Ya tienes cuenta?",
                 style: TextStyle(
                   color: Colors.black,
                 )),
@@ -82,11 +81,11 @@ class SocialLoginSection extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const RegisterPage()),
+                  MaterialPageRoute(builder: (_) => const LoginPage()),
                 );
               },
               child: const Text(
-                "Regístrate",
+                "Inicia sesión",
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
@@ -111,7 +110,10 @@ class SocialLoginSection extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: () {
-          CustomAlert.warning(context, 'Funcionalidad en desarrollo');
+          CustomAlert.warning(
+            context,
+            'Funcionalidad no implementada',
+          );
         },
         icon: imageIcon ??
             FaIcon(

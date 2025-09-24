@@ -40,7 +40,9 @@ class RegisterPage extends StatelessWidget {
       create: (_) => sl<RegisterBloc>(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Registro'),
+          automaticallyImplyLeading: true, // agrega la flecha de regreso
+          elevation: 0,
+          backgroundColor: Colors.white,
         ),
         body: Center(
           child: BlocConsumer<RegisterBloc, RegisterState>(

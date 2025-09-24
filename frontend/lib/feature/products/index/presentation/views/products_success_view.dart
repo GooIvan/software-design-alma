@@ -29,7 +29,7 @@ class ProductsSuccessView extends StatelessWidget {
         ),
         itemCount: products.length,
         itemBuilder: (context, index) {
-          return ProductCard(product: products[index]);
+          return ProductCard(product: products[index], showCategory: false);
         },
       ),
     );

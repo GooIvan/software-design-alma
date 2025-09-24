@@ -35,7 +35,7 @@ class LoginPage extends StatelessWidget {
         }
       }
     } catch (e) {
-      print('❌ Error al parsear JSON: $e');
+      print('Error al parsear JSON: $e');
     }
 
     // Si no es JSON, verificar directamente
