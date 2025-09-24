@@ -17,10 +17,7 @@ class SocialLoginSection extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text("o",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16)),
+                  style: TextStyle(color: Colors.black54, fontSize: 16)),
             ),
             Expanded(child: Divider(thickness: 1)),
           ],

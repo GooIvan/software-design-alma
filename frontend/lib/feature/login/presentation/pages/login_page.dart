@@ -45,7 +45,7 @@ class LoginPage extends StatelessWidget {
       return 'Correo o contraseña incorrectos, intenta nuevamente.';
     }
 
-    return errorMessage;
+    return "Error desconocido, intenta nuevamente.";
   }
 
   @override

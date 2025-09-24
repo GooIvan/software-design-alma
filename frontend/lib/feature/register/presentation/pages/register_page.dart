@@ -31,7 +31,7 @@ class RegisterPage extends StatelessWidget {
       return 'Debes ingresar un nombre válido.';
     }
 
-    return errorMessage; // mostrar el original si no coincide
+    return "Error desconocido, intenta nuevamente.";
   }
 
   @override
