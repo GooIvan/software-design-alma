@@ -2,6 +2,7 @@ import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/theme/app_colors.dart';
 import '../../data/bloc/login_bloc.dart';
 import '../widgets/social_login_section.dart';
 
@@ -15,8 +16,8 @@ class LoginInitialView extends StatefulWidget {
 class _LoginInitialViewState extends State<LoginInitialView> {
   final _formKey = GlobalKey<FormState>();
 
-  final _emailController = TextEditingController(text: 'user@test.com');
-  final _passwordController = TextEditingController(text: 'password123');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   bool _obscurePassword = true; // para controlar el ojito
 
@@ -40,7 +41,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
 
   @override
   Widget build(BuildContext context) {
-    const azulCielo = Color.fromARGB(255, 26, 162, 253);
+    const azulPrimary = AppColors.primary;
 
     return SafeArea(
       child: Center(
@@ -55,7 +56,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: azulCielo,
+                    color: azulPrimary,
                     borderRadius:
                         BorderRadius.circular(30), // ajusta aquí el redondeo
                   ),
@@ -235,7 +236,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                     child: const Text(
                       '¿Olvidaste tu contraseña?',
                       style: TextStyle(
-                        color: azulCielo,
+                        color: azulPrimary,
                       ),
                     ),
                   ),
@@ -250,7 +251,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                     onPressed: () => _onLoginPressed(context),
                     label: const Text('Iniciar Sesión'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: azulCielo,
+                      backgroundColor: azulPrimary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       textStyle: const TextStyle(

@@ -15,14 +15,14 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
   final _formKey = GlobalKey<FormState>();
 
   // Controladores para inputs
-  final _emailController = TextEditingController(text: 'user@test.com');
-  final _passwordController = TextEditingController(text: 'password123');
-  final _passwordConfirmController = TextEditingController(text: 'password123');
-  final _nameController = TextEditingController(text: 'Test');
-  final _lastNameController = TextEditingController(text: 'User');
-  final _cityController = TextEditingController(text: 'Bogota');
-  final _phoneController = TextEditingController(text: '3001234567');
-  final _addressController = TextEditingController(text: 'Calle 123');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _passwordConfirmController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _addressController = TextEditingController();
 
   bool _obscurePassword = true; // para controlar el ojito
   bool _obscurePasswordConfirm = true; // para controlar el ojito

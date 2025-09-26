@@ -1,4 +1,6 @@
+import 'package:design_alma/feature/profile/presentation/widgets/confirm_box.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../models/user_model.dart';
 import '../../../about/pages/AboutPage.dart';
 
@@ -21,7 +23,7 @@ class ProfileSuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color azulCielo = Color(0xFF6EC6FF);
+    const Color azulPrimary = AppColors.primary;
 
     return SafeArea(
       child: RefreshIndicator(
@@ -36,7 +38,7 @@ class ProfileSuccessView extends StatelessWidget {
             const Center(
               child: CircleAvatar(
                 radius: 50,
-                backgroundColor: azulCielo,
+                backgroundColor: azulPrimary,
                 child: Icon(Icons.person, size: 50, color: Colors.white),
               ),
             ),
@@ -91,11 +93,13 @@ class ProfileSuccessView extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: onLogout,
+                  onPressed: () => confirmBox(context, onConfirm: () {
+                    onLogout!();
+                  }),
                   icon: const Icon(Icons.logout),
                   label: const Text('Cerrar sesión'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
+                    backgroundColor: AppColors.error,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     textStyle: const TextStyle(fontSize: 16),
@@ -120,13 +124,13 @@ class ProfileSuccessView extends StatelessWidget {
     required String title,
     required VoidCallback onTap,
   }) {
-    const Color azulCielo = Color(0xFF6EC6FF);
+    const Color azulPrimary = Color(0xFF6EC6FF);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 1,
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: ListTile(
-        leading: Icon(icon, color: azulCielo, size: 24),
+        leading: Icon(icon, color: azulPrimary, size: 24),
         title: Text(
           title,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),

@@ -17,7 +17,7 @@ class RegisterLoadingView extends StatelessWidget {
             children: [
               // Título skeleton
               const SkeletonLoader(
-                width: 250,
+                width: 350,
                 height: 32,
                 borderRadius: 8,
               ),
@@ -25,7 +25,7 @@ class RegisterLoadingView extends StatelessWidget {
 
               // Subtítulo skeleton
               const SkeletonLoader(
-                width: 180,
+                width: 230,
                 height: 20,
                 borderRadius: 6,
               ),

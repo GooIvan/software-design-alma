@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../login/presentation/pages/login_page.dart';
 import '../../../register/presentation/pages/register_page.dart';
 
@@ -11,7 +12,7 @@ class ProfileInitialView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color azulCielo = Color(0xFF6EC6FF);
+    const Color azulPrimary = AppColors.primary;
 
     return Scaffold(
       body: SafeArea(
@@ -24,7 +25,7 @@ class ProfileInitialView extends StatelessWidget {
                 // Avatar
                 const CircleAvatar(
                   radius: 50,
-                  backgroundColor: azulCielo,
+                  backgroundColor: azulPrimary,
                   child: Icon(Icons.person, size: 50, color: Colors.white),
                 ),
                 const SizedBox(height: 16),
@@ -61,7 +62,7 @@ class ProfileInitialView extends StatelessWidget {
                     icon: const Icon(Icons.login),
                     label: const Text('Iniciar sesión'),
                     style: FilledButton.styleFrom(
-                      backgroundColor: azulCielo,
+                      backgroundColor: azulPrimary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
                         vertical: 20,
@@ -90,8 +91,8 @@ class ProfileInitialView extends StatelessWidget {
                     icon: const Icon(Icons.person_add),
                     label: const Text('Registrarse'),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: azulCielo),
-                      foregroundColor: azulCielo,
+                      side: const BorderSide(color: azulPrimary),
+                      foregroundColor: azulPrimary,
                       padding: const EdgeInsets.symmetric(
                         vertical: 20,
                         horizontal: 14,
@@ -115,14 +116,14 @@ class ProfileInitialView extends StatelessWidget {
       {required IconData icon,
       required String title,
       required String subtitle}) {
-    const Color azulCielo = Color(0xFF6EC6FF);
+    const Color azulPrimary = AppColors.primary;
 
     return Card(
-      color: azulCielo.withOpacity(0.1),
+      color: azulPrimary.withOpacity(0.1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 0,
       child: ListTile(
-        leading: Icon(icon, color: azulCielo, size: 32),
+        leading: Icon(icon, color: azulPrimary, size: 32),
         title: Text(
           title,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
