@@ -631,7 +631,7 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
                   const SizedBox(height: 20),
 
-                  const SocialLoginSection(),
+                  // const SocialLoginSection(),
                 ],
               ),
             )),
