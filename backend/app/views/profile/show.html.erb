@@ -64,7 +64,6 @@
           <div class="card-body profile-card-body">
             <div class="row profile-stats">
               <div class="col-4 profile-stat-item">
-                <div class="profile-stat-divider"></div>
                 <div class="profile-stat-number text-primary"><%= @orders.count %></div>
                 <div class="profile-stat-label">Total órdenes</div>
               </div>
@@ -74,6 +73,7 @@
                 <div class="profile-stat-label">Órdenes pagadas</div>
               </div>
               <div class="col-4 profile-stat-item">
+                <div class="profile-stat-divider"></div>
                 <div class="profile-stat-number text-warning"><%= @orders.pending.count %></div>
                 <div class="profile-stat-label">Pendientes</div>
               </div>
@@ -146,15 +146,15 @@
                     <td>
                       <span class="badge profile-order-badge
                         <%= case order.status
-                            when 'paid' then 'bg-success'
-                            when 'pending' then 'bg-warning text-dark'
-                            when 'cancelled' then 'bg-danger'
+                            when "paid" then "bg-success"
+                            when "pending" then "bg-warning text-dark"
+                            when "cancelled" then "bg-danger"
                             end %>">
                         <i data-feather="<%= case order.status
-                                            when 'paid' then 'check-circle'
-                                            when 'pending' then 'clock'
-                                            when 'cancelled' then 'x-circle'
-                                            end %>"></i>
+                                             when "paid" then "check-circle"
+                                             when "pending" then "clock"
+                                             when "cancelled" then "x-circle"
+                                             end %>"></i>
                         <%= t("profile.#{order.status}_status") %>
                       </span>
                     </td>
@@ -179,8 +179,8 @@
                       </div>
                     </td>
                     <td>
-                      <%= link_to order_path(order), 
-                          class: "btn btn-sm btn-outline-primary profile-details-btn" do %>
+                      <%= link_to order_path(order),
+                                  class: "btn btn-sm btn-outline-primary profile-details-btn" do %>
                         <i data-feather="eye" class="me-1"></i>
                         <span class="d-none d-sm-inline"><%= t("profile.view_details") %></span>
                         <span class="d-sm-none">Ver</span>
@@ -206,8 +206,7 @@
             <p class="profile-empty-description">
               ¡Explora nuestros productos y haz tu primera compra!
             </p>
-            <%= link_to "Ir a la tienda", root_path, 
-                class: "btn btn-primary profile-action-btn" do %>
+            <%= link_to root_path, class: "btn btn-primary profile-action-btn" do %>
               <i data-feather="shopping-bag"></i>
               <span>Explorar productos</span>
             <% end %>
@@ -221,16 +220,16 @@
     <!-- Botones de acción -->
     <div class="row">
       <div class="col-md-6">
-        <%= button_to destroy_user_session_path, method: :delete, 
-            class: "btn profile-action-btn profile-logout-btn w-100" do %>
+        <%= button_to destroy_user_session_path, method: :delete,
+                                                 class: "btn profile-action-btn profile-logout-btn w-100" do %>
           <i data-feather="log-out"></i>
           <span><%= t("profile.logout") %></span>
         <% end %>
       </div>
       <% if current_user.admin? %>
         <div class="col-md-6">
-          <%= link_to admin_dashboard_path, 
-              class: "btn profile-action-btn profile-admin-btn w-100" do %>
+          <%= link_to admin_dashboard_path,
+                      class: "btn profile-action-btn profile-admin-btn w-100" do %>
             <i data-feather="settings"></i>
             <span><%= t("profile.admin_panel") %></span>
           <% end %>

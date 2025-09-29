@@ -114,10 +114,16 @@ body[data-theme="dark"] .profile-info-value {
 /* Estadísticas */
 .profile-stats {
   text-align: center;
+  align-items: center;
 }
 
 .profile-stat-item {
   padding: 0 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80px;
 }
 
 .profile-stat-number {
@@ -139,8 +145,13 @@ body[data-theme="dark"] .profile-stat-label {
 }
 
 .profile-stat-divider {
-  border-right: 2px solid #e9ecef;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 2px solid #e9ecef;
   height: 50px;
+  width: 2px;
 }
 
 body[data-theme="dark"] .profile-stat-divider {
