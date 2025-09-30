@@ -146,6 +146,17 @@ es:
     address: "Dirección registrada:"
     logout: "Cerrar sesión"
     admin_panel: "Panel de Administración"
+    order_history: "Historial de Órdenes"
+    no_orders: "No tienes órdenes realizadas aún"
+    order_number: "Orden #"
+    order_date: "Fecha"
+    order_status: "Estado"
+    order_total: "Total"
+    view_details: "Ver detalles"
+    pending_status: "Pendiente"
+    paid_status: "Pagada"
+    cancelled_status: "Cancelada"
+    recent_orders: "Órdenes Recientes"
 
   #TODO: Carrito
   cart: CARRITO
