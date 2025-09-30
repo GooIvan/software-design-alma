@@ -6,9 +6,11 @@ import '../models/product_model.dart';
 import 'custom_alert.dart';
 
 class ProductCard extends StatelessWidget {
+  final showCategory;
   final Product product;
 
-  const ProductCard({super.key, required this.product});
+  const ProductCard(
+      {super.key, required this.product, this.showCategory = true});
 
   @override
   Widget build(BuildContext context) {
@@ -149,23 +151,24 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Categoría con estilo pill
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF29B6F6).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      product.categoryName.toUpperCase(),
-                      style: const TextStyle(
-                        color: Color(0xFF29B6F6),
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
+                  if (showCategory)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF29B6F6).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        product.categoryName.toUpperCase(),
+                        style: const TextStyle(
+                          color: Color(0xFF29B6F6),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
-                  ),
 
                   const SizedBox(height: 8),
 
@@ -193,19 +196,19 @@ class ProductCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "\$${product.formattedPrice}",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF29B6F6),
-                              ),
-                            ),
-                            Text(
                               "Precio",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              "\$${product.formattedPrice}",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF29B6F6),
                               ),
                             ),
                           ],

@@ -17,12 +17,27 @@ Rails.application.routes.draw do
     get "most_popular", to: "most_popular#index", as: :most_popular
 
     # === API para Flutter ===
-    namespace :api do
+    namespace :api, defaults: { format: :json } do
+      namespace :auth do
+        devise_for :users,
+          path: "",
+          skip: [:confirmations, :unlocks, :omniauth_callbacks],
+          controllers: {
+            registrations: "api/auth/registrations",
+            sessions: "api/auth/sessions",
+            passwords: "api/auth/passwords"
+          }
+      end
+
+      resource :profile, only: [:show], controller: "profile"
+      
+      # Logout endpoint
+      post :logout, to: "logout#create"
+
       # 🛒 Productos
       resources :products, only: [:index, :show] do
         collection do
           get :latest
-          get :most_popular, to: "products#most_popular"
         end
       end
 

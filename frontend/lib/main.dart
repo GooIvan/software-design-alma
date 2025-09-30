@@ -6,10 +6,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/di/service_locator.dart';
 import 'feature/cart/data/bloc/cart_bloc.dart';
+import 'global/print_local_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   init();
+
+  await printLocalStorage();
+
   runApp(const MyApp());
 }
 
@@ -21,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => CartBloc()),
-      ], 
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'DesignAlma App',

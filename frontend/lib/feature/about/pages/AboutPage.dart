@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/theme/app_colors.dart';
+
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
@@ -27,6 +29,8 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Color azulPrimary = AppColors.primary;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -70,17 +74,17 @@ class AboutPage extends StatelessWidget {
                       ),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 14),
+                            horizontal: 24, vertical: 18),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
                         elevation: 6,
-                        backgroundColor: Colors.blue.shade600,
+                        backgroundColor: azulPrimary,
                         foregroundColor: Colors.white,
-                        shadowColor: Colors.blueAccent.withOpacity(0.4),
+                        shadowColor: const Color.fromARGB(255, 119, 124, 133)
+                            .withOpacity(0.4),
                       ).copyWith(
-                        overlayColor:
-                            WidgetStateProperty.all(Colors.blue.shade800),
+                        overlayColor: WidgetStateProperty.all(azulPrimary),
                       ),
                     ),
                     const SizedBox(height: 40),

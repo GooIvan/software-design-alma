@@ -24,6 +24,7 @@ dependencies:
   google_fonts: ^6.2.0
   salomon_bottom_bar: ^3.3.2
   flutter_feather_icons: ^2.0.0
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +39,7 @@ flutter:
     - assets/animations/logo_intro.json
     - assets/logo.png
     - assets/icon_trending.png
+    - assets/icon_google.png
     - assets/app_icon.png
 
 flutter_launcher_icons:

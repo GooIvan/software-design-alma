@@ -1,7 +1,6 @@
 import 'dart:convert';
-import 'package:design_alma/global/api.dart';
 import 'package:http/http.dart' as http;
-
+import '../../../../global/api.dart';
 import '../../../../models/category_model.dart';
 
 class CategoryRepository {

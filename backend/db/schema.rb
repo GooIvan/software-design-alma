@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_07_141535) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_19_195447) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -72,12 +72,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_141535) do
     t.string "text_color"
   end
 
+  create_table "jwt_denylists", force: :cascade do |t|
+    t.string "jti"
+    t.datetime "exp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "product_id", null: false
     t.string "size"
     t.integer "quantity"
-    t.decimal "price"
+    t.decimal "price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
@@ -87,7 +94,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_141535) do
   create_table "orders", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "status"
-    t.decimal "total"
+    t.decimal "total", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_orders_on_user_id"
@@ -96,7 +103,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_141535) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.decimal "price"
+    t.decimal "price", precision: 10, scale: 2
     t.integer "stock"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

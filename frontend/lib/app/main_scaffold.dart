@@ -8,7 +8,7 @@ import '../feature/home/data/bloc/category/category_bloc.dart';
 import '../feature/home/data/bloc/product/product_bloc.dart';
 import '../feature/home/data/repositories/home_repository.dart';
 import '../feature/home/presentation/pages/homescreen.dart';
-import '../feature/profile/pages/profile_page.dart';
+import '../feature/profile/presentation/pages/profile_page.dart';
 import '../feature/favorites/presentation/pages/empty_favorites_page.dart';
 
 class MainScaffold extends StatefulWidget {
@@ -63,7 +63,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       ),
       const CategoriesScreen(),
       const EmptyFavoritesPage(),
-      const PerfilPage(),
+      const ProfilePage(),
     ];
 
     return Scaffold(
