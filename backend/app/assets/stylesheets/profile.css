@@ -1,5 +1,26 @@
 /* Estilos específicos para el perfil de usuario */
 
+/* Estados iniciales para animaciones */
+.profile-title {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+.profile-card {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.order-item {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.profile-action-btn {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
 /* Contenedor principal del perfil */
 .profile-container {
   max-width: 1200px;
@@ -25,13 +46,14 @@ body[data-theme="dark"] .profile-title {
   border: none;
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 1.5rem;
+  transform-origin: center;
+  will-change: transform;
 }
 
 .profile-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 body[data-theme="dark"] .profile-card {
@@ -372,6 +394,13 @@ body[data-theme="dark"] .profile-empty-icon {
 .profile-card,
 .profile-action-btn {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estado inicial oculto para animación */
+.stats-card,
+.order-item {
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 /* Mejoras de accesibilidad */
