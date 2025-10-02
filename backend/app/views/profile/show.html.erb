@@ -65,17 +65,17 @@
           <div class="card-body profile-card-body">
             <div class="row profile-stats">
               <div class="col-4 profile-stat-item">
-                <div class="profile-stat-number text-primary"><%= @orders.count %></div>
+                <div class="profile-stat-number text-primary" data-target="<%= @orders.count %>">0</div>
                 <div class="profile-stat-label">Total órdenes</div>
               </div>
               <div class="col-4 profile-stat-item">
                 <div class="profile-stat-divider"></div>
-                <div class="profile-stat-number text-success"><%= @orders.paid.count %></div>
+                <div class="profile-stat-number text-success" data-target="<%= @orders.paid.count %>">0</div>
                 <div class="profile-stat-label">Órdenes pagadas</div>
               </div>
               <div class="col-4 profile-stat-item">
                 <div class="profile-stat-divider"></div>
-                <div class="profile-stat-number text-warning"><%= @orders.pending.count %></div>
+                <div class="profile-stat-number text-warning" data-target="<%= @orders.pending.count %>">0</div>
                 <div class="profile-stat-label">Pendientes</div>
               </div>
             </div>
@@ -269,13 +269,17 @@
       });
       
       // Animación de los números de estadísticas
-      anime({
-        targets: '.profile-stat-number',
-        innerHTML: [0, function(el) { return el.innerHTML; }],
-        duration: 1500,
-        delay: 800,
-        round: 1,
-        easing: 'easeOutExpo'
+      const statNumbers = document.querySelectorAll('.profile-stat-number');
+      statNumbers.forEach(el => {
+        const target = parseInt(el.getAttribute('data-target')) || 0;
+        anime({
+          targets: el,
+          innerHTML: [0, target],
+          duration: 1500,
+          delay: 800,
+          round: 1,
+          easing: 'easeOutExpo'
+        });
       });
       
       // Animación de las filas de la tabla
