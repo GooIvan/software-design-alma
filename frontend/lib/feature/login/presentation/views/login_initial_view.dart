@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../data/bloc/login_bloc.dart';
-import '../widgets/social_login_section.dart';
 
 class LoginInitialView extends StatefulWidget {
   const LoginInitialView({super.key});
