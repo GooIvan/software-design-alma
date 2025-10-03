@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../models/user_model.dart';
 import '../../../about/pages/AboutPage.dart';
+import '../../../orders/index/presentation/pages/orders_page.dart';
 
 class ProfileSuccessView extends StatelessWidget {
   final User user;
@@ -65,7 +66,14 @@ class ProfileSuccessView extends StatelessWidget {
             _buildOptionTile(
               icon: Icons.receipt_long,
               title: 'Mis pedidos',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OrdersPage(),
+                  ),
+                );
+              },
             ),
             _buildOptionTile(
               icon: Icons.info,

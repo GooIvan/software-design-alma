@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import '../../feature/categories/core/categories_injection.dart';
 import '../../feature/home/core/home_injection.dart';
 import '../../feature/login/core/login_injection.dart';
+import '../../feature/orders/index/core/orders_injection.dart';
 import '../../feature/products/index/core/products_injection.dart';
 import '../../feature/products/show/core/product_injection.dart';
 import '../../feature/profile/core/profile_injection.dart';
@@ -31,4 +32,7 @@ void init() {
 
   //* Se inicializa el módulo de Product
   initProductModule();
+
+  //* Se inicializa el módulo de Orders
+  initOrdersModule();
 }
