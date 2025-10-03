@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   before_action :load_categories
 
   # Todo relacionado con el cambio de idioma, por defecto será redirigido a español
-  before_action :redirect_to_default_locale, unless: -> { params[:locale].present? }
-  before_action :set_locale
+  before_action :redirect_to_default_locale, unless: -> { params[:locale].present? || api_request? }
+  before_action :set_locale, unless: -> { api_request? }
 
   helper_method :current_cart
 
@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def api_request?
+    request.path.starts_with?('/api/')
   end
 
   def default_url_options
@@ -46,10 +50,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_cart
-  if session[:cart_id]
-    Cart.includes(cart_items: :product).find_by(id: session[:cart_id]) || create_cart
+    if session[:cart_id]
+      Cart.includes(cart_items: :product).find_by(id: session[:cart_id]) || create_cart
     else
-    create_cart
+      create_cart
     end
   end
 
