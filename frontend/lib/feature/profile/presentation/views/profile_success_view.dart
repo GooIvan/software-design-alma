@@ -65,7 +65,7 @@ class ProfileSuccessView extends StatelessWidget {
             ),
             _buildOptionTile(
               icon: Icons.receipt_long,
-              title: 'Mis pedidos',
+              title: 'Mis órdenes',
               onTap: () {
                 Navigator.push(
                   context,
