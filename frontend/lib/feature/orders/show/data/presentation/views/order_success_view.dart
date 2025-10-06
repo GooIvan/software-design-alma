@@ -70,7 +70,7 @@ class OrderSuccessView extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Botón de pago (solo para órdenes pendientes)
-              if (order.isPending) buildPaymentButton(context),
+              if (order.isPending) buildPaymentButton(context, order.id),
 
               const SizedBox(height: 20),
             ],

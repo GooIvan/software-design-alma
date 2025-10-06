@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../../widgets/custom_alert.dart';
+import '../../../../../payment/presentation/pages/payment_page.dart';
 
-Widget buildPaymentButton(BuildContext context) {
+Widget buildPaymentButton(BuildContext context, int orderId) {
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
@@ -17,7 +17,12 @@ Widget buildPaymentButton(BuildContext context) {
     ),
     child: ElevatedButton(
       onPressed: () {
-        CustomAlert.warning(context, "Funcionalidad de pago no implementada");
+        // Navegar a la página de pago
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PaymentPage(orderId: orderId),
+          ),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.orange,

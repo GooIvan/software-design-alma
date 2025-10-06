@@ -4,6 +4,9 @@ import '../../../../widgets/custom_alert.dart';
 import '../../data/bloc/cart_bloc.dart';
 import '../widgets/cart_item_widget.dart';
 import '../widgets/cart_empty_widget.dart';
+import '../../../orders/create/data/repositories/create_order_repository.dart';
+import '../../../payment/presentation/pages/payment_page.dart';
+import '../widgets/show_loading_dialog.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -17,7 +20,7 @@ class CartPage extends StatelessWidget {
         title: const Text(
           'Carrito de compras',
           style: TextStyle(
-            color: Colors.black,  
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -172,9 +175,39 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  void _onCheckout(BuildContext context) {
-    // Aquí implementarías la lógica del checkout
-    // Por ahora solo mostraremos un mensaje
-    CustomAlert.warning(context, 'Funcionalidad de pago en desarrollo');
+  void _onCheckout(BuildContext context) async {
+    final cartState = context.read<CartBloc>().state;
+
+    // Mostrar loading
+    showLoadingDialog(context);
+
+    try {
+      final repository = CreateOrderRepository();
+      final order = await repository.createOrderFromCart(cartState.items);
+
+      // Cerrar loading
+      if (context.mounted) {
+        Navigator.of(context).pop();
+
+        // Limpiar carrito después de crear la orden exitosamente
+        context.read<CartBloc>().add(const ClearCart());
+
+        // Navegar a la página de pago
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PaymentPage(orderId: order.id),
+          ),
+        );
+      }
+    } catch (e) {
+      // Cerrar loading
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        CustomAlert.error(
+          context,
+          e.toString().replaceFirst(RegExp(r'^Exception:\s*'), ''),
+        );
+      }
+    }
   }
 }
