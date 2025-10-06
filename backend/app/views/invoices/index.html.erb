@@ -1,0 +1,307 @@
+<%= stylesheet_link_tag "pay", media: "all" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12 col-lg-10">
+
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="order-breadcrumb mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <%= link_to root_path do %>
+              <i data-feather="home" class="feather-icon-sm"></i>
+              Inicio
+            <% end %>
+          </li>
+          <li class="breadcrumb-item">
+            <%= link_to profile_path do %>
+              <i data-feather="user" class="feather-icon-sm"></i>
+              Perfil
+            <% end %>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <i data-feather="file-text" class="feather-icon-sm"></i>
+            Mis Facturas
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="order-detail-card">
+        <div class="order-header">
+          <div class="order-header-content">
+            <h1 class="order-title">
+              <i data-feather="file-text" class="order-title-icon"></i>
+              Mis Facturas
+            </h1>
+            <div class="order-number-badge">
+              <i data-feather="hash"></i>
+              <%= @invoices.count %> facturas
+            </div>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Resumen de facturas -->
+        <div class="order-info-section">
+          <h3 class="section-title">
+            <i data-feather="bar-chart" class="section-icon"></i>
+            Resumen
+          </h3>
+          
+          <div class="order-info-grid">
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="clock"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Facturas pendientes</span>
+                <span class="info-value"><%= @pending_invoices.count %></span>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="check-circle"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Facturas pagadas</span>
+                <span class="info-value"><%= @paid_invoices.count %></span>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="dollar-sign"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Total facturado</span>
+                <span class="info-value info-value-price">$<%= number_to_currency(@invoices.sum(&:total), unit: "", delimiter: ".", precision: 0) %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Lista de facturas -->
+        <div class="order-products-section">
+          <h3 class="section-title">
+            <i data-feather="list" class="section-icon"></i>
+            Lista de Facturas
+          </h3>
+
+          <% if @invoices.any? %>
+            <div class="products-list">
+              <% @invoices.each_with_index do |invoice, index| %>
+                <div class="product-item invoice-item" data-index="<%= index %>">
+                  <div class="product-image-container">
+                    <div class="invoice-icon-placeholder">
+                      <i data-feather="file-text"></i>
+                    </div>
+                  </div>
+                  
+                  <div class="product-details">
+                    <h4 class="product-name">Factura <%= invoice.formatted_invoice_number %></h4>
+                    <div class="product-specs">
+                      <span class="spec-badge">
+                        <i data-feather="calendar" class="spec-icon"></i>
+                        Fecha: <strong><%= invoice.date.strftime("%d/%m/%Y") %></strong>
+                      </span>
+                      <span class="spec-badge">
+                        <i data-feather="package" class="spec-icon"></i>
+                        Orden: <strong>#<%= invoice.order.id %></strong>
+                      </span>
+                      <span class="spec-badge status-<%= invoice.status %>">
+                        <i data-feather="<%= invoice.paid? ? 'check-circle' : invoice.pending? ? 'clock' : 'x-circle' %>" class="spec-icon"></i>
+                        Estado: <strong><%= invoice.status.humanize %></strong>
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div class="product-price">
+                    <span class="price-label">Total</span>
+                    <span class="price-value">$<%= number_to_currency(invoice.total, unit: "", delimiter: ".", precision: 0) %></span>
+                    <div class="invoice-actions">
+                      <%= link_to invoice_path(invoice), class: "btn-invoice-action btn-sm btn-primary" do %>
+                        <i data-feather="eye"></i> Ver
+                      <% end %>
+                      <%= link_to download_invoice_path(invoice, format: :pdf), class: "btn-invoice-action btn-sm btn-secondary", target: "_blank" do %>
+                        <i data-feather="download"></i> PDF
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="empty-state">
+              <div class="empty-icon">
+                <i data-feather="file-x"></i>
+              </div>
+              <h4>No tienes facturas</h4>
+              <p>Cuando realices una compra y el pago sea confirmado, aparecerá aquí tu factura.</p>
+              <%= link_to root_path, class: "btn-order-action btn-primary" do %>
+                <i data-feather="shopping-bag"></i>
+                <span>Ir de compras</span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="order-actions">
+          <%= link_to profile_path, class: "btn-order-action btn-secondary" do %>
+            <i data-feather="arrow-left"></i>
+            <span>Volver al perfil</span>
+          <% end %>
+          
+          <%= link_to root_path, class: "btn-order-action btn-primary" do %>
+            <i data-feather="home"></i>
+            <span>Ir al inicio</span>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .invoice-item .invoice-icon-placeholder {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .invoice-icon-placeholder i {
+    color: white;
+    font-size: 32px;
+  }
+
+  .spec-badge.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  .spec-badge.status-paid {
+    background-color: #d1edff;
+    color: #0c5460;
+  }
+
+  .spec-badge.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .invoice-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .btn-invoice-action {
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-invoice-action.btn-primary {
+    background: #007bff;
+    color: white;
+  }
+
+  .btn-invoice-action.btn-secondary {
+    background: #6c757d;
+    color: white;
+  }
+
+  .btn-invoice-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: white;
+    text-decoration: none;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .empty-icon {
+    font-size: 64px;
+    color: #dee2e6;
+    margin-bottom: 20px;
+  }
+
+  .empty-state h4 {
+    color: #6c757d;
+    margin-bottom: 10px;
+  }
+
+  .empty-state p {
+    color: #adb5bd;
+    margin-bottom: 30px;
+  }
+</style>
+
+<script>
+  function initInvoicesView() {
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+    
+    if (typeof anime !== 'undefined') {
+      anime({
+        targets: '.order-breadcrumb',
+        translateY: [-20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        easing: 'easeOutCubic'
+      });
+      
+      anime({
+        targets: '.order-header',
+        translateY: [-30, 0],
+        opacity: [0, 1],
+        duration: 800,
+        delay: 200,
+        easing: 'easeOutCubic'
+      });
+      
+      anime({
+        targets: '.info-card',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        delay: anime.stagger(100, {start: 400}),
+        easing: 'easeOutQuart'
+      });
+      
+      anime({
+        targets: '.invoice-item',
+        translateX: [-30, 0],
+        opacity: [0, 1],
+        duration: 600,
+        delay: anime.stagger(150, {start: 800}),
+        easing: 'easeOutQuart'
+      });
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', initInvoicesView);
+  document.addEventListener('turbo:load', initInvoicesView);
+</script>

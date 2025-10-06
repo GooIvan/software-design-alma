@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_19_195447) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_060955) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -70,6 +70,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_195447) do
     t.datetime "updated_at", null: false
     t.string "slogan"
     t.string "text_color"
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.string "invoice_number", null: false
+    t.date "date", null: false
+    t.date "due_date"
+    t.decimal "subtotal", precision: 10, scale: 2, null: false
+    t.decimal "tax", precision: 10, scale: 2, default: "0.0"
+    t.decimal "total", precision: 10, scale: 2, null: false
+    t.integer "status", default: 0
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_invoices_on_date"
+    t.index ["invoice_number"], name: "index_invoices_on_invoice_number", unique: true
+    t.index ["order_id"], name: "index_invoices_on_order_id"
+    t.index ["status"], name: "index_invoices_on_status"
   end
 
   create_table "jwt_denylists", force: :cascade do |t|
@@ -134,6 +152,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_19_195447) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
+  add_foreign_key "invoices", "orders"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "invoices/index"
+  get "invoices/show"
   # 🚨 Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -25,12 +27,12 @@ Rails.application.routes.draw do
           controllers: {
             registrations: "api/auth/registrations",
             sessions: "api/auth/sessions",
-            passwords: "api/auth/passwords"
+            passwords: "api/auth/passwords",
           }
       end
 
       resource :profile, only: [:show], controller: "profile"
-      
+
       # Logout endpoint
       post :logout, to: "logout#create"
 
@@ -70,6 +72,16 @@ Rails.application.routes.draw do
       delete "orders/bulk_delete", to: "orders#bulk_delete", as: :bulk_delete_admin_orders
       resources :orders
 
+      delete "invoices/bulk_delete", to: "invoices#bulk_delete", as: :bulk_delete_admin_invoices
+      resources :invoices do
+        member do
+          get :download
+          patch :mark_as_sent
+          patch :mark_as_paid
+          patch :regenerate
+        end
+      end
+
       resources :categories, param: :slug do
         resources :products
       end
@@ -88,6 +100,13 @@ Rails.application.routes.draw do
         post :pay_with_card
         get :success, to: "payments#success", as: :payment_success
         post :confirmation, to: "payments#confirmation", as: :payment_confirmation
+      end
+    end
+
+    # 🧾 Facturas
+    resources :invoices, only: [:index, :show] do
+      member do
+        get :download
       end
     end
   end

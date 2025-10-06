@@ -218,6 +218,22 @@
 
     <div class="profile-section-divider"></div>
 
+    <!-- Acciones rápidas -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <%= link_to invoices_path, class: "btn profile-action-btn w-100" do %>
+          <i data-feather="file-text"></i>
+          <span>Mis Facturas</span>
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <%= link_to root_path, class: "btn profile-action-btn w-100" do %>
+          <i data-feather="shopping-bag"></i>
+          <span>Ir de compras</span>
+        <% end %>
+      </div>
+    </div>
+
     <!-- Botones de acción -->
     <div class="row">
       <div class="col-md-6">

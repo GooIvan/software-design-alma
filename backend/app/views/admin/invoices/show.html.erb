@@ -1,0 +1,299 @@
+<%= content_for :title, "Factura ##{@invoice.invoice_number}" %>
+
+<div class="admin-header">
+  <h1 class="admin-title">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14,2 14,8 20,8"/>
+      <line x1="16" y1="13" x2="8" y2="13"/>
+      <line x1="16" y1="17" x2="8" y2="17"/>
+      <polyline points="10,9 9,9 8,9"/>
+    </svg>
+    Factura #<%= @invoice.invoice_number %>
+  </h1>
+  
+  <div class="admin-actions">
+    <%= link_to "← Volver a facturas", admin_invoices_path, class: "btn btn-secondary" %>
+    <%= link_to "Descargar PDF", download_admin_invoice_path(@invoice), class: "btn btn-primary" %>
+  </div>
+</div>
+
+<!-- Estado y información básica -->
+<div class="invoice-header">
+  <div class="invoice-info">
+    <div class="info-group">
+      <label>Estado:</label>
+      <span class="status-badge status-<%= @invoice.status %>">
+        <%= t("invoices.status.#{@invoice.status}") %>
+      </span>
+    </div>
+    
+    <div class="info-group">
+      <label>Fecha de emisión:</label>
+      <span><%= l(@invoice.created_at, format: :long) %></span>
+    </div>
+    
+    <div class="info-group">
+      <label>Fecha de vencimiento:</label>
+      <span><%= l(@invoice.due_date, format: :long) if @invoice.due_date %></span>
+    </div>
+    
+    <div class="info-group">
+      <label>Pedido relacionado:</label>
+      <%= link_to "##{@invoice.order.id}", admin_order_path(@invoice.order), class: "text-link" %>
+    </div>
+  </div>
+  
+  <div class="invoice-totals">
+    <div class="total-row">
+      <span>Subtotal:</span>
+      <strong>$<%= number_with_precision(@invoice.subtotal, precision: 2) %></strong>
+    </div>
+    <div class="total-row">
+      <span>Impuestos:</span>
+      <strong>$<%= number_with_precision(@invoice.tax, precision: 2) %></strong>
+    </div>
+    <div class="total-row total-final">
+      <span>Total:</span>
+      <strong>$<%= number_with_precision(@invoice.total, precision: 2) %></strong>
+    </div>
+  </div>
+</div>
+
+<!-- Información del cliente -->
+<div class="section-card">
+  <h3>Información del Cliente</h3>
+  <% if @invoice.order.user %>
+    <div class="customer-info">
+      <div class="info-row">
+        <strong>Email:</strong> <%= @invoice.order.user.email %>
+      </div>
+      <div class="info-row">
+        <strong>Cliente desde:</strong> <%= l(@invoice.order.user.created_at, format: :short) %>
+      </div>
+    </div>
+  <% else %>
+    <p class="text-muted">Usuario eliminado del sistema</p>
+  <% end %>
+</div>
+
+<!-- Detalles de artículos -->
+<div class="section-card">
+  <h3>Artículos Facturados</h3>
+  <div class="items-table-container">
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Artículo</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @invoice.order.order_items.each do |item| %>
+          <tr>
+            <td>
+              <div class="item-info">
+                <strong><%= item.product_name %></strong>
+                <% if item.product_description.present? %>
+                  <div class="item-description"><%= item.product_description %></div>
+                <% end %>
+              </div>
+            </td>
+            <td><%= item.quantity %></td>
+            <td>$<%= number_with_precision(item.unit_price, precision: 2) %></td>
+            <td><strong>$<%= number_with_precision(item.total_price, precision: 2) %></strong></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Acciones disponibles -->
+<div class="section-card">
+  <h3>Acciones</h3>
+  <div class="action-buttons">
+    <% if @invoice.status == 'pending' %>
+      <%= link_to mark_as_sent_admin_invoice_path(@invoice), 
+          method: :patch,
+          class: "btn btn-success", 
+          data: { confirm: "¿Marcar factura como enviada?" } do %>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20,6 9,17 4,12"/>
+        </svg>
+        Marcar como Enviada
+      <% end %>
+    <% end %>
+
+    <% if @invoice.status == 'sent' %>
+      <%= link_to mark_as_paid_admin_invoice_path(@invoice), 
+          method: :patch,
+          class: "btn btn-success", 
+          data: { confirm: "¿Marcar factura como pagada?" } do %>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9,12l2,2 4,-4"/>
+        </svg>
+        Marcar como Pagada
+      <% end %>
+    <% end %>
+
+    <%= link_to regenerate_admin_invoice_path(@invoice), 
+        method: :patch,
+        class: "btn btn-warning", 
+        data: { confirm: "¿Regenerar factura? Esto actualizará los totales." } do %>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="23,4 23,10 17,10"/>
+        <path d="M20.49,15a9,9,0,1,1-2.12-9.36L23,10"/>
+      </svg>
+      Regenerar Factura
+    <% end %>
+
+    <%= link_to admin_invoice_path(@invoice), 
+        method: :delete,
+        class: "btn btn-danger", 
+        data: { confirm: "¿Estás seguro de eliminar esta factura? Esta acción no se puede deshacer." } do %>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3,6 5,6 21,6"/>
+        <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"/>
+      </svg>
+      Eliminar Factura
+    <% end %>
+  </div>
+</div>
+
+<style>
+.invoice-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.invoice-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.info-group label {
+  font-weight: 600;
+  color: #374151;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.invoice-totals {
+  text-align: right;
+  min-width: 200px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.total-final {
+  border-bottom: none;
+  border-top: 2px solid #374151;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+}
+
+.section-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-card h3 {
+  margin: 0 0 1rem 0;
+  color: #1f2937;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.customer-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.info-row {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.items-table-container {
+  overflow-x: auto;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.items-table th,
+.items-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.items-table th {
+  background: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+}
+
+.item-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-sent { background: #dbeafe; color: #1d4ed8; }
+.status-paid { background: #d1fae5; color: #065f46; }
+.status-overdue { background: #fee2e2; color: #dc2626; }
+.status-cancelled { background: #f3f4f6; color: #374151; }
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.text-link {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+.text-muted {
+  color: #6b7280;
+}
+</style>

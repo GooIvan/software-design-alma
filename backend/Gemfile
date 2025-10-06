@@ -69,3 +69,10 @@ gem "rack-cors", require: "rack/cors"
 gem "httparty"
 
 gem "nokogiri"
+
+# PDF generation
+gem "prawn"
+gem "prawn-table"
+
+# Pagination
+gem "kaminari"

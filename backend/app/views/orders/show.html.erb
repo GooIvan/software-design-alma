@@ -201,6 +201,13 @@
             <span>Volver al perfil</span>
           <% end %>
           
+          <% if @order.paid? && @order.invoice.present? %>
+            <%= link_to invoice_path(@order.invoice), class: "btn-order-action btn-success" do %>
+              <i data-feather="file-text"></i>
+              <span>Ver Factura</span>
+            <% end %>
+          <% end %>
+          
           <%= link_to root_path, class: "btn-order-action btn-primary" do %>
             <i data-feather="home"></i>
             <span><%= t('order.show.bottom_back') %></span>
@@ -342,3 +349,17 @@
     });
   });
 </script>
+
+<style>
+  .btn-order-action.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+  }
+  
+  .btn-order-action.btn-success:hover {
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+    color: white;
+    text-decoration: none;
+  }
+</style>
