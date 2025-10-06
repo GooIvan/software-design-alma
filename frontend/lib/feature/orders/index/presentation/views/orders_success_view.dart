@@ -1,3 +1,4 @@
+import 'package:design_alma/feature/orders/show/data/presentation/pages/order_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../../models/order_model.dart';
@@ -85,8 +86,11 @@ class OrdersSuccessView extends StatelessWidget {
                           bottomRight: Radius.circular(12),
                         ),
                         onTap: () {
-                          CustomAlert.warning(context,
-                              'vista de detalle de orden en construcción');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => OrderPage(orderId: order.id)),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
