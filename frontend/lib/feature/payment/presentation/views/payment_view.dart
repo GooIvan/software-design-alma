@@ -9,6 +9,7 @@ import '../widgets/payment_button.dart';
 import '../widgets/payment_status_widget.dart';
 import '../widgets/note_sandbox.dart';
 import '../controllers/payment_form_controller.dart';
+import 'payment_loading_view.dart';
 
 class PaymentView extends StatefulWidget {
   final int orderId;
@@ -75,7 +76,7 @@ class _PaymentViewState extends State<PaymentView> {
   Widget build(BuildContext context) {
     if (_orderLoading) {
       return const Center(
-        child: CircularProgressIndicator(color: Colors.black),
+        child: PaymentLoadingView(),
       );
     }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../widgets/custom_alert.dart';
+import '../../../../routes/routes.dart';
+import '../../../orders/show/data/presentation/pages/order_page.dart';
 import '../../data/bloc/payment_bloc.dart';
 import '../../data/repositories/payment_repository.dart';
 import '../views/payment_view.dart';
@@ -38,12 +40,25 @@ class PaymentPage extends StatelessWidget {
           listener: (context, state) {
             if (state is PaymentSuccess) {
               CustomAlert.success(context, state.message);
-              // Navegar de vuelta
-              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => OrderPage(orderId: orderId),
+                ),
+              );
             } else if (state is PaymentError) {
               CustomAlert.error(context, state.message);
+                            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => OrderPage(orderId: orderId),
+                ),
+              );
             } else if (state is PaymentStatusLoaded) {
               CustomAlert.success(context, state.message);
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => OrderPage(orderId: orderId),
+                ),
+              );
             } else if (state is PaymentStatusError) {
               CustomAlert.warning(context, state.message);
             }
