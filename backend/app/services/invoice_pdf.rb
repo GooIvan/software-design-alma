@@ -54,27 +54,33 @@ class InvoicePdf < Prawn::Document
   end
 
   def customer_details
-    # Información del cliente
-    bounding_box([0, cursor], width: 250, height: 80) do
-      text "FACTURAR A:", size: 11, style: :bold, color: "666666"
-      move_down 5
-      text "#{@user.name} #{@user.last_name}", size: 12, style: :bold
-      text "#{@user.email}", size: 10
-      text "#{@user.phone}", size: 10 if @user.phone.present?
+    # Información del cliente con mejor espaciado
+    bounding_box([0, cursor], width: 280, height: 90) do
+      text "FACTURAR A:", size: 12, style: :bold, color: "555555"
+      move_down 8
+      text "#{@user.name} #{@user.last_name}", size: 13, style: :bold, color: "333333"
+      move_down 3
+      text "#{@user.email}", size: 11, color: "666666"
+      if @user.phone.present?
+        move_down 2
+        text "Tel: #{@user.phone}", size: 11, color: "666666"
+      end
       if @user.address.present?
-        text "#{@user.address}", size: 10
+        move_down 2
+        text "#{@user.address}", size: 11, color: "666666"
       end
       if @user.city.present?
-        text "#{@user.city}", size: 10
+        move_down 2
+        text "#{@user.city}", size: 11, color: "666666"
       end
     end
 
-    move_down 40
+    move_down 50 # Más espacio antes de la siguiente sección
   end
 
   def items_table
     text "PRODUCTOS", size: 14, style: :bold
-    move_down 10
+    move_down 15 # Más espacio después del título
 
     table_data = [
       ["Producto", "Talla", "Cantidad", "Precio Unit.", "Total"],
@@ -92,16 +98,24 @@ class InvoicePdf < Prawn::Document
 
     table(table_data, header: true, width: bounds.width) do
       row(0).font_style = :bold
-      row(0).background_color = "F0F0F0"
+      row(0).background_color = "F8F9FA"
+      row(0).text_color = "333333"
       columns(2..4).align = :right
-      self.cell_style = { padding: [8, 10], border_width: 0.5, border_color: "DDDDDD" }
+      self.cell_style = { 
+        padding: [12, 15], 
+        border_width: 0.5, 
+        border_color: "DDDDDD",
+        size: 11
+      }
       self.header = true
     end
 
-    move_down 20
+    move_down 25 # Más espacio después de la tabla
   end
 
   def totals
+    move_down 10 # Agregar espacio antes de los totales
+    
     # Tabla de totales
     totals_data = [
       ["Subtotal:", format_currency(@invoice.subtotal)],
@@ -118,46 +132,56 @@ class InvoicePdf < Prawn::Document
       row(-1).font_size = 14
       row(-1).background_color = "F0F0F0"
       row(-2).border_width = 0
-      self.cell_style = { padding: [5, 10], border_width: 0.5, border_color: "DDDDDD" }
+      self.cell_style = { padding: [8, 12], border_width: 0.5, border_color: "DDDDDD" }
     end
 
-    move_down 30
+    move_down 40 # Más espacio antes del footer
   end
 
   def footer
-    # Estado de pago
+    # Estado de pago con mejor posicionamiento
+    move_down 20 # Espacio adicional antes del estado
+    
     if @invoice.paid?
-      bounding_box([0, cursor], width: bounds.width) do
+      bounding_box([0, cursor], width: bounds.width, height: 50) do
         fill_color "E8F5E8"
-        fill_rectangle [0, 40], bounds.width, 40
+        fill_rectangle [0, 0], bounds.width, 50
         fill_color "000000"
 
-        bounding_box([10, cursor - 10], width: bounds.width - 20) do
-          text "FACTURA PAGADA", size: 12, style: :bold, color: "2E7D32"
-          text "Esta factura ha sido pagada exitosamente.", size: 10, color: "2E7D32"
+        bounding_box([15, 35], width: bounds.width - 30) do
+          text "✓ FACTURA PAGADA", size: 14, style: :bold, color: "2E7D32"
+          move_down 5
+          text "Esta factura ha sido pagada exitosamente.", size: 11, color: "2E7D32"
         end
       end
     else
-      bounding_box([0, cursor], width: bounds.width) do
+      bounding_box([0, cursor], width: bounds.width, height: 50) do
         fill_color "FFF3E0"
-        fill_rectangle [0, 40], bounds.width, 40
+        fill_rectangle [0, 0], bounds.width, 50
         fill_color "000000"
 
-        bounding_box([10, cursor - 10], width: bounds.width - 20) do
-          text "PENDIENTE DE PAGO", size: 12, style: :bold, color: "F57C00"
-          text "Esta factura esta pendiente de pago.", size: 10, color: "F57C00"
+        bounding_box([15, 35], width: bounds.width - 30) do
+          text "⚠ PENDIENTE DE PAGO", size: 14, style: :bold, color: "F57C00"
+          move_down 5
+          text "Esta factura está pendiente de pago.", size: 11, color: "F57C00"
         end
       end
     end
 
-    move_down 60
+    move_down 70 # Más espacio después del estado
 
-    # Pie de página
-    bounding_box([0, 50], width: bounds.width) do
+    # Pie de página mejorado
+    bounding_box([0, 60], width: bounds.width) do
       stroke_horizontal_rule
-      move_down 10
-      text "Gracias por su compra. Para cualquier consulta, contactenos en contacto@empresa.com",
-           size: 9, align: :center, color: "666666"
+      move_down 15
+      text "Gracias por su compra con Diseños Alma",
+           size: 12, align: :center, style: :bold, color: "333333"
+      move_down 8
+      text "Para cualquier consulta, contáctenos en alma@designalma.com o al 3022020011",
+           size: 10, align: :center, color: "666666"
+      move_down 5
+      text "www.designalma.com",
+           size: 9, align: :center, color: "999999"
     end
   end
 
