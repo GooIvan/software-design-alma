@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../data/bloc/cart_bloc.dart';
 import '../widgets/cart_item_widget.dart';
 import '../widgets/cart_empty_widget.dart';
+import '../widgets/cart_summary_widget.dart';
 import '../../../orders/create/data/repositories/create_order_repository.dart';
 import '../../../payment/presentation/pages/payment_page.dart';
 import '../widgets/show_loading_dialog.dart';
@@ -18,7 +20,7 @@ class CartPage extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
-          'Carrito de compras',
+          'Mi Carrito',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -48,97 +50,87 @@ class CartPage extends StatelessWidget {
 
           return Column(
             children: [
-              // Lista de productos
+              // Lista de productos con resumen integrado
               Expanded(
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: state.items.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 12),
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                  ),
+
+                  itemCount: state.items.length + 1, // +1 para el resumen
                   itemBuilder: (context, index) {
+                    // Si es el último item, mostrar el resumen
+                    if (index == state.items.length) {
+                      return Column(
+                        children: [
+                          CartSummaryWidget(
+                            subtotal: state.totalPrice,
+                            tax: 0, // impuesto fijo de ejemplo
+                            discount: 0, // Descuento fijo de ejemplo
+                            total: state.totalPrice,
+                          ),
+                        ],
+                      );
+                    }
+
+                    // Mostrar items del carrito
                     final item = state.items[index];
-                    return CartItemWidget(
-                      item: item,
-                      onUpdateQuantity: (quantity) {
-                        context.read<CartBloc>().add(
-                              UpdateQuantity(
-                                  itemId: item.id, quantity: quantity),
-                            );
-                      },
-                      onRemove: () {
-                        context.read<CartBloc>().add(RemoveFromCart(item.id));
-                      },
+                    return Column(
+                      children: [
+                        CartItemWidget(
+                          item: item,
+                          onUpdateQuantity: (quantity) {
+                            context.read<CartBloc>().add(
+                                  UpdateQuantity(
+                                      itemId: item.id, quantity: quantity),
+                                );
+                          },
+                          onRemove: () {
+                            context
+                                .read<CartBloc>()
+                                .add(RemoveFromCart(item.id));
+                          },
+                        ),
+                        if (index <
+                            state.items.length -
+                                1) // Separador solo entre items
+                          const SizedBox(height: 12),
+                      ],
                     );
                   },
                 ),
               ),
 
-              // Footer con total y botón de checkout
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, -2),
-                    ),
-                  ],
-                ),
-                child: SafeArea(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Resumen del pedido
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '${state.totalItems} artículo${state.totalItems != 1 ? 's' : ''}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            state.formattedTotalPrice,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Botón de checkout
-                      SizedBox(
+              // botón de checkout
+              SafeArea(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      child: SizedBox(
                         width: double.infinity,
-                        height: 50,
+                        height: 55,
                         child: ElevatedButton(
                           onPressed: () => _onCheckout(context),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 37, 146, 41),
-                            foregroundColor: Colors.white,
+                            backgroundColor: AppColors.primary,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(30),
                             ),
                           ),
                           child: const Text(
-                            'Proceder al Pago',
+                            'VERIFICAR',
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              letterSpacing: 1,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

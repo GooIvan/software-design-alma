@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../widgets/custom_alert.dart';
-import '../../../../routes/routes.dart';
-import '../../../orders/show/data/presentation/pages/order_page.dart';
 import '../../data/bloc/payment_bloc.dart';
 import '../../data/repositories/payment_repository.dart';
+import '../views/view_status/payment_error_view.dart';
+import '../views/view_status/payment_success_view.dart';
 import '../views/payment_view.dart';
 
 class PaymentPage extends StatelessWidget {
@@ -22,49 +21,16 @@ class PaymentPage extends StatelessWidget {
         paymentRepository: PaymentRepository(),
       ),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            'Procesar Pago',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          iconTheme: const IconThemeData(color: Colors.black),
-          elevation: 0,
-        ),
         backgroundColor: Colors.grey[50],
-        body: BlocListener<PaymentBloc, PaymentState>(
-          listener: (context, state) {
-            if (state is PaymentSuccess) {
-              CustomAlert.success(context, state.message);
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => OrderPage(orderId: orderId),
-                ),
-              );
-            } else if (state is PaymentError) {
-              CustomAlert.error(context, state.message);
-                            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => OrderPage(orderId: orderId),
-                ),
-              );
-            } else if (state is PaymentStatusLoaded) {
-              CustomAlert.success(context, state.message);
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => OrderPage(orderId: orderId),
-                ),
-              );
-            } else if (state is PaymentStatusError) {
-              CustomAlert.warning(context, state.message);
-            }
-          },
-          child: PaymentView(orderId: orderId),
-        ),
+        body: BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
+          if (state is PaymentSuccess) {
+            return const PaymentSuccessView();
+          } else if (state is PaymentError) {
+            return const PaymentErrorView();
+          } else {
+            return PaymentView(orderId: orderId);
+          }
+        }),
       ),
     );
   }

@@ -75,45 +75,66 @@ class _PaymentViewState extends State<PaymentView> {
   @override
   Widget build(BuildContext context) {
     if (_orderLoading) {
-      return const Center(
-        child: PaymentLoadingView(),
-      );
-    }
-
-    if (_order == null) {
-      return const Center(
-        child: Text(
-          'Error al cargar la orden',
-          style: TextStyle(color: Colors.grey, fontSize: 16),
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(color: Colors.black),
+          elevation: 0,
+        ),
+        body: const Center(
+          child: PaymentLoadingView(),
         ),
       );
     }
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Resumen de la orden
-          OrderSummaryCard(order: _order!),
-          const SizedBox(height: 20),
+    if (_order == null) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(color: Colors.black),
+          elevation: 0,
+        ),
+        body: const Center(
+          child: Text(
+            'Error al cargar la orden',
+            style: TextStyle(color: Colors.grey, fontSize: 16),
+          ),
+        ),
+      );
+    }
 
-          // Formulario de tarjeta
-          PaymentFormWidget(controller: _formController),
-          const SizedBox(height: 32),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Resumen de la orden
+            OrderSummaryCard(order: _order!),
+            const SizedBox(height: 20),
 
-          // Botón de pago
-          PaymentButton(onPressed: _processPayment),
-          const SizedBox(height: 20),
+            // Formulario de tarjeta
+            PaymentFormWidget(controller: _formController),
+            const SizedBox(height: 32),
 
-          // Estado del pago
-          const PaymentStatusWidget(),
-          const SizedBox(height: 20),
+            // Botón de pago
+            PaymentButton(onPressed: _processPayment),
+            const SizedBox(height: 20),
 
-          // Nota de sandbox
-          const NoteSandbox(),
-          const SizedBox(height: 20),
-        ],
+            // Estado del pago
+            const PaymentStatusWidget(),
+            const SizedBox(height: 20),
+
+            // Nota de sandbox
+            const NoteSandbox(),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
