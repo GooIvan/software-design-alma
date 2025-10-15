@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../../login/presentation/pages/login_page.dart';
 
-class SocialLoginSection extends StatelessWidget {
-  const SocialLoginSection({super.key});
+class SocialRegisterSection extends StatelessWidget {
+  const SocialRegisterSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +41,7 @@ class SocialLoginSection extends StatelessWidget {
         const SizedBox(height: 12),
 
         // ===== Botón Apple =====
+        /*
         _buildSocialButton(
           icon: FontAwesomeIcons.apple,
           text: "Continuar con Apple",
@@ -52,6 +53,7 @@ class SocialLoginSection extends StatelessWidget {
         ),
 
         const SizedBox(height: 12),
+         */
 
         // ===== Botón Facebook =====
         _buildSocialButton(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/di/service_locator.dart';
 import '../../../../feature/cart/data/bloc/cart_bloc.dart';
 import '../../data/bloc/category/category_bloc.dart';
 import '../../data/bloc/product/product_bloc.dart';
@@ -15,23 +14,14 @@ import '../widgets/promo_banner.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   Future<void> _refreshData(BuildContext context) async {
-    sl<ProductBloc>().add(LoadProducts());
-    sl<CategoryBloc>().add(LoadCategories());
+    context.read<ProductBloc>().add(LoadProducts());
+    context.read<CategoryBloc>().add(LoadCategories());
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            create: (context) => sl<ProductBloc>()..add(LoadProducts())),
-        BlocProvider(
-          create: (context) => sl<CategoryBloc>()..add(LoadCategories()),
-        ),
-        BlocProvider(
-          create: (context) => CartBloc(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => CartBloc(),
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F9FA),
         body: SafeArea(

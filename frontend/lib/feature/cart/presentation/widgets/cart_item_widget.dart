@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../models/cart_item_model.dart';
 
 class CartItemWidget extends StatelessWidget {
@@ -16,157 +17,120 @@ class CartItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            // ignore: deprecated_member_use
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Imagen del producto
+          // ===== Imagen del producto =====
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
             child: Image.network(
               item.productImageUrl,
-              width: 80,
-              height: 80,
+              width: 120,
+              height: 120,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
-                  width: 80,
-                  height: 80,
+                  width: 120,
+                  height: 120,
                   color: Colors.grey[200],
-                  child: const Icon(
-                    Icons.image_not_supported,
-                    color: Colors.grey,
-                  ),
+                  child:
+                      const Icon(Icons.image_not_supported, color: Colors.grey),
                 );
               },
             ),
           ),
+          const SizedBox(width: 10),
 
-          const SizedBox(width: 12),
-
-          // Información del producto
+          // ===== Información =====
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  item.productName,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  item.categoryName,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Column(
+                // Línea superior con nombre + eliminar
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(4),
-                      ),
+                    Expanded(
                       child: Text(
-                        'Talla: ${item.size}',
+                        item.productName,
                         style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black87,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '\$${item.formattedPrice}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green, // Ahora el precio es verde
-                      ),
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline,
+                          size: 20, color: Colors.grey),
+                      onPressed: onRemove,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
+                const SizedBox(height: 4),
 
-          const SizedBox(width: 12),
-
-          // Controles de cantidad y eliminar
-          Column(
-            children: [
-              // Botón eliminar
-              IconButton(
-                onPressed: onRemove,
-                icon: const Icon(
-                  Icons.delete_outline,
-                  color: Colors.red,
-                  size: 20,
+                // Descripción o categoría
+                Text(
+                  item.categoryName,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
+                const SizedBox(height: 10),
 
-              const SizedBox(height: 8),
-
-              // Control de cantidad
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[300]!),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _QuantityButton(
-                      icon: Icons.remove,
-                      onPressed: item.quantity > 1
-                          ? () => onUpdateQuantity(item.quantity - 1)
-                          : null,
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    'Talla: ${item.size}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        '${item.quantity}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                  ),
+                ),
+
+                // Precio y cantidad
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '\$${item.formattedPrice}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
-                    _QuantityButton(
-                      icon: Icons.add,
-                      onPressed: item.quantity < 9
+                    _QuantitySelector(
+                      quantity: item.quantity,
+                      onDecrement: item.quantity > 1
+                          ? () => onUpdateQuantity(item.quantity - 1)
+                          : null,
+                      onIncrement: item.quantity < 9
                           ? () => onUpdateQuantity(item.quantity + 1)
                           : null,
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -174,30 +138,71 @@ class CartItemWidget extends StatelessWidget {
   }
 }
 
-class _QuantityButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback? onPressed;
+class _QuantitySelector extends StatelessWidget {
+  final int quantity;
+  final VoidCallback? onDecrement;
+  final VoidCallback? onIncrement;
 
-  const _QuantityButton({
-    required this.icon,
-    this.onPressed,
+  const _QuantitySelector({
+    required this.quantity,
+    this.onDecrement,
+    this.onIncrement,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 32,
-      height: 32,
+    const Color blue = AppColors.primary;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(40),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        children: [
+          _CircleButton(icon: Icons.remove, onPressed: onDecrement),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              '$quantity',
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+            ),
+          ),
+          _CircleButton(icon: Icons.add, onPressed: onIncrement, color: blue),
+        ],
+      ),
+    );
+  }
+}
+
+class _CircleButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final Color? color;
+
+  const _CircleButton({
+    required this.icon,
+    this.onPressed,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 26,
+      height: 26,
+      decoration: BoxDecoration(
+        color: color ?? Colors.grey.shade200,
+        shape: BoxShape.circle,
+      ),
       child: IconButton(
+        icon: Icon(icon,
+            size: 14, color: color != null ? Colors.white : Colors.black),
         onPressed: onPressed,
-        icon: Icon(
-          icon,
-          size: 16,
-        ),
         padding: EdgeInsets.zero,
-        style: IconButton.styleFrom(
-          foregroundColor: onPressed != null ? Colors.black : Colors.grey,
-        ),
+        constraints: const BoxConstraints(),
       ),
     );
   }
