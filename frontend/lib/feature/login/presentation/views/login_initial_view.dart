@@ -1,7 +1,7 @@
 import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../widgets/social_login_section.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/bloc/login_bloc.dart';
 
@@ -264,7 +264,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
 
                 const SizedBox(height: 20),
 
-                // const SocialLoginSection(),
+                const SocialLoginSection(),
               ],
             ),
           ),
