@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,27 +12,27 @@ import '../views/register_loading_view.dart';
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
 
-  String _parseRegisterError(String? errorMessage) {
+  String _parseRegisterError(String? errorMessage, BuildContext context) {
     if (errorMessage == null || errorMessage.isEmpty) {
-      return 'Error desconocido, intenta nuevamente.';
+      return context.l10n.unknownError;
     }
 
     final e = errorMessage.toLowerCase();
 
     if (e.contains('email ya existe') ||
         e.contains('este correo ya está registrado')) {
-      return 'El correo ya está en uso. Intenta con otro.';
+      return context.l10n.emailInUse;
     }
 
     if (e.contains('contraseña')) {
-      return 'La contraseña no cumple los requisitos.';
+      return context.l10n.passwordsNotValid;
     }
 
     if (e.contains('nombre')) {
-      return 'Debes ingresar un nombre válido.';
+      return context.l10n.nameNotValid;
     }
 
-    return "Error desconocido, intenta nuevamente.";
+    return context.l10n.unknownError;
   }
 
   @override
@@ -54,9 +55,10 @@ class RegisterPage extends StatelessWidget {
                     builder: (_) => const MainScaffold(initialIndex: 3),
                   ),
                 );
-                CustomAlert.success(context, 'Registro exitoso');
+                CustomAlert.success(context, context.l10n.registerSuccess);
               } else if (state.status == RegisterStatus.failure) {
-                final friendlyMessage = _parseRegisterError(state.errorMessage);
+                final friendlyMessage =
+                    _parseRegisterError(state.errorMessage, context);
                 CustomAlert.error(context, friendlyMessage);
               }
             },

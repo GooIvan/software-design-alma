@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -16,10 +17,10 @@ class ViewProductsSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (products.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
-          'No hay productos disponibles',
-          style: TextStyle(fontSize: 16),
+          context.l10n.noProducts,
+          style: const TextStyle(fontSize: 16),
         ),
       );
     }

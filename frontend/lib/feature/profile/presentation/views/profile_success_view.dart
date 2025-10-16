@@ -1,4 +1,5 @@
 import 'package:design_alma/feature/profile/presentation/widgets/confirm_box.dart';
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../models/user_model.dart';
@@ -60,12 +61,12 @@ class ProfileSuccessView extends StatelessWidget {
             // Opciones
             _buildOptionTile(
               icon: Icons.account_circle,
-              title: 'Mi cuenta',
+              title: context.l10n.myAccount,
               onTap: () {},
             ),
             _buildOptionTile(
               icon: Icons.receipt_long,
-              title: 'Mis órdenes',
+              title: context.l10n.myOrders,
               onTap: () {
                 Navigator.push(
                   context,
@@ -77,7 +78,7 @@ class ProfileSuccessView extends StatelessWidget {
             ),
             _buildOptionTile(
               icon: Icons.info,
-              title: 'Acerca de',
+              title: context.l10n.about,
               onTap: () {
                 Navigator.push(
                   context,
@@ -89,7 +90,7 @@ class ProfileSuccessView extends StatelessWidget {
             ),
             _buildOptionTile(
               icon: Icons.settings,
-              title: 'Configuración',
+              title: context.l10n.configuration,
               onTap: () {},
             ),
 
@@ -105,7 +106,7 @@ class ProfileSuccessView extends StatelessWidget {
                     onLogout!();
                   }),
                   icon: const Icon(Icons.logout),
-                  label: const Text('Cerrar sesión'),
+                  label: Text(context.l10n.logout),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.error,
                     foregroundColor: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -39,28 +40,28 @@ class CustomBottomNavBar extends StatelessWidget {
             /// Inicio
             SalomonBottomBarItem(
               icon: const Icon(FeatherIcons.home),
-              title: const Text("Inicio"),
+              title: Text(context.l10n.home),
               selectedColor: Colors.blue,
             ),
 
             /// Categorías
             SalomonBottomBarItem(
               icon: const Icon(FeatherIcons.grid),
-              title: const Text("Categorías"),
+              title: Text(context.l10n.categories),
               selectedColor: Colors.orange,
             ),
 
             /// Favoritos
             SalomonBottomBarItem(
               icon: const Icon(FeatherIcons.heart),
-              title: const Text("Favoritos"),
+              title: Text(context.l10n.favorites),
               selectedColor: Colors.red,
             ),
 
             /// Perfil
             SalomonBottomBarItem(
               icon: const Icon(FeatherIcons.user),
-              title: const Text("Perfil"),
+              title: Text(context.l10n.profile),
               selectedColor: Colors.purple,
             ),
           ],

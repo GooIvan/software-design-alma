@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../login/presentation/pages/login_page.dart';
@@ -32,7 +33,7 @@ class ProfileInitialView extends StatelessWidget {
 
                 // texto invitado
                 Text(
-                  'Invitado',
+                  context.l10n.guest,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: Colors.black87,
@@ -43,8 +44,8 @@ class ProfileInitialView extends StatelessWidget {
                 _buildInvitadoCard(
                   context,
                   icon: Icons.info_outline,
-                  title: '¿Sabías que puedes acceder a más funciones?',
-                  subtitle: 'Inicia sesión para ver tu cuenta, pedidos y más.',
+                  title: context.l10n.guestMessage1,
+                  subtitle: context.l10n.guestMessage2,
                 ),
 
                 const SizedBox(height: 20),
@@ -60,7 +61,7 @@ class ProfileInitialView extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.login),
-                    label: const Text('Iniciar sesión'),
+                    label: Text(context.l10n.signin),
                     style: FilledButton.styleFrom(
                       backgroundColor: azulPrimary,
                       foregroundColor: Colors.white,
@@ -89,7 +90,7 @@ class ProfileInitialView extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.person_add),
-                    label: const Text('Registrarse'),
+                    label: Text(context.l10n.signup),
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: azulPrimary),
                       foregroundColor: azulPrimary,

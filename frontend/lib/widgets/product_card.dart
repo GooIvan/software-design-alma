@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../feature/cart/data/bloc/cart_bloc.dart';
@@ -85,19 +86,19 @@ class ProductCard extends StatelessWidget {
                               topRight: Radius.circular(16),
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.shopping_bag_outlined,
                                   size: 50,
                                   color: Colors.grey,
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(
-                                  'Sin imagen',
-                                  style: TextStyle(
+                                  context.l10n.noImage,
+                                  style: const TextStyle(
                                     fontSize: 13,
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w500,
@@ -196,7 +197,7 @@ class ProductCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Precio",
+                              context.l10n.price,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[600],
@@ -292,10 +293,10 @@ class ProductCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'Selecciona una talla',
-                          style: TextStyle(
+                          context.l10n.selectSize,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -356,9 +357,9 @@ class ProductCard extends StatelessWidget {
 
                 // Lista de tallas
                 if (product.sizes.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text('No hay tallas disponibles'),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(context.l10n.noSizes),
                   )
                 else
                   Padding(
@@ -366,9 +367,9 @@ class ProductCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Tallas disponibles:',
-                          style: TextStyle(
+                        Text(
+                          '${context.l10n.sizesAvailable}:',
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -428,7 +429,7 @@ class ProductCard extends StatelessWidget {
         );
 
     // Mostrar mensaje de éxito
-    CustomAlert.success(context, 'Producto agregado al carrito');
+    CustomAlert.success(context, context.l10n.aggProductToCart);
 
     print('Producto agregado al carrito: "${product.name}", "$selectedSize"');
   }

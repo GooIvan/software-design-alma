@@ -1,4 +1,5 @@
 import 'package:design_alma/feature/products/index/presentation/pages/products_screen.dart';
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../../models/category_model.dart';
 import '../../../../widgets/square_image_widget.dart';
@@ -23,13 +24,13 @@ class CategoriesSuccessView extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 24),
         children: [
           const SizedBox(height: 16),
-          const Align(
+          Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                'Categorías',
-                style: TextStyle(
+                context.l10n.categories,
+                style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -38,7 +39,7 @@ class CategoriesSuccessView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           if (categories.isEmpty)
-            const Center(child: Text('No hay categorías'))
+            Center(child: Text(context.l10n.noCategories))
           else
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),

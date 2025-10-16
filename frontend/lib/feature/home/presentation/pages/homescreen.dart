@@ -10,6 +10,7 @@ import '../views/products/views_products_error.dart';
 import '../views/products/views_products_loading.dart';
 import '../views/products/views_products_success.dart';
 import '../widgets/promo_banner.dart';
+import '../../../../utils/extensions.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -40,13 +41,13 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   // Título y productos populares
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
                         Text(
-                          'Lo más nuevo',
-                          style: TextStyle(
+                          context.l10n.homeNewest,
+                          style: const TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                             color: Colors.black87,
@@ -62,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                         return const ViewProductsLoading();
                       } else if (state is ProductError) {
                         return ViewProductsError(
-                          title: 'Error al cargar productos',
+                          title: context.l10n.homeErrorMessageProducts,
                           onRetry: () {
                             context.read<ProductBloc>().add(LoadProducts());
                           },
@@ -76,11 +77,11 @@ class HomeScreen extends StatelessWidget {
 
                   // Título y categorías
                   const SizedBox(height: 32),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
-                      'Categorías',
-                      style: TextStyle(
+                      context.l10n.categories,
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
@@ -94,7 +95,7 @@ class HomeScreen extends StatelessWidget {
                         return const ViewsCategoriesLoading();
                       } else if (state is CategoryError) {
                         return ViewCategoriesError(
-                          title: 'Error al cargar categorías',
+                          title: context.l10n.homeErrorMessageCategories,
                           onRetry: () {
                             context.read<CategoryBloc>().add(LoadCategories());
                           },

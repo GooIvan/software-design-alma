@@ -3,10 +3,11 @@ import 'package:design_alma/routes/routes.dart';
 import 'package:design_alma/screens/logo_intro.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/di/service_locator.dart';
 import 'feature/cart/data/bloc/cart_bloc.dart';
-import 'global/print_local_storage.dart';
+import 'utils/print_local_storage.dart';
+import 'generated/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'DesignAlma App',
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('en'),
         theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: Colors.white,

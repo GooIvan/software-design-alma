@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,18 +69,18 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                 const SizedBox(height: 20),
 
                 // Título
-                const Text(
-                  '¡Bienvenido de nuevo!',
-                  style: TextStyle(
+                Text(
+                  context.l10n.loginTitle,
+                  style: const TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  'Inicia sesión en tu cuenta',
-                  style: TextStyle(
+                Text(
+                  context.l10n.loginMessage,
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                   ),
@@ -94,7 +95,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       color: Colors.black,
                       fontSize: 15),
                   decoration: InputDecoration(
-                    hintText: 'Introduce tu correo electrónico',
+                    hintText: context.l10n.inputEmail,
                     hintStyle: const TextStyle(
                       color: Color.fromARGB(255, 110, 110, 110),
                       fontWeight: FontWeight.bold,
@@ -140,8 +141,9 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       ),
                     ),
                   ),
-                  validator: (v) =>
-                      v == null || v.isEmpty ? 'Ingrese su email' : null,
+                  validator: (v) => v == null || v.isEmpty
+                      ? context.l10n.validationEmail
+                      : null,
                 ),
 
                 const SizedBox(height: 20),
@@ -156,7 +158,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       color: Colors.black,
                       fontSize: 15),
                   decoration: InputDecoration(
-                    hintText: 'Ingrese su contraseña',
+                    hintText: context.l10n.inputPassword,
                     hintStyle: const TextStyle(
                       color: Color.fromARGB(255, 110, 110, 110),
                       fontWeight: FontWeight.bold,
@@ -216,8 +218,9 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       ),
                     ),
                   ),
-                  validator: (v) =>
-                      v == null || v.length < 6 ? 'Mínimo 6 caracteres' : null,
+                  validator: (v) => v == null || v.length < 6
+                      ? context.l10n.validationPassword
+                      : null,
                 ),
 
                 const SizedBox(height: 10),
@@ -229,12 +232,12 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                     onPressed: () {
                       CustomAlert.warning(
                         context,
-                        'Funcionalidad no implementada',
+                        context.l10n.functionalityNotImplemented,
                       );
                     },
-                    child: const Text(
-                      '¿Olvidaste tu contraseña?',
-                      style: TextStyle(
+                    child: Text(
+                      context.l10n.forgotPassword,
+                      style: const TextStyle(
                         color: azulPrimary,
                       ),
                     ),
@@ -248,7 +251,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () => _onLoginPressed(context),
-                    label: const Text('Iniciar Sesión'),
+                    label: Text(context.l10n.signin),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: azulPrimary,
                       foregroundColor: Colors.white,

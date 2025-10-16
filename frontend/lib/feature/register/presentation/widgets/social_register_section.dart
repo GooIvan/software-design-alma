@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../widgets/custom_alert.dart';
@@ -31,7 +32,7 @@ class SocialRegisterSection extends StatelessWidget {
             height: 20,
             width: 20,
           ),
-          text: "Continuar con Google",
+          text: context.l10n.continueGoogle,
           color: Colors.white,
           textColor: Colors.black,
           borderColor: Colors.grey.shade300,
@@ -58,7 +59,7 @@ class SocialRegisterSection extends StatelessWidget {
         // ===== Botón Facebook =====
         _buildSocialButton(
           icon: FontAwesomeIcons.facebook,
-          text: "Continuar con Facebook",
+          text: context.l10n.continueFacebook,
           color: Colors.white,
           textColor: Colors.black,
           borderColor: Colors.grey.shade300,
@@ -72,8 +73,8 @@ class SocialRegisterSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("¿Ya tienes cuenta?",
-                style: TextStyle(
+            Text(context.l10n.yesAccount,
+                style: const TextStyle(
                   color: Colors.black,
                 )),
             TextButton(
@@ -83,10 +84,10 @@ class SocialRegisterSection extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const LoginPage()),
                 );
               },
-              child: const Text(
-                "Inicia sesión",
-                style:
-                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              child: Text(
+                context.l10n.login,
+                style: const TextStyle(
+                    color: Colors.blue, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -111,7 +112,7 @@ class SocialRegisterSection extends StatelessWidget {
         onPressed: () {
           CustomAlert.warning(
             context,
-            'Funcionalidad no implementada',
+            context.l10n.functionalityNotImplemented,
           );
         },
         icon: imageIcon ??

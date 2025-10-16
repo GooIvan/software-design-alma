@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../feature/cart/data/bloc/cart_bloc.dart';
@@ -30,7 +31,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12), // Reducido de 20,16,20,16 a 16,12,16,12
+          padding: const EdgeInsets.fromLTRB(
+              16, 16, 16, 12), // Reducido de 20,16,20,16 a 16,12,16,12
           child: Row(
             children: [
               // Avatar de usuario circular
@@ -72,10 +74,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: Colors.grey.shade200, 
-                      width: 1.5
-                    ),
+                    border: Border.all(color: Colors.grey.shade200, width: 1.5),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.03),
@@ -87,7 +86,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: Row(
                     children: [
                       Icon(
-                        FeatherIcons.search, 
+                        FeatherIcons.search,
                         color: Colors.grey.shade500,
                         size: 20,
                       ),
@@ -96,7 +95,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         child: TextField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Explore Fashion',
+                            hintText: context.l10n.explore,
                             hintStyle: TextStyle(
                               color: Colors.grey.shade500,
                               fontSize: 15,
@@ -158,7 +157,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF29B6F6).withOpacity(0.3),
+                                  color:
+                                      const Color(0xFF29B6F6).withOpacity(0.3),
                                   blurRadius: 6,
                                 ),
                               ],

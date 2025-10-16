@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,9 +12,9 @@ import '../views/login_loading_view.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  String _parseLoginError(String? errorMessage) {
+  String _parseLoginError(String? errorMessage, BuildContext context) {
     if (errorMessage == null || errorMessage.isEmpty) {
-      return 'Error desconocido, intenta nuevamente.';
+      return context.l10n.unknownError;
     }
 
     // Intentar parsear JSON si viene en formato JSON
@@ -28,7 +29,7 @@ class LoginPage extends StatelessWidget {
           // Ahora verificar el mensaje extraído
           final e = extractedMessage.toLowerCase();
           if (e.contains('invalid email or password')) {
-            return 'Correo o contraseña incorrectos, intenta nuevamente.';
+            return context.l10n.loginIncorrectParameters;
           }
 
           return extractedMessage;
@@ -42,10 +43,10 @@ class LoginPage extends StatelessWidget {
     final e = errorMessage.toLowerCase();
     if (e.contains('invalid email or password') ||
         e.contains('correo o contraseña incorrectos')) {
-      return 'Correo o contraseña incorrectos, intenta nuevamente.';
+      return context.l10n.loginIncorrectParameters;
     }
 
-    return "Error desconocido, intenta nuevamente.";
+    return context.l10n.unknownError;
   }
 
   @override
@@ -68,9 +69,10 @@ class LoginPage extends StatelessWidget {
                       builder: (_) => const MainScaffold(initialIndex: 3),
                     ),
                   );
-                  CustomAlert.success(context, 'Inicio de sesión exitoso');
+                  CustomAlert.success(context, context.l10n.loginSuccess);
                 } else if (state is LoginFailure) {
-                  final friendlyMessage = _parseLoginError(state.message);
+                  final friendlyMessage =
+                      _parseLoginError(state.message, context);
                   CustomAlert.error(context, friendlyMessage);
                 }
               },
