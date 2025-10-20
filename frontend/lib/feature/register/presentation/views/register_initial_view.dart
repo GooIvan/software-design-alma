@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../data/bloc/register_bloc.dart';
-import '../widgets/social_login_section.dart';
+import '../widgets/social_register_section.dart';
 
 class RegisterInitialView extends StatefulWidget {
   const RegisterInitialView({super.key});
@@ -631,7 +630,7 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
                   const SizedBox(height: 20),
 
-                  // const SocialLoginSection(),
+                  const SocialRegisterSection(),
                 ],
               ),
             )),

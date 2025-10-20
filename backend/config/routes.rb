@@ -4,6 +4,61 @@ Rails.application.routes.draw do
   # 🚨 Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # === API para Flutter (sin locale) ===
+  namespace :api, defaults: { format: :json } do
+    namespace :auth do
+      devise_for :users,
+        path: "",
+        skip: [:confirmations, :unlocks, :omniauth_callbacks],
+        controllers: {
+          registrations: "api/auth/registrations",
+          sessions: "api/auth/sessions",
+          passwords: "api/auth/passwords"
+        }
+    end
+
+    resource :profile, only: [:show], controller: "profile"
+    
+    # Logout endpoint
+    post :logout, to: "logout#create"
+
+    # 🛒 Productos
+    resources :products, only: [:index, :show] do
+      collection do
+        get :latest
+      end
+    end
+
+    # 🏷️ Categorías
+    resources :categories, param: :slug, only: [:index, :show] do
+      resources :products, only: [:index, :show]
+    end
+
+    # 📦 Órdenes API
+    resources :orders, only: [:index, :show, :create] do
+      member do
+        patch :cancel
+        patch :update_status
+        get :payment_methods
+      end
+      
+      collection do
+        get :history
+        get :active
+      end
+    end
+
+    # 💳 Pagos PayU API
+    namespace :payments do
+      post :create_payment_intent, to: "payments#create_payment_intent"
+      post :process_payu_payment, to: "payments#process_payu_payment"
+      get :payment_status, to: "payments#status"
+      
+      # Webhook de PayU
+      post :payu_webhook, to: "payments#payu_webhook"
+    end
+  end
+
   scope "(:locale)", locale: /en|es/ do
     # 🔐 Devise
     devise_for :users

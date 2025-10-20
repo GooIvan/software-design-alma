@@ -7,12 +7,12 @@ void initHomeModule() {
   // Registro del HomeRepository
   sl.registerLazySingleton<HomeRepository>(() => HomeRepository());
 
-  // Registro del ProductBloc
-  sl.registerLazySingleton<ProductBloc>(
-    () => ProductBloc(sl<HomeRepository>())..add(LoadProducts()),
+  // Registro del ProductBloc - cambiar a factory para crear instancias nuevas
+  sl.registerFactory<ProductBloc>(
+    () => ProductBloc(sl<HomeRepository>()),
   );
 
-  sl.registerLazySingleton<CategoryBloc>(
-    () => CategoryBloc(sl<HomeRepository>())..add(LoadCategories()),
+  sl.registerFactory<CategoryBloc>(
+    () => CategoryBloc(sl<HomeRepository>()),
   );
 }

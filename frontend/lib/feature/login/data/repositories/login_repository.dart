@@ -10,7 +10,7 @@ class LoginRepository {
     required String password,
   }) async {
     final response = await http.post(
-      Uri.parse('${Api.baseUrl}/es/api/auth/sign_in'),
+      Uri.parse('${Api.baseUrl}/api/auth/sign_in'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'user': {

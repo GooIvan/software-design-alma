@@ -17,7 +17,7 @@ class ProfileRepository {
 
     // Hacer petición al backend
     final response = await http.get(
-      Uri.parse('${Api.baseUrl}/es/api/profile'),
+      Uri.parse('${Api.baseUrl}/api/profile'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -53,7 +53,7 @@ class ProfileRepository {
     if (token != null) {
       try {
         final response = await http.post(
-          Uri.parse('${Api.baseUrl}/es/api/logout'),
+          Uri.parse('${Api.baseUrl}/api/logout'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token',

@@ -5,7 +5,7 @@ Widget PromoBanner(BuildContext context) {
 
   return Container(
     width: screenWidth,
-    height: 160,
+    height: 170,
     margin: const EdgeInsets.symmetric(horizontal: 16),
     decoration: BoxDecoration(
       gradient: const LinearGradient(
@@ -37,7 +37,7 @@ Widget PromoBanner(BuildContext context) {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +58,7 @@ Widget PromoBanner(BuildContext context) {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 6),
               const Text(
                 'Super Descuento',
                 style: TextStyle(
@@ -67,7 +67,7 @@ Widget PromoBanner(BuildContext context) {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   // TODO: Navegar a productos en descuento
@@ -79,7 +79,7 @@ Widget PromoBanner(BuildContext context) {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 ),
                 child: const Text(
                   'Shop Now',

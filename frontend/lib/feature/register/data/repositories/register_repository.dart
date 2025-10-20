@@ -16,7 +16,7 @@ class RegisterRepository {
     required String address,
   }) async {
     final response = await http.post(
-      Uri.parse('${Api.baseUrl}/es/api/auth'),
+      Uri.parse('${Api.baseUrl}/api/auth'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'user': {
