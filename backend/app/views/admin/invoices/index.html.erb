@@ -121,7 +121,7 @@
                 class: "text-decoration-none fw-semibold text-primary" %>
           </td>
           <td>
-            <span class="text-muted"><%= l(invoice.created_at, format: :short) %></span>
+            <span class="text-muted"><%= invoice.created_at.strftime("%d/%m/%Y") %></span>
           </td>
           <td>
             <% case invoice.status %>

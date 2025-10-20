@@ -1,5 +1,4 @@
 <%= stylesheet_link_tag "profile", media: "all" %>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
 <div class="c-scroll" data-controller="profile">
   <div class="profile-container">
@@ -259,99 +258,106 @@
 <script>
   // Inicializar iconos de Feather y animaciones
   function initializeProfile() {
+    // Esperar a que anime.js esté disponible
+    if (typeof anime === 'undefined') {
+      console.warn('Anime.js no está cargado aún');
+      return;
+    }
+
     if (typeof feather !== 'undefined') {
       feather.replace();
     }
     
     // Animaciones con Anime.js
+    // Animación del título
+    anime({
+      targets: '.profile-title',
+      translateY: [-50, 0],
+      opacity: [0, 1],
+      duration: 800,
+      easing: 'easeOutCubic'
+    });
+    
+    // Animación de las cards con stagger
+    anime({
+      targets: '.profile-card',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      duration: 600,
+      delay: anime.stagger(150, {start: 200}),
+      easing: 'easeOutQuart'
+    });
+    
+    // Animación de los números de estadísticas
+    const statNumbers = document.querySelectorAll('.profile-stat-number');
+    statNumbers.forEach(el => {
+      const target = parseInt(el.getAttribute('data-target')) || 0;
+      anime({
+        targets: el,
+        innerHTML: [0, target],
+        duration: 1500,
+        delay: 800,
+        round: 1,
+        easing: 'easeOutExpo'
+      });
+    });
+    
+    // Animación de las filas de la tabla
+    anime({
+      targets: '.order-item',
+      translateX: [-20, 0],
+      opacity: [0, 1],
+      duration: 400,
+      delay: anime.stagger(100, {start: 1000}),
+      easing: 'easeOutQuart'
+    });
+    
+    // Animación de los botones de acción
+    anime({
+      targets: '.profile-action-btn',
+      scale: [0.8, 1],
+      opacity: [0, 1],
+      duration: 500,
+      delay: 1200,
+      easing: 'easeOutBack'
+    });
+
+    // Configurar animación hover para las cards (solo una vez)
+    const cards = document.querySelectorAll('.profile-card');
+    cards.forEach(card => {
+      // Remover listeners antiguos si existen
+      card.removeEventListener('mouseenter', handleCardHover);
+      card.removeEventListener('mouseleave', handleCardLeave);
+      
+      // Agregar nuevos listeners
+      card.addEventListener('mouseenter', handleCardHover);
+      card.addEventListener('mouseleave', handleCardLeave);
+    });
+  }
+
+  function handleCardHover(e) {
     if (typeof anime !== 'undefined') {
-      // Animación del título
       anime({
-        targets: '.profile-title',
-        translateY: [-50, 0],
-        opacity: [0, 1],
-        duration: 800,
-        easing: 'easeOutCubic'
-      });
-      
-      // Animación de las cards con stagger
-      anime({
-        targets: '.profile-card',
-        translateY: [30, 0],
-        opacity: [0, 1],
-        duration: 600,
-        delay: anime.stagger(150, {start: 200}),
+        targets: e.currentTarget,
+        scale: 1.02,
+        duration: 300,
         easing: 'easeOutQuart'
       });
-      
-      // Animación de los números de estadísticas
-      const statNumbers = document.querySelectorAll('.profile-stat-number');
-      statNumbers.forEach(el => {
-        const target = parseInt(el.getAttribute('data-target')) || 0;
-        anime({
-          targets: el,
-          innerHTML: [0, target],
-          duration: 1500,
-          delay: 800,
-          round: 1,
-          easing: 'easeOutExpo'
-        });
-      });
-      
-      // Animación de las filas de la tabla
+    }
+  }
+
+  function handleCardLeave(e) {
+    if (typeof anime !== 'undefined') {
       anime({
-        targets: '.order-item',
-        translateX: [-20, 0],
-        opacity: [0, 1],
-        duration: 400,
-        delay: anime.stagger(100, {start: 1000}),
+        targets: e.currentTarget,
+        scale: 1,
+        duration: 300,
         easing: 'easeOutQuart'
-      });
-      
-      // Animación de los botones de acción
-      anime({
-        targets: '.profile-action-btn',
-        scale: [0.8, 1],
-        opacity: [0, 1],
-        duration: 500,
-        delay: 1200,
-        easing: 'easeOutBack'
       });
     }
   }
   
-  // Ejecutar al cargar el DOM
-  document.addEventListener('DOMContentLoaded', initializeProfile);
-  
-  // También ejecutar después de eventos Turbo
+  // Ejecutar solo en eventos Turbo (no DOMContentLoaded)
   document.addEventListener('turbo:load', initializeProfile);
-  
-  // Animación hover para las cards
-  document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.profile-card');
-    
-    cards.forEach(card => {
-      card.addEventListener('mouseenter', function() {
-        if (typeof anime !== 'undefined') {
-          anime({
-            targets: this,
-            scale: 1.02,
-            duration: 300,
-            easing: 'easeOutQuart'
-          });
-        }
-      });
-      
-      card.addEventListener('mouseleave', function() {
-        if (typeof anime !== 'undefined') {
-          anime({
-            targets: this,
-            scale: 1,
-            duration: 300,
-            easing: 'easeOutQuart'
-          });
-        }
-      });
-    });
-  });
+  document.addEventListener('turbo:render', initializeProfile);
 </script>

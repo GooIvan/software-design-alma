@@ -30,12 +30,12 @@
     
     <div class="info-group">
       <label>Fecha de emisión:</label>
-      <span><%= l(@invoice.created_at, format: :long) %></span>
+      <span><%= @invoice.created_at.strftime("%d/%m/%Y a las %H:%M") %></span>
     </div>
     
     <div class="info-group">
       <label>Fecha de vencimiento:</label>
-      <span><%= l(@invoice.due_date, format: :long) if @invoice.due_date %></span>
+      <span><%= @invoice.due_date.strftime("%d/%m/%Y") if @invoice.due_date %></span>
     </div>
     
     <div class="info-group">
@@ -69,7 +69,7 @@
         <strong>Email:</strong> <%= @invoice.order.user.email %>
       </div>
       <div class="info-row">
-        <strong>Cliente desde:</strong> <%= l(@invoice.order.user.created_at, format: :short) %>
+        <strong>Cliente desde:</strong> <%= @invoice.order.user.created_at.strftime("%d/%m/%Y") %>
       </div>
     </div>
   <% else %>
@@ -95,14 +95,17 @@
           <tr>
             <td>
               <div class="item-info">
-                <strong><%= item.product_name %></strong>
-                <% if item.product_description.present? %>
-                  <div class="item-description"><%= item.product_description %></div>
+                <strong><%= item.product.name %></strong>
+                <% if item.product.description.present? %>
+                  <div class="item-description"><%= item.product.description %></div>
+                <% end %>
+                <% if item.size.present? %>
+                  <div class="item-size text-muted">Talla: <%= item.size %></div>
                 <% end %>
               </div>
             </td>
             <td><%= item.quantity %></td>
-            <td>$<%= number_with_precision(item.unit_price, precision: 2) %></td>
+            <td>$<%= number_with_precision(item.price, precision: 2) %></td>
             <td><strong>$<%= number_with_precision(item.total_price, precision: 2) %></strong></td>
           </tr>
         <% end %>

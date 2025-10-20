@@ -65,7 +65,7 @@ class Admin::InvoicesController < ApplicationController
   private
 
   def set_invoice
-    @invoice = Invoice.find(params[:id])
+    @invoice = Invoice.includes(order: { order_items: :product }).find(params[:id])
   end
 
   def ensure_admin
