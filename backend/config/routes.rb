@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
 
     resource :profile, only: [:show], controller: "profile"
-    
+
     # Logout endpoint
     post :logout, to: "logout#create"
 
@@ -41,7 +41,7 @@ Rails.application.routes.draw do
         patch :update_status
         get :payment_methods
       end
-      
+
       collection do
         get :history
         get :active
@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       post :create_payment_intent, to: "payments#create_payment_intent"
       post :process_payu_payment, to: "payments#process_payu_payment"
       get :payment_status, to: "payments#status"
-      
+
       # Webhook de PayU
       post :payu_webhook, to: "payments#payu_webhook"
     end
@@ -72,37 +72,6 @@ Rails.application.routes.draw do
 
     # 🛍️ Vista web: Productos más populares (basado en ventas pagadas)
     get "most_popular", to: "most_popular#index", as: :most_popular
-
-    # === API para Flutter ===
-    namespace :api, defaults: { format: :json } do
-      namespace :auth do
-        devise_for :users,
-          path: "",
-          skip: [:confirmations, :unlocks, :omniauth_callbacks],
-          controllers: {
-            registrations: "api/auth/registrations",
-            sessions: "api/auth/sessions",
-            passwords: "api/auth/passwords",
-          }
-      end
-
-      resource :profile, only: [:show], controller: "profile"
-
-      # Logout endpoint
-      post :logout, to: "logout#create"
-
-      # 🛒 Productos
-      resources :products, only: [:index, :show] do
-        collection do
-          get :latest
-        end
-      end
-
-      # 🏷️ Categorías
-      resources :categories, param: :slug, only: [:index, :show] do
-        resources :products, only: [:index, :show]
-      end
-    end
 
     # 🛒 Carrito
     resources :cart_items, only: [:create, :destroy, :update] do
