@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   before_action :load_categories
 
   # Todo relacionado con el cambio de idioma, por defecto será redirigido a español
-  before_action :redirect_to_default_locale, unless: -> { params[:locale].present? || api_request? }
-  before_action :set_locale, unless: -> { api_request? }
+  before_action :redirect_to_default_locale, unless: -> { params[:locale].present? || api_request? || omniauth_callback? }
+  before_action :set_locale, unless: -> { api_request? || omniauth_callback? }
 
   helper_method :current_cart
 
@@ -17,14 +17,17 @@ class ApplicationController < ActionController::Base
   end
 
   def api_request?
-    request.path.starts_with?('/api/')
+    request.path.starts_with?("/api/")
+  end
+
+  def omniauth_callback?
+    request.path.starts_with?("/users/auth/")
   end
 
   def default_url_options
     { host: request.host,
-      port: request.port,
-      locale: I18n.locale 
-    }
+     port: request.port,
+     locale: I18n.locale }
   end
 
   # Todo: Método para permitir parámetros adicionales para Devise (si es un controlador de Devise)
@@ -34,10 +37,10 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     # Permitir estos campos en el registro
-    devise_parameter_sanitizer.permit(:sign_up, keys: [ :name, :last_name, :phone, :city, :address ])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :last_name, :phone, :city, :address])
 
     # Permitir estos campos en la actualización de cuenta
-    devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :last_name, :phone, :city, :address ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :last_name, :phone, :city, :address])
   end
 
   # * Método para redirigir al usuario al perfil después de iniciar sesión
@@ -59,8 +62,7 @@ class ApplicationController < ActionController::Base
 
   def create_cart
     cart = Cart.create
-      session[:cart_id] = cart.id
+    session[:cart_id] = cart.id
     cart
   end
-
 end

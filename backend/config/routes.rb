@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   # 🚨 Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # === OmniAuth callbacks (FUERA del scope para evitar errores) ===
+  devise_for :users, only: :omniauth_callbacks,
+            controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+
   # === API para Flutter (sin locale) ===
   namespace :api, defaults: { format: :json } do
     namespace :auth do
@@ -13,7 +17,7 @@ Rails.application.routes.draw do
         controllers: {
           registrations: "api/auth/registrations",
           sessions: "api/auth/sessions",
-          passwords: "api/auth/passwords"
+          passwords: "api/auth/passwords",
         }
     end
 
@@ -60,8 +64,8 @@ Rails.application.routes.draw do
   end
 
   scope "(:locale)", locale: /en|es/ do
-    # 🔐 Devise
-    devise_for :users
+    # 🔐 Devise (sin omniauth_callbacks porque ya está fuera del scope)
+    devise_for :users, skip: :omniauth_callbacks
 
     # 👤 Perfil
     get "profile", to: "profile#show"
