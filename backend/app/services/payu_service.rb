@@ -14,6 +14,13 @@ class PayuService
     expiration_year = expiration_parts[0]
     expiration_month = expiration_parts[1]
 
+    # Generar referenceCode único usando timestamp para evitar duplicados
+    reference_code = "ORDER-#{order.id}-#{Time.now.to_i}"
+    
+    Rails.logger.info "[PAYU] Procesando pago - Order: #{order.id}, Total: #{order.total}, Card: ****#{card_info[:number][-4..]}"
+    Rails.logger.info "[PAYU] Expiration recibida: #{card_info[:expiration]} -> Año: #{expiration_year}, Mes: #{expiration_month}"
+    Rails.logger.info "[PAYU] Reference Code: #{reference_code}"
+
     payload = {
       language: "es",
       command: "SUBMIT_TRANSACTION",
@@ -24,10 +31,10 @@ class PayuService
       transaction: {
         order: {
           accountId: ACCOUNT_ID,
-          referenceCode: order.id.to_s,
+          referenceCode: reference_code,
           description: "Compra Design Alma",
           language: "es",
-          signature: Digest::MD5.hexdigest("#{API_KEY}~#{MERCHANT_ID}~#{order.id}~#{order.total.to_i}~COP"),
+          signature: Digest::MD5.hexdigest("#{API_KEY}~#{MERCHANT_ID}~#{reference_code}~#{order.total.to_i}~COP"),
           buyer: {
             fullName: user.name || user.email,
             emailAddress: user.email,
@@ -68,21 +75,40 @@ class PayuService
 
     request = Net::HTTP::Post.new(uri.request_uri, {
       "Content-Type" => "application/json",
+      "Accept" => "application/json",
     })
     request.body = payload.to_json
 
+    Rails.logger.info "[PAYU] Enviando request a PayU..."
+    Rails.logger.debug "[PAYU] Payload: #{payload.to_json}"
+
     response = http.request(request)
 
-    # Parseamos XML si la respuesta viene como texto XML
-    xml = Nokogiri::XML(response.body)
+    Rails.logger.info "[PAYU] Respuesta recibida - Status: #{response.code}"
+    Rails.logger.info "[PAYU] Body: #{response.body}"
 
-    {
-      code: xml.at("code")&.text,
-      transaction_state: xml.at("transactionResponse > state")&.text,
-      transaction_id: xml.at("transactionResponse > transactionId")&.text,
-      order_id: xml.at("transactionResponse > orderId")&.text,
-      response_code: xml.at("transactionResponse > responseCode")&.text,
-      message: xml.at("transactionResponse > responseMessage")&.text,
-    }
+    # PayU devuelve JSON, no XML
+    begin
+      parsed = JSON.parse(response.body)
+      
+      result = {
+        code: parsed["code"],
+        transaction_state: parsed.dig("transactionResponse", "state"),
+        transaction_id: parsed.dig("transactionResponse", "transactionId"),
+        order_id: parsed.dig("transactionResponse", "orderId"),
+        response_code: parsed.dig("transactionResponse", "responseCode"),
+        message: parsed.dig("transactionResponse", "responseMessage") || parsed["error"],
+      }
+
+      Rails.logger.info "[PAYU] Resultado parseado: #{result.inspect}"
+      result
+    rescue JSON::ParserError => e
+      Rails.logger.error "[PAYU] Error al parsear respuesta JSON: #{e.message}"
+      {
+        code: "ERROR",
+        transaction_state: "ERROR",
+        message: "Error al procesar respuesta de PayU: #{e.message}",
+      }
+    end
   end
 end
