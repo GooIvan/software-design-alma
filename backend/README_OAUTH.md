@@ -1,36 +1,43 @@
 # Configuración de Google OAuth
 
-## Setup inicial (para cada desarrollador)
+## ✅ Setup automático (ya está listo!)
 
-1. Copia el archivo de ejemplo:
-   ```bash
-   cp .env.example .env
-   ```
+Este proyecto viene con credenciales de Google OAuth configuradas por defecto para desarrollo local.
 
-2. Ve a [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+**No necesitas hacer nada extra** - solo haz `docker-compose up` y funciona.
 
-3. Crea un nuevo OAuth 2.0 Client ID (o usa las credenciales compartidas del equipo)
+## 🔧 Para desarrollo local
 
-4. Configura las URIs autorizadas:
+Las credenciales están en:
+- `config/initializers/omniauth.rb` (valores por defecto en el código)
+- `docker-compose.yml` (variables de entorno con valores por defecto)
+
+Si quieres usar tus propias credenciales de Google:
+
+1. Ve a [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+2. Crea un nuevo OAuth 2.0 Client ID
+3. Configura las URIs autorizadas:
    - **Authorized JavaScript origins**: `http://localhost:3000`
    - **Authorized redirect URIs**: `http://localhost:3000/users/auth/google_oauth2/callback`
-
-5. Copia el Client ID y Client Secret en tu archivo `.env`:
-   ```
-   GOOGLE_CLIENT_ID=tu-id-aqui.apps.googleusercontent.com
-   GOOGLE_CLIENT_SECRET=tu-secret-aqui
-   ```
-
-6. Reinicia Docker:
+4. Sobrescribe las variables de entorno:
    ```bash
-   docker-compose down
-   docker-compose up --build
+   export GOOGLE_CLIENT_ID=tu-id-aqui
+   export GOOGLE_CLIENT_SECRET=tu-secret-aqui
+   docker-compose up
    ```
 
-## Compartir credenciales en el equipo
+## 🚀 Para producción
 
-**Opción A (Segura)**: Cada desarrollador crea sus propias credenciales en Google Cloud  
-**Opción B (Compartida)**: Un líder del equipo crea las credenciales y las comparte de forma segura (Slack privado, 1Password, etc.) - **NUNCA las subas a GitHub**
+**IMPORTANTE**: En producción, DEBES sobrescribir estas variables con credenciales seguras:
+
+```bash
+# Heroku
+heroku config:set GOOGLE_CLIENT_ID=xxx
+heroku config:set GOOGLE_CLIENT_SECRET=xxx
+
+# Render / Railway / Docker
+# Configura las variables de entorno en el panel de administración
+```
 
 ## Troubleshooting
 
