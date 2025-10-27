@@ -2,6 +2,7 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:country_flags/country_flags.dart';
 import '../../../../core/providers/language_provider.dart';
 import '../../../../widgets/custom_alert.dart';
 
@@ -58,6 +59,15 @@ class LanguageSelectionView extends StatelessWidget {
                           languageName: 'English',
                           countryName: 'United States',
                           flagEmoji: '🇺🇸',
+                          languageProvider: languageProvider,
+                        ),
+                        _buildDivider(),
+                        _buildLanguageOption(
+                          context: context,
+                          languageCode: 'fr',
+                          languageName: 'Français',
+                          countryName: 'France',
+                          flagEmoji: '🇫🇷',
                           isLast: true,
                           languageProvider: languageProvider,
                         ),
@@ -129,9 +139,18 @@ class LanguageSelectionView extends StatelessWidget {
           if (context.mounted) {
             Navigator.of(context).pop();
 
-            languageCode == 'es'
-                ? CustomAlert.success(context, 'Idioma cambiado exitosamente')
-                : CustomAlert.success(context, 'Language changed successfully');
+            String message;
+            switch (languageCode) {
+              case 'es':
+                message = 'Idioma cambiado exitosamente';
+                break;
+              case 'fr':
+                message = 'Langue changée avec succès';
+                break;
+              default:
+                message = 'Language changed successfully';
+            }
+            CustomAlert.success(context, message);
           }
         },
         borderRadius: BorderRadius.vertical(
@@ -148,12 +167,24 @@ class LanguageSelectionView extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.grey.shade100,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-                child: Center(
-                  child: Text(
-                    flagEmoji,
-                    style: const TextStyle(fontSize: 20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: CountryFlag.fromCountryCode(
+                    languageCode == 'es'
+                        ? 'ES'
+                        : languageCode == 'fr'
+                            ? 'FR'
+                            : 'US',
+                    height: 40,
+                    width: 40,
                   ),
                 ),
               ),

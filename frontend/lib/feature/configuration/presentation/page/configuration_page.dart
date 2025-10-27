@@ -1,5 +1,4 @@
 import 'package:design_alma/utils/extensions.dart';
-import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import '../views/language_selection_view.dart';
@@ -47,7 +46,6 @@ class ConfigurationPage extends StatelessWidget {
                       context: context,
                       icon: FeatherIcons.globe,
                       title: context.l10n.lenguajeTitle,
-                      subtitle: 'Español / English',
                       onTap: () => _navigateToLanguageSelection(context),
                       isFirst: true,
                       isLast: true,
@@ -122,7 +120,6 @@ class ConfigurationPage extends StatelessWidget {
     required BuildContext context,
     required IconData icon,
     required String title,
-    required String subtitle,
     required VoidCallback onTap,
     bool isFirst = false,
     bool isLast = false,
@@ -167,14 +164,6 @@ class ConfigurationPage extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade600,
                       ),
                     ),
                   ],
