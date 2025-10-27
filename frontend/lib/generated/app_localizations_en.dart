@@ -261,4 +261,107 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contributors => 'Contributors';
+
+  @override
+  String get sectionOrders => '---------------------------------------------';
+
+  @override
+  String get ordersTitle => 'My Orders';
+
+  @override
+  String get state => 'State';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get paid => 'Paid';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get sortby => 'Sort by';
+
+  @override
+  String get filterby => 'Filter by';
+
+  @override
+  String get newest => 'Newest';
+
+  @override
+  String get oldest => 'Oldest';
+
+  @override
+  String get higherValue => 'Higher Value';
+
+  @override
+  String get lowerValue => 'Lower Value';
+
+  @override
+  String get orderFound => 'order found';
+
+  @override
+  String get ordersNotFound => 'no orders found';
+
+  @override
+  String get ordersFound => 'orders found';
+
+  @override
+  String get article => 'Article';
+
+  @override
+  String get articles => 'Articles';
+
+  @override
+  String get created => 'Created';
+
+  @override
+  String get updated => 'Updated';
+
+  @override
+  String get size => 'Size';
+
+  @override
+  String get quantity => 'Quantity';
+
+  @override
+  String get priceUnit => 'Unit Price';
+
+  @override
+  String get sumaryOrder => 'Order Summary';
+
+  @override
+  String get totalArticles => 'Total Articles';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get oF => 'of';
+
+  @override
+  String get noOrdersFilterFound =>
+      'No orders found with the selected filters.';
+
+  @override
+  String get clearFilters => 'See all orders';
+
+  @override
+  String get order => 'Order';
+
+  @override
+  String get errorOrdersLoading => 'Error loading orders.';
+
+  @override
+  String get errorOrderLoading => 'Error loading order.';
+
+  @override
+  String get noArticles => 'There are no articles in this order';
+
+  @override
+  String get makeThePayment => 'Make the payment';
 }

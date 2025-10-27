@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -8,7 +9,7 @@ String _formatPrice(double price) {
   return '\$${formatter.format(price)}';
 }
 
-Widget buildOrderItem(OrderItem item) {
+Widget buildOrderItem(OrderItem item, BuildContext context) {
   return Container(
     margin: const EdgeInsets.only(bottom: 12),
     padding: const EdgeInsets.all(16),
@@ -83,7 +84,7 @@ Widget buildOrderItem(OrderItem item) {
               const SizedBox(height: 4),
               if (item.size != null) ...[
                 Text(
-                  'Talla: ${item.size}',
+                  '${context.l10n.size}: ${item.size}',
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 14,
@@ -92,7 +93,7 @@ Widget buildOrderItem(OrderItem item) {
                 const SizedBox(height: 4),
               ],
               Text(
-                'Cantidad: ${item.quantity}',
+                '${context.l10n.quantity}: ${item.quantity}',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -100,7 +101,7 @@ Widget buildOrderItem(OrderItem item) {
               ),
               const SizedBox(height: 4),
               Text(
-                'Precio unitario: ${_formatPrice(item.price)}',
+                '${context.l10n.priceUnit}: ${_formatPrice(item.price)}',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,

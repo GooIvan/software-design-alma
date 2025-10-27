@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ String _formatPrice(double price) {
   return '\$${formatter.format(price)}';
 }
 
-Widget buildOrderSummary(Order order) {
+Widget buildOrderSummary(Order order, BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(20),
     decoration: BoxDecoration(
@@ -26,9 +27,9 @@ Widget buildOrderSummary(Order order) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Resumen de la orden',
-          style: TextStyle(
+        Text(
+          context.l10n.sumaryOrder,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
@@ -38,14 +39,14 @@ Widget buildOrderSummary(Order order) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Total de artículos:',
+              '${context.l10n.totalArticles}:',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16,
               ),
             ),
             Text(
-              '${order.orderItems?.length ?? 0} ${(order.orderItems?.length ?? 0) == 1 ? 'artículo' : 'artículos'}',
+              '${order.orderItems?.length ?? 0} ${(order.orderItems?.length ?? 0) == 1 ? context.l10n.article : context.l10n.articles}',
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
@@ -59,9 +60,9 @@ Widget buildOrderSummary(Order order) {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Total:',
-              style: TextStyle(
+            Text(
+              '${context.l10n.total}:',
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),

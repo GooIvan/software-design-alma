@@ -264,4 +264,107 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get contributors => 'Colaboradores';
+
+  @override
+  String get sectionOrders => '---------------------------------------------';
+
+  @override
+  String get ordersTitle => 'Mis pedidos';
+
+  @override
+  String get state => 'Estado';
+
+  @override
+  String get all => 'Todos';
+
+  @override
+  String get paid => 'Pagado';
+
+  @override
+  String get pending => 'Pendiente';
+
+  @override
+  String get cancelled => 'Cancelado';
+
+  @override
+  String get sortby => 'Ordenar por';
+
+  @override
+  String get filterby => 'Filtrar por';
+
+  @override
+  String get newest => 'Más nuevo';
+
+  @override
+  String get oldest => 'Más antiguo';
+
+  @override
+  String get higherValue => 'Mayor valor';
+
+  @override
+  String get lowerValue => 'Menor valor';
+
+  @override
+  String get orderFound => 'pedido encontrado';
+
+  @override
+  String get ordersNotFound => 'no se encontraron pedidos';
+
+  @override
+  String get ordersFound => 'pedidos encontrados';
+
+  @override
+  String get article => 'Artículo';
+
+  @override
+  String get articles => 'Artículos';
+
+  @override
+  String get created => 'Creado';
+
+  @override
+  String get updated => 'Actualizado';
+
+  @override
+  String get size => 'Talle';
+
+  @override
+  String get quantity => 'Cantidad';
+
+  @override
+  String get priceUnit => 'Precio unitario';
+
+  @override
+  String get sumaryOrder => 'Resumen del pedido';
+
+  @override
+  String get totalArticles => 'Total de artículos';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get oF => 'de';
+
+  @override
+  String get noOrdersFilterFound =>
+      'No se encontraron pedidos con los filtros seleccionados.';
+
+  @override
+  String get clearFilters => 'Ver todas las órdenes';
+
+  @override
+  String get order => 'Orden';
+
+  @override
+  String get errorOrdersLoading => 'Error al cargar las órdenes.';
+
+  @override
+  String get errorOrderLoading => 'Error al cargar la orden.';
+
+  @override
+  String get noArticles => 'No hay artículos en esta orden';
+
+  @override
+  String get makeThePayment => 'Realiza el pago';
 }

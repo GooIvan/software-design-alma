@@ -595,6 +595,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contributors'**
   String get contributors;
+
+  /// No description provided for @sectionOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionOrders;
+
+  /// No description provided for @ordersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Orders'**
+  String get ordersTitle;
+
+  /// No description provided for @state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get state;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @paid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paid;
+
+  /// No description provided for @pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @sortby.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortby;
+
+  /// No description provided for @filterby.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by'**
+  String get filterby;
+
+  /// No description provided for @newest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get newest;
+
+  /// No description provided for @oldest.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest'**
+  String get oldest;
+
+  /// No description provided for @higherValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher Value'**
+  String get higherValue;
+
+  /// No description provided for @lowerValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower Value'**
+  String get lowerValue;
+
+  /// No description provided for @orderFound.
+  ///
+  /// In en, this message translates to:
+  /// **'order found'**
+  String get orderFound;
+
+  /// No description provided for @ordersNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'no orders found'**
+  String get ordersNotFound;
+
+  /// No description provided for @ordersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'orders found'**
+  String get ordersFound;
+
+  /// No description provided for @article.
+  ///
+  /// In en, this message translates to:
+  /// **'Article'**
+  String get article;
+
+  /// No description provided for @articles.
+  ///
+  /// In en, this message translates to:
+  /// **'Articles'**
+  String get articles;
+
+  /// No description provided for @created.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get created;
+
+  /// No description provided for @updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated'**
+  String get updated;
+
+  /// No description provided for @size.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get size;
+
+  /// No description provided for @quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get quantity;
+
+  /// No description provided for @priceUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Price'**
+  String get priceUnit;
+
+  /// No description provided for @sumaryOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Summary'**
+  String get sumaryOrder;
+
+  /// No description provided for @totalArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Articles'**
+  String get totalArticles;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// No description provided for @oF.
+  ///
+  /// In en, this message translates to:
+  /// **'of'**
+  String get oF;
+
+  /// No description provided for @noOrdersFilterFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders found with the selected filters.'**
+  String get noOrdersFilterFound;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'See all orders'**
+  String get clearFilters;
+
+  /// No description provided for @order.
+  ///
+  /// In en, this message translates to:
+  /// **'Order'**
+  String get order;
+
+  /// No description provided for @errorOrdersLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading orders.'**
+  String get errorOrdersLoading;
+
+  /// No description provided for @errorOrderLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading order.'**
+  String get errorOrderLoading;
+
+  /// No description provided for @noArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no articles in this order'**
+  String get noArticles;
+
+  /// No description provided for @makeThePayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Make the payment'**
+  String get makeThePayment;
 }
 
 class _AppLocalizationsDelegate
