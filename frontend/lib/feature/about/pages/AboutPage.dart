@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -35,9 +36,9 @@ class AboutPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Acerca de',
-          style: TextStyle(
+        title: Text(
+          context.l10n.about,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -56,9 +57,9 @@ class AboutPage extends StatelessWidget {
                 child: ListView(
                   children: [
                     const SizedBox(height: 10),
-                    const Text(
-                      "Documentación del Proyecto",
-                      style: TextStyle(
+                    Text(
+                      context.l10n.titleDoc,
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
@@ -67,9 +68,9 @@ class AboutPage extends StatelessWidget {
                     const SizedBox(height: 12),
                     ElevatedButton.icon(
                       onPressed: () => _launchUrl(documentationUrl),
-                      label: const Text(
-                        "Ver",
-                        style: TextStyle(
+                      label: Text(
+                        context.l10n.see,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -88,9 +89,9 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 40),
-                    const Text(
-                      "Contribuidores",
-                      style: TextStyle(
+                    Text(
+                      context.l10n.contributors,
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),

@@ -28,7 +28,7 @@
   "signup": "Sign Up",
   "unknownError": "Unknown error, please try again.",
   "functionalityNotImplemented": "Functionality not implemented",
-
+  "see": "See",
 
   "sectionHome": "---------------------------------------------",
   "appTitle": "Design Alma",
@@ -85,5 +85,9 @@
   "emailInUse": "The email is already in use.",
   "passwordsNotValid": "invalid password",
   "nameNotValid": "You must enter a valid name.",
-  "registerSuccess": "Registration successful"
+  "registerSuccess": "Registration successful",
+
+  "sectionAbout": "---------------------------------------------",
+  "titleDoc": "Project Documentation",
+  "contributors": "Contributors"
 }

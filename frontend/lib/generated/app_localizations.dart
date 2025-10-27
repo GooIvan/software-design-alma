@@ -260,6 +260,12 @@ abstract class AppLocalizations {
   /// **'Functionality not implemented'**
   String get functionalityNotImplemented;
 
+  /// No description provided for @see.
+  ///
+  /// In en, this message translates to:
+  /// **'See'**
+  String get see;
+
   /// No description provided for @sectionHome.
   ///
   /// In en, this message translates to:
@@ -571,6 +577,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Registration successful'**
   String get registerSuccess;
+
+  /// No description provided for @sectionAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionAbout;
+
+  /// No description provided for @titleDoc.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Documentation'**
+  String get titleDoc;
+
+  /// No description provided for @contributors.
+  ///
+  /// In en, this message translates to:
+  /// **'Contributors'**
+  String get contributors;
 }
 
 class _AppLocalizationsDelegate

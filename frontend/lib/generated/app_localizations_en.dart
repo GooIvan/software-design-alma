@@ -90,6 +90,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get functionalityNotImplemented => 'Functionality not implemented';
 
   @override
+  String get see => 'See';
+
+  @override
   String get sectionHome => '---------------------------------------------';
 
   @override
@@ -249,4 +252,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registerSuccess => 'Registration successful';
+
+  @override
+  String get sectionAbout => '---------------------------------------------';
+
+  @override
+  String get titleDoc => 'Project Documentation';
+
+  @override
+  String get contributors => 'Contributors';
 }

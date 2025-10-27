@@ -90,6 +90,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get functionalityNotImplemented => 'Funcionalidad no implementada';
 
   @override
+  String get see => 'Ver';
+
+  @override
   String get sectionHome => '---------------------------------------------';
 
   @override
@@ -252,4 +255,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get registerSuccess => 'Registro exitoso';
+
+  @override
+  String get sectionAbout => '---------------------------------------------';
+
+  @override
+  String get titleDoc => 'Documentación del proyecto';
+
+  @override
+  String get contributors => 'Colaboradores';
 }
