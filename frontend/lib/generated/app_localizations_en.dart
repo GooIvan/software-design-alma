@@ -519,4 +519,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lenguajeTitle => 'Application language';
+
+  @override
+  String get sectionChangeTheme =>
+      '---------------------------------------------';
+
+  @override
+  String get appTheme => 'App Theme';
 }

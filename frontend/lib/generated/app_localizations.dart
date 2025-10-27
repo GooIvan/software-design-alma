@@ -1101,6 +1101,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Application language'**
   String get lenguajeTitle;
+
+  /// No description provided for @sectionChangeTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionChangeTheme;
+
+  /// No description provided for @appTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'App Theme'**
+  String get appTheme;
 }
 
 class _AppLocalizationsDelegate

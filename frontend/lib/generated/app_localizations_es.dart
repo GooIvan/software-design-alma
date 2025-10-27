@@ -523,4 +523,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get lenguajeTitle => 'Idioma de la aplicación';
+
+  @override
+  String get sectionChangeTheme =>
+      '---------------------------------------------';
+
+  @override
+  String get appTheme => 'Tema de la aplicación';
 }

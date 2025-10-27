@@ -166,5 +166,7 @@
   "selectLanguage": "Select Language",
   "languageChanged": "Language changed successfully",
   "restartAppToApplyLanguage": "Changes will be applied immediately",
-  "lenguajeTitle": "Application language"
+  "lenguajeTitle": "Application language",
+  "sectionChangeTheme": "---------------------------------------------",
+  "appTheme": "App Theme"
 }
