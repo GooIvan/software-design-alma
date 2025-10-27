@@ -8,6 +8,16 @@ Rails.application.config.middleware.use OmniAuth::Builder do
       image_aspect_ratio: "square",
       image_size: 50,
     }
+
+  provider :facebook,
+    ENV["FACEBOOK_APP_ID"],
+    ENV["FACEBOOK_APP_SECRET"],
+    {
+      scope: "public_profile",
+      info_fields: "name",
+      image_size: "square",
+      callback_url: "#{ENV['APP_URL']}/users/auth/facebook/callback",
+    }
 end
 
 # Configuración de seguridad CSRF para OmniAuth

@@ -19,8 +19,9 @@ gem "jbuilder"
 gem "devise"
 gem "devise-jwt"
 
-# OmniAuth para autenticación con Google
+# OmniAuth para autenticación con Google y Facebook
 gem "omniauth-google-oauth2"
+gem "omniauth-facebook"
 gem "omniauth-rails_csrf_protection"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]

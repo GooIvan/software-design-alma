@@ -4,6 +4,11 @@ Rails.application.routes.draw do
   # 🚨 Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # === Data Deletion endpoints (para Facebook OAuth) ===
+  get "data-deletion/instructions", to: "data_deletion#instructions"
+  post "data-deletion/callback", to: "data_deletion#callback"
+  get "data-deletion/status", to: "data_deletion#status"
+
   # === OmniAuth callbacks (FUERA del scope para evitar errores) ===
   devise_for :users, only: :omniauth_callbacks,
             controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
