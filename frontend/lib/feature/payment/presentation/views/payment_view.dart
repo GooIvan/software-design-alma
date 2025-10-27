@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/bloc/payment_bloc.dart';
@@ -94,10 +95,10 @@ class _PaymentViewState extends State<PaymentView> {
           iconTheme: const IconThemeData(color: Colors.black),
           elevation: 0,
         ),
-        body: const Center(
+        body: Center(
           child: Text(
-            'Error al cargar la orden',
-            style: TextStyle(color: Colors.grey, fontSize: 16),
+            context.l10n.errorPayment,
+            style: const TextStyle(color: Colors.grey, fontSize: 16),
           ),
         ),
       );

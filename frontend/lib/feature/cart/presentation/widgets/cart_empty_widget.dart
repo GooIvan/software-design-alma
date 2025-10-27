@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class CartEmptyWidget extends StatelessWidget {
@@ -44,7 +45,7 @@ class CartEmptyWidget extends StatelessWidget {
 
               // Título
               Text(
-                'Tu carrito está vacío',
+                context.l10n.cartIsEmpty,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
@@ -56,7 +57,7 @@ class CartEmptyWidget extends StatelessWidget {
 
               // Subtítulo
               Text(
-                'Agrega algunos productos para comenzar tu compra',
+                context.l10n.cartMessageEmpty,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.grey[600],
                     ),
@@ -90,9 +91,9 @@ class CartEmptyWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
-                      'Comenzar a Comprar',
-                      style: TextStyle(
+                    child: Text(
+                      context.l10n.cartEmptyBrowseProducts,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),

@@ -4,7 +4,9 @@ import 'package:design_alma/screens/logo_intro.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'core/di/service_locator.dart';
+import 'core/providers/language_provider.dart';
 import 'feature/cart/data/bloc/cart_bloc.dart';
 import 'utils/print_local_storage.dart';
 import 'generated/app_localizations.dart';
@@ -23,32 +25,37 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
         BlocProvider(create: (context) => CartBloc()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'DesignAlma App',
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        locale: const Locale('en'),
-        theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: Colors.white,
-          textTheme: GoogleFonts.quanticoTextTheme(
-            Theme.of(context).textTheme,
-          ),
-        ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const LogoIntro(),
-          ...AppRoute.routes,
+      child: Consumer<LanguageProvider>(
+        builder: (context, languageProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'DesignAlma App',
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: languageProvider.locale,
+            theme: ThemeData(
+              useMaterial3: true,
+              colorSchemeSeed: Colors.white,
+              textTheme: GoogleFonts.quanticoTextTheme(
+                Theme.of(context).textTheme,
+              ),
+            ),
+            initialRoute: '/',
+            routes: {
+              '/': (context) => const LogoIntro(),
+              ...AppRoute.routes,
+            },
+          );
         },
       ),
     );

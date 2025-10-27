@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../models/order_model.dart';
@@ -70,7 +71,7 @@ class OrderSummaryCard extends StatelessWidget {
               children: [
                 const SizedBox(width: 8),
                 Text(
-                  'Resumen de la Orden',
+                  context.l10n.sumaryOrder,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -80,11 +81,11 @@ class OrderSummaryCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildSummaryRow('Orden', '#${order.id}'),
+            _buildSummaryRow(context.l10n.order, '#${order.id}'),
             const SizedBox(height: 8),
-            _buildSummaryRow('Total', _formatTotal(order.total)),
+            _buildSummaryRow(context.l10n.total, _formatTotal(order.total)),
             const SizedBox(height: 8),
-            _buildSummaryRow('Estado', order.status,
+            _buildSummaryRow(context.l10n.state, order.status,
                 isStatus: true, status: order.status),
           ],
         ),

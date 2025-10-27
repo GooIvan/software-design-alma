@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../models/cart_item_model.dart';
@@ -98,7 +99,7 @@ class CartItemWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    'Talla: ${item.size}',
+                    '${context.l10n.size}: ${item.size}',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,

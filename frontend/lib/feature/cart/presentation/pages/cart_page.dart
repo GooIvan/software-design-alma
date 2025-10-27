@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -19,9 +20,9 @@ class CartPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Mi Carrito',
-          style: TextStyle(
+        title: Text(
+          context.l10n.myCart,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -33,7 +34,6 @@ class CartPage extends StatelessWidget {
               if (state.isNotEmpty) {
                 return IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
-                  tooltip: 'Limpiar carrito',
                   onPressed: () => _showClearCartDialog(context),
                 );
               }
@@ -119,9 +119,9 @@ class CartPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          child: const Text(
-                            'VERIFICAR',
-                            style: TextStyle(
+                          child: Text(
+                            context.l10n.verify,
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.white,
                               letterSpacing: 1,
@@ -145,13 +145,12 @@ class CartPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Limpiar Carrito'),
-          content: const Text(
-              '¿Estás seguro de que quieres eliminar todos los productos del carrito?'),
+          title: Text(context.l10n.clearCart),
+          content: Text(context.l10n.clearCartConfirm),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
+              child: Text(context.l10n.cancel),
             ),
             TextButton(
               onPressed: () {
@@ -159,7 +158,7 @@ class CartPage extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(foregroundColor: Colors.red),
-              child: const Text('Limpiar'),
+              child: Text(context.l10n.clear),
             ),
           ],
         );

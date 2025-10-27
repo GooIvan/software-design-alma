@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'---------------------------------------------'**
   String get sectionKeywords;
 
+  /// No description provided for @version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
   /// No description provided for @price.
   ///
   /// In en, this message translates to:
@@ -265,6 +271,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See'**
   String get see;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
 
   /// No description provided for @sectionHome.
   ///
@@ -799,6 +811,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Make the payment'**
   String get makeThePayment;
+
+  /// No description provided for @sectionProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionProducts;
+
+  /// No description provided for @errorLoadingProductDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading product details.'**
+  String get errorLoadingProductDetails;
+
+  /// No description provided for @productAddedToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Product added to cart'**
+  String get productAddedToCart;
+
+  /// No description provided for @alertSizeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Selecting a size is required'**
+  String get alertSizeRequired;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @buyNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy Now'**
+  String get buyNow;
+
+  /// No description provided for @addToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get addToCart;
+
+  /// No description provided for @sectionCart.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionCart;
+
+  /// No description provided for @myCart.
+  ///
+  /// In en, this message translates to:
+  /// **'My Cart'**
+  String get myCart;
+
+  /// No description provided for @enterCodePromocional.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter promotional code'**
+  String get enterCodePromocional;
+
+  /// No description provided for @taxRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax Rate'**
+  String get taxRate;
+
+  /// No description provided for @discount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get discount;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @verify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verify;
+
+  /// No description provided for @cartIsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get cartIsEmpty;
+
+  /// No description provided for @cartMessageEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add products to your cart to see them here.'**
+  String get cartMessageEmpty;
+
+  /// No description provided for @cartEmptyBrowseProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Products'**
+  String get cartEmptyBrowseProducts;
+
+  /// No description provided for @clearCartConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to clear the cart?'**
+  String get clearCartConfirm;
+
+  /// No description provided for @clearCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cart'**
+  String get clearCart;
+
+  /// No description provided for @loadingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait a moment...'**
+  String get loadingMessage;
+
+  /// No description provided for @sectionPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionPayment;
+
+  /// No description provided for @errorPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading payment information.'**
+  String get errorPayment;
+
+  /// No description provided for @errorPaymentMessage1.
+  ///
+  /// In en, this message translates to:
+  /// **'There was a problem processing your payment.'**
+  String get errorPaymentMessage1;
+
+  /// No description provided for @errorPaymentMessage2.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try again or use another method.'**
+  String get errorPaymentMessage2;
+
+  /// No description provided for @pendingPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Pending'**
+  String get pendingPayment;
+
+  /// No description provided for @pendingPaymentMessage1.
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment is being processed'**
+  String get pendingPaymentMessage1;
+
+  /// No description provided for @pendingPaymentMessage2.
+  ///
+  /// In en, this message translates to:
+  /// **'You will receive a confirmation soon...'**
+  String get pendingPaymentMessage2;
+
+  /// No description provided for @successPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Successful'**
+  String get successPayment;
+
+  /// No description provided for @successPaymentMessage1.
+  ///
+  /// In en, this message translates to:
+  /// **'You have successfully placed your order,'**
+  String get successPaymentMessage1;
+
+  /// No description provided for @successPaymentMessage2.
+  ///
+  /// In en, this message translates to:
+  /// **'You will receive your receipt very soon.'**
+  String get successPaymentMessage2;
+
+  /// No description provided for @understand.
+  ///
+  /// In en, this message translates to:
+  /// **'I Understand'**
+  String get understand;
+
+  /// No description provided for @informationCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Card Information'**
+  String get informationCard;
+
+  /// No description provided for @pay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay'**
+  String get pay;
+
+  /// No description provided for @modeTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Mode'**
+  String get modeTest;
+
+  /// No description provided for @modeTestMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'PayU Sandbox: Use 4111 1111 1111 1111 for testing. Payments will not be processed for real.'**
+  String get modeTestMessage;
+
+  /// No description provided for @numberCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Card Number'**
+  String get numberCard;
+
+  /// No description provided for @required.
+  ///
+  /// In en, this message translates to:
+  /// **'Required.'**
+  String get required;
+
+  /// No description provided for @validation.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid.'**
+  String get validation;
+
+  /// No description provided for @month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get month;
+
+  /// No description provided for @year.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get year;
+
+  /// No description provided for @nameHolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardholder Name'**
+  String get nameHolder;
+
+  /// No description provided for @veryShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Very short.'**
+  String get veryShort;
+
+  /// No description provided for @sectionLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionLanguage;
+
+  /// No description provided for @appLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'App Language'**
+  String get appLanguage;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
+  /// No description provided for @languageChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Language changed successfully'**
+  String get languageChanged;
+
+  /// No description provided for @restartAppToApplyLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes will be applied immediately'**
+  String get restartAppToApplyLanguage;
+
+  /// No description provided for @lenguajeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Application language'**
+  String get lenguajeTitle;
 }
 
 class _AppLocalizationsDelegate

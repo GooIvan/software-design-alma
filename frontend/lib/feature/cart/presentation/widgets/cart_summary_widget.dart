@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -67,7 +68,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                               LengthLimitingTextInputFormatter(10)
                             ],
                             decoration: InputDecoration(
-                              hintText: 'Introducir código promocional',
+                              hintText: context.l10n.enterCodePromocional,
                               hintStyle: TextStyle(color: Colors.grey[500]),
                               border: InputBorder.none, // sin bordes
                             ),
@@ -88,9 +89,9 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          child: const Text(
-                            'Aplicar',
-                            style: TextStyle(
+                          child: Text(
+                            context.l10n.apply,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
                             ),
@@ -108,19 +109,20 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
             // Resumen de costos
             Column(
               children: [
-                _buildSummaryRow('Cantidad', _formatCurrency(widget.subtotal)),
+                _buildSummaryRow(
+                    context.l10n.quantity, _formatCurrency(widget.subtotal)),
                 const SizedBox(height: 8),
                 _buildSummaryRow(
-                    'Tarifa de impuesto', _formatCurrency(widget.tax)),
+                    context.l10n.taxRate, _formatCurrency(widget.tax)),
                 const SizedBox(height: 8),
                 _buildSummaryRow(
-                  'Descuento',
+                  context.l10n.discount,
                   '-${_formatCurrency(widget.discount)}',
                   isDiscount: true,
                 ),
                 const SizedBox(height: 16),
                 _buildSummaryRow(
-                  'Total',
+                  context.l10n.total,
                   _formatCurrency(widget.total),
                   isTotal: true,
                 ),

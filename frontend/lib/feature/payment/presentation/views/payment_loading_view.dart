@@ -57,38 +57,38 @@ class PaymentLoadingView extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Items de la orden
-          ...List.generate(3, (index) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+          ...List.generate(3, (index) => const Padding(
+            padding: EdgeInsets.only(bottom: 12),
             child: Row(
               children: [
                 // Imagen del producto
-                const SkeletonLoader(
+                SkeletonLoader(
                   width: 50,
                   height: 50,
                   borderRadius: 8,
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
 
                 // Información del producto
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SkeletonLoader(
+                      SkeletonLoader(
                         width: double.infinity,
                         height: 16,
                         borderRadius: 4,
                       ),
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const SkeletonLoader(
+                          SkeletonLoader(
                             width: 60,
                             height: 14,
                             borderRadius: 4,
                           ),
-                          const SkeletonLoader(
+                          SkeletonLoader(
                             width: 80,
                             height: 16,
                             borderRadius: 4,
@@ -105,15 +105,15 @@ class PaymentLoadingView extends StatelessWidget {
           const Divider(height: 24),
 
           // Total
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SkeletonLoader(
+              SkeletonLoader(
                 width: 60,
                 height: 20,
                 borderRadius: 4,
               ),
-              const SkeletonLoader(
+              SkeletonLoader(
                 width: 100,
                 height: 24,
                 borderRadius: 4,
@@ -136,38 +136,38 @@ class PaymentLoadingView extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.all(16),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Título del formulario
-          const SkeletonLoader(
+          SkeletonLoader(
             width: 200,
             height: 24,
             borderRadius: 8,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Campo número de tarjeta
-          const SkeletonLoader(
+          SkeletonLoader(
             width: double.infinity,
             height: 50,
             borderRadius: 12,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           // Campos fecha y CVV
           Row(
             children: [
               Expanded(
-                child: const SkeletonLoader(
+                child: SkeletonLoader(
                   width: double.infinity,
                   height: 50,
                   borderRadius: 12,
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16),
               Expanded(
-                child: const SkeletonLoader(
+                child: SkeletonLoader(
                   width: double.infinity,
                   height: 50,
                   borderRadius: 12,
@@ -175,18 +175,18 @@ class PaymentLoadingView extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           // Campo nombre del titular
-          const SkeletonLoader(
+          SkeletonLoader(
             width: double.infinity,
             height: 50,
             borderRadius: 12,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           // Campo email
-          const SkeletonLoader(
+          SkeletonLoader(
             width: double.infinity,
             height: 50,
             borderRadius: 12,
@@ -223,22 +223,22 @@ class PaymentLoadingView extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.all(16),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SkeletonLoader(
+          SkeletonLoader(
             width: 120,
             height: 20,
             borderRadius: 4,
           ),
-          const SizedBox(height: 12),
-          const SkeletonLoader(
+          SizedBox(height: 12),
+          SkeletonLoader(
             width: double.infinity,
             height: 16,
             borderRadius: 4,
           ),
-          const SizedBox(height: 8),
-          const SkeletonLoader(
+          SizedBox(height: 8),
+          SkeletonLoader(
             width: 200,
             height: 16,
             borderRadius: 4,
@@ -259,38 +259,38 @@ class PaymentLoadingView extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.all(16),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const SkeletonLoader(
+              SkeletonLoader(
                 width: 24,
                 height: 24,
                 borderRadius: 12,
               ),
-              const SizedBox(width: 8),
-              const SkeletonLoader(
+              SizedBox(width: 8),
+              SkeletonLoader(
                 width: 100,
                 height: 20,
                 borderRadius: 4,
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          const SkeletonLoader(
+          SizedBox(height: 12),
+          SkeletonLoader(
             width: double.infinity,
             height: 16,
             borderRadius: 4,
           ),
-          const SizedBox(height: 8),
-          const SkeletonLoader(
+          SizedBox(height: 8),
+          SkeletonLoader(
             width: 250,
             height: 16,
             borderRadius: 4,
           ),
-          const SizedBox(height: 8),
-          const SkeletonLoader(
+          SizedBox(height: 8),
+          SkeletonLoader(
             width: 180,
             height: 16,
             borderRadius: 4,

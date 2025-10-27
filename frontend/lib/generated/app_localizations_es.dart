@@ -12,6 +12,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sectionKeywords => '---------------------------------------------';
 
   @override
+  String get version => 'Versión';
+
+  @override
   String get price => 'Precio';
 
   @override
@@ -91,6 +94,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get see => 'Ver';
+
+  @override
+  String get clear => 'Limpiar';
 
   @override
   String get sectionHome => '---------------------------------------------';
@@ -367,4 +373,154 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get makeThePayment => 'Realiza el pago';
+
+  @override
+  String get sectionProducts => '---------------------------------------------';
+
+  @override
+  String get errorLoadingProductDetails =>
+      'Error al cargar los detalles del producto.';
+
+  @override
+  String get productAddedToCart => 'Producto agregado al carrito';
+
+  @override
+  String get alertSizeRequired => 'Se requiere seleccionar una talla';
+
+  @override
+  String get description => 'Descripción';
+
+  @override
+  String get buyNow => 'Comprar ahora';
+
+  @override
+  String get addToCart => 'Agregar al carrito';
+
+  @override
+  String get sectionCart => '---------------------------------------------';
+
+  @override
+  String get myCart => 'Mi carrito';
+
+  @override
+  String get enterCodePromocional => 'Ingresa el código promocional';
+
+  @override
+  String get taxRate => 'Tasa de impuesto';
+
+  @override
+  String get discount => 'Descuento';
+
+  @override
+  String get apply => 'Aplicar';
+
+  @override
+  String get verify => 'Verificar';
+
+  @override
+  String get cartIsEmpty => 'Tu carrito está vacío';
+
+  @override
+  String get cartMessageEmpty =>
+      'Agrega productos a tu carrito para verlos aquí.';
+
+  @override
+  String get cartEmptyBrowseProducts => 'Explorar productos';
+
+  @override
+  String get clearCartConfirm =>
+      '¿Estás seguro de que deseas vaciar el carrito?';
+
+  @override
+  String get clearCart => 'Vaciar carrito';
+
+  @override
+  String get loadingMessage => 'Por favor, espera un momento...';
+
+  @override
+  String get sectionPayment => '---------------------------------------------';
+
+  @override
+  String get errorPayment => 'Error al cargar la información de pago.';
+
+  @override
+  String get errorPaymentMessage1 => 'Hubo un problema al procesar su pago.';
+
+  @override
+  String get errorPaymentMessage2 =>
+      'Inténtelo de nuevo o utilice otro método.';
+
+  @override
+  String get pendingPayment => 'Pago en proceso';
+
+  @override
+  String get pendingPaymentMessage1 => 'Su pago está siendo procesado';
+
+  @override
+  String get pendingPaymentMessage2 => 'SRecibirás una confirmación pronto..';
+
+  @override
+  String get successPayment => 'Pago exitoso';
+
+  @override
+  String get successPaymentMessage1 => 'Ha realizado su pedido con éxito,';
+
+  @override
+  String get successPaymentMessage2 => 'Recibirás tu recibo muy pronto.';
+
+  @override
+  String get understand => 'Entiendo';
+
+  @override
+  String get informationCard => 'Información de la tarjeta';
+
+  @override
+  String get pay => 'Pagar';
+
+  @override
+  String get modeTest => 'Modo de prueba';
+
+  @override
+  String get modeTestMessage =>
+      'Sandbox PayU: Use 4111 1111 1111 1111 para pruebas. Los pagos no se procesarán realmente.';
+
+  @override
+  String get numberCard => 'Número de tarjeta';
+
+  @override
+  String get required => 'Requerido.';
+
+  @override
+  String get validation => 'Invalido.';
+
+  @override
+  String get month => 'Mes';
+
+  @override
+  String get year => 'Año';
+
+  @override
+  String get nameHolder => 'Nombre del titular';
+
+  @override
+  String get veryShort => 'Muy corto.';
+
+  @override
+  String get sectionLanguage => '---------------------------------------------';
+
+  @override
+  String get appLanguage => 'Idioma de la aplicación';
+
+  @override
+  String get selectLanguage => 'Selecciona el idioma';
+
+  @override
+  String get languageChanged => 'Idioma cambiado exitosamente';
+
+  @override
+  String get restartAppToApplyLanguage =>
+      'Los cambios se aplicarán inmediatamente';
+
+  @override
+  String get lenguajeTitle => 'Idioma de la aplicación';
 }

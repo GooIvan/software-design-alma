@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../models/user_model.dart';
 import '../../../about/pages/AboutPage.dart';
+import '../../../configuration/presentation/page/configuration_page.dart';
 import '../../../orders/index/presentation/pages/orders_page.dart';
 
 class ProfileSuccessView extends StatelessWidget {
@@ -91,7 +92,14 @@ class ProfileSuccessView extends StatelessWidget {
             _buildOptionTile(
               icon: Icons.settings,
               title: context.l10n.configuration,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ConfigurationPage(),
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 20),

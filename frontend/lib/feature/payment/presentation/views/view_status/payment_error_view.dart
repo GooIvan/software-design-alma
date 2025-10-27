@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class PaymentErrorView extends StatelessWidget {
@@ -54,10 +55,10 @@ class PaymentErrorView extends StatelessWidget {
               const SizedBox(height: 40),
 
               // ===== Mensaje principal =====
-              const Text(
-                '¡Error en el pago!',
+              Text(
+                context.l10n.errorPayment,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFFE53935),
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -67,11 +68,11 @@ class PaymentErrorView extends StatelessWidget {
               const SizedBox(height: 12),
 
               // ===== Subtítulo =====
-              const Text(
-                "Hubo un problema al procesar su pago.\n"
-                "Inténtelo de nuevo o utilice otro método.",
+              Text(
+                "${context.l10n.errorPaymentMessage1}\n"
+                "${context.l10n.errorPaymentMessage2}",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF808080),
                   fontSize: 14,
                 ),
@@ -94,9 +95,9 @@ class PaymentErrorView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
-                    'INTENTAR DE NUEVO',
-                    style: TextStyle(
+                  child: Text(
+                    context.l10n.retry,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                       letterSpacing: 1,
