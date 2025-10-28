@@ -1,0 +1,456 @@
+<%= stylesheet_link_tag "pay", media: "all" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-9">
+
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="order-breadcrumb mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <%= link_to root_path do %>
+              <i data-feather="home" class="feather-icon-sm"></i>
+              Inicio
+            <% end %>
+          </li>
+          <li class="breadcrumb-item">
+            <%= link_to profile_path do %>
+              <i data-feather="user" class="feather-icon-sm"></i>
+              Perfil
+            <% end %>
+          </li>
+          <li class="breadcrumb-item">
+            <%= link_to invoices_path do %>
+              <i data-feather="file-text" class="feather-icon-sm"></i>
+              Facturas
+            <% end %>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <i data-feather="file" class="feather-icon-sm"></i>
+            <%= @invoice.formatted_invoice_number %>
+          </li>
+        </ol>
+      </nav>
+
+      <div class="order-detail-card">
+        
+        <!-- Header de la factura -->
+        <div class="order-header">
+          <div class="order-header-content">
+            <h1 class="order-title">
+              <i data-feather="file-text" class="order-title-icon"></i>
+              Factura
+            </h1>
+            <div class="order-number-badge">
+              <i data-feather="hash"></i>
+              <%= @invoice.formatted_invoice_number %>
+            </div>
+          </div>
+          
+          <!-- Estado de la factura -->
+          <div class="order-status-container">
+            <% if @invoice.paid? %>
+              <div class="order-status-badge status-paid">
+                <div class="status-icon-wrapper">
+                  <i data-feather="check-circle" class="status-icon"></i>
+                </div>
+                <div class="status-text">
+                  <span class="status-label">Estado</span>
+                  <span class="status-value">Pagada</span>
+                </div>
+              </div>
+            <% elsif @invoice.pending? %>
+              <div class="order-status-badge status-pending">
+                <div class="status-icon-wrapper">
+                  <i data-feather="clock" class="status-icon"></i>
+                </div>
+                <div class="status-text">
+                  <span class="status-label">Estado</span>
+                  <span class="status-value">Pendiente</span>
+                </div>
+              </div>
+            <% else %>
+              <div class="order-status-badge status-cancelled">
+                <div class="status-icon-wrapper">
+                  <i data-feather="x-circle" class="status-icon"></i>
+                </div>
+                <div class="status-text">
+                  <span class="status-label">Estado</span>
+                  <span class="status-value">Cancelada</span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Información de la factura -->
+        <div class="order-info-section">
+          <h3 class="section-title">
+            <i data-feather="info" class="section-icon"></i>
+            Información de la factura
+          </h3>
+          
+          <div class="order-info-grid">
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="calendar"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Fecha de emisión</span>
+                <span class="info-value"><%= @invoice.date.strftime("%d de %B de %Y") %></span>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="clock"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Fecha de vencimiento</span>
+                <span class="info-value">
+                  <% if @invoice.due_date %>
+                    <%= @invoice.due_date.strftime("%d de %B de %Y") %>
+                    <% if @invoice.overdue? %>
+                      <span class="badge badge-danger ms-2">Vencida</span>
+                    <% end %>
+                  <% else %>
+                    N/A
+                  <% end %>
+                </span>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="package"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Orden relacionada</span>
+                <span class="info-value">
+                  <%= link_to order_path(@order), class: "text-primary" do %>
+                    #<%= @order.id %>
+                  <% end %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Detalles de facturación -->
+        <div class="order-info-section">
+          <h3 class="section-title">
+            <i data-feather="user" class="section-icon"></i>
+            Datos del cliente
+          </h3>
+          
+          <div class="customer-details">
+            <div class="customer-info">
+              <p><strong>Nombre:</strong> <%= @order.user.name %> <%= @order.user.last_name %></p>
+              <p><strong>Email:</strong> <%= @order.user.email %></p>
+              <p><strong>Teléfono:</strong> <%= @order.user.phone %></p>
+              <% if @order.user.address.present? %>
+                <p><strong>Dirección:</strong> <%= @order.user.address %></p>
+              <% end %>
+              <% if @order.user.city.present? %>
+                <p><strong>Ciudad:</strong> <%= @order.user.city %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Productos de la factura -->
+        <div class="order-products-section">
+          <h3 class="section-title">
+            <i data-feather="shopping-cart" class="section-icon"></i>
+            Productos facturados
+          </h3>
+
+          <div class="invoice-table">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Talla</th>
+                  <th>Cantidad</th>
+                  <th>Precio Unit.</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @order_items.each do |item| %>
+                  <tr>
+                    <td>
+                      <div class="product-cell">
+                        <% if item.product.image.attached? %>
+                          <%= image_tag item.product.image, class: "product-thumbnail" %>
+                        <% else %>
+                          <div class="product-thumbnail-placeholder">
+                            <i data-feather="image"></i>
+                          </div>
+                        <% end %>
+                        <span class="product-name"><%= item.product.name %></span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-secondary"><%= item.size %></span></td>
+                    <td><%= item.quantity %></td>
+                    <td>$<%= number_to_currency(item.price, unit: "", delimiter: ".", precision: 0) %></td>
+                    <td><strong>$<%= number_to_currency(item.price * item.quantity, unit: "", delimiter: ".", precision: 0) %></strong></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Totales de la factura -->
+        <div class="invoice-totals">
+          <div class="totals-section">
+            <div class="total-row">
+              <span class="total-label">Subtotal:</span>
+              <span class="total-value">$<%= number_to_currency(@invoice.subtotal, unit: "", delimiter: ".", precision: 0) %></span>
+            </div>
+            <div class="total-row">
+              <span class="total-label">IVA (19%):</span>
+              <span class="total-value">$<%= number_to_currency(@invoice.tax, unit: "", delimiter: ".", precision: 0) %></span>
+            </div>
+            <div class="total-row total-final">
+              <span class="total-label">Total:</span>
+              <span class="total-value">$<%= number_to_currency(@invoice.total, unit: "", delimiter: ".", precision: 0) %></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado de pago -->
+        <% if @invoice.paid? %>
+          <div class="payment-status-alert alert-success">
+            <div class="alert-icon">
+              <i data-feather="check-circle"></i>
+            </div>
+            <div class="alert-content">
+              <h4 class="alert-title">¡Factura pagada!</h4>
+              <p class="alert-message">Esta factura ha sido pagada exitosamente.</p>
+            </div>
+          </div>
+        <% else %>
+          <div class="payment-status-alert alert-warning">
+            <div class="alert-icon">
+              <i data-feather="alert-circle"></i>
+            </div>
+            <div class="alert-content">
+              <h4 class="alert-title">Factura pendiente de pago</h4>
+              <p class="alert-message">Esta factura aún no ha sido pagada.</p>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Botones de acción -->
+        <div class="order-actions">
+          <%= link_to invoices_path, class: "btn-order-action btn-secondary" do %>
+            <i data-feather="arrow-left"></i>
+            <span>Volver a facturas</span>
+          <% end %>
+          
+          <%= link_to download_invoice_path(@invoice, format: :pdf), class: "btn-order-action btn-primary", target: "_blank" do %>
+            <i data-feather="download"></i>
+            <span>Descargar PDF</span>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .customer-details {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .customer-info p {
+    margin-bottom: 8px;
+    color: #495057;
+  }
+
+  .invoice-table {
+    margin-bottom: 30px;
+  }
+
+  .invoice-table table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .invoice-table th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    border: none;
+    padding: 15px;
+  }
+
+  .invoice-table td {
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .product-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .product-thumbnail {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .product-thumbnail-placeholder {
+    width: 40px;
+    height: 40px;
+    background: #e9ecef;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+  }
+
+  .product-name {
+    font-weight: 500;
+    color: #495057;
+  }
+
+  .badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .badge-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+
+  .badge-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  .invoice-totals {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+  }
+
+  .totals-section {
+    max-width: 400px;
+    margin-left: auto;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .total-row.total-final {
+    border-bottom: none;
+    padding-top: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495057;
+  }
+
+  .total-label {
+    color: #6c757d;
+  }
+
+  .total-value {
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .total-final .total-value {
+    color: #28a745;
+  }
+</style>
+
+<script>
+  function initInvoiceView() {
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+    
+    if (typeof anime !== 'undefined') {
+      anime({
+        targets: '.order-breadcrumb',
+        translateY: [-20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        easing: 'easeOutCubic'
+      });
+      
+      anime({
+        targets: '.order-header',
+        translateY: [-30, 0],
+        opacity: [0, 1],
+        duration: 800,
+        delay: 200,
+        easing: 'easeOutCubic'
+      });
+      
+      anime({
+        targets: '.info-card',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        delay: anime.stagger(100, {start: 400}),
+        easing: 'easeOutQuart'
+      });
+      
+      anime({
+        targets: '.invoice-table',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        delay: 600,
+        easing: 'easeOutQuart'
+      });
+      
+      anime({
+        targets: '.invoice-totals',
+        scale: [0.95, 1],
+        opacity: [0, 1],
+        duration: 600,
+        delay: 800,
+        easing: 'easeOutBack'
+      });
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', initInvoiceView);
+  document.addEventListener('turbo:load', initInvoiceView);
+</script>

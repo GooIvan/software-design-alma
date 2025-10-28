@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "profile", media: "all" %>
 
-<div class="c-scroll">
+<div class="c-scroll" data-controller="profile">
   <div class="profile-container">
     <h1 class="profile-title title-devise">
       <i data-feather="user" class="me-2"></i>
@@ -54,7 +54,7 @@
       </div>
 
       <div class="col-lg-6">
-        <div class="card profile-card">
+        <div class="card profile-card stats-card">
           <div class="card-header profile-card-header bg-success text-white">
             <h5>
               <i data-feather="bar-chart"></i>
@@ -64,17 +64,17 @@
           <div class="card-body profile-card-body">
             <div class="row profile-stats">
               <div class="col-4 profile-stat-item">
-                <div class="profile-stat-number text-primary"><%= @orders.count %></div>
+                <div class="profile-stat-number text-primary" data-target="<%= @orders.count %>">0</div>
                 <div class="profile-stat-label">Total órdenes</div>
               </div>
               <div class="col-4 profile-stat-item">
                 <div class="profile-stat-divider"></div>
-                <div class="profile-stat-number text-success"><%= @orders.paid.count %></div>
+                <div class="profile-stat-number text-success" data-target="<%= @orders.paid.count %>">0</div>
                 <div class="profile-stat-label">Órdenes pagadas</div>
               </div>
               <div class="col-4 profile-stat-item">
                 <div class="profile-stat-divider"></div>
-                <div class="profile-stat-number text-warning"><%= @orders.pending.count %></div>
+                <div class="profile-stat-number text-warning" data-target="<%= @orders.pending.count %>">0</div>
                 <div class="profile-stat-label">Pendientes</div>
               </div>
             </div>
@@ -134,7 +134,7 @@
               </thead>
               <tbody>
                 <% @orders.limit(10).each do |order| %>
-                  <tr>
+                  <tr class="order-item">
                     <td>
                       <strong class="text-primary">#<%= order.id %></strong>
                     </td>
@@ -217,6 +217,22 @@
 
     <div class="profile-section-divider"></div>
 
+    <!-- Acciones rápidas -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <%= link_to invoices_path, class: "btn profile-action-btn w-100" do %>
+          <i data-feather="file-text"></i>
+          <span>Mis Facturas</span>
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <%= link_to root_path, class: "btn profile-action-btn w-100" do %>
+          <i data-feather="shopping-bag"></i>
+          <span>Ir de compras</span>
+        <% end %>
+      </div>
+    </div>
+
     <!-- Botones de acción -->
     <div class="row">
       <div class="col-md-6">
@@ -240,17 +256,108 @@
 </div>
 
 <script>
-  // Inicializar iconos de Feather cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', function() {
+  // Inicializar iconos de Feather y animaciones
+  function initializeProfile() {
+    // Esperar a que anime.js esté disponible
+    if (typeof anime === 'undefined') {
+      console.warn('Anime.js no está cargado aún');
+      return;
+    }
+
     if (typeof feather !== 'undefined') {
       feather.replace();
     }
-  });
+    
+    // Animaciones con Anime.js
+    // Animación del título
+    anime({
+      targets: '.profile-title',
+      translateY: [-50, 0],
+      opacity: [0, 1],
+      duration: 800,
+      easing: 'easeOutCubic'
+    });
+    
+    // Animación de las cards con stagger
+    anime({
+      targets: '.profile-card',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      duration: 600,
+      delay: anime.stagger(150, {start: 200}),
+      easing: 'easeOutQuart'
+    });
+    
+    // Animación de los números de estadísticas
+    const statNumbers = document.querySelectorAll('.profile-stat-number');
+    statNumbers.forEach(el => {
+      const target = parseInt(el.getAttribute('data-target')) || 0;
+      anime({
+        targets: el,
+        innerHTML: [0, target],
+        duration: 1500,
+        delay: 800,
+        round: 1,
+        easing: 'easeOutExpo'
+      });
+    });
+    
+    // Animación de las filas de la tabla
+    anime({
+      targets: '.order-item',
+      translateX: [-20, 0],
+      opacity: [0, 1],
+      duration: 400,
+      delay: anime.stagger(100, {start: 1000}),
+      easing: 'easeOutQuart'
+    });
+    
+    // Animación de los botones de acción
+    anime({
+      targets: '.profile-action-btn',
+      scale: [0.8, 1],
+      opacity: [0, 1],
+      duration: 500,
+      delay: 1200,
+      easing: 'easeOutBack'
+    });
+
+    // Configurar animación hover para las cards (solo una vez)
+    const cards = document.querySelectorAll('.profile-card');
+    cards.forEach(card => {
+      // Remover listeners antiguos si existen
+      card.removeEventListener('mouseenter', handleCardHover);
+      card.removeEventListener('mouseleave', handleCardLeave);
+      
+      // Agregar nuevos listeners
+      card.addEventListener('mouseenter', handleCardHover);
+      card.addEventListener('mouseleave', handleCardLeave);
+    });
+  }
+
+  function handleCardHover(e) {
+    if (typeof anime !== 'undefined') {
+      anime({
+        targets: e.currentTarget,
+        scale: 1.02,
+        duration: 300,
+        easing: 'easeOutQuart'
+      });
+    }
+  }
+
+  function handleCardLeave(e) {
+    if (typeof anime !== 'undefined') {
+      anime({
+        targets: e.currentTarget,
+        scale: 1,
+        duration: 300,
+        easing: 'easeOutQuart'
+      });
+    }
+  }
   
-  // También inicializar después de eventos Turbo
-  document.addEventListener('turbo:load', function() {
-    if (typeof feather !== 'undefined') {
-      feather.replace();
-    }
-  });
+  // Ejecutar solo en eventos Turbo (no DOMContentLoaded)
+  document.addEventListener('turbo:load', initializeProfile);
+  document.addEventListener('turbo:render', initializeProfile);
 </script>

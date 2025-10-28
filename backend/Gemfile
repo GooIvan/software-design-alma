@@ -19,6 +19,11 @@ gem "jbuilder"
 gem "devise"
 gem "devise-jwt"
 
+# OmniAuth para autenticación con Google y Facebook
+gem "omniauth-google-oauth2"
+gem "omniauth-facebook"
+gem "omniauth-rails_csrf_protection"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -69,3 +74,10 @@ gem "rack-cors", require: "rack/cors"
 gem "httparty"
 
 gem "nokogiri"
+
+# PDF generation
+gem "prawn"
+gem "prawn-table"
+
+# Pagination
+gem "kaminari"

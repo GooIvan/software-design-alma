@@ -5,6 +5,10 @@ class OrderItem < ApplicationRecord
   validates :quantity, :price, :size, presence: true
   validate :stock_is_available
 
+  def total_price
+    quantity * price
+  end
+
   private
 
   def stock_is_available

@@ -87,3 +87,125 @@ body[data-theme="dark"] .login-link {
 .login-link:hover {
   color: inherit;
 }
+
+/* Divider "o" */
+.login-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 500px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.login-divider span {
+  padding: 0 10px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Botón de Google */
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 500px;
+  padding: 12px 24px;
+  margin: 15px auto;
+  background-color: #fff;
+  color: #3c4043;
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid #dadce0;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.google-login-button:hover {
+  background-color: #f8f9fa;
+  border-color: #d2d3d4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #3c4043;
+  text-decoration: none;
+}
+
+.google-login-button:active {
+  background-color: #f1f3f4;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.facebook-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Botón de Facebook */
+.facebook-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 500px;
+  padding: 12px 24px;
+  margin: 12px auto 0;
+  background-color: #1877F2;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.facebook-login-button:hover {
+  background-color: #166FE5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  text-decoration: none;
+}
+
+.facebook-login-button:active {
+  background-color: #0E5FCC;
+}
+
+body[data-theme="dark"] .google-login-button {
+  background-color: #fff;
+  color: #3c4043;
+  border-color: #dadce0;
+}
+
+body[data-theme="dark"] .google-login-button:hover {
+  background-color: #f8f9fa;
+}
+
+@media (max-width: 767px) {
+  .google-login-button {
+    min-width: 25rem;
+  }
+  
+  .facebook-login-button {
+    min-width: 25rem;
+  }
+  
+  .login-divider {
+    max-width: 25rem;
+  }
+}
