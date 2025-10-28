@@ -1,7 +1,6 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../data/bloc/cart_bloc.dart';
 import '../widgets/cart_item_widget.dart';
@@ -114,7 +113,8 @@ class CartPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () => _onCheckout(context),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),

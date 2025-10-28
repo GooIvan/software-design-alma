@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../../../../core/theme/app_colors.dart';
 import '../../../../widgets/custom_alert.dart';
 
 void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
-  const Color azulPrimary = AppColors.primary;
+  final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
   showModalBottomSheet(
     context: context,

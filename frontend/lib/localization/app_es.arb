@@ -165,8 +165,16 @@
   "appLanguage": "Idioma de la aplicación",
   "selectLanguage": "Selecciona el idioma",
   "languageChanged": "Idioma cambiado exitosamente",
-  "restartAppToApplyLanguage": "Los cambios se aplicarán inmediatamente",
+  "restartAppToApplyLanguage": "Los cambios se aplicarán cuando reinicies la aplicación",
   "lenguajeTitle": "Idioma de la aplicación",
-  "sectionChangeTheme": "---------------------------------------------",
-  "appTheme": "Tema de la aplicación"
+  "sectionTheme": "---------------------------------------------",
+  "appTheme": "Tema de la aplicación",
+  "selectTheme": "Selecciona el tema",
+  "themeChanged": "Tema cambiado exitosamente",
+  "lightTheme": "Claro",
+  "darkTheme": "Oscuro",
+  "systemTheme": "Sistema",
+  "lightThemeDescription": "Tema claro",
+  "darkThemeDescription": "Tema oscuro",
+  "systemThemeDescription": "Sigue el sistema"
 }

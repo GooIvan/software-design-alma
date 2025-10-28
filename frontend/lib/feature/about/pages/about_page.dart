@@ -2,8 +2,6 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../core/theme/app_colors.dart';
-
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
@@ -30,7 +28,7 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color azulPrimary = AppColors.primary;
+    final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(

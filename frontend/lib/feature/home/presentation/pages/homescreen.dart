@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => CartBloc(),
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8F9FA),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
           child: RefreshIndicator(
             onRefresh: () => _refreshData(context),
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // Banner promocional
-                  PromoBanner(context),
+                  promoBanner(context),
                   const SizedBox(height: 24),
 
                   // Título y productos populares
@@ -47,10 +47,11 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           context.l10n.homeNewest,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color:
+                                Theme.of(context).textTheme.displayLarge?.color,
                           ),
                         ),
                       ],
@@ -81,10 +82,10 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
                       context.l10n.categories,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                       ),
                     ),
                   ),

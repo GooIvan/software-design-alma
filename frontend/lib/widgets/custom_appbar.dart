@@ -13,7 +13,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFFf8f9fa), Colors.white],
+          colors: [
+            Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+            Theme.of(context).appBarTheme.backgroundColor ?? Colors.white
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -40,7 +43,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 'assets/logo.png',
                 height: 200, // Tamaño grande como en tu código original
                 fit: BoxFit.contain,
-                color: Colors.black, // Filtro negro como en tu código anterior
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : null, // Filtro negro solo en modo claro
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     width: 200,
@@ -72,9 +77,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).appBarTheme.backgroundColor ??
+                        Colors.white,
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: Colors.grey.shade200, width: 1.5),
+                    border: Border.all(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        width: 1.5),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.03),
@@ -87,7 +95,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       Icon(
                         FeatherIcons.search,
-                        color: Colors.grey.shade500,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         size: 20,
                       ),
                       const SizedBox(width: 12),
@@ -97,7 +105,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             border: InputBorder.none,
                             hintText: context.l10n.explore,
                             hintStyle: TextStyle(
-                              color: Colors.grey.shade500,
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium?.color,
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
                             ),

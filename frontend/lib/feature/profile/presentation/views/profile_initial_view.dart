@@ -2,7 +2,7 @@
 
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../../login/presentation/pages/login_page.dart';
 import '../../../register/presentation/pages/register_page.dart';
 
@@ -13,7 +13,7 @@ class ProfileInitialView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color azulPrimary = AppColors.primary;
+    final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
       body: SafeArea(
@@ -24,10 +24,11 @@ class ProfileInitialView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Avatar
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 50,
-                  backgroundColor: azulPrimary,
-                  child: Icon(Icons.person, size: 50, color: Colors.white),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  child:
+                      const Icon(Icons.person, size: 50, color: Colors.white),
                 ),
                 const SizedBox(height: 16),
 
@@ -92,7 +93,8 @@ class ProfileInitialView extends StatelessWidget {
                     icon: const Icon(Icons.person_add),
                     label: Text(context.l10n.signup),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: azulPrimary),
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
                       foregroundColor: azulPrimary,
                       padding: const EdgeInsets.symmetric(
                         vertical: 20,
@@ -117,7 +119,7 @@ class ProfileInitialView extends StatelessWidget {
       {required IconData icon,
       required String title,
       required String subtitle}) {
-    const Color azulPrimary = AppColors.primary;
+    final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
     return Card(
       color: azulPrimary.withOpacity(0.1),

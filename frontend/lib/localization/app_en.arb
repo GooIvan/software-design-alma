@@ -167,6 +167,14 @@
   "languageChanged": "Language changed successfully",
   "restartAppToApplyLanguage": "Changes will be applied immediately",
   "lenguajeTitle": "Application language",
-  "sectionChangeTheme": "---------------------------------------------",
-  "appTheme": "App Theme"
+  "sectionTheme": "---------------------------------------------",
+  "appTheme": "App Theme",
+  "selectTheme": "Select Theme",
+  "themeChanged": "Theme changed successfully",
+  "lightTheme": "Light",
+  "darkTheme": "Dark",
+  "systemTheme": "System",
+  "lightThemeDescription": "Light theme",
+  "darkThemeDescription": "Dark theme",
+  "systemThemeDescription": "Follow system"
 }

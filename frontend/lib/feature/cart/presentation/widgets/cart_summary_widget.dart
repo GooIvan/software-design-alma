@@ -2,7 +2,6 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class CartSummaryWidget extends StatefulWidget {
   final double subtotal;
@@ -81,7 +80,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
+                            backgroundColor: Theme.of(context).colorScheme.primary,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 18),
@@ -151,7 +150,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
             fontSize: isTotal ? 16 : 14,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,
             color: isDiscount
-                ? AppColors.primary
+                ? Theme.of(context).colorScheme.primary
                 : isTotal
                     ? Colors.black
                     : Colors.black87,

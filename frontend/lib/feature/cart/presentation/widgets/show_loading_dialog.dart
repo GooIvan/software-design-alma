@@ -1,8 +1,6 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
-
 void showLoadingDialog(BuildContext context,
     {String message = 'Procesando tu orden...'}) {
   showDialog(
@@ -115,15 +113,15 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
                           child: Container(
                             width: 60,
                             height: 60,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
                                 colors: [
-                                  AppColors.primary,
-                                  AppColors.primary,
-                                  AppColors.primary,
+                                  Theme.of(context).colorScheme.primary,
+                                  Theme.of(context).colorScheme.primary,
+                                  Theme.of(context).colorScheme.primary,
                                 ],
-                                stops: [0.0, 0.5, 1.0],
+                                stops: const [0.0, 0.5, 1.0],
                               ),
                             ),
                             child: const Center(

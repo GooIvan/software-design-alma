@@ -519,15 +519,38 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get restartAppToApplyLanguage =>
-      'Los cambios se aplicarán inmediatamente';
+      'Los cambios se aplicarán cuando reinicies la aplicación';
 
   @override
   String get lenguajeTitle => 'Idioma de la aplicación';
 
   @override
-  String get sectionChangeTheme =>
-      '---------------------------------------------';
+  String get sectionTheme => '---------------------------------------------';
 
   @override
   String get appTheme => 'Tema de la aplicación';
+
+  @override
+  String get selectTheme => 'Selecciona el tema';
+
+  @override
+  String get themeChanged => 'Tema cambiado exitosamente';
+
+  @override
+  String get lightTheme => 'Claro';
+
+  @override
+  String get darkTheme => 'Oscuro';
+
+  @override
+  String get systemTheme => 'Sistema';
+
+  @override
+  String get lightThemeDescription => 'Tema claro';
+
+  @override
+  String get darkThemeDescription => 'Tema oscuro';
+
+  @override
+  String get systemThemeDescription => 'Sigue el sistema';
 }

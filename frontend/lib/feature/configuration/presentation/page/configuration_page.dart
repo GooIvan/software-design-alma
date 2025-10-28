@@ -2,6 +2,7 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import '../views/language_selection_view.dart';
+import '../views/theme_selection_view.dart';
 import '../widgets/configuration_option.dart';
 
 class ConfigurationPage extends StatelessWidget {
@@ -47,13 +48,13 @@ class ConfigurationPage extends StatelessWidget {
                       context: context,
                       icon: FeatherIcons.globe,
                       title: context.l10n.lenguajeTitle,
-                      onTap: () => {
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const LanguageSelectionView(),
                           ),
-                        )
+                        );
                       },
                       isFirst: true,
                     ),
@@ -61,13 +62,20 @@ class ConfigurationPage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
                       height: 1,
-                      color: Colors.grey.shade300,
+                      color: Colors.grey.shade200,
                     ),
                     buildConfigurationOption(
                       context: context,
-                      icon: FeatherIcons.sliders,
+                      icon: FeatherIcons.moon,
                       title: context.l10n.appTheme,
-                      onTap: () => {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ThemeSelectionView(),
+                          ),
+                        );
+                      },
                       isLast: true,
                     ),
                   ],
