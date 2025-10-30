@@ -81,8 +81,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         Colors.white,
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        width: 1.5),
+                        color: Theme.of(context).dividerColor, width: 1.5),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.03),
@@ -95,7 +94,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       Icon(
                         FeatherIcons.search,
-                        color: Theme.of(context).scaffoldBackgroundColor,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                         size: 20,
                       ),
                       const SizedBox(width: 12),
@@ -134,7 +133,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          border: Border.all(
+                              color: Theme.of(context).dividerColor,
+                              width: 1.5),
+                          color:
+                              Theme.of(context).appBarTheme.backgroundColor ??
+                                  Colors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -150,7 +154,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           },
                           icon: Icon(
                             FeatherIcons.shoppingBag,
-                            color: Colors.black87,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color,
                             size: 22,
                           ),
                         ),
@@ -179,7 +184,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             child: Text(
                               '${state.totalItems}',
                               style: const TextStyle(
-                                color: Colors.white,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),

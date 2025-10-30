@@ -49,10 +49,10 @@ class ProfileSuccessView extends StatelessWidget {
             Center(
               child: Text(
                 '${user.name} ${user.lastName}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black87,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
                 ),
               ),
             ),

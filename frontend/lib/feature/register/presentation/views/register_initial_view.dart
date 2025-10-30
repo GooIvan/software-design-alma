@@ -72,18 +72,18 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Título
                   Text(
                     context.l10n.registerTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                     ),
                   ),
                   const SizedBox(height: 6),
                   Text(
                     context.l10n.registerMessage,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -91,9 +91,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input name
                   TextFormField(
                     controller: _nameController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
                       hintText: context.l10n.registerInputName,
@@ -107,7 +107,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -152,9 +154,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input last name
                   TextFormField(
                     controller: _lastNameController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
                       hintText: context.l10n.registerInputLastName,
@@ -168,7 +170,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -213,9 +217,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input city
                   TextFormField(
                     controller: _cityController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
                       hintText: context.l10n.registerInputCity,
@@ -229,7 +233,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -274,9 +280,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input Address
                   TextFormField(
                     controller: _addressController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
                       hintText: context.l10n.registerInputAddress,
@@ -290,7 +296,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -335,9 +343,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input phone
                   TextFormField(
                     controller: _phoneController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
                       hintText: context.l10n.registerInputPhone,
@@ -351,7 +359,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -396,9 +406,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input email
                   TextFormField(
                     controller: _emailController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
                       hintText: context.l10n.registerInputEmail,
@@ -412,7 +422,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -459,9 +471,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                     controller: _passwordController,
                     obscureText:
                         _obscurePassword, // alterna entre ocultar/mostrar
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
                       hintText: context.l10n.registerInputPassword,
@@ -489,7 +501,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         },
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -536,9 +550,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                     controller: _passwordConfirmController,
                     obscureText:
                         _obscurePasswordConfirm, // alterna entre ocultar/mostrar
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
                       hintText: context.l10n.registerInputConfirmPassword,
@@ -566,7 +580,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         },
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(

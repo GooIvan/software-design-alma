@@ -43,7 +43,7 @@ class RegisterPage extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: true, // agrega la flecha de regreso
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         ),
         body: Center(
           child: BlocConsumer<RegisterBloc, RegisterState>(

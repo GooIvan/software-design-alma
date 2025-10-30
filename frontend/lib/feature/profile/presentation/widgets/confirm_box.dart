@@ -9,9 +9,9 @@ void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) {
       return Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -45,10 +45,11 @@ void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
                         color: azulPrimary,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.logout,
                         size: 50,
-                        color: Colors.white,
+                        color: Theme.of(context).appBarTheme.backgroundColor ??
+                            Colors.white,
                       ),
                     ),
                   ),
@@ -56,10 +57,11 @@ void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
                   const SizedBox(height: 20),
 
                   // Texto centrado
-                  const Text(
+                  Text(
                     '¿Estás seguro que deseas cerrar la sesión?',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -74,8 +76,10 @@ void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
                       Expanded(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey.shade300,
-                            foregroundColor: Colors.black87,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            foregroundColor:
+                                Theme.of(context).textTheme.displayLarge?.color,
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(35),

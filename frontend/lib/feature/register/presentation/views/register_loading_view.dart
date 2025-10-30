@@ -75,16 +75,25 @@ class RegisterLoadingView extends StatelessWidget {
               Column(
                 children: [
                   // Divider
-                  const Row(
+                  Row(
                     children: [
-                      Expanded(child: Divider(thickness: 1)),
+                      Expanded(
+                          child: Divider(
+                        thickness: 1,
+                        color: Theme.of(context).dividerColor,
+                      )),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text("o",
-                            style:
-                                TextStyle(color: Colors.black45, fontSize: 16)),
+                            style: TextStyle(
+                                color: Theme.of(context).dividerColor,
+                                fontSize: 16)),
                       ),
-                      Expanded(child: Divider(thickness: 1)),
+                      Expanded(
+                          child: Divider(
+                        thickness: 1,
+                        color: Theme.of(context).dividerColor,
+                      )),
                     ],
                   ),
 
@@ -99,7 +108,9 @@ class RegisterLoadingView extends StatelessWidget {
                               width: double.infinity,
                               height: 50,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[300]!),
+                                border: Border.all(
+                                  color: Theme.of(context).dividerColor,
+                                ),
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               child: const Padding(

@@ -2,7 +2,6 @@
 
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../login/presentation/pages/login_page.dart';
 import '../../../register/presentation/pages/register_page.dart';
 
@@ -37,7 +36,7 @@ class ProfileInitialView extends StatelessWidget {
                   context.l10n.guest,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: Colors.black87,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                       ),
                 ),
                 const SizedBox(height: 30),
@@ -136,7 +135,7 @@ class ProfileInitialView extends StatelessWidget {
         subtitle: Text(
           subtitle,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.black87,
+                color: Colors.grey.shade600,
               ),
         ),
       ),

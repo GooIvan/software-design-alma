@@ -30,7 +30,8 @@ class CategoriesSuccessView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 context.l10n.categories,
-                style: const TextStyle(
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.displayLarge?.color,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -51,10 +52,10 @@ class CategoriesSuccessView extends StatelessWidget {
                 final category = categories[index];
                 return Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[50],
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.grey[200]!,
+                      color: Theme.of(context).dividerColor,
                       width: 1,
                     ),
                   ),

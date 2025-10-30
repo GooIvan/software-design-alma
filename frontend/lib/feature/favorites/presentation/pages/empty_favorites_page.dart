@@ -25,7 +25,10 @@ class EmptyFavoritesPage extends StatelessWidget {
                 height: 140,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.grey[200]!, Colors.grey[100]!],
+                    colors: [
+                      Theme.of(context).colorScheme.outline,
+                      Theme.of(context).colorScheme.shadow
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -34,7 +37,7 @@ class EmptyFavoritesPage extends StatelessWidget {
                 child: Icon(
                   Icons.favorite_border,
                   size: 70,
-                  color: Colors.grey[400],
+                  color: Theme.of(context).colorScheme.outline,
                 ),
               ),
             ),

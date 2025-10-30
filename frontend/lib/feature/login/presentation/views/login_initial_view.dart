@@ -59,10 +59,10 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                     borderRadius:
                         BorderRadius.circular(30), // ajusta aquí el redondeo
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.lock,
                     size: 50,
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -70,18 +70,18 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                 // Título
                 Text(
                   context.l10n.loginTitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Theme.of(context).textTheme.displayLarge?.color,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Text(
                   context.l10n.loginMessage,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.displayLarge?.color,
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -89,9 +89,9 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                 // Email
                 TextFormField(
                   controller: _emailController,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                       fontSize: 15),
                   decoration: InputDecoration(
                     hintText: context.l10n.inputEmail,
@@ -105,7 +105,8 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       color: Color.fromARGB(255, 110, 110, 110),
                     ),
                     filled: true,
-                    fillColor: Colors.grey.shade100,
+                    fillColor: Theme.of(context).appBarTheme.backgroundColor ??
+                        Colors.white,
 
                     // borde normal
                     enabledBorder: OutlineInputBorder(
@@ -152,9 +153,9 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                   controller: _passwordController,
                   obscureText:
                       _obscurePassword, // alterna entre ocultar/mostrar
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                       fontSize: 15),
                   decoration: InputDecoration(
                     hintText: context.l10n.inputPassword,
@@ -182,7 +183,8 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       },
                     ),
                     filled: true,
-                    fillColor: Colors.grey.shade100,
+                    fillColor: Theme.of(context).appBarTheme.backgroundColor ??
+                        Colors.white,
 
                     // borde normal
                     enabledBorder: OutlineInputBorder(

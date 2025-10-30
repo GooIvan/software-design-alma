@@ -12,15 +12,24 @@ class SocialRegisterSection extends StatelessWidget {
     return Column(
       children: [
         // ===== Separador con "O" =====
-        const Row(
+        Row(
           children: [
-            Expanded(child: Divider(thickness: 1)),
+            Expanded(
+                child: Divider(
+              thickness: 1,
+              color: Theme.of(context).dividerColor,
+            )),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text("o",
-                  style: TextStyle(color: Colors.black54, fontSize: 16)),
+                  style: TextStyle(
+                      color: Theme.of(context).dividerColor, fontSize: 16)),
             ),
-            Expanded(child: Divider(thickness: 1)),
+            Expanded(
+                child: Divider(
+              thickness: 1,
+              color: Theme.of(context).dividerColor,
+            )),
           ],
         ),
         const SizedBox(height: 20),
@@ -33,9 +42,11 @@ class SocialRegisterSection extends StatelessWidget {
             width: 20,
           ),
           text: context.l10n.continueGoogle,
-          color: Colors.white,
-          textColor: Colors.black,
-          borderColor: Colors.grey.shade300,
+          color: Theme.of(context).scaffoldBackgroundColor,
+          textColor:
+              Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
+          borderColor:
+              Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
           context: context,
         ),
 
@@ -60,10 +71,11 @@ class SocialRegisterSection extends StatelessWidget {
         _buildSocialButton(
           icon: FontAwesomeIcons.facebook,
           text: context.l10n.continueFacebook,
-          color: Colors.white,
-          textColor: Colors.black,
-          borderColor: Colors.grey.shade300,
-          colorIcon: const Color(0xFF1877F2),
+          color: Theme.of(context).scaffoldBackgroundColor,
+          textColor:
+              Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
+          borderColor:
+              Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
           context: context,
         ),
 
@@ -74,8 +86,9 @@ class SocialRegisterSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(context.l10n.yesAccount,
-                style: const TextStyle(
-                  color: Colors.black,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.displayLarge?.color ??
+                      Colors.black,
                 )),
             TextButton(
               onPressed: () {
