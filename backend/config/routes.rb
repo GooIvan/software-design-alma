@@ -1,6 +1,17 @@
 Rails.application.routes.draw do
+  get "invoices/index"
+  get "invoices/show"
   # 🚨 Health check
   get "up" => "rails/health#show", as: :rails_health_check
+
+  # === Data Deletion endpoints (para Facebook OAuth) ===
+  get "data-deletion/instructions", to: "data_deletion#instructions"
+  post "data-deletion/callback", to: "data_deletion#callback"
+  get "data-deletion/status", to: "data_deletion#status"
+
+  # === OmniAuth callbacks (FUERA del scope para evitar errores) ===
+  devise_for :users, only: :omniauth_callbacks,
+            controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   # === API para Flutter (sin locale) ===
   namespace :api, defaults: { format: :json } do
@@ -11,12 +22,12 @@ Rails.application.routes.draw do
         controllers: {
           registrations: "api/auth/registrations",
           sessions: "api/auth/sessions",
-          passwords: "api/auth/passwords"
+          passwords: "api/auth/passwords",
         }
     end
 
     resource :profile, only: [:show], controller: "profile"
-    
+
     # Logout endpoint
     post :logout, to: "logout#create"
 
@@ -39,7 +50,7 @@ Rails.application.routes.draw do
         patch :update_status
         get :payment_methods
       end
-      
+
       collection do
         get :history
         get :active
@@ -51,15 +62,15 @@ Rails.application.routes.draw do
       post :create_payment_intent, to: "payments#create_payment_intent"
       post :process_payu_payment, to: "payments#process_payu_payment"
       get :payment_status, to: "payments#status"
-      
+
       # Webhook de PayU
       post :payu_webhook, to: "payments#payu_webhook"
     end
   end
 
   scope "(:locale)", locale: /en|es/ do
-    # 🔐 Devise
-    devise_for :users
+    # 🔐 Devise (sin omniauth_callbacks porque ya está fuera del scope)
+    devise_for :users, skip: :omniauth_callbacks
 
     # 👤 Perfil
     get "profile", to: "profile#show"
@@ -94,6 +105,16 @@ Rails.application.routes.draw do
       delete "orders/bulk_delete", to: "orders#bulk_delete", as: :bulk_delete_admin_orders
       resources :orders
 
+      delete "invoices/bulk_delete", to: "invoices#bulk_delete", as: :bulk_delete_admin_invoices
+      resources :invoices do
+        member do
+          get :download
+          patch :mark_as_sent
+          patch :mark_as_paid
+          patch :regenerate
+        end
+      end
+
       resources :categories, param: :slug do
         resources :products
       end
@@ -112,6 +133,13 @@ Rails.application.routes.draw do
         post :pay_with_card
         get :success, to: "payments#success", as: :payment_success
         post :confirmation, to: "payments#confirmation", as: :payment_confirmation
+      end
+    end
+
+    # 🧾 Facturas
+    resources :invoices, only: [:index, :show] do
+      member do
+        get :download
       end
     end
   end

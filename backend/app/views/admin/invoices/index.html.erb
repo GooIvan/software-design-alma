@@ -1,0 +1,193 @@
+<%= content_for :title, "Facturas" %>
+
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold">Facturas</h1>
+  <%= link_to admin_invoices_path(format: :csv), class: "cssbuttons-io-button" do %>
+    <svg
+      height="24"
+      width="24"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="2"/>
+      <polyline points="14,2 14,8 20,8" fill="none" stroke="currentColor" stroke-width="2"/>
+      <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2"/>
+      <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <span>Exportar CSV</span>
+  <% end %>
+</div>
+
+<div class="row g-3 mb-4">
+  <!-- Filtro por estado -->
+  <div class="col-12 col-md-3">
+    <%= form_with url: admin_invoices_path(locale: I18n.locale), method: :get, local: true do %>
+      <label class="form-label fw-semibold text-muted mb-1">
+        <i class="bi bi-funnel-fill me-1 text-primary"></i> Estado
+      </label>
+      <%= select_tag :status,
+        options_for_select([
+          ['Todos los estados', ''],
+          ['Pendiente', 'pending'],
+          ['Enviada', 'sent'], 
+          ['Pagada', 'paid'],
+          ['Vencida', 'overdue'],
+          ['Cancelada', 'cancelled']
+        ], params[:status]),
+        class: "form-select shadow-sm", onchange: "this.form.submit()", style: "height: 50px;" %>
+    <% end %>
+  </div>
+</div>
+
+<% total_results = @invoices.count %>
+
+<% if total_results > 0 %>
+  <p class="text-muted px-4 fw-semibold">
+    <%= total_results %> factura<%= 's' if total_results != 1 %> encontrada<%= 's' if total_results != 1 %>
+  </p>
+<% end %>
+
+<!-- Estadísticas rápidas -->
+<div class="row g-3 mb-4">
+  <div class="col-12 col-md-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <div class="fs-2 fw-bold text-primary"><%= @invoices.count %></div>
+        <div class="text-muted small">Total Facturas</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <div class="fs-2 fw-bold text-warning"><%= Invoice.where(status: :pending).count %></div>
+        <div class="text-muted small">Pendientes</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <div class="fs-2 fw-bold text-success"><%= Invoice.where(status: :paid).count %></div>
+        <div class="text-muted small">Pagadas</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <div class="fs-2 fw-bold text-info">$<%= number_with_delimiter(Invoice.where(status: :paid).sum(:total)) %></div>
+        <div class="text-muted small">Total Recaudado</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabla de facturas -->
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th class="fw-semibold">Número</th>
+        <th class="fw-semibold">Cliente</th>
+        <th class="fw-semibold">Pedido</th>
+        <th class="fw-semibold">Fecha</th>
+        <th class="fw-semibold">Estado</th>
+        <th class="fw-semibold">Total</th>
+        <th class="fw-semibold text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @invoices.each do |invoice| %>
+        <tr>
+          <td>
+            <span class="fw-bold text-dark"><%= invoice.invoice_number %></span>
+          </td>
+          <td>
+            <% if invoice.order.user %>
+              <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                  <%= invoice.order.user.email.first.upcase %>
+                </div>
+                <span><%= invoice.order.user.email %></span>
+              </div>
+            <% else %>
+              <span class="text-muted fst-italic">Usuario eliminado</span>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to "##{invoice.order.id}", 
+                admin_order_path(invoice.order), 
+                class: "text-decoration-none fw-semibold text-primary" %>
+          </td>
+          <td>
+            <span class="text-muted"><%= invoice.created_at.strftime("%d/%m/%Y") %></span>
+          </td>
+          <td>
+            <% case invoice.status %>
+            <% when 'pending' %>
+              <span class="badge bg-warning text-dark">Pendiente</span>
+            <% when 'sent' %>
+              <span class="badge bg-info">Enviada</span>
+            <% when 'paid' %>
+              <span class="badge bg-success">Pagada</span>
+            <% when 'overdue' %>
+              <span class="badge bg-danger">Vencida</span>
+            <% when 'cancelled' %>
+              <span class="badge bg-secondary">Cancelada</span>
+            <% end %>
+          </td>
+          <td>
+            <span class="fw-bold text-success">$<%= number_with_delimiter(invoice.total, precision: 2) %></span>
+          </td>
+          <td>
+            <div class="d-flex justify-content-center gap-1">
+              <%= link_to admin_invoice_path(invoice), 
+                  class: "btn btn-sm btn-outline-primary", 
+                  title: "Ver factura" do %>
+                <i class="bi bi-eye"></i>
+              <% end %>
+              
+              <%= link_to download_admin_invoice_path(invoice), 
+                  class: "btn btn-sm btn-outline-secondary", 
+                  title: "Descargar PDF" do %>
+                <i class="bi bi-download"></i>
+              <% end %>
+
+              <% if invoice.status == 'pending' %>
+                <%= link_to mark_as_sent_admin_invoice_path(invoice), 
+                    method: :patch,
+                    class: "btn btn-sm btn-outline-success", 
+                    title: "Marcar como enviada",
+                    data: { confirm: "¿Marcar factura como enviada?" } do %>
+                  <i class="bi bi-check"></i>
+                <% end %>
+              <% end %>
+
+              <%= link_to admin_invoice_path(invoice), 
+                  method: :delete,
+                  class: "btn btn-sm btn-outline-danger", 
+                  title: "Eliminar factura",
+                  data: { 
+                    confirm: "¿Estás seguro de eliminar esta factura?",
+                    method: :delete 
+                  } do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if @invoices.empty? %>
+  <div class="text-center py-5">
+    <div class="mb-3">
+      <i class="bi bi-file-earmark-text text-muted" style="font-size: 4rem;"></i>
+    </div>
+    <h3 class="text-muted">No hay facturas</h3>
+    <p class="text-muted">Las facturas se generan automáticamente cuando los pedidos son marcados como pagados.</p>
+  </div>
+<% end %>

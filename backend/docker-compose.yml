@@ -9,4 +9,11 @@ services:
     environment:
       RAILS_ENV: development
       DATABASE_URL: "sqlite3:/app/db/development.sqlite3"
-
+      # Google OAuth credentials for development
+      GOOGLE_CLIENT_ID: "354443077313-0fno50ulf9pt68kvb44hsu5fq3t8pnt1.apps.googleusercontent.com"
+      GOOGLE_CLIENT_SECRET: "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"
+      # Facebook OAuth credentials for development
+      FACEBOOK_APP_ID: "1134455802132241"
+      FACEBOOK_APP_SECRET: "d45fc9d121e0ab365817addca39a2197"
+      # App URL for localtunnel
+      APP_URL: "https://designalma.loca.lt"

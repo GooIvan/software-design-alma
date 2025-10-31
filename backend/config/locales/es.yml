@@ -288,3 +288,27 @@ es:
       discount: "Descuento"
       total: "Total"
       processing: "Procesando"
+
+  # Facturas
+  invoice:
+    not_found: "Factura no encontrada"
+    title: "Facturas"
+    status:
+      pending: "Pendiente"
+      sent: "Enviada"
+      paid: "Pagada"
+      overdue: "Vencida"
+      cancelled: "Cancelada"
+    details:
+      invoice_number: "Número de factura"
+      date: "Fecha de emisión"
+      due_date: "Fecha de vencimiento"
+      customer: "Cliente"
+      status: "Estado"
+      subtotal: "Subtotal"
+      tax: "Impuestos"
+      total: "Total"
+    actions:
+      view: "Ver factura"
+      download: "Descargar PDF"
+      back_to_list: "Volver a facturas"

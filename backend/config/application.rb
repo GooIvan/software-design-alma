@@ -6,6 +6,10 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# PDF generation gems
+require "prawn"
+require "prawn/table"
+
 module MiApp
   class Application < Rails::Application
     config.i18n.available_locales = [:en, :es] # rubocop:disable Layout/SpaceInsideArrayLiteralBrackets

@@ -1,56 +1,365 @@
 <%= stylesheet_link_tag "pay", media: "all" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
 <div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-10 col-lg-9">
 
-      <div class="card-payment-shadow-sm rounded-3">
-        <div class="card-payment-body">
-
-          <h2 class="mb-4 text-center"><%= t('order.show.title') %></h2>
-
-          <ul class="list-group list-group-flush mb-4">
-            <li class="list-group-item d-flex justify-content-between">
-              <strong><%= t('order.show.order_number') %>:</strong>
-              <span><%= @order.id %></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <strong><%= t('order.show.state') %>:</strong>
-              <span><%= @order.status.capitalize %></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <strong><%= t('order.show.total') %>:</strong>
-              <span>$<%= number_to_currency(@order.total, unit: "", delimiter: ".", precision: 0) %></span>
-            </li>
-          </ul>
-
-          <h4 class="mt-4"><%= t('order.show.product') %>:</h4>
-          <ul class="list-group mb-4">
-            <% @order.order_items.each do |item| %>
-              <li class="list-group-item">
-                <strong><%= item.product.name %></strong><br>
-                <small class="text-muted"><%= t('order.show.size') %>: <%= item.size %> &nbsp;|&nbsp;<%= t('order.show.quantity') %>: <%= item.quantity %></small>
-              </li>
+      <!-- Breadcrumb animado -->
+      <nav aria-label="breadcrumb" class="order-breadcrumb mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <%= link_to root_path do %>
+              <i data-feather="home" class="feather-icon-sm"></i>
+              Inicio
             <% end %>
-          </ul>
+          </li>
+          <li class="breadcrumb-item">
+            <%= link_to profile_path do %>
+              <i data-feather="user" class="feather-icon-sm"></i>
+              Perfil
+            <% end %>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <i data-feather="package" class="feather-icon-sm"></i>
+            Orden #<%= @order.id %>
+          </li>
+        </ol>
+      </nav>
 
-          <% if @order.paid? %>
-            <div class="alert alert-success text-center">
-              <%= t('order.show.pay') %>
+      <div class="order-detail-card">
+        
+        <!-- Header de la orden -->
+        <div class="order-header">
+          <div class="order-header-content">
+            <h1 class="order-title">
+              <i data-feather="shopping-bag" class="order-title-icon"></i>
+              <%= t('order.show.title') %>
+            </h1>
+            <div class="order-number-badge">
+              <i data-feather="hash"></i>
+              <%= @order.id %>
             </div>
-          <% else %>
-            <div class="alert alert-danger text-center">
-              <%= t('order.show.pay_error') %>
-            </div>
-          <% end %>
-
-          <div class="text-center mt-4">
-            <%= link_to t('order.show.bottom_back'), root_path, class: "btn btn-primary px-4" %>
           </div>
-
+          
+          <!-- Estado de la orden con icono dinámico -->
+          <div class="order-status-container">
+            <% if @order.paid? %>
+              <div class="order-status-badge status-paid">
+                <div class="status-icon-wrapper">
+                  <i data-feather="check-circle" class="status-icon"></i>
+                </div>
+                <div class="status-text">
+                  <span class="status-label">Estado</span>
+                  <span class="status-value">Pagada</span>
+                </div>
+              </div>
+            <% elsif @order.pending? %>
+              <div class="order-status-badge status-pending">
+                <div class="status-icon-wrapper">
+                  <i data-feather="clock" class="status-icon"></i>
+                </div>
+                <div class="status-text">
+                  <span class="status-label">Estado</span>
+                  <span class="status-value">Pendiente</span>
+                </div>
+              </div>
+            <% else %>
+              <div class="order-status-badge status-cancelled">
+                <div class="status-icon-wrapper">
+                  <i data-feather="x-circle" class="status-icon"></i>
+                </div>
+                <div class="status-text">
+                  <span class="status-label">Estado</span>
+                  <span class="status-value">Cancelada</span>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Información de la orden -->
+        <div class="order-info-section">
+          <h3 class="section-title">
+            <i data-feather="info" class="section-icon"></i>
+            Información de la orden
+          </h3>
+          
+          <div class="order-info-grid">
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="calendar"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Fecha de creación</span>
+                <span class="info-value"><%= @order.created_at.strftime("%d de %B de %Y") %></span>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="dollar-sign"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label"><%= t('order.show.total') %></span>
+                <span class="info-value info-value-price">$<%= number_to_currency(@order.total, unit: "", delimiter: ".", precision: 0) %></span>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">
+                <i data-feather="package"></i>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Total de productos</span>
+                <span class="info-value"><%= @order.order_items.sum(:quantity) %> unidades</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Productos de la orden -->
+        <div class="order-products-section">
+          <h3 class="section-title">
+            <i data-feather="shopping-cart" class="section-icon"></i>
+            <%= t('order.show.product') %>
+          </h3>
+
+          <div class="products-list">
+            <% @order.order_items.each_with_index do |item, index| %>
+              <div class="product-item" data-index="<%= index %>">
+                <div class="product-image-container">
+                  <% if item.product.image.attached? %>
+                    <%= image_tag item.product.image, class: "product-image", alt: item.product.name %>
+                  <% else %>
+                    <div class="product-image-placeholder">
+                      <i data-feather="image"></i>
+                    </div>
+                  <% end %>
+                </div>
+                
+                <div class="product-details">
+                  <h4 class="product-name"><%= item.product.name %></h4>
+                  <div class="product-specs">
+                    <span class="spec-badge">
+                      <i data-feather="maximize-2" class="spec-icon"></i>
+                      <%= t('order.show.size') %>: <strong><%= item.size %></strong>
+                    </span>
+                    <span class="spec-badge">
+                      <i data-feather="layers" class="spec-icon"></i>
+                      <%= t('order.show.quantity') %>: <strong><%= item.quantity %></strong>
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="product-price">
+                  <span class="price-label">Precio unitario</span>
+                  <span class="price-value">$<%= number_to_currency(item.price, unit: "", delimiter: ".", precision: 0) %></span>
+                  <span class="price-total">
+                    Total: <strong>$<%= number_to_currency(item.price * item.quantity, unit: "", delimiter: ".", precision: 0) %></strong>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
+        <!-- Estado de pago con alerta mejorada -->
+        <% if @order.paid? %>
+          <div class="payment-status-alert alert-success">
+            <div class="alert-icon">
+              <i data-feather="check-circle"></i>
+            </div>
+            <div class="alert-content">
+              <h4 class="alert-title">¡Pago exitoso!</h4>
+              <p class="alert-message"><%= t('order.show.pay') %></p>
+            </div>
+          </div>
+        <% else %>
+          <div class="payment-status-alert alert-warning">
+            <div class="alert-icon">
+              <i data-feather="alert-circle"></i>
+            </div>
+            <div class="alert-content">
+              <h4 class="alert-title">Pago pendiente</h4>
+              <p class="alert-message"><%= t('order.show.pay_error') %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Botones de acción -->
+        <div class="order-actions">
+          <%= link_to profile_path, class: "btn-order-action btn-secondary" do %>
+            <i data-feather="arrow-left"></i>
+            <span>Volver al perfil</span>
+          <% end %>
+          
+          <% if @order.paid? && @order.invoice.present? %>
+            <%= link_to invoice_path(@order.invoice), class: "btn-order-action btn-success" do %>
+              <i data-feather="file-text"></i>
+              <span>Ver Factura</span>
+            <% end %>
+          <% end %>
+          
+          <%= link_to root_path, class: "btn-order-action btn-primary" do %>
+            <i data-feather="home"></i>
+            <span><%= t('order.show.bottom_back') %></span>
+          <% end %>
+        </div>
+
       </div>
 
     </div>
   </div>
 </div>
+
+<script>
+  // Inicialización de la vista de orden
+  function initOrderView() {
+    // Inicializar iconos de Feather
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+    
+    // Animaciones con Anime.js
+    if (typeof anime !== 'undefined') {
+      // Animación del breadcrumb
+      anime({
+        targets: '.order-breadcrumb',
+        translateY: [-20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        easing: 'easeOutCubic'
+      });
+      
+      // Animación del header
+      anime({
+        targets: '.order-header',
+        translateY: [-30, 0],
+        opacity: [0, 1],
+        duration: 800,
+        delay: 200,
+        easing: 'easeOutCubic'
+      });
+      
+      // Animación de las info cards
+      anime({
+        targets: '.info-card',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        delay: anime.stagger(100, {start: 400}),
+        easing: 'easeOutQuart'
+      });
+      
+      // Animación de los productos
+      anime({
+        targets: '.product-item',
+        translateX: [-30, 0],
+        opacity: [0, 1],
+        duration: 600,
+        delay: anime.stagger(150, {start: 800}),
+        easing: 'easeOutQuart'
+      });
+      
+      // Animación de la alerta de pago
+      anime({
+        targets: '.payment-status-alert',
+        scale: [0.9, 1],
+        opacity: [0, 1],
+        duration: 600,
+        delay: 1200,
+        easing: 'easeOutBack'
+      });
+      
+      // Animación de los botones
+      anime({
+        targets: '.btn-order-action',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 600,
+        delay: anime.stagger(100, {start: 1400}),
+        easing: 'easeOutQuart'
+      });
+    }
+  }
+  
+  // Ejecutar al cargar
+  document.addEventListener('DOMContentLoaded', initOrderView);
+  document.addEventListener('turbo:load', initOrderView);
+  
+  // Animaciones hover para las cards
+  document.addEventListener('DOMContentLoaded', function() {
+    const infoCards = document.querySelectorAll('.info-card');
+    const productItems = document.querySelectorAll('.product-item');
+    
+    infoCards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        if (typeof anime !== 'undefined') {
+          anime({
+            targets: this,
+            scale: 1.05,
+            duration: 300,
+            easing: 'easeOutQuart'
+          });
+        }
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        if (typeof anime !== 'undefined') {
+          anime({
+            targets: this,
+            scale: 1,
+            duration: 300,
+            easing: 'easeOutQuart'
+          });
+        }
+      });
+    });
+    
+    productItems.forEach(item => {
+      item.addEventListener('mouseenter', function() {
+        if (typeof anime !== 'undefined') {
+          anime({
+            targets: this,
+            translateX: 10,
+            duration: 300,
+            easing: 'easeOutQuart'
+          });
+        }
+      });
+      
+      item.addEventListener('mouseleave', function() {
+        if (typeof anime !== 'undefined') {
+          anime({
+            targets: this,
+            translateX: 0,
+            duration: 300,
+            easing: 'easeOutQuart'
+          });
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .btn-order-action.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+  }
+  
+  .btn-order-action.btn-success:hover {
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+    color: white;
+    text-decoration: none;
+  }
+</style>
