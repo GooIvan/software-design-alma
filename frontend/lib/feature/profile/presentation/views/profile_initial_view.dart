@@ -4,6 +4,7 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../login/presentation/pages/login_page.dart';
 import '../../../register/presentation/pages/register_page.dart';
+import '../../../configuration/presentation/page/configuration_page.dart';
 
 class ProfileInitialView extends StatelessWidget {
   const ProfileInitialView({
@@ -103,6 +104,63 @@ class ProfileInitialView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Botón de configuración
+                Container(
+                  decoration: BoxDecoration(
+                    color: azulPrimary.withOpacity(0.05),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: azulPrimary.withOpacity(0.1),
+                      width: 1,
+                    ),
+                  ),
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ConfigurationPage()),
+                      );
+                    },
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: azulPrimary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        Icons.settings,
+                        color: azulPrimary,
+                        size: 20,
+                      ),
+                    ),
+                    title: Text(
+                      context.l10n.configuration,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                          ),
+                    ),
+                    subtitle: Text(
+                      'Idioma, tema y más',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.grey.shade600,
+                          ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: azulPrimary.withOpacity(0.6),
+                      size: 16,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
                   ),
                 ),
