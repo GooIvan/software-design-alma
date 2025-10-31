@@ -90,7 +90,7 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
                 width: 280,
                 padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -142,10 +142,10 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
                     Text(
                       widget.message,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         height: 1.3,
                       ),
                     ),

@@ -43,9 +43,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 'assets/logo.png',
                 height: 200, // Tamaño grande como en tu código original
                 fit: BoxFit.contain,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : null, // Filtro negro solo en modo claro
+                color: Colors.black,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     width: 200,
@@ -183,9 +181,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             ),
                             child: Text(
                               '${state.totalItems}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge
+                                    ?.color,
                               ),
                               textAlign: TextAlign.center,
                             ),

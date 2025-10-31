@@ -18,12 +18,12 @@ class OrdersPage extends StatelessWidget {
           OrdersBloc(sl<OrdersRepository>())..add(LoadOrders()),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
           title: Text(
             context.l10n.ordersTitle,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.displayLarge?.color,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -38,10 +38,10 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: Theme.of(context).dividerColor),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -53,7 +53,8 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade100, // fondo gris suave
+                      color: Theme.of(context).appBarTheme.backgroundColor ??
+                          Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     ),
                     padding:
@@ -80,7 +81,8 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 18),
@@ -141,19 +143,21 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
           style: TextStyle(
             fontSize: isTotal ? 16 : 14,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.w400,
-            color: isTotal ? Colors.black : Colors.grey[600],
+            color: isTotal
+                ? Theme.of(context).textTheme.displayLarge?.color
+                : Colors.grey[600],
           ),
         ),
         Text(
           amount,
           style: TextStyle(
             fontSize: isTotal ? 16 : 14,
-            fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,
+            fontWeight: isTotal ? FontWeight.bold : FontWeight.w400,
             color: isDiscount
                 ? Theme.of(context).colorScheme.primary
                 : isTotal
-                    ? Colors.black
-                    : Colors.black87,
+                    ? Theme.of(context).textTheme.displayLarge?.color
+                    : Theme.of(context).textTheme.displayLarge?.color,
           ),
         ),
       ],

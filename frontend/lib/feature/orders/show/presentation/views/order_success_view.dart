@@ -1,6 +1,6 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../models/order_model.dart';
+import '../../../../../models/order_model.dart';
 import '../widgets/build_order_header.dart';
 import '../widgets/build_order_item.dart';
 import '../widgets/build_order_summary.dart';

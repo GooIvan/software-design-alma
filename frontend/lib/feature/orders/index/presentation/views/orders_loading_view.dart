@@ -6,14 +6,19 @@ class OrdersLoadingView extends StatelessWidget {
     super.key,
   });
 
-  Widget _buildFilterChipSkeleton(double width, bool isSelected) {
+  Widget _buildFilterChipSkeleton(
+      BuildContext context, double width, bool isSelected) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: isSelected ? Colors.grey[300] : Colors.grey[100],
+        color: isSelected
+            ? Colors.black
+            : Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isSelected ? Colors.grey[400]! : Colors.grey[300]!,
+          color: isSelected
+              ? Theme.of(context).dividerColor
+              : Theme.of(context).dividerColor,
           width: 1,
         ),
       ),
@@ -25,21 +30,25 @@ class OrdersLoadingView extends StatelessWidget {
     );
   }
 
-  Widget _buildSortChipSkeleton(double width, bool isSelected) {
+  Widget _buildSortChipSkeleton(context, double width, bool isSelected) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: isSelected ? Colors.grey[300] : Colors.grey[100],
+        color: isSelected
+            ? Colors.black
+            : Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isSelected ? Colors.grey[400]! : Colors.grey[300]!,
+          color: isSelected
+              ? Theme.of(context).dividerColor
+              : Theme.of(context).dividerColor,
           width: 1,
         ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SkeletonLoader(
+          const SkeletonLoader(
             width: 16,
             height: 16,
             borderRadius: 4,
@@ -63,10 +72,10 @@ class OrdersLoadingView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: Theme.of(context).scaffoldBackgroundColor,
                 spreadRadius: 1,
                 blurRadius: 2,
                 offset: const Offset(0, 1),
@@ -77,15 +86,15 @@ class OrdersLoadingView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Filtros por estado skeleton
-              Row(
+              const Row(
                 children: [
                   SkeletonLoader(
                     width: 18,
                     height: 18,
                     borderRadius: 4,
                   ),
-                  const SizedBox(width: 8),
-                  const SkeletonLoader(
+                  SizedBox(width: 8),
+                  SkeletonLoader(
                     width: 60,
                     height: 14,
                     borderRadius: 4,
@@ -98,28 +107,31 @@ class OrdersLoadingView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    _buildFilterChipSkeleton(60, true), // "Todas" seleccionado
+                    _buildFilterChipSkeleton(
+                        context, 60, true), // "Todas" seleccionado
                     const SizedBox(width: 8),
-                    _buildFilterChipSkeleton(70, false), // "Pagadas"
+                    _buildFilterChipSkeleton(context, 70, false), // "Pagadas"
                     const SizedBox(width: 8),
-                    _buildFilterChipSkeleton(80, false), // "Pendientes"
+                    _buildFilterChipSkeleton(
+                        context, 80, false), // "Pendientes"
                     const SizedBox(width: 8),
-                    _buildFilterChipSkeleton(85, false), // "Canceladas"
+                    _buildFilterChipSkeleton(
+                        context, 85, false), // "Canceladas"
                   ],
                 ),
               ),
               const SizedBox(height: 16),
 
               // Ordenamiento skeleton
-              Row(
+              const Row(
                 children: [
                   SkeletonLoader(
                     width: 18,
                     height: 18,
                     borderRadius: 4,
                   ),
-                  const SizedBox(width: 8),
-                  const SkeletonLoader(
+                  SizedBox(width: 8),
+                  SkeletonLoader(
                     width: 80,
                     height: 14,
                     borderRadius: 4,
@@ -133,13 +145,14 @@ class OrdersLoadingView extends StatelessWidget {
                 child: Row(
                   children: [
                     _buildSortChipSkeleton(
-                        110, true), // "Más recientes" seleccionado
+                        context, 110, true), // "Más recientes" seleccionado
                     const SizedBox(width: 8),
-                    _buildSortChipSkeleton(100, false), // "Más antiguas"
+                    _buildSortChipSkeleton(
+                        context, 100, false), // "Más antiguas"
                     const SizedBox(width: 8),
-                    _buildSortChipSkeleton(90, false), // "Mayor valor"
+                    _buildSortChipSkeleton(context, 90, false), // "Mayor valor"
                     const SizedBox(width: 8),
-                    _buildSortChipSkeleton(90, false), // "Menor valor"
+                    _buildSortChipSkeleton(context, 90, false), // "Menor valor"
                   ],
                 ),
               ),
@@ -150,9 +163,9 @@ class OrdersLoadingView extends StatelessWidget {
         // Contador de resultados skeleton
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
+          child: const Row(
             children: [
-              const SkeletonLoader(
+              SkeletonLoader(
                 width: 120,
                 height: 12,
                 borderRadius: 4,
@@ -173,15 +186,11 @@ class OrdersLoadingView extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 16.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 1,
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  border: Border.all(
+                    color: Theme.of(context).dividerColor,
+                    width: 1,
+                  ),
                 ),
                 child: const IntrinsicHeight(
                   child: Row(

@@ -23,15 +23,8 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -49,7 +42,7 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                     ),
                   ),
                 ],

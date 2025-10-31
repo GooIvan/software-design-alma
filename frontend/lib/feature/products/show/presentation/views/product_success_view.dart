@@ -81,10 +81,10 @@ class ProductSuccessView extends StatelessWidget {
               // Nombre
               Text(
                 product.name,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
                 ),
               ),
 
@@ -108,8 +108,11 @@ class ProductSuccessView extends StatelessWidget {
               // Talla
               Text(
                 context.l10n.selectSize,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
+                ),
               ),
               const SizedBox(height: 8),
               SizeSelector(
@@ -126,13 +129,18 @@ class ProductSuccessView extends StatelessWidget {
               // Descripcion
               Text(
                 context.l10n.description,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
+                ),
               ),
               const SizedBox(height: 6),
               Text(
                 product.description,
-                style: const TextStyle(color: Colors.grey),
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.displayLarge?.color,
+                ),
               ),
               const SizedBox(height: 40),
             ],

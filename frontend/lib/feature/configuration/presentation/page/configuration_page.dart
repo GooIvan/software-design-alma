@@ -11,14 +11,14 @@ class ConfigurationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFf8f9fa),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         title: Text(
           context.l10n.configuration,
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.displayLarge?.color,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -32,7 +32,8 @@ class ConfigurationPage extends StatelessWidget {
               // Opciones de configuración
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).appBarTheme.backgroundColor ??
+                      Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -62,7 +63,7 @@ class ConfigurationPage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
                       height: 1,
-                      color: Colors.grey.shade200,
+                      color: Theme.of(context).dividerColor,
                     ),
                     buildConfigurationOption(
                       context: context,
@@ -88,10 +89,11 @@ class ConfigurationPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).appBarTheme.backgroundColor ??
+                      Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Colors.grey.shade200,
+                    color: Theme.of(context).dividerColor,
                     width: 1,
                   ),
                 ),
@@ -117,10 +119,13 @@ class ConfigurationPage extends StatelessWidget {
                         children: [
                           Text(
                             context.l10n.appTitle,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .displayLarge
+                                  ?.color,
                             ),
                           ),
                           const SizedBox(height: 2),

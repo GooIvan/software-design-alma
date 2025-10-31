@@ -78,8 +78,10 @@ class _PaymentViewState extends State<PaymentView> {
     if (_orderLoading) {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          iconTheme: IconThemeData(
+            color: Theme.of(context).textTheme.displayLarge?.color,
+          ),
           elevation: 0,
         ),
         body: const Center(
@@ -91,8 +93,10 @@ class _PaymentViewState extends State<PaymentView> {
     if (_order == null) {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          iconTheme: IconThemeData(
+            color: Theme.of(context).textTheme.displayLarge?.color,
+          ),
           elevation: 0,
         ),
         body: Center(
@@ -106,8 +110,10 @@ class _PaymentViewState extends State<PaymentView> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).textTheme.displayLarge?.color,
+        ),
         elevation: 0,
       ),
       body: SingleChildScrollView(

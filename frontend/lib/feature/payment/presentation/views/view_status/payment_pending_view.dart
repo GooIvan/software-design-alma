@@ -7,7 +7,7 @@ class PaymentPendingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -23,16 +23,16 @@ class PaymentPendingView extends StatelessWidget {
                   Container(
                     width: 180,
                     height: 180,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFF8E1),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFFF8E1),
                       shape: BoxShape.circle,
                     ),
                   ),
                   Container(
                     width: 120,
                     height: 120,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFECB3),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFFECB3),
                       shape: BoxShape.circle,
                     ),
                   ),

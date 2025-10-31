@@ -1,6 +1,6 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../../payment/presentation/pages/payment_page.dart';
+import '../../../../payment/presentation/pages/payment_page.dart';
 
 Widget buildPaymentButton(BuildContext context, int orderId) {
   return Container(

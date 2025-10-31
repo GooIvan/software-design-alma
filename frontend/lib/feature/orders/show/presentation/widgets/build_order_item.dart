@@ -2,7 +2,7 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../../models/order_item_model.dart';
+import '../../../../../models/order_item_model.dart';
 
 String _formatPrice(double price) {
   final formatter = NumberFormat('#,##0');
@@ -14,17 +14,12 @@ Widget buildOrderItem(OrderItem item, BuildContext context) {
     margin: const EdgeInsets.only(bottom: 12),
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
-          spreadRadius: 1,
-          blurRadius: 4,
-          offset: const Offset(0, 2),
-        ),
-      ],
-    ),
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).dividerColor,
+          width: 1,
+        )),
     child: Row(
       children: [
         // Imagen del producto
@@ -116,10 +111,10 @@ Widget buildOrderItem(OrderItem item, BuildContext context) {
           children: [
             Text(
               _formatPrice(item.totalPrice),
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
-                color: Colors.black87,
+                color: Theme.of(context).textTheme.displayLarge?.color,
               ),
             ),
           ],

@@ -45,10 +45,10 @@ Widget buildConfigurationOption({
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                     ),
                   ),
                 ],

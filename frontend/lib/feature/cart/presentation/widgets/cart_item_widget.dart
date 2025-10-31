@@ -1,6 +1,5 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../../models/cart_item_model.dart';
 
 class CartItemWidget extends StatelessWidget {
@@ -20,7 +19,7 @@ class CartItemWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -59,10 +58,11 @@ class CartItemWidget extends StatelessWidget {
                     Expanded(
                       child: Text(
                         item.productName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: Colors.black87,
+                          color:
+                              Theme.of(context).textTheme.displayLarge?.color,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -95,7 +95,7 @@ class CartItemWidget extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
@@ -113,10 +113,10 @@ class CartItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       '\$${item.formattedPrice}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                       ),
                     ),
                     _QuantitySelector(
@@ -157,9 +157,9 @@ class _QuantitySelector extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(40),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
         children: [

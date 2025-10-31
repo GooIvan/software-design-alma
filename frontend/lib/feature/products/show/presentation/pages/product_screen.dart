@@ -21,7 +21,7 @@ class ProductScreen extends StatelessWidget {
           sl<ProductBloc>()..add(LoadProduct(categoryName, id)),
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           ),
           body: BlocBuilder<ProductBloc, ProductState>(
             builder: (context, state) {

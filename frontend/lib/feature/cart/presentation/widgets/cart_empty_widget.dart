@@ -27,7 +27,10 @@ class CartEmptyWidget extends StatelessWidget {
                   height: 140,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.grey[200]!, Colors.grey[100]!],
+                      colors: [
+                        Theme.of(context).colorScheme.outline,
+                        Theme.of(context).colorScheme.shadow
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -36,7 +39,7 @@ class CartEmptyWidget extends StatelessWidget {
                   child: Icon(
                     Icons.shopping_cart_outlined,
                     size: 70,
-                    color: Colors.grey[400],
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                 ),
               ),
@@ -48,7 +51,7 @@ class CartEmptyWidget extends StatelessWidget {
                 context.l10n.cartIsEmpty,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                     ),
                 textAlign: TextAlign.center,
               ),
@@ -73,8 +76,11 @@ class CartEmptyWidget extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    gradient: const LinearGradient(
-                      colors: [Colors.black87, Colors.black54],
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(context).colorScheme.outline,
+                        Theme.of(context).colorScheme.shadow
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),

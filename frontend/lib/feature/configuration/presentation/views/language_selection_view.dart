@@ -17,11 +17,11 @@ class LanguageSelectionView extends StatelessWidget {
           appBar: AppBar(
             automaticallyImplyLeading: true,
             elevation: 0,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black87,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            foregroundColor: Theme.of(context).textTheme.displayLarge?.color,
             centerTitle: true,
           ),
-          backgroundColor: const Color(0xFFf8f9fa),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -31,7 +31,8 @@ class LanguageSelectionView extends StatelessWidget {
                   // Lista de idiomas
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).appBarTheme.backgroundColor ??
+                          Colors.white,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -52,7 +53,7 @@ class LanguageSelectionView extends StatelessWidget {
                           isFirst: true,
                           languageProvider: languageProvider,
                         ),
-                        _buildDivider(),
+                        _buildDivider(context),
                         _buildLanguageOption(
                           context: context,
                           languageCode: 'en',
@@ -61,7 +62,7 @@ class LanguageSelectionView extends StatelessWidget {
                           flagEmoji: '🇺🇸',
                           languageProvider: languageProvider,
                         ),
-                        _buildDivider(),
+                        _buildDivider(context),
                         _buildLanguageOption(
                           context: context,
                           languageCode: 'fr',
@@ -203,7 +204,7 @@ class LanguageSelectionView extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: isSelected
                             ? const Color(0xFF29B6F6)
-                            : Colors.black87,
+                            : Theme.of(context).textTheme.displayLarge?.color,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -252,11 +253,11 @@ class LanguageSelectionView extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider() {
+  Widget _buildDivider(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       height: 1,
-      color: Colors.grey.shade200,
+      color: Theme.of(context).dividerColor,
     );
   }
 }

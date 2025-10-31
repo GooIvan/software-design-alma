@@ -19,9 +19,10 @@ class ProductsLoadingView extends StatelessWidget {
       itemBuilder: (context, index) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.grey[50],
+            color:
+                Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey[200]!, width: 1),
+            border: Border.all(color: Theme.of(context).dividerColor, width: 1),
           ),
           child: const Padding(
             padding: EdgeInsets.all(10),

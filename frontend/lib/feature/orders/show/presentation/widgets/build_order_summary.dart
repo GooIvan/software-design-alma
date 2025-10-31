@@ -2,7 +2,7 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../models/order_model.dart';
+import '../../../../../models/order_model.dart';
 
 String _formatPrice(double price) {
   final formatter = NumberFormat('#,##0');
@@ -13,17 +13,12 @@ Widget buildOrderSummary(Order order, BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(20),
     decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
-          spreadRadius: 1,
-          blurRadius: 4,
-          offset: const Offset(0, 2),
-        ),
-      ],
-    ),
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).dividerColor,
+          width: 1,
+        )),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -55,7 +50,9 @@ Widget buildOrderSummary(Order order, BuildContext context) {
           ],
         ),
         const SizedBox(height: 12),
-        const Divider(),
+        Divider(
+          color: Theme.of(context).dividerColor,
+        ),
         const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,10 +66,10 @@ Widget buildOrderSummary(Order order, BuildContext context) {
             ),
             Text(
               _formatPrice(order.total),
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: Colors.black87,
+                color: Theme.of(context).textTheme.displayLarge?.color,
               ),
             ),
           ],

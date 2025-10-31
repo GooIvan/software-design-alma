@@ -1,6 +1,6 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../models/order_model.dart';
+import '../../../../../models/order_model.dart';
 
 Color _getStatusColor(Order order) {
   if (order.isPaid) return Colors.green;
@@ -43,16 +43,12 @@ Widget buildOrderHeader(Order order, BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(20),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
       borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
-          spreadRadius: 1,
-          blurRadius: 4,
-          offset: const Offset(0, 2),
-        ),
-      ],
+      border: Border.all(
+        color: Theme.of(context).dividerColor,
+        width: 1,
+      ),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,

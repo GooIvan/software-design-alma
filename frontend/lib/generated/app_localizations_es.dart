@@ -519,7 +519,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get restartAppToApplyLanguage =>
-      'Los cambios se aplicarán cuando reinicies la aplicación';
+      'Los cambios se aplicarán de manera inmediata.';
 
   @override
   String get lenguajeTitle => 'Idioma de la aplicación';

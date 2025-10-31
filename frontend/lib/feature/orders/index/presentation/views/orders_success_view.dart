@@ -1,4 +1,4 @@
-import 'package:design_alma/feature/orders/show/data/presentation/pages/order_page.dart';
+import 'package:design_alma/feature/orders/show/presentation/pages/order_page.dart';
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -137,7 +137,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
         Container(
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
@@ -181,8 +181,16 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                             _selectedFilter = filter;
                           });
                         },
-                        backgroundColor: Colors.grey[100],
+                        backgroundColor:
+                            Theme.of(context).appBarTheme.backgroundColor ??
+                                Colors.white,
                         selectedColor: Colors.black,
+                        side: BorderSide(
+                          color: isSelected
+                              ? Colors.black
+                              : Theme.of(context).dividerColor,
+                          width: 1.2,
+                        ),
                         labelStyle: TextStyle(
                           color: isSelected ? Colors.white : Colors.grey[700],
                           fontWeight:
@@ -229,11 +237,17 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
-                            color: isSelected ? Colors.black : Colors.grey[100],
+                            color: isSelected
+                                ? Colors.black
+                                : Theme.of(context)
+                                        .appBarTheme
+                                        .backgroundColor ??
+                                    Colors.white,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color:
-                                  isSelected ? Colors.black : Colors.grey[300]!,
+                              color: isSelected
+                                  ? Colors.black
+                                  : Theme.of(context).dividerColor,
                               width: 1,
                             ),
                           ),
@@ -289,7 +303,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                 if (_selectedFilter != OrderFilter.all ||
                     widget.orders.length != filteredOrders.length)
                   Text(
-                    '${context.l10n.oF}  ${widget.orders.length} ${context.l10n.total}',
+                    ' ${context.l10n.oF} ${widget.orders.length} ${context.l10n.total}',
                     style: TextStyle(
                       color: Colors.grey[500],
                       fontSize: 12,
@@ -345,15 +359,11 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                         margin: const EdgeInsets.only(bottom: 16.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          border: Border.all(
+                            color: Theme.of(context).dividerColor,
+                            width: 1,
+                          ),
                         ),
                         child: IntrinsicHeight(
                           child: Row(
@@ -411,10 +421,13 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                                               const SizedBox(height: 4),
                                               Text(
                                                 _formatTotal(order.total),
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 18,
-                                                  color: Colors.black87,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .displayLarge
+                                                      ?.color,
                                                 ),
                                               ),
                                               const SizedBox(height: 8),
