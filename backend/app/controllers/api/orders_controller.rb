@@ -185,7 +185,7 @@ class Api::OrdersController < Api::BaseController
           quantity: item.quantity,
           price: item.price,
           total_price: item.price * item.quantity,
-          product_image: item.product.image.present? ? url_for(item.product.image) : nil
+          product_image: item.product.images.attached? ? url_for(item.product.images.first) : nil
         }
       end
     }

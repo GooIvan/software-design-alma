@@ -118,38 +118,48 @@
         </div>
       </div>
 
-      <!-- Imagen del Producto -->
+      <!-- Imágenes del Producto -->
       <div class="mb-4">
         <h5 class="text-muted mb-3 border-bottom pb-2">
           <i class="bi bi-image me-2"></i>
-          Imagen del Producto
+          Imágenes del Producto
         </h5>
 
         <div class="text-center">
-          <!-- 🔥 Aquí está el contenedor para la vista previa -->
-          <div id="product-preview" class="mb-3">
-            <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
-            <p class="text-muted mt-2 small">No hay imagen seleccionada</p>
+          <!-- 🔥 Contenedor de vista previa múltiple -->
+          <div id="product-preview" class="mb-3 d-flex flex-wrap justify-content-center gap-3">
+            <% if @product.images.attached? %>
+              <% @product.images.each do |img| %>
+                <%= image_tag img.variant(resize_to_limit: [200, 200]), class: "img-thumbnail rounded shadow-sm", style: "max-height: 150px; object-fit: cover;" %>
+              <% end %>
+            <% else %>
+              <div class="text-muted">
+                <i class="bi bi-image" style="font-size: 3rem;"></i>
+                <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
+              </div>
+            <% end %>
           </div>
 
-          <label for="product_image" class="cssbuttons-io-button-secondary d-inline-flex align-items-center">
-            <%= form.file_field :image,
+          <label for="product_images" class="cssbuttons-io-button-secondary d-inline-flex align-items-center">
+            <%= form.file_field :images,
                 class: "d-none",
+                multiple: true,
                 accept: "image/*",
-                id: "product_image",
-                onchange: "previewProductImage(event)" %>
+                id: "product_images",
+                onchange: "previewMultipleImages(event)" %>
             <i class="bi bi-cloud-upload me-2"></i>
-            <span>Subir Imagen</span>
+            <span>Subir Imágenes</span>
           </label>
 
-          <% if @product.errors[:image].any? %>
-            <div class="text-danger small mt-1">
+          <% if @product.errors[:images].any? %>
+            <div class="text-danger small mt-2">
               <i class="bi bi-exclamation-circle me-1"></i>
-              <%= @product.errors[:image].first %>
+              <%= @product.errors[:images].first %>
             </div>
           <% end %>
         </div>
       </div>
+
 
       <!-- Botones de acción -->
       <div class="d-flex gap-3 pt-3">
@@ -166,15 +176,77 @@
 </div>
 
 <script>
-  function previewProductImage(event) {
-    const file = event.target.files[0];
+  let selectedFiles = [];
+
+  function previewMultipleImages(event) {
+    const files = Array.from(event.target.files);
     const preview = document.getElementById('product-preview');
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        preview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded shadow-sm" style="max-height: 250px; object-fit: contain;">`;
-      };
-      reader.readAsDataURL(file);
+    
+    // Agregar nuevos archivos al array existente
+    selectedFiles = [...selectedFiles, ...files];
+    
+    // Actualizar el preview
+    updatePreview();
+    
+    // Actualizar el input file con todos los archivos seleccionados
+    updateFileInput();
+  }
+
+  function updatePreview() {
+    const preview = document.getElementById('product-preview');
+    preview.innerHTML = '';
+
+    if (selectedFiles.length > 0) {
+      selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const container = document.createElement('div');
+          container.className = 'position-relative d-inline-block m-1';
+          
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.className = 'img-thumbnail rounded shadow-sm';
+          img.style.maxHeight = '150px';
+          img.style.objectFit = 'cover';
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.innerHTML = '&times;';
+          removeBtn.className = 'btn btn-danger btn-sm position-absolute';
+          removeBtn.style.cssText = 'top: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10;';
+          removeBtn.onclick = (e) => {
+            e.preventDefault();
+            removeImage(index);
+          };
+          
+          container.appendChild(img);
+          container.appendChild(removeBtn);
+          preview.appendChild(container);
+        };
+        reader.readAsDataURL(file);
+      });
+    } else {
+      preview.innerHTML = `
+        <div class="text-muted w-100 text-center">
+          <i class="bi bi-image" style="font-size: 3rem;"></i>
+          <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
+        </div>`;
     }
+  }
+
+  function removeImage(index) {
+    selectedFiles.splice(index, 1);
+    updatePreview();
+    updateFileInput();
+  }
+
+  function updateFileInput() {
+    const input = document.getElementById('product_images');
+    const dt = new DataTransfer();
+    
+    selectedFiles.forEach(file => {
+      dt.items.add(file);
+    });
+    
+    input.files = dt.files;
   }
 </script>

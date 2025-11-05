@@ -30,8 +30,16 @@ class Admin::ProductsController < ApplicationController
   end
 
   def update
+    # Manejar eliminación de imágenes existentes
+    if params[:product][:remove_images].present?
+      params[:product][:remove_images].each do |image_id|
+        image_to_remove = @product.images.find(image_id)
+        image_to_remove.purge if image_to_remove
+      end
+    end
+
     if @product.update(product_params)
-      redirect_to admin_category_products_path, notice: "Producto actualizado exitosamente."
+      redirect_to admin_category_products_path(@category), notice: "Producto actualizado exitosamente."
     else
       render :edit
     end
@@ -61,6 +69,6 @@ end
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :category_id, :image, sizes: [])
+    params.require(:product).permit(:name, :description, :price, :stock, :category_id, sizes: [], images: [], remove_images: [])
   end
 end

@@ -208,7 +208,7 @@ categories.each do |data|
       product_image_path = Rails.root.join("db", product_data[:image])
 
       if File.exist?(product_image_path)
-        product.image.attach(
+        product.images.attach(
           io: File.open(product_image_path),
           filename: File.basename(product_image_path),
           content_type: "image/webp"

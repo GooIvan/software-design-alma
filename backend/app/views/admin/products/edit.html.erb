@@ -133,40 +133,45 @@
             
               <div class="col-md-6">
                 <div class="input-container">
-                  <%= form.label :image, "Imagen del Producto", class: "input-label" %>
+                  <%= form.label :images, "Imágenes del Producto", class: "input-label" %>
                   <div class="text-center">
-                    <div id="product-preview" class="mb-3">
-                      <% if @product.image.attached? %>
-                        <%= image_tag @product.image, class: "img-fluid rounded shadow-sm", style: "max-height: 150px; object-fit: contain;" %>
+                    <div id="product-preview" class="mb-3 d-flex flex-wrap justify-content-center gap-2">
+                      <% if @product.images.attached? %>
+                        <% @product.images.each do |img| %>
+                          <%= image_tag img.variant(resize_to_limit: [150, 150]), class: "img-thumbnail rounded shadow-sm", style: "max-height: 80px; object-fit: cover;" %>
+                        <% end %>
                       <% else %>
-                        <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
-                        <p class="text-muted mt-2 small">No hay imagen seleccionada</p>
+                        <div class="w-100 text-muted">
+                          <i class="bi bi-image" style="font-size: 3rem;"></i>
+                          <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
+                        </div>
                       <% end %>
                     </div>
 
-                  <div class="text-center">
-                    <label for="product_image_edit" class="cssbuttons-io-button-secondary d-inline-flex align-items-center">
-                      <%= form.file_field :image,
-                          class: "d-none",
-                          accept: "image/*",
-                          id: "product_image_edit",
-                          onchange: "previewProductImage(event)" %>
-                      <i class="bi bi-cloud-upload me-2"></i>
-                      <span><%= @product.image.attached? ? "Cambiar" : "Subir" %></span>
-                    </label>
-                  </div>
+                    <div class="text-center">
+                      <label for="product_images_edit" class="cssbuttons-io-button-secondary d-inline-flex align-items-center">
+                        <%= form.file_field :images,
+                            class: "d-none",
+                            multiple: true,
+                            accept: "image/*",
+                            id: "product_images_edit",
+                            onchange: "previewMultipleImages(event)" %>
+                        <i class="bi bi-cloud-upload me-2"></i>
+                        <span><%= @product.images.attached? ? "Cambiar Imágenes" : "Subir Imágenes" %></span>
+                      </label>
+                    </div>
                     
-                    <% if @product.errors[:image].any? %>
+                    <% if @product.errors[:images].any? %>
                       <div class="text-danger small mt-1">
                         <i class="bi bi-exclamation-circle me-1"></i>
-                        <%= @product.errors[:image].first %>
+                        <%= @product.errors[:images].first %>
                       </div>
                     <% end %>
                     
                     <div class="form-text mt-2">
                       <small class="text-muted">
                         <i class="bi bi-info-circle me-1"></i>
-                        Formatos: JPG, PNG, WEBP (máx. 5MB)
+                        Formatos: JPG, PNG, WEBP (máx. 5MB cada una)
                       </small>
                     </div>
                   </div>
@@ -208,10 +213,19 @@
     <div class="col-12 col-lg-4 border-start">
       <div class="p-4">
         <div class="text-center mb-4">
-          <% if @product.image.attached? %>
-            <%= image_tag @product.image, class: "img-fluid rounded border", style: "max-width: 100%; max-height: 150px; object-fit: cover;" %>
+          <% if @product.images.attached? %>
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+              <% @product.images.limit(3).each do |img| %>
+                <%= image_tag img.variant(resize_to_limit: [100, 100]), class: "img-fluid rounded border", style: "max-width: 80px; max-height: 80px; object-fit: cover;" %>
+              <% end %>
+              <% if @product.images.count > 3 %>
+                <div class="bg-light rounded border d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                  <small class="text-muted">+<%= @product.images.count - 3 %></small>
+                </div>
+              <% end %>
+            </div>
           <% else %>
-            <div class="bg-light rounded d-flex align-items-center justify-content-center mb-3" style="height: 150px;">
+            <div class="bg-light rounded d-flex align-items-center justify-content-center mb-3" style="height: 120px;">
               <i class="bi bi-box text-muted" style="font-size: 3rem;"></i>
             </div>
           <% end %>
@@ -249,15 +263,133 @@
 </div>
 
 <script>
-  function previewProductImage(event) {
-    const file = event.target.files[0];
+  let selectedFiles = [];
+  let existingImages = [];
+
+  // Inicializar con las imágenes existentes del servidor
+  document.addEventListener('DOMContentLoaded', function() {
+    <% if @product.images.attached? %>
+      existingImages = [
+        <% @product.images.each_with_index do |img, index| %>
+          {
+            id: '<%= img.id %>',
+            url: '<%= url_for(img) %>',
+            index: <%= index %>
+          }<%= ',' unless index == @product.images.count - 1 %>
+        <% end %>
+      ];
+    <% end %>
+    updatePreviewWithExisting();
+  });
+
+  function previewMultipleImages(event) {
+    const files = Array.from(event.target.files);
+    
+    // Agregar nuevos archivos al array existente
+    selectedFiles = [...selectedFiles, ...files];
+    
+    // Actualizar el preview
+    updatePreviewWithExisting();
+    
+    // Actualizar el input file con todos los archivos seleccionados
+    updateFileInput();
+  }
+
+  function updatePreviewWithExisting() {
     const preview = document.getElementById('product-preview');
-    if (file) {
+    preview.innerHTML = '';
+
+    // Mostrar imágenes existentes del servidor
+    existingImages.forEach((imgData, index) => {
+      const container = document.createElement('div');
+      container.className = 'position-relative d-inline-block m-1';
+      
+      const img = document.createElement('img');
+      img.src = imgData.url;
+      img.className = 'img-thumbnail rounded shadow-sm';
+      img.style.maxHeight = '80px';
+      img.style.objectFit = 'cover';
+      
+      const removeBtn = document.createElement('button');
+      removeBtn.innerHTML = '&times;';
+      removeBtn.className = 'btn btn-danger btn-sm position-absolute';
+      removeBtn.style.cssText = 'top: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10;';
+      removeBtn.onclick = (e) => {
+        e.preventDefault();
+        removeExistingImage(index);
+      };
+      
+      container.appendChild(img);
+      container.appendChild(removeBtn);
+      preview.appendChild(container);
+    });
+
+    // Mostrar nuevas imágenes seleccionadas
+    selectedFiles.forEach((file, index) => {
       const reader = new FileReader();
       reader.onload = e => {
-        preview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded shadow-sm" style="max-height: 250px; object-fit: contain;">`;
+        const container = document.createElement('div');
+        container.className = 'position-relative d-inline-block m-1';
+        
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'img-thumbnail rounded shadow-sm';
+        img.style.maxHeight = '80px';
+        img.style.objectFit = 'cover';
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '&times;';
+        removeBtn.className = 'btn btn-danger btn-sm position-absolute';
+        removeBtn.style.cssText = 'top: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10;';
+        removeBtn.onclick = (e) => {
+          e.preventDefault();
+          removeNewImage(index);
+        };
+        
+        container.appendChild(img);
+        container.appendChild(removeBtn);
+        preview.appendChild(container);
       };
       reader.readAsDataURL(file);
+    });
+
+    // Si no hay imágenes, mostrar placeholder
+    if (existingImages.length === 0 && selectedFiles.length === 0) {
+      preview.innerHTML = `
+        <div class="w-100 text-muted text-center">
+          <i class="bi bi-image" style="font-size: 3rem;"></i>
+          <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
+        </div>`;
     }
+  }
+
+  function removeExistingImage(index) {
+    existingImages.splice(index, 1);
+    updatePreviewWithExisting();
+    
+    // Crear un campo hidden para marcar la imagen como eliminada
+    const form = document.querySelector('form');
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = 'product[remove_images][]';
+    hiddenField.value = existingImages[index]?.id || '';
+    form.appendChild(hiddenField);
+  }
+
+  function removeNewImage(index) {
+    selectedFiles.splice(index, 1);
+    updatePreviewWithExisting();
+    updateFileInput();
+  }
+
+  function updateFileInput() {
+    const input = document.getElementById('product_images_edit');
+    const dt = new DataTransfer();
+    
+    selectedFiles.forEach(file => {
+      dt.items.add(file);
+    });
+    
+    input.files = dt.files;
   }
 </script>

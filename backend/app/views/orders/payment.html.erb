@@ -87,8 +87,8 @@
         <% @order.order_items.each do |item| %>
           <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
             <!-- Imagen del producto -->
-            <% if item.product.image.attached? %>
-              <%= image_tag url_for(item.product.image), class: "rounded me-3", style: "width: 65px; height: 65px; object-fit: cover;" %>
+            <% if item.product.images.attached? %>
+              <%= image_tag url_for(item.product.images.first), class: "rounded me-3", style: "width: 65px; height: 65px; object-fit: cover;" %>
             <% else %>
               <div class="rounded bg-secondary me-3" style="width: 65px; height: 65px;"></div>
             <% end %>

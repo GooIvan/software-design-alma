@@ -32,8 +32,19 @@ class Admin::CategoriesController < ApplicationController
   end
 
   def destroy
-    @category.destroy
-    redirect_to admin_categories_path, notice: "Categoría eliminada correctamente."
+    products_count = @category.products.count
+    
+    begin
+      @category.destroy
+      
+      if products_count > 0
+        redirect_to admin_categories_path, notice: "Categoría eliminada correctamente junto con #{products_count} producto(s) asociado(s) y todos sus elementos relacionados."
+      else
+        redirect_to admin_categories_path, notice: "Categoría eliminada correctamente."
+      end
+    rescue ActiveRecord::InvalidForeignKey
+      redirect_to admin_categories_path, alert: "No se pudo eliminar la categoría debido a restricciones de base de datos. Contacta al administrador del sistema."
+    end
   end
 
   private

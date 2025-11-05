@@ -134,8 +134,8 @@
             <% @order.order_items.each_with_index do |item, index| %>
               <div class="product-item" data-index="<%= index %>">
                 <div class="product-image-container">
-                  <% if item.product.image.attached? %>
-                    <%= image_tag item.product.image, class: "product-image", alt: item.product.name %>
+                  <% if item.product.images.attached? %>
+                    <%= image_tag item.product.images.first, class: "product-image", alt: item.product.name %>
                   <% else %>
                     <div class="product-image-placeholder">
                       <i data-feather="image"></i>

@@ -8,11 +8,19 @@
         <% @products.each do |product| %>
           <div class="col-md-6 col-lg-3 mb-4 px-3 d-flex justify-content-center">
             <div class="product-card w-100" style="max-width: 300px;">
-              <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block" do %>
-                <% if product.image.attached? %>
-                  <%= image_tag product.image, 
-                        class: "card-img-top rounded-img p-2", 
-                        style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px;" %>
+              <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block position-relative" do %>
+                <% if product.images.attached? && product.images.first.present? %>
+                  <!-- Primera imagen (siempre visible) -->
+                  <%= image_tag product.images.first, 
+                        class: "card-img-top rounded-img p-2 product-image-main", 
+                        style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px; transition: opacity 0.3s ease;" %>
+                  
+                  <!-- Segunda imagen (visible en hover) -->
+                  <% if product.images.count > 1 %>
+                    <%= image_tag product.images.second, 
+                          class: "card-img-top rounded-img p-2 product-image-hover position-absolute", 
+                          style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px; top: 0; left: 0; opacity: 0; transition: opacity 0.3s ease;" %>
+                  <% end %>
                 <% else %>
                   <%= image_tag "placeholder.svg", 
                         class: "card-img-top rounded-img p-2", 
@@ -53,11 +61,19 @@
           <div class="carousel-item <%= 'active' if index == 0 %>">
             <div class="d-flex justify-content-center">
               <div class="product-card" style="max-width: 300px;">
-                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block" do %>
-                  <% if product.image.attached? %>
-                    <%= image_tag product.image, 
-                          class: "card-img-top rounded-img p-2", 
-                          style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px;" %>
+                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block position-relative" do %>
+                  <% if product.images.attached? && product.images.first.present? %>
+                    <!-- Primera imagen (siempre visible) -->
+                    <%= image_tag product.images.first, 
+                          class: "card-img-top rounded-img p-2 product-image-main", 
+                          style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px; transition: opacity 0.3s ease;" %>
+                    
+                    <!-- Segunda imagen (visible en hover) -->
+                    <% if product.images.count > 1 %>
+                      <%= image_tag product.images.second, 
+                            class: "card-img-top rounded-img p-2 product-image-hover position-absolute", 
+                            style: "height: 300px; width: 100%; object-fit: contain; background-color: #f8f9fa; border-radius: 10px; top: 0; left: 0; opacity: 0; transition: opacity 0.3s ease;" %>
+                    <% end %>
                   <% else %>
                     <%= image_tag "placeholder.svg", 
                           class: "card-img-top rounded-img p-2", 
@@ -102,3 +118,14 @@
     </p>
   </div>
 <% end %>
+
+<style>
+  /* Efecto hover para mostrar segunda imagen */
+  .image-zoom-container:hover .product-image-hover {
+    opacity: 1 !important;
+  }
+  
+  .image-zoom-container:hover .product-image-main {
+    opacity: 0 !important;
+  }
+</style>

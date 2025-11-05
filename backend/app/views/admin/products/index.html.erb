@@ -70,13 +70,23 @@
           <% end %>
 
           <!-- Imagen -->
-          <div class="product-image-wrapper">
-            <% if product.image.attached? %>
-              <%= image_tag product.image,
-                  class: "product-image",
-                  alt: product.name %>
+          <div class="product-image-wrapper position-relative">
+            <% if product.images.attached? && product.images.any? %>
+              <!-- Imagen principal -->
+              <%= image_tag product.images.first, class: "product-image w-100 rounded shadow-sm", alt: product.name %>
+
+              <!-- Miniaturas (solo si hay más de una imagen) -->
+              <% if product.images.count > 1 %>
+                <div class="thumbnail-strip d-flex justify-content-center gap-1 mt-2">
+                  <% product.images.each_with_index do |img, index| %>
+                    <% next if index == 0 %> <!-- saltar la principal -->
+                    <%= image_tag img, class: "thumb-img rounded border", alt: "#{product.name} thumbnail", style: "width: 35px; height: 35px; object-fit: cover;" %>
+                  <% end %>
+                </div>
+              <% end %>
             <% else %>
-              <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted">
+              <!-- Si no hay imágenes -->
+              <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted rounded" style="aspect-ratio: 1;">
                 <i class="bi bi-image" style="font-size: 2.5rem;"></i>
               </div>
             <% end %>
@@ -145,7 +155,8 @@
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   transition: transform 0.4s ease;
 }
 

@@ -37,7 +37,7 @@ module Api
         stock: product.stock,
         category_id: product.category_id,
         category_name: product.category.name,
-        image_url: product.image.attached? ? url_for(product.image) : nil
+        image_url: product.images.attached? ? url_for(product.images.first) : nil
       }
     end
   end
