@@ -114,7 +114,7 @@
             <%# === Facturas === %>
             <%= link_to admin_invoices_path, class: "text-decoration-none" do %>
               <li class="bg-text-icon mb-2 d-flex align-items-center <%= 'active' if is_invoices_active %>">
-                <img src="<%= asset_path('admins/ic-orders.svg') %>" class="text-icon me-2">
+                <img src="<%= asset_path('admins/ic-invoice.svg') %>" class="text-icon me-2">
                 <span class="text-h2-panel-admin">Facturas</span>
               </li>
             <% end %>
@@ -127,19 +127,19 @@
     <hr class="text-white">
 
     <%# === Volver === %>
-    <div class="mt-auto mb-3">
-      <%= link_to home_path, class: "btn btn-success w-100" do %>
-        <i data-feather="log-out" class="me-2"></i> Volver
-      <% end %>
-    </div>
+    <%= link_to home_path, class: "text-decoration-none" do %>
+      <div class="bg-text-icon mb-3 d-flex align-items-center">
+        <img src="<%= asset_path('admins/ic-external.svg') %>" class="text-icon me-2">
+        <span class="text-h2-panel-admin">Volver al inicio</span>
+      </div>
+    <% end %>
 
     <%# === Log out === %>
-    <div class="mt-3">
-      <%= button_to destroy_user_session_path, method: :delete, class: "btn btn-success w-100" do %>
-        <i data-feather="log-out" class="me-2"></i> Log out
-      <% end %>
-    </div>
+    <%= button_to destroy_user_session_path, method: :delete, class: "btn-logout w-100 p-0 border-0 text-start" do %>
+      <div class="bg-text-icon mb-2 d-flex align-items-center logout-item">
+        <img src="<%= asset_path('admins/ic-external.svg') %>" class="text-icon text-icon-logout me-2">
+        <span class="text-h2-panel-admin">Cerrar Sesión</span>
+      </div>
+    <% end %>
   </div>
 </nav>
-
-<div id="backdrop" class="sidebar-backdrop"></div>

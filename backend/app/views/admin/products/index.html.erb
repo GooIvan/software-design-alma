@@ -1,49 +1,180 @@
+<!-- Header con título, navegación y acciones -->
 <div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
-  <h1 class="fw-bold"><%= t('Productos') %></h1>
-  <%= link_to new_admin_category_product_path, class: "cssbuttons-io-button" do %>
-    <svg
-      height="24"
-      width="24"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+  <div class="d-flex align-items-center">
+    
+    <div class="ms-3">
+      <h1 class="fw-bold mb-1">
+        Productos
+      </h1>
+      <p class="text-muted small mb-0">
+        <i class="bi bi-folder me-1"></i>
+        Categoría: <strong><%= @category.name %></strong>
+      </p>
+    </div>
+  </div>
+  
+  <%= link_to new_admin_category_product_path(@category), class: "cssbuttons-io-button" do %>
+    <svg height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M0 0h24v24H0z" fill="none"></path>
       <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path>
     </svg>
-    <span><%= t("Nuevo Producto") %></span>
+    <span>Nuevo Producto</span>
   <% end %>
 </div>
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-  <% @category.products.each do |product| %>
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <% if product.image.attached? %>
-          <%= image_tag product.image, class: "card-img-top", style: "height: 300px; object-fit: cover;" %>
-        <% else %>
-          <%= image_tag "placeholder.svg", class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
-        <% end %>
+<!-- Estadísticas rápidas -->
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="table-personalized p-3 text-center">
+      <i class="bi bi-box text-primary fs-2 mb-2"></i>
+      <h5 class="mb-1"><%= @category.products.count %></h5>
+      <small class="text-muted">Total Productos</small>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="table-personalized p-3 text-center">
+      <i class="bi bi-check-circle text-success fs-2 mb-2"></i>
+      <h5 class="mb-1"><%= @category.products.where('stock > 0').count %></h5>
+      <small class="text-muted">En Stock</small>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="table-personalized p-3 text-center">
+      <i class="bi bi-exclamation-triangle text-warning fs-2 mb-2"></i>
+      <h5 class="mb-1"><%= @category.products.where('stock <= 5').count %></h5>
+      <small class="text-muted">Stock Bajo</small>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="table-personalized p-3 text-center">
+      <i class="bi bi-x-circle text-danger fs-2 mb-2"></i>
+      <h5 class="mb-1"><%= @category.products.where(stock: 0).count %></h5>
+      <small class="text-muted">Sin Stock</small>
+    </div>
+  </div>
+</div>
 
-        <div class="card-body">
-          <h5 class="card-title"><%= product.name %></h5>
-          <p class="card-text text-muted"><%= product.category.name if product.category %></p>
-          <p class="card-text fw-bold">$ <%= product.formatted_price %> </p>
-          <p class="card-text">Stock: <%= product.stock %></p>
-          <p>Tallas disponibles: <%= product.sizes.join(', ') %></p>
-        </div>
+<div class="row g-4">
+  <% if @category.products.any? %>
+    <% @category.products.each do |product| %>
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="card product-card border-0 shadow-sm position-relative h-100">
+          
+          <!-- Estado del producto -->
+          <% if product.stock == 0 %>
+            <span class="badge stock-badge bg-danger">Sin stock</span>
+          <% elsif product.stock <= 5 %>
+            <span class="badge stock-badge bg-warning text-dark">Stock bajo</span>
+          <% else %>
+            <span class="badge stock-badge bg-success">En stock</span>
+          <% end %>
 
-        <div class="card-footer d-flex justify-content-between">
-          <%= link_to edit_admin_category_product_path(@category ,product), class: 'text-decoration-none text-dark' do %>
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="mt-2 fs-5 iconify iconify--solar minimal__iconify__root css-eadae1" id="«r63»" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m11.4 18.161l7.396-7.396a10.3 10.3 0 0 1-3.326-2.234a10.3 10.3 0 0 1-2.235-3.327L5.839 12.6c-.577.577-.866.866-1.114 1.184a6.6 6.6 0 0 0-.749 1.211c-.173.364-.302.752-.56 1.526l-1.362 4.083a1.06 1.06 0 0 0 1.342 1.342l4.083-1.362c.775-.258 1.162-.387 1.526-.56q.647-.308 1.211-.749c.318-.248.607-.537 1.184-1.114m9.448-9.448a3.932 3.932 0 0 0-5.561-5.561l-.887.887l.038.111a8.75 8.75 0 0 0 2.092 3.32a8.75 8.75 0 0 0 3.431 2.13z"></path></svg>
-          <% end %>
-          <%= button_to admin_category_product_path(@category, product),
-            method: :delete,
-            form: { data: { turbo: false } },
-            class: 'btn p-0 border-0 bg-transparent text-danger mx-1' do %>
-              <i class="bi bi-trash-fill fs-4 hover-opacity"></i>
-          <% end %>
+          <!-- Imagen -->
+          <div class="product-image-wrapper">
+            <% if product.image.attached? %>
+              <%= image_tag product.image,
+                  class: "product-image",
+                  alt: product.name %>
+            <% else %>
+              <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted">
+                <i class="bi bi-image" style="font-size: 2.5rem;"></i>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Contenido -->
+          <div class="card-body">
+            <h6 class="fw-semibold mb-1 text-truncate"><%= product.name %></h6>
+            <p class="text-primary fw-bold mb-2">$<%= product.formatted_price %></p>
+
+            <div class="d-flex flex-column small text-muted mt-2">
+              <span><i class="bi bi-box-seam me-1 text-muted"></i><%= product.stock %> unidades</span>
+              <% if product.respond_to?(:sizes) && product.sizes.any? %>
+                <span><i class="bi bi-rulers me-1 text-muted"></i><%= product.sizes.count %> tallas</span>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center pt-0">
+              <%= link_to edit_admin_category_product_path(@category, product),
+                  class: "text-decoration-none text-dark hover-scale" do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="mt-2 fs-5 iconify iconify--solar minimal__iconify__root css-eadae1" id="«r63»" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m11.4 18.161l7.396-7.396a10.3 10.3 0 0 1-3.326-2.234a10.3 10.3 0 0 1-2.235-3.327L5.839 12.6c-.577.577-.866.866-1.114 1.184a6.6 6.6 0 0 0-.749 1.211c-.173.364-.302.752-.56 1.526l-1.362 4.083a1.06 1.06 0 0 0 1.342 1.342l4.083-1.362c.775-.258 1.162-.387 1.526-.56q.647-.308 1.211-.749c.318-.248.607-.537 1.184-1.114m9.448-9.448a3.932 3.932 0 0 0-5.561-5.561l-.887.887l.038.111a8.75 8.75 0 0 0 2.092 3.32a8.75 8.75 0 0 0 3.431 2.13z"></path></svg>
+              <% end %>
+
+              <%= button_to admin_category_product_path(@category, product),
+                  method: :delete,
+                  form: { data: { turbo: false } },
+                  onclick: "return confirm('¿Estás seguro de eliminar este producto?')",
+                  class: "btn p-0 border-0 bg-transparent text-danger hover-scale" do %>
+                <i class="bi bi-trash-fill fs-5"></i>
+              <% end %>
+          </div>
         </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+      <div class="col-12 col-md-4 text-center py-5">
+        <i class="bi bi-box text-muted" style="font-size: 4rem;"></i>
+        <h4 class="text-muted mt-3 mb-2">No hay productos en esta categoría</h4>
+        <p class="text-muted mb-4">Comienza agregando tu primer producto a la categoría "<%= @category.name %>"</p>
       </div>
     </div>
   <% end %>
 </div>
+
+<style>
+.product-card {
+  border-radius: 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.product-image-wrapper {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.stock-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.75rem;
+  padding: 0.4em 0.6em;
+  border-radius: 6px;
+  z-index: 5;
+}
+
+.product-actions {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.product-card:hover .product-actions {
+  opacity: 1;
+}
+
+</style>

@@ -1,22 +1,183 @@
-<%= render 'shared/form_errors', object: @category %>
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold">
+    Nueva Categoría
+  </h1>
+</div>
 
-<h1 class="text-center">Nueva Categoría</h1>
+<div class="table-responsive table-personalized">
+  <div class="p-4">
+    <%= render 'shared/form_errors', object: @category %>
 
-<%= form_with model: [:admin, @category], local: true, html: { multipart: true } do |form| %>
-  <div class="mb-3">
-    <%= form.label :name, "Nombre" %>
-    <%= form.text_field :name, class: "form-control" %>
+    <%= form_with model: [:admin, @category], local: true, html: { multipart: true, class: "needs-validation", novalidate: true } do |form| %>
+      
+      <div class="row g-4 align-items-start">
+        
+        <!-- Columna Izquierda: Inputs -->
+        <div class="col-md-6">
+          <!-- Nombre -->
+          <div class="mb-5">
+            <%= form.label :name, "Nombre de la Categoría", class: "input-label" %>
+            <%= form.text_field :name, 
+                class: "custom-input #{'border-danger' if @category.errors[:name].any?}", 
+                placeholder: "Electrodomésticos, Muebles, Ropa...",
+                required: true %>
+            <% if @category.errors[:name].any? %>
+              <div class="text-danger small mt-1">
+                <i class="bi bi-exclamation-circle me-1"></i>
+                <%= @category.errors[:name].first %>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Separador visual -->
+          <hr class="my-5 text-white">
+          <hr class="my-3 text-white">
+
+          <!-- Botón de selección -->
+          <div class="text-start">
+            <div class="upload-box flex-grow-1">
+              <div class="floating-folder folder-unit">
+                <div class="front-side">
+                  <div class="folder-tab"></div>
+                  <div class="folder-cover"></div>
+                </div>
+                <div class="back-side folder-cover"></div>
+              </div>
+
+              <label class="file-upload-btn" for="category_image">
+                <%= form.file_field :image,
+                    class: "hidden",
+                    accept: "image/*",
+                    id: "category_image",
+                    onchange: "previewImage(event)" %>
+                <i class="bi bi-cloud-upload me-2"></i>
+                <span id="upload-text">Seleccionar Imagen</span>
+              </label>
+            </div>
+
+            <div class="form-text mt-3">
+              <small class="text-muted">
+                <i class="bi bi-info-circle me-1"></i>
+                Formatos soportados: JPG, PNG, WEBP (máximo 5MB)
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Vista previa -->
+        <div class="col-md-6">
+          <div id="image-preview-container" 
+              class="border rounded bg-light text-center d-flex justify-content-center align-items-center mx-auto"
+              style="width: 100%; aspect-ratio: 1 / 1; max-width: 350px;">
+            <% if @category.persisted? && @category.image.attached? %>
+              <img id="preview-image" 
+                  src="<%= url_for(@category.image) %>" 
+                  class="img-fluid rounded shadow-sm" 
+                  style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            <% else %>
+              <div id="preview-placeholder">
+                <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
+                <h5 class="text-muted mt-3 mb-2">Vista previa</h5>
+                <p class="text-muted">La imagen seleccionada aparecerá aquí</p>
+              </div>
+              <img id="preview-image" class="img-fluid rounded shadow-sm d-none" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Botones -->
+      <div class="d-flex gap-3 pt-4 border-top mt-4">
+        <%= form.submit "Crear Categoría", class: "cssbuttons-io-button" %>
+        <%= link_to admin_categories_path, class: "cssbuttons-io-button-secondary" do %>
+          <svg height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Cancelar</span>
+        <% end %>
+      </div>
+
+    <% end %>
   </div>
-  
-  <div class="mb-3">
-    <%= form.label :image, "Imagen", class: "form-label" %>
-    <%= form.file_field :image, class: "form-control" %>
+</div>
+</div>
 
-    <% if @category.persisted? && @category.image.attached? %>
-        <%= image_tag @category.image, class: "img-fluid", style: "max-width: 200px;" %>
-      <% end %>
-  </div>
+<script>
+  function previewImage(event) {
+    const file = event.target.files[0];
+    const previewImage = document.getElementById('preview-image');
+    const placeholder = document.getElementById('preview-placeholder');
+    const uploadText = document.getElementById('upload-text');
+    
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        // Mostrar la imagen
+        previewImage.src = e.target.result;
+        previewImage.classList.remove('d-none');
+        
+        // Ocultar el placeholder
+        if (placeholder) {
+          placeholder.classList.add('d-none');
+        }
+        
+        // Cambiar el texto del botón
+        uploadText.textContent = 'Cambiar Imagen';
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  }
 
-  <%= form.submit "Crear categoría", class: "btn btn-primary" %>
-  <%= link_to "Cancelar", admin_categories_path, class: "btn btn-secondary ms-2" %>
-<% end %>
+  // También funciona con drag and drop
+  document.addEventListener('DOMContentLoaded', function() {
+    const uploadBox = document.querySelector('.upload-box');
+    const fileInput = document.getElementById('category_image');
+    
+    if (uploadBox && fileInput) {
+      // Prevenir comportamientos por defecto
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadBox.addEventListener(eventName, preventDefaults, false);
+      });
+      
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      
+      // Resaltar cuando se arrastra sobre el área
+      ['dragenter', 'dragover'].forEach(eventName => {
+        uploadBox.addEventListener(eventName, highlight, false);
+      });
+      
+      ['dragleave', 'drop'].forEach(eventName => {
+        uploadBox.addEventListener(eventName, unhighlight, false);
+      });
+      
+      function highlight(e) {
+        uploadBox.style.transform = 'scale(1.02)';
+        uploadBox.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
+      }
+      
+      function unhighlight(e) {
+        uploadBox.style.transform = 'scale(1)';
+        uploadBox.style.boxShadow = '';
+      }
+      
+      // Manejar el drop
+      uploadBox.addEventListener('drop', handleDrop, false);
+      
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        
+        if (files.length > 0) {
+          fileInput.files = files;
+          previewImage({ target: { files: files } });
+        }
+      }
+    }
+  });
+</script>
