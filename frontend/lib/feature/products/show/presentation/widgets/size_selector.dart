@@ -29,13 +29,17 @@ class SizeSelector extends StatelessWidget {
               selectedColor: Colors.blueAccent.withOpacity(0.2),
               checkmarkColor: Colors.blueAccent,
               labelStyle: TextStyle(
-                color: isSelected ? Colors.blueAccent : Colors.black,
-                fontWeight: FontWeight.bold,
+                color: isSelected
+                    ? Colors.blueAccent
+                    : Theme.of(context).textTheme.displayLarge?.color,
+                fontWeight: FontWeight.w400,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
                 side: BorderSide(
-                  color: isSelected ? Colors.blueAccent : Colors.grey.shade400,
+                  color: isSelected
+                      ? Colors.blueAccent
+                      : Theme.of(context).dividerColor,
                 ),
               ),
               onSelected: (selected) {

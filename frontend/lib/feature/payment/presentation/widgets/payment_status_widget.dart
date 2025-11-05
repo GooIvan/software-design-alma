@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/bloc/payment_bloc.dart';
@@ -26,7 +27,7 @@ class PaymentStatusWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Pago Procesado',
+                        context.l10n.successPayment,
                         style: TextStyle(
                           color: Colors.green.shade700,
                           fontSize: 14,
@@ -67,7 +68,7 @@ class PaymentStatusWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Error en el Pago',
+                        context.l10n.errorPayment,
                         style: TextStyle(
                           color: Colors.red.shade700,
                           fontSize: 14,

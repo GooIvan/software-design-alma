@@ -1,8 +1,8 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
-
-void showLoadingDialog(BuildContext context, {String message = 'Procesando tu orden...'}) {
+void showLoadingDialog(BuildContext context,
+    {String message = 'Procesando tu orden...'}) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -22,14 +22,14 @@ void showLoadingDialog(BuildContext context, {String message = 'Procesando tu or
 
 class _LoadingDialogContent extends StatefulWidget {
   final String message;
-  
+
   const _LoadingDialogContent({required this.message});
 
   @override
   State<_LoadingDialogContent> createState() => _LoadingDialogContentState();
 }
 
-class _LoadingDialogContentState extends State<_LoadingDialogContent> 
+class _LoadingDialogContentState extends State<_LoadingDialogContent>
     with TickerProviderStateMixin {
   late AnimationController _rotationController;
   late AnimationController _scaleController;
@@ -39,17 +39,17 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
   @override
   void initState() {
     super.initState();
-    
+
     _rotationController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat();
-    
+
     _scaleController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
+
     _rotationAnimation = Tween<double>(
       begin: 0,
       end: 1,
@@ -57,7 +57,7 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
       parent: _rotationController,
       curve: Curves.linear,
     ));
-    
+
     _scaleAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -65,7 +65,7 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
       parent: _scaleController,
       curve: Curves.elasticOut,
     ));
-    
+
     _scaleController.forward();
   }
 
@@ -90,7 +90,7 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
                 width: 280,
                 padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -113,15 +113,15 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
                           child: Container(
                             width: 60,
                             height: 60,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
                                 colors: [
-                                  AppColors.primary,
-                                  AppColors.primary,
-                                  AppColors.primary,
+                                  Theme.of(context).colorScheme.primary,
+                                  Theme.of(context).colorScheme.primary,
+                                  Theme.of(context).colorScheme.primary,
                                 ],
-                                stops: [0.0, 0.5, 1.0],
+                                stops: const [0.0, 0.5, 1.0],
                               ),
                             ),
                             child: const Center(
@@ -135,26 +135,26 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
                         );
                       },
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Título principal
                     Text(
                       widget.message,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         height: 1.3,
                       ),
                     ),
-                    
+
                     const SizedBox(height: 8),
-                    
+
                     // Subtítulo
                     Text(
-                      'Por favor, espera un momento...',
+                      context.l10n.loadingMessage,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
@@ -162,9 +162,9 @@ class _LoadingDialogContentState extends State<_LoadingDialogContent>
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Barra de progreso con animación
                     Container(
                       height: 4,

@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/bloc/payment_bloc.dart';
@@ -38,14 +39,14 @@ class PaymentButton extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   )
-                : const Row(
+                : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.payment, size: 20),
-                      SizedBox(width: 8),
+                      const Icon(Icons.payment, size: 20),
+                      const SizedBox(width: 8),
                       Text(
-                        'Pagar',
-                        style: TextStyle(
+                        context.l10n.pay,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),

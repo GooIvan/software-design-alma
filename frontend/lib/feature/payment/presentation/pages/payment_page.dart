@@ -21,7 +21,7 @@ class PaymentPage extends StatelessWidget {
         paymentRepository: PaymentRepository(),
       ),
       child: Scaffold(
-        backgroundColor: Colors.grey[50],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: BlocBuilder<PaymentBloc, PaymentState>(builder: (context, state) {
           if (state is PaymentSuccess) {
             return const PaymentSuccessView();

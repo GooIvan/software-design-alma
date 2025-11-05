@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:design_alma/routes/routes.dart';
 import 'package:design_alma/screens/logo_intro.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'core/di/service_locator.dart';
+import 'core/providers/language_provider.dart';
+import 'core/providers/theme_provider.dart';
+import 'core/theme/app_theme.dart';
 import 'feature/cart/data/bloc/cart_bloc.dart';
-import 'global/print_local_storage.dart';
+import 'utils/print_local_storage.dart';
+import 'generated/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,24 +26,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
         BlocProvider(create: (context) => CartBloc()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'DesignAlma App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: Colors.white,
-          textTheme: GoogleFonts.quanticoTextTheme(
-            Theme.of(context).textTheme,
-          ),
-        ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const LogoIntro(),
-          ...AppRoute.routes,
+      child: Consumer2<LanguageProvider, ThemeProvider>(
+        builder: (context, languageProvider, themeProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'DesignAlma App',
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: languageProvider.locale,
+            themeMode: themeProvider.materialThemeMode,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            initialRoute: '/',
+            routes: {
+              '/': (context) => const LogoIntro(),
+              ...AppRoute.routes,
+            },
+          );
         },
       ),
     );

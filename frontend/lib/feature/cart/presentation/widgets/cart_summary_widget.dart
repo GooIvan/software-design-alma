@@ -1,7 +1,7 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class CartSummaryWidget extends StatefulWidget {
   final double subtotal;
@@ -38,10 +38,10 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: Theme.of(context).dividerColor),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -53,7 +53,8 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade100, // fondo gris suave
+                      color: Theme.of(context).appBarTheme.backgroundColor ??
+                          Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     ),
                     padding:
@@ -67,7 +68,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                               LengthLimitingTextInputFormatter(10)
                             ],
                             decoration: InputDecoration(
-                              hintText: 'Introducir código promocional',
+                              hintText: context.l10n.enterCodePromocional,
                               hintStyle: TextStyle(color: Colors.grey[500]),
                               border: InputBorder.none, // sin bordes
                             ),
@@ -80,7 +81,8 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 18),
@@ -88,9 +90,9 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          child: const Text(
-                            'Aplicar',
-                            style: TextStyle(
+                          child: Text(
+                            context.l10n.apply,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
                             ),
@@ -108,19 +110,20 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
             // Resumen de costos
             Column(
               children: [
-                _buildSummaryRow('Cantidad', _formatCurrency(widget.subtotal)),
+                _buildSummaryRow(
+                    context.l10n.quantity, _formatCurrency(widget.subtotal)),
                 const SizedBox(height: 8),
                 _buildSummaryRow(
-                    'Tarifa de impuesto', _formatCurrency(widget.tax)),
+                    context.l10n.taxRate, _formatCurrency(widget.tax)),
                 const SizedBox(height: 8),
                 _buildSummaryRow(
-                  'Descuento',
+                  context.l10n.discount,
                   '-${_formatCurrency(widget.discount)}',
                   isDiscount: true,
                 ),
                 const SizedBox(height: 16),
                 _buildSummaryRow(
-                  'Total',
+                  context.l10n.total,
                   _formatCurrency(widget.total),
                   isTotal: true,
                 ),
@@ -140,19 +143,21 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
           style: TextStyle(
             fontSize: isTotal ? 16 : 14,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.w400,
-            color: isTotal ? Colors.black : Colors.grey[600],
+            color: isTotal
+                ? Theme.of(context).textTheme.displayLarge?.color
+                : Colors.grey[600],
           ),
         ),
         Text(
           amount,
           style: TextStyle(
             fontSize: isTotal ? 16 : 14,
-            fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,
+            fontWeight: isTotal ? FontWeight.bold : FontWeight.w400,
             color: isDiscount
-                ? AppColors.primary
+                ? Theme.of(context).colorScheme.primary
                 : isTotal
-                    ? Colors.black
-                    : Colors.black87,
+                    ? Theme.of(context).textTheme.displayLarge?.color
+                    : Theme.of(context).textTheme.displayLarge?.color,
           ),
         ),
       ],

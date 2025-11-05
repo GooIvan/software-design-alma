@@ -13,7 +13,7 @@ class InputSkeletonLoading extends StatelessWidget {
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
       child: const Padding(

@@ -1,4 +1,5 @@
 import 'package:design_alma/feature/products/index/presentation/pages/products_screen.dart';
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../../models/category_model.dart';
 import '../../../../widgets/square_image_widget.dart';
@@ -23,13 +24,14 @@ class CategoriesSuccessView extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 24),
         children: [
           const SizedBox(height: 16),
-          const Align(
+          Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                'Categorías',
+                context.l10n.categories,
                 style: TextStyle(
+                  color: Theme.of(context).textTheme.displayLarge?.color,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -38,7 +40,7 @@ class CategoriesSuccessView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           if (categories.isEmpty)
-            const Center(child: Text('No hay categorías'))
+            Center(child: Text(context.l10n.noCategories))
           else
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
@@ -50,10 +52,10 @@ class CategoriesSuccessView extends StatelessWidget {
                 final category = categories[index];
                 return Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[50],
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.grey[200]!,
+                      color: Theme.of(context).dividerColor,
                       width: 1,
                     ),
                   ),

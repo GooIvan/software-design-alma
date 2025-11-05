@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _futureBuilderKey = UniqueKey();
       });
     } catch (e) {
-      print('❌ Error en logout: $e');
+      print('Error en logout: $e');
     }
   }
 
@@ -88,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   return const ProfileLoadingView();
                 } else if (state is ProfileError) {
                   return ProfileErrorView(
-                    message: "Error al cargar perfil",
+                    message: context.l10n.profileErrorMessage,
                     onRetry: () {
                       context.read<ProfileBloc>().add(LoadProfile());
                     },

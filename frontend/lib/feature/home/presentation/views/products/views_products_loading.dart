@@ -21,9 +21,12 @@ class ViewProductsLoading extends StatelessWidget {
           width: 200, // mismo ancho que en el success
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey[50],
+              color: Theme.of(context).scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey[200]!, width: 1),
+              border: Border.all(
+                  color: Theme.of(context).appBarTheme.backgroundColor ??
+                      Colors.white,
+                  width: 1),
             ),
             child: const Padding(
               padding: EdgeInsets.all(10),

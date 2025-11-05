@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/di/service_locator.dart';
@@ -20,7 +21,7 @@ class ProductScreen extends StatelessWidget {
           sl<ProductBloc>()..add(LoadProduct(categoryName, id)),
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           ),
           body: BlocBuilder<ProductBloc, ProductState>(
             builder: (context, state) {
@@ -29,7 +30,7 @@ class ProductScreen extends StatelessWidget {
               }
               if (state is ProductError) {
                 return ProductErrorView(
-                  message: 'Error al cargar la información del producto',
+                  message: context.l10n.errorLoadingProductDetails,
                   onRetry: () {
                     context
                         .read<ProductBloc>()

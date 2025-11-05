@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class NoteSandbox extends StatelessWidget {
@@ -28,7 +29,7 @@ class NoteSandbox extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Modo de prueba',
+                  context.l10n.modeTest,
                   style: TextStyle(
                     color: Colors.orange.shade700,
                     fontSize: 14,
@@ -37,7 +38,7 @@ class NoteSandbox extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Sandbox PayU: Use 4111111111111111 para pruebas. Los pagos quedarán pendientes.',
+                  context.l10n.modeTestMessage,
                   style: TextStyle(
                     color: Colors.orange.shade700,
                     fontSize: 12,

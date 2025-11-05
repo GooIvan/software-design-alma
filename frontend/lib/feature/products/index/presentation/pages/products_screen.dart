@@ -17,12 +17,12 @@ class ProductsScreen extends StatelessWidget {
       create: (context) => sl<ProductsBloc>()..add(LoadProducts(categoryName)),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
           title: Text(
             categoryName,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.displayLarge?.color,
               fontWeight: FontWeight.bold,
             ),
           ),

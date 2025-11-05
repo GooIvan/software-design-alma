@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget PromoBanner(BuildContext context) {
+Widget promoBanner(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
 
   return Container(
@@ -25,8 +25,8 @@ Widget PromoBanner(BuildContext context) {
     child: Stack(
       children: [
         Positioned(
-          right: -20,
-          top: -20,
+          right: -10,
+          top: -10,
           child: Container(
             width: 120,
             height: 120,

@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -12,15 +13,24 @@ class SocialLoginSection extends StatelessWidget {
     return Column(
       children: [
         // ===== Separador con "O" =====
-        const Row(
+        Row(
           children: [
-            Expanded(child: Divider(thickness: 1)),
+            Expanded(
+                child: Divider(
+              thickness: 1,
+              color: Theme.of(context).dividerColor,
+            )),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text("o",
-                  style: TextStyle(color: Colors.black54, fontSize: 16)),
+                  style: TextStyle(
+                      color: Theme.of(context).dividerColor, fontSize: 16)),
             ),
-            Expanded(child: Divider(thickness: 1)),
+            Expanded(
+                child: Divider(
+              thickness: 1,
+              color: Theme.of(context).dividerColor,
+            )),
           ],
         ),
         const SizedBox(height: 20),
@@ -32,10 +42,12 @@ class SocialLoginSection extends StatelessWidget {
             height: 20,
             width: 20,
           ),
-          text: "Continuar con Google",
-          color: Colors.white,
-          textColor: Colors.black,
-          borderColor: Colors.grey.shade300,
+          text: context.l10n.continueGoogle,
+          color: Theme.of(context).scaffoldBackgroundColor,
+          textColor:
+              Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
+          borderColor:
+              Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
           context: context,
         ),
 
@@ -59,10 +71,12 @@ class SocialLoginSection extends StatelessWidget {
         // ===== Botón Facebook =====
         _buildSocialButton(
           icon: FontAwesomeIcons.facebook,
-          text: "Continuar con Facebook",
-          color: Colors.white,
-          textColor: Colors.black,
-          borderColor: Colors.grey.shade300,
+          text: context.l10n.continueFacebook,
+          color: Theme.of(context).scaffoldBackgroundColor,
+          textColor:
+              Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
+          borderColor:
+              Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
           colorIcon: const Color(0xFF1877F2),
           context: context,
         ),
@@ -73,10 +87,10 @@ class SocialLoginSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("¿No tienes cuenta?",
+            Text(context.l10n.noAccount,
                 style: TextStyle(
-                  color: Colors.black,
-                )),
+                    color: Theme.of(context).textTheme.displayLarge?.color ??
+                        Colors.black)),
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -84,10 +98,10 @@ class SocialLoginSection extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const RegisterPage()),
                 );
               },
-              child: const Text(
-                "Regístrate",
-                style:
-                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              child: Text(
+                context.l10n.signup,
+                style: const TextStyle(
+                    color: Colors.blue, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -110,7 +124,8 @@ class SocialLoginSection extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: () {
-          CustomAlert.warning(context, 'Funcionalidad en desarrollo');
+          CustomAlert.warning(
+              context, context.l10n.functionalityNotImplemented);
         },
         icon: imageIcon ??
             FaIcon(

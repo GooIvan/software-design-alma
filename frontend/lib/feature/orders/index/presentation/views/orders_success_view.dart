@@ -1,4 +1,5 @@
-import 'package:design_alma/feature/orders/show/data/presentation/pages/order_page.dart';
+import 'package:design_alma/feature/orders/show/presentation/pages/order_page.dart';
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../../models/order_model.dart';
@@ -36,29 +37,29 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
     return '\$${formatter.format(total)}';
   }
 
-  String _getFilterLabel(OrderFilter filter) {
+  String _getFilterLabel(OrderFilter filter, BuildContext context) {
     switch (filter) {
       case OrderFilter.all:
-        return 'Todas';
+        return context.l10n.all;
       case OrderFilter.paid:
-        return 'Pagadas';
+        return context.l10n.paid;
       case OrderFilter.pending:
-        return 'Pendientes';
+        return context.l10n.pending;
       case OrderFilter.cancelled:
-        return 'Canceladas';
+        return context.l10n.cancelled;
     }
   }
 
-  String _getSortLabel(OrderSort sort) {
+  String _getSortLabel(OrderSort sort, BuildContext context) {
     switch (sort) {
       case OrderSort.dateDesc:
-        return 'Más recientes';
+        return context.l10n.newest;
       case OrderSort.dateAsc:
-        return 'Más antiguas';
+        return context.l10n.oldest;
       case OrderSort.amountDesc:
-        return 'Mayor valor';
+        return context.l10n.higherValue;
       case OrderSort.amountAsc:
-        return 'Menor valor';
+        return context.l10n.lowerValue;
     }
   }
 
@@ -119,10 +120,10 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
     final filteredOrders = _getFilteredAndSortedOrders();
 
     if (widget.orders.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
-          'No tienes órdenes aún.',
-          style: TextStyle(
+          context.l10n.ordersNotFound,
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.grey,
           ),
@@ -136,7 +137,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
         Container(
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
@@ -155,7 +156,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                   Icon(Icons.filter_list, color: Colors.grey[600], size: 18),
                   const SizedBox(width: 8),
                   Text(
-                    'Estado:',
+                    context.l10n.filterby,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.grey[700],
@@ -173,15 +174,23 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: FilterChip(
-                        label: Text(_getFilterLabel(filter)),
+                        label: Text(_getFilterLabel(filter, context)),
                         selected: isSelected,
                         onSelected: (selected) {
                           setState(() {
                             _selectedFilter = filter;
                           });
                         },
-                        backgroundColor: Colors.grey[100],
+                        backgroundColor:
+                            Theme.of(context).appBarTheme.backgroundColor ??
+                                Colors.white,
                         selectedColor: Colors.black,
+                        side: BorderSide(
+                          color: isSelected
+                              ? Colors.black
+                              : Theme.of(context).dividerColor,
+                          width: 1.2,
+                        ),
                         labelStyle: TextStyle(
                           color: isSelected ? Colors.white : Colors.grey[700],
                           fontWeight:
@@ -201,7 +210,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                   Icon(Icons.sort, color: Colors.grey[600], size: 18),
                   const SizedBox(width: 8),
                   Text(
-                    'Ordenar por:',
+                    context.l10n.sortby,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.grey[700],
@@ -228,11 +237,17 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
-                            color: isSelected ? Colors.black : Colors.grey[100],
+                            color: isSelected
+                                ? Colors.black
+                                : Theme.of(context)
+                                        .appBarTheme
+                                        .backgroundColor ??
+                                    Colors.white,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color:
-                                  isSelected ? Colors.black : Colors.grey[300]!,
+                              color: isSelected
+                                  ? Colors.black
+                                  : Theme.of(context).dividerColor,
                               width: 1,
                             ),
                           ),
@@ -248,7 +263,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                               ),
                               const SizedBox(width: 6),
                               Text(
-                                _getSortLabel(sort),
+                                _getSortLabel(sort, context),
                                 style: TextStyle(
                                   color: isSelected
                                       ? Colors.white
@@ -278,7 +293,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
             child: Row(
               children: [
                 Text(
-                  '${filteredOrders.length} ${filteredOrders.length == 1 ? 'orden encontrada' : 'órdenes encontradas'}',
+                  '${filteredOrders.length} ${filteredOrders.length == 1 ? context.l10n.orderFound : context.l10n.ordersFound}',
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 12,
@@ -288,7 +303,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                 if (_selectedFilter != OrderFilter.all ||
                     widget.orders.length != filteredOrders.length)
                   Text(
-                    ' de ${widget.orders.length} total',
+                    ' ${context.l10n.oF} ${widget.orders.length} ${context.l10n.total}',
                     style: TextStyle(
                       color: Colors.grey[500],
                       fontSize: 12,
@@ -312,7 +327,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No hay órdenes con estos filtros',
+                        context.l10n.noOrdersFilterFound,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],
@@ -325,7 +340,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                             _selectedFilter = OrderFilter.all;
                           });
                         },
-                        child: const Text('Ver todas las órdenes'),
+                        child: Text(context.l10n.clearFilters),
                       ),
                     ],
                   ),
@@ -344,15 +359,11 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                         margin: const EdgeInsets.only(bottom: 16.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          border: Border.all(
+                            color: Theme.of(context).dividerColor,
+                            width: 1,
+                          ),
                         ),
                         child: IntrinsicHeight(
                           child: Row(
@@ -393,7 +404,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Orden #${order.orderNumber}',
+                                                '${context.l10n.order} #${order.orderNumber}',
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16,
@@ -401,7 +412,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                                               ),
                                               const SizedBox(height: 8),
                                               Text(
-                                                '${order.itemsCount} ${order.itemsCount == 1 ? 'artículo' : 'artículos'}',
+                                                '${order.itemsCount} ${order.itemsCount == 1 ? context.l10n.article : context.l10n.articles}',
                                                 style: TextStyle(
                                                   color: Colors.grey[600],
                                                   fontSize: 14,
@@ -410,10 +421,13 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                                               const SizedBox(height: 4),
                                               Text(
                                                 _formatTotal(order.total),
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 18,
-                                                  color: Colors.black87,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .displayLarge
+                                                      ?.color,
                                                 ),
                                               ),
                                               const SizedBox(height: 8),

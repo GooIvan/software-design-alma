@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../feature/cart/data/bloc/cart_bloc.dart';
@@ -16,7 +17,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -85,19 +86,19 @@ class ProductCard extends StatelessWidget {
                               topRight: Radius.circular(16),
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.shopping_bag_outlined,
                                   size: 50,
                                   color: Colors.grey,
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(
-                                  'Sin imagen',
-                                  style: TextStyle(
+                                  context.l10n.noImage,
+                                  style: const TextStyle(
                                     fontSize: 13,
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w500,
@@ -123,7 +124,9 @@ class ProductCard extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.95),
+                          color:
+                              Theme.of(context).appBarTheme.backgroundColor ??
+                                  Colors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -175,10 +178,10 @@ class ProductCard extends StatelessWidget {
                   // Nombre del producto con mejor tipografía
                   Text(
                     product.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF1A1D1F),
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                       height: 1.3,
                     ),
                     maxLines: 2,
@@ -196,7 +199,7 @@ class ProductCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Precio",
+                              context.l10n.price,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[600],
@@ -267,9 +270,10 @@ class ProductCard extends StatelessWidget {
         return BlocProvider(
           create: (_) => cartBloc,
           child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color:
+                  Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
@@ -292,10 +296,10 @@ class ProductCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'Selecciona una talla',
-                          style: TextStyle(
+                          context.l10n.selectSize,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -356,9 +360,9 @@ class ProductCard extends StatelessWidget {
 
                 // Lista de tallas
                 if (product.sizes.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text('No hay tallas disponibles'),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(context.l10n.noSizes),
                   )
                 else
                   Padding(
@@ -366,9 +370,9 @@ class ProductCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Tallas disponibles:',
-                          style: TextStyle(
+                        Text(
+                          '${context.l10n.sizesAvailable}:',
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -389,9 +393,14 @@ class ProductCard extends StatelessWidget {
                                   vertical: 12,
                                 ),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[300]!),
+                                  border: Border.all(
+                                    color: Theme.of(context).dividerColor,
+                                  ),
                                   borderRadius: BorderRadius.circular(8),
-                                  color: Colors.grey[50],
+                                  color: Theme.of(context)
+                                          .appBarTheme
+                                          .backgroundColor ??
+                                      Colors.white,
                                 ),
                                 child: Text(
                                   size,
@@ -428,7 +437,7 @@ class ProductCard extends StatelessWidget {
         );
 
     // Mostrar mensaje de éxito
-    CustomAlert.success(context, 'Producto agregado al carrito');
+    CustomAlert.success(context, context.l10n.aggProductToCart);
 
     print('Producto agregado al carrito: "${product.name}", "$selectedSize"');
   }

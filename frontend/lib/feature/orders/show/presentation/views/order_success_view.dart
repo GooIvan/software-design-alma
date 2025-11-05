@@ -1,5 +1,6 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../models/order_model.dart';
+import '../../../../../models/order_model.dart';
 import '../widgets/build_order_header.dart';
 import '../widgets/build_order_item.dart';
 import '../widgets/build_order_summary.dart';
@@ -28,13 +29,13 @@ class OrderSuccessView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header de la orden
-              buildOrderHeader(order),
+              buildOrderHeader(order, context),
               const SizedBox(height: 20),
 
               // Título de artículos
-              const Text(
-                'Artículos',
-                style: TextStyle(
+              Text(
+                context.l10n.articles,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
@@ -43,7 +44,8 @@ class OrderSuccessView extends StatelessWidget {
 
               // Lista de items
               if (order.orderItems != null && order.orderItems!.isNotEmpty)
-                ...order.orderItems!.map((item) => buildOrderItem(item))
+                ...order.orderItems!
+                    .map((item) => buildOrderItem(item, context))
               else
                 Container(
                   padding: const EdgeInsets.all(20),
@@ -51,10 +53,10 @@ class OrderSuccessView extends StatelessWidget {
                     color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'No hay artículos en esta orden',
-                      style: TextStyle(
+                      context.l10n.noArticles,
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 16,
                       ),
@@ -65,7 +67,7 @@ class OrderSuccessView extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Resumen de la orden
-              buildOrderSummary(order),
+              buildOrderSummary(order, context),
 
               const SizedBox(height: 20),
 

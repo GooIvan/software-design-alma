@@ -1,7 +1,6 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../core/theme/app_colors.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -29,16 +28,16 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color azulPrimary = AppColors.primary;
+    final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
-        title: const Text(
-          'Acerca de',
+        title: Text(
+          context.l10n.about,
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).textTheme.displayLarge?.color,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -56,9 +55,10 @@ class AboutPage extends StatelessWidget {
                 child: ListView(
                   children: [
                     const SizedBox(height: 10),
-                    const Text(
-                      "Documentación del Proyecto",
+                    Text(
+                      context.l10n.titleDoc,
                       style: TextStyle(
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
@@ -67,9 +67,9 @@ class AboutPage extends StatelessWidget {
                     const SizedBox(height: 12),
                     ElevatedButton.icon(
                       onPressed: () => _launchUrl(documentationUrl),
-                      label: const Text(
-                        "Ver",
-                        style: TextStyle(
+                      label: Text(
+                        context.l10n.see,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -88,10 +88,11 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 40),
-                    const Text(
-                      "Contribuidores",
+                    Text(
+                      context.l10n.contributors,
                       style: TextStyle(
                         fontSize: 22,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
@@ -155,10 +156,14 @@ class _HoverAnimatedCardState extends State<_HoverAnimatedCard> {
                 })()
               : Matrix4.identity(),
           decoration: BoxDecoration(
-            color: _isHovered ? Colors.blue.shade50 : Colors.white,
+            color: _isHovered
+                ? Theme.of(context).scaffoldBackgroundColor
+                : Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: _isHovered ? Colors.blue.shade400 : Colors.grey.shade300,
+              color: _isHovered
+                  ? Colors.blue.shade400
+                  : Theme.of(context).dividerColor,
               width: 1.5,
             ),
             boxShadow: _isHovered
@@ -184,8 +189,10 @@ class _HoverAnimatedCardState extends State<_HoverAnimatedCard> {
                 duration: const Duration(milliseconds: 250),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:
-                      _isHovered ? Colors.blue.shade100 : Colors.grey.shade100,
+                  color: _isHovered
+                      ? Colors.blue.shade100
+                      : Theme.of(context).appBarTheme.backgroundColor ??
+                          Colors.white,
                 ),
                 padding: const EdgeInsets.all(8),
                 child: Icon(
@@ -204,7 +211,7 @@ class _HoverAnimatedCardState extends State<_HoverAnimatedCard> {
                     fontWeight: FontWeight.w600,
                     color: _isHovered
                         ? Colors.blue.shade800
-                        : Colors.grey.shade900,
+                        : Theme.of(context).textTheme.displayLarge?.color,
                   ),
                   child: Text(widget.name, overflow: TextOverflow.ellipsis),
                 ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/di/service_locator.dart';
-import '../../bloc/order_bloc.dart';
-import '../../repositories/order_repository.dart';
+import '../../../../../core/di/service_locator.dart';
+import '../../data/bloc/order_bloc.dart';
+import '../../data/repositories/order_repository.dart';
 import '../views/order_error_view.dart';
 import '../views/order_loading_view.dart';
 import '../views/order_success_view.dart';
@@ -18,7 +18,7 @@ class OrderPage extends StatelessWidget {
           OrderBloc(sl<OrderRepository>())..add(LoadOrder(orderId)),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
         ),
         body: SafeArea(

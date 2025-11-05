@@ -1,6 +1,6 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../data/bloc/cart_bloc.dart';
 import '../widgets/cart_item_widget.dart';
@@ -17,23 +17,21 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
-        title: const Text(
-          'Mi Carrito',
+        title: Text(
+          context.l10n.myCart,
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).textTheme.displayLarge?.color,
             fontWeight: FontWeight.bold,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           BlocBuilder<CartBloc, CartState>(
             builder: (context, state) {
               if (state.isNotEmpty) {
                 return IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
-                  tooltip: 'Limpiar carrito',
                   onPressed: () => _showClearCartDialog(context),
                 );
               }
@@ -114,14 +112,15 @@ class CartPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () => _onCheckout(context),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          child: const Text(
-                            'VERIFICAR',
-                            style: TextStyle(
+                          child: Text(
+                            context.l10n.verify,
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.white,
                               letterSpacing: 1,
@@ -145,13 +144,12 @@ class CartPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Limpiar Carrito'),
-          content: const Text(
-              '¿Estás seguro de que quieres eliminar todos los productos del carrito?'),
+          title: Text(context.l10n.clearCart),
+          content: Text(context.l10n.clearCartConfirm),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
+              child: Text(context.l10n.cancel),
             ),
             TextButton(
               onPressed: () {
@@ -159,7 +157,7 @@ class CartPage extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(foregroundColor: Colors.red),
-              child: const Text('Limpiar'),
+              child: Text(context.l10n.clear),
             ),
           ],
         );
