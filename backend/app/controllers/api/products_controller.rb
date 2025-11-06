@@ -5,12 +5,12 @@ module Api
     before_action :set_category, only: [:index, :show]
 
     def index
-      products = @category.products.with_attached_image
+      products = @category.products.with_attached_images
       render json: products.map { |product| serialize_product(product) }
     end
 
     def latest
-      products = Product.order(created_at: :desc).limit(4).with_attached_image
+      products = Product.order(created_at: :desc).limit(4).with_attached_images
       render json: products.map { |product| serialize_product(product) }
     end
 
@@ -37,7 +37,7 @@ module Api
         stock: product.stock,
         category_id: product.category_id,
         category_name: product.category.name,
-        image_url: product.images.attached? ? url_for(product.images.first) : nil
+        images: product.images.attached? ? product.images.map { |img| url_for(img) } : []
       }
     end
   end

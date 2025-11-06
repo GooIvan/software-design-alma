@@ -38,7 +38,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         id: '${event.product.id}_${event.size}_${DateTime.now().millisecondsSinceEpoch}',
         productId: event.product.id,
         productName: event.product.name,
-        productImageUrl: event.product.imageUrl,
+        productImages: event.product.images,
         categoryName: event.product.categoryName,
         price: event.product.price,
         formattedPrice: event.product.formattedPrice,
