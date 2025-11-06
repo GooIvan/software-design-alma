@@ -91,7 +91,7 @@
           <% @latest_products.each do |product| %>
             <div class="col-10 col-md-6 col-lg-3 mb-3 px-2 d-flex justify-content-center">
               <div class="w-100 h-100" style="max-width: 300px;">
-                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block position-relative" do %>
+                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block position-relative #{'has-multiple-images' if product.images.count > 1}" do %>
                   <% if product.images.attached? && product.images.first.present? %>
                     <!-- Primera imagen (siempre visible) -->
                     <%= image_tag product.images.first, 
@@ -131,12 +131,12 @@
 </div>
 
 <style>
-  /* Efecto hover para mostrar segunda imagen */
-  .image-zoom-container:hover .product-image-hover {
+  /* Efecto hover para mostrar segunda imagen - solo cuando hay múltiples imágenes */
+  .image-zoom-container.has-multiple-images:hover .product-image-hover {
     opacity: 1 !important;
   }
   
-  .image-zoom-container:hover .product-image-main {
+  .image-zoom-container.has-multiple-images:hover .product-image-main {
     opacity: 0 !important;
   }
 </style>

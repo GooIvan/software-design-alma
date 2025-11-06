@@ -35,7 +35,7 @@ categories = [
       price: 40000,
       stock: 30,
       sizes: ["XS", "S", "M", "L", "XL"],
-      image: "seeds/images/products/product_camiseta.webp"
+      images: ["seeds/images/products/product_camiseta.webp"]
     },
     {
       name: "Camiseta Negra",
@@ -43,7 +43,7 @@ categories = [
       price: 45000,
       stock: 20,
       sizes: ["XS","S","M", "L", "XL"],
-      image: "seeds/images/products/Camiseta_Negra_Edicion_Limitada.webp"
+      images: ["seeds/images/products/Camiseta_Negra_Edicion_Limitada.webp"]
     },
     {
       name: "Camiseta Blanca",
@@ -51,7 +51,7 @@ categories = [
       price: 35000,
       stock: 25,
       sizes: ["XS","S", "M", "L", "XL"],
-      image: "seeds/images/products/Camiseta_Blanca_Clasica.webp"
+      images: ["seeds/images/products/Camiseta_Blanca_Clasica.webp"]
     },
     {
       name: "Camiseta Verde",
@@ -59,7 +59,7 @@ categories = [
       price: 50000,
       stock: 15,
       sizes: ["XS","S", "M", "L", "XL"],
-      image: "seeds/images/products/Camiseta_Overside_Estilo_Urbano.webp"
+      images: ["seeds/images/products/Camiseta_Overside_Estilo_Urbano.webp"]
     }
    ]
   },
@@ -73,7 +73,7 @@ categories = [
       price: 20000,
       stock: 40,
       sizes: ["MEDIUM", "BIG"],
-      image: "seeds/images/products/product_taza.webp"
+      images: ["seeds/images/products/product_taza.webp"]
     },
     {
       name: "Taza mágica negra",
@@ -81,7 +81,7 @@ categories = [
       price: 25000,
       stock: 30,
       sizes: ["MEDIUM", "SMALL"],
-      image: "seeds/images/products/Taza_Magica_Negra.webp"
+      images: ["seeds/images/products/Taza_Magica_Negra.webp"]
     },
     {
       name: "Taza con frase",
@@ -89,7 +89,7 @@ categories = [
       price: 18000,
       stock: 60,
       sizes: ["MEDIUM", "BIG"],
-      image: "seeds/images/products/Taza_Con_Frase_Motivadora.webp"
+      images: ["seeds/images/products/Taza_Con_Frase_Motivadora.webp"]
     },
     {
       name: "Taza Minimalista",
@@ -97,7 +97,7 @@ categories = [
       price: 18500,
       stock: 50,
       sizes: ["MEDIUM", "SMALL"],
-      image: "seeds/images/products/Taza_minimalista_Blanca.webp"
+      images: ["seeds/images/products/Taza_minimalista_Blanca.webp"]
     }
    ]
   },
@@ -111,7 +111,7 @@ categories = [
       price: 30000,
       stock: 20,
       sizes: ["MEDIUM", "BIG"],
-      image: "seeds/images/products/product_mousepad.webp"
+      images: ["seeds/images/products/product_mousepad.webp"]
     },
     {
       name: "Mousepad Gamer",
@@ -119,7 +119,7 @@ categories = [
       price: 18000,
       stock: 50,
       sizes: ["MEDIUM", "BIG"],
-      image: "seeds/images/products/Mousepad_Gamer_Personalizado.webp"
+      images: ["seeds/images/products/Mousepad_Gamer_Personalizado.webp"]
     },
     {
       name: "Mousepad Negro",
@@ -127,7 +127,7 @@ categories = [
       price: 22000,
       stock: 35,
       sizes: ["MEDIUM", "BIG"],
-      image: "seeds/images/products/Mousepad_Antideslizante.webp"
+      images: ["seeds/images/products/Mousepad_Antideslizante.webp"]
     },
     {
       name: "Mousepad LED",
@@ -135,7 +135,7 @@ categories = [
       price: 35000,
       stock: 30,
       sizes: ["MEDIUM", "BIG"],
-      image: "seeds/images/products/Mousepad_Con_LED_RGB.webp"
+      images: ["seeds/images/products/Mousepad_Con_LED_RGB.webp"]
     }
    ]
   },
@@ -149,7 +149,7 @@ categories = [
       price: 15000,
       stock: 50,
       sizes: ["M", "L"],
-      image: "seeds/images/products/product_funda.webp"
+      images: ["seeds/images/products/product_funda.webp"]
     },
     {
       name: "Funda Samsung",
@@ -157,7 +157,7 @@ categories = [
       price: 21000,
       stock: 35,
       sizes: ["M", "L"],
-      image: "seeds/images/products/Funda_Samsung_Galaxy_Diseño.webp"
+      images: ["seeds/images/products/Funda_Samsung_Galaxy_Diseño.webp"]
     },
     {
       name: "Funda Transparente",
@@ -165,7 +165,7 @@ categories = [
       price: 12000,
       stock: 45,
       sizes: ["M", "L"],
-      image: "seeds/images/products/Funda_Transparente_Ultrafina.webp"
+      images: ["seeds/images/products/Funda_Transparente_Ultrafina.webp"]
     },
     {
       name: "Funda Plegable",
@@ -173,7 +173,7 @@ categories = [
       price: 25000,
       stock: 30,
       sizes: ["M", "L"],
-      image: "seeds/images/products/Funda_Con_Soporte_Plegable.webp"
+      images: ["seeds/images/products/Funda_Con_Soporte_Plegable.webp"]
     }
    ]
   }
@@ -205,16 +205,22 @@ categories.each do |data|
       product.price = product_data[:price]
       product.stock = product_data[:stock]
       product.sizes = product_data[:sizes]
-      product_image_path = Rails.root.join("db", product_data[:image])
-
-      if File.exist?(product_image_path)
-        product.images.attach(
-          io: File.open(product_image_path),
-          filename: File.basename(product_image_path),
-          content_type: "image/webp"
-        )
-      else
-        puts "⚠️  Imagen de producto no encontrada: #{product_image_path}"
+      
+      # Procesar múltiples imágenes
+      if product_data[:images].present?
+        product_data[:images].each do |image_path|
+          product_image_path = Rails.root.join("db", image_path)
+          
+          if File.exist?(product_image_path)
+            product.images.attach(
+              io: File.open(product_image_path),
+              filename: File.basename(product_image_path),
+              content_type: "image/webp"
+            )
+          else
+            puts "⚠️  Imagen de producto no encontrada: #{product_image_path}"
+          end
+        end
       end
 
       if product.save
