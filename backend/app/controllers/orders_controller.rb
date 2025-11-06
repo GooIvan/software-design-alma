@@ -51,6 +51,33 @@ class OrdersController < ApplicationController
     end
 
     if request.post?
+      # Aplicar código de descuento si se proporcionó
+      if params[:discount_code_id].present?
+        discount_code = DiscountCode.find_by(id: params[:discount_code_id])
+        
+        if discount_code && discount_code.usable_by?(current_user)
+          original_total = @order.total
+          discount_amount = discount_code.apply_to(original_total)
+          
+          @order.update!(
+            discount_code: discount_code,
+            total: original_total - discount_amount
+          )
+          
+          # Crear registro de uso del descuento
+          DiscountUsage.create!(
+            discount_code: discount_code,
+            user: current_user,
+            order: @order,
+            discount_amount: discount_amount
+          )
+          
+          Rails.logger.info "[PAYMENT] Descuento aplicado: código=#{discount_code.code}, descuento=#{discount_amount}, nuevo_total=#{@order.total}"
+        else
+          Rails.logger.warn "[PAYMENT] Código de descuento inválido o no utilizable: #{params[:discount_code_id]}"
+        end
+      end
+
       card_info = {
         number: params[:card_number],
         cvv: params[:cvv],

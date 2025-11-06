@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_22_000001) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_06_164148) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -61,6 +61,34 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_22_000001) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "discount_codes", force: :cascade do |t|
+    t.string "code"
+    t.string "discount_type"
+    t.decimal "value"
+    t.integer "max_uses"
+    t.integer "max_uses_per_user"
+    t.datetime "starts_at"
+    t.datetime "expires_at"
+    t.boolean "active"
+    t.integer "user_id"
+    t.integer "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_discount_codes_on_code"
+    t.index ["user_id"], name: "index_discount_codes_on_user_id"
+  end
+
+  create_table "discount_usages", force: :cascade do |t|
+    t.integer "discount_code_id", null: false
+    t.integer "user_id", null: false
+    t.integer "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discount_code_id"], name: "index_discount_usages_on_discount_code_id"
+    t.index ["order_id"], name: "index_discount_usages_on_order_id"
+    t.index ["user_id"], name: "index_discount_usages_on_user_id"
   end
 
   create_table "home_videos", force: :cascade do |t|
@@ -115,6 +143,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_22_000001) do
     t.decimal "total"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "discount_code_id"
+    t.decimal "discount_amount", precision: 10, scale: 2, default: "0.0"
+    t.index ["discount_code_id"], name: "index_orders_on_discount_code_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -155,9 +186,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_22_000001) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
+  add_foreign_key "discount_codes", "users"
+  add_foreign_key "discount_usages", "discount_codes"
+  add_foreign_key "discount_usages", "orders"
+  add_foreign_key "discount_usages", "users"
   add_foreign_key "invoices", "orders"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "discount_codes"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "categories"
 end

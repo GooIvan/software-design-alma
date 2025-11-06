@@ -118,6 +118,12 @@ Rails.application.routes.draw do
       resources :categories, param: :slug do
         resources :products
       end
+
+      resources :discount_codes, only: [:index, :new, :create, :edit, :update, :destroy] do
+        collection do
+          post :validate
+        end
+      end
     end
 
     # 🛍️ Público: categorías y productos

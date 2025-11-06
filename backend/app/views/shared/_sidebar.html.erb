@@ -119,6 +119,14 @@
               </li>
             <% end %>
 
+            <%# === Códigos de Descuento === %>
+            <%= link_to admin_discount_codes_path, class: "text-decoration-none" do %>
+              <li class="bg-text-icon mb-2 d-flex align-items-center <%= 'active' if controller_name == 'discount_codes' %>">
+                <i class="bi bi-percent text-icon me-2"></i>
+                <span class="text-h2-panel-admin">Códigos de Descuento</span>
+              </li>
+            <% end %>
+
           </ul>
         </div>
       </li>

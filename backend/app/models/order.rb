@@ -2,6 +2,8 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :order_items, dependent: :destroy
   has_one :invoice, dependent: :destroy
+  belongs_to :discount_code, optional: true
+  has_one :discount_usage, dependent: :destroy
 
   enum :status, { pending: 0, paid: 1, cancelled: 2 }
 
@@ -27,6 +29,21 @@ class Order < ApplicationRecord
         self.total += item.price * item.quantity.to_i
       end
     end
+  end
+
+  def discount_display
+    return nil unless discount_code.present?
+    
+    if discount_code.discount_type == "percentage"
+      discount_value = (total * discount_code.value / 100.0).round(0)
+    else
+      discount_value = discount_code.value
+    end
+
+    { 
+      code: discount_code.code, 
+      amount: discount_value 
+    }
   end
 
   def decrease_stock

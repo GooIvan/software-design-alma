@@ -63,6 +63,7 @@
 
 
           <%= hidden_field_tag :expiration, "", id: "expiration_hidden" %>
+          <%= hidden_field_tag :discount_code_id, "", id: "discount_code_id_hidden" %>
 
           <button type="submit" class="btn btn-success btn-payu-page w-100 mt-3" id="pay-button">
             <span class="spinner-page d-none" id="spinner" role="status" aria-hidden="true"></span>
@@ -114,6 +115,24 @@
           </div>
         <% end %>
 
+        <!-- Campo de Código de Descuento -->
+        <div class="mb-3 mt-3">
+          <label for="discount_code" class="form-label fw-semibold">Código de Descuento</label>
+          <div class="input-group">
+            <input type="text" 
+                   id="discount_code" 
+                   class="form-control" 
+                   placeholder="Ingresa tu código"
+                   style="text-transform: uppercase;">
+            <button type="button" 
+                    id="apply_discount_btn" 
+                    class="btn btn-outline-primary">
+              Aplicar
+            </button>
+          </div>
+          <div id="discount_message" class="form-text"></div>
+        </div>
+
         <!-- Resumen -->
         <div class="border-0 mt-3">
           <ul class="list-unstyled">
@@ -121,27 +140,25 @@
               <span class="text-muted">
                 <%= t("order.payment.subtotal") %>:
               </span>
-              <strong>
+              <strong id="subtotal_amount">
                 <%= number_to_currency(subtotal, unit: "$", precision: 0, delimiter: ".") %>
               </strong>
             </li>
-            <% if 20000.to_i > 0 %>
-              <li class="d-flex justify-content-between py-2">
-                <span class="text-muted">
-                  <%= t("order.payment.discount") %>:
-                </span>
-                <strong class="text-success">
-                  - <%= number_to_currency(discount, unit: "$", precision: 0, delimiter: ".") %>
-                </strong>
-              </li>
-            <% end %>
+            <li id="discount_line" class="d-flex justify-content-between py-2" style="display: none;">
+              <span class="text-muted">
+                <%= t("order.payment.discount") %> (<span id="discount_code_display"></span>):
+              </span>
+              <strong class="text-success" id="discount_amount">
+                - $0
+              </strong>
+            </li>
           </ul>
 
           <div class="d-flex justify-content-between pt-3 border-top mt-3 fs-5">
             <strong>
               <%= t("order.payment.total") %>:
             </strong>
-            <strong>
+            <strong id="total_amount">
               <%= number_to_currency(subtotal - discount, unit: "$", precision: 0, delimiter: ".") %>
             </strong>
           </div>
@@ -161,6 +178,145 @@
     const cardInput = document.getElementById("card_number");
     cardInput.addEventListener("input", () => {
       cardInput.value = cardInput.value.replace(/[^0-9 ]/g, ""); // solo numeros y espacios
+    });
+
+    // Variables globales para el descuento
+    let appliedDiscount = null;
+    const originalSubtotal = <%= @order.total.to_f %>;
+    
+    // Función para formatear números como moneda
+    function formatCurrency(amount) {
+      return '$' + new Intl.NumberFormat('es-CO').format(amount);
+    }
+    
+    // Función para actualizar totales
+    function updateTotals() {
+      const subtotalEl = document.getElementById('subtotal_amount');
+      const discountLineEl = document.getElementById('discount_line');
+      const discountAmountEl = document.getElementById('discount_amount');
+      const discountCodeDisplayEl = document.getElementById('discount_code_display');
+      const totalAmountEl = document.getElementById('total_amount');
+      
+      let discountAmount = 0;
+      
+      if (appliedDiscount) {
+        discountAmount = appliedDiscount.discount_amount;
+        discountLineEl.style.display = 'flex';
+        discountAmountEl.textContent = '- ' + formatCurrency(discountAmount);
+        discountCodeDisplayEl.textContent = appliedDiscount.code;
+      } else {
+        discountLineEl.style.display = 'none';
+      }
+      
+      const finalTotal = originalSubtotal - discountAmount;
+      totalAmountEl.textContent = formatCurrency(finalTotal);
+    }
+    
+    // Función para validar código de descuento
+    async function validateDiscountCode(code) {
+      const applyBtn = document.getElementById('apply_discount_btn');
+      const messageEl = document.getElementById('discount_message');
+      
+      // Mostrar loading
+      applyBtn.disabled = true;
+      applyBtn.textContent = 'Validando...';
+      messageEl.textContent = '';
+      messageEl.className = 'form-text';
+      
+      try {
+        const response = await fetch('<%= validate_admin_discount_codes_path %>', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+          },
+          body: JSON.stringify({ code: code })
+        });
+        
+        const result = await response.json();
+        
+        if (result.valid) {
+          // Calcular descuento
+          let discountAmount = 0;
+          if (result.discount_code.discount_type === 'percentage') {
+            discountAmount = Math.round(originalSubtotal * (result.discount_code.value / 100));
+          } else {
+            discountAmount = Math.min(result.discount_code.value, originalSubtotal);
+          }
+          
+          appliedDiscount = {
+            code: result.discount_code.code,
+            discount_amount: discountAmount,
+            discount_code_id: result.discount_code.id
+          };
+          
+          // Actualizar campo oculto
+          document.getElementById('discount_code_id_hidden').value = result.discount_code.id;
+          
+          updateTotals();
+          
+          messageEl.textContent = '✓ Código aplicado correctamente';
+          messageEl.className = 'form-text text-success';
+          
+          // Cambiar botón a "Remover"
+          applyBtn.textContent = 'Remover';
+          applyBtn.className = 'btn btn-outline-danger';
+        } else {
+          messageEl.textContent = result.message;
+          messageEl.className = 'form-text text-danger';
+        }
+      } catch (error) {
+        messageEl.textContent = 'Error al validar el código';
+        messageEl.className = 'form-text text-danger';
+      } finally {
+        applyBtn.disabled = false;
+        if (applyBtn.textContent === 'Validando...') {
+          applyBtn.textContent = 'Aplicar';
+        }
+      }
+    }
+    
+    // Event listeners para código de descuento
+    const discountCodeInput = document.getElementById('discount_code');
+    const applyDiscountBtn = document.getElementById('apply_discount_btn');
+    
+    // Convertir a mayúsculas automáticamente
+    discountCodeInput.addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+    });
+    
+    // Aplicar código al hacer clic en el botón
+    applyDiscountBtn.addEventListener('click', function() {
+      if (appliedDiscount) {
+        // Remover descuento
+        appliedDiscount = null;
+        document.getElementById('discount_code_id_hidden').value = '';
+        updateTotals();
+        
+        const messageEl = document.getElementById('discount_message');
+        messageEl.textContent = '';
+        messageEl.className = 'form-text';
+        
+        discountCodeInput.value = '';
+        this.textContent = 'Aplicar';
+        this.className = 'btn btn-outline-primary';
+      } else {
+        // Aplicar descuento
+        const code = discountCodeInput.value.trim();
+        if (code) {
+          validateDiscountCode(code);
+        }
+      }
+    });
+    
+    // Aplicar código al presionar Enter
+    discountCodeInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && !appliedDiscount) {
+        const code = this.value.trim();
+        if (code) {
+          validateDiscountCode(code);
+        }
+      }
     });
   });
 
