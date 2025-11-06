@@ -90,6 +90,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get unknownError => 'Error desconocido, por favor intenta de nuevo.';
 
   @override
+  String get whereWeAreLocated => '¿Dónde estamos ubicados?';
+
+  @override
   String get functionalityNotImplemented => 'Funcionalidad no implementada';
 
   @override

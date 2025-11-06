@@ -262,6 +262,12 @@ abstract class AppLocalizations {
   /// **'Unknown error, please try again.'**
   String get unknownError;
 
+  /// No description provided for @whereWeAreLocated.
+  ///
+  /// In en, this message translates to:
+  /// **'Where we are located?'**
+  String get whereWeAreLocated;
+
   /// No description provided for @functionalityNotImplemented.
   ///
   /// In en, this message translates to:

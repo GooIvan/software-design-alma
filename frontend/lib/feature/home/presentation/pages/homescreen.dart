@@ -11,6 +11,7 @@ import '../views/products/views_products_loading.dart';
 import '../views/products/views_products_success.dart';
 import '../widgets/promo_banner.dart';
 import '../../../../utils/extensions.dart';
+import '../widgets/seccion_map.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -108,7 +109,10 @@ class HomeScreen extends StatelessWidget {
                       return const SizedBox();
                     },
                   ),
-                  const SizedBox(height: 100),
+
+                  // Mapa
+                  const SizedBox(height: 32),
+                  const SeccionMap()
                 ],
               ),
             ),

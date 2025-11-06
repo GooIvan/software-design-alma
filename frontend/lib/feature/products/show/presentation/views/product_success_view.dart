@@ -7,7 +7,6 @@ import '../widgets/bottom_buttons.dart';
 import '../widgets/size_selector.dart';
 import 'package:flutter/material.dart';
 import '../../../../../models/product_model.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class ProductSuccessView extends StatelessWidget {
   final Product product;

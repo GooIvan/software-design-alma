@@ -29,6 +29,8 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   flutter_feather_icons: ^2.0.0
   font_awesome_flutter: ^10.7.0
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:
