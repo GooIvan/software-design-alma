@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../widgets/skeleton_loader.dart';
@@ -12,13 +13,14 @@ class CategoriesLoadingView extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 24),
       children: [
         const SizedBox(height: 16),
-        const Align(
+        Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              'Categorías',
+              context.l10n.categories,
               style: TextStyle(
+                color: Theme.of(context).textTheme.displayLarge?.color,
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
@@ -37,10 +39,10 @@ class CategoriesLoadingView extends StatelessWidget {
           itemBuilder: (context, index) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.grey[50],
+                color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: Colors.grey[200]!,
+                  color: Theme.of(context).dividerColor,
                   width: 1,
                 ),
               ),

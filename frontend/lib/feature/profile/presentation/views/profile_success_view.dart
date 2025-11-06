@@ -1,8 +1,10 @@
 import 'package:design_alma/feature/profile/presentation/widgets/confirm_box.dart';
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../../../models/user_model.dart';
-import '../../../about/pages/AboutPage.dart';
+import '../../../about/pages/about_page.dart';
+import '../../../configuration/presentation/page/configuration_page.dart';
 import '../../../orders/index/presentation/pages/orders_page.dart';
 
 class ProfileSuccessView extends StatelessWidget {
@@ -19,12 +21,12 @@ class ProfileSuccessView extends StatelessWidget {
 
   Future<void> _onReload() async {
     onRefresh?.call();
-    debugPrint("Perfil recargado ✅");
+    debugPrint("Perfil recargado");
   }
 
   @override
   Widget build(BuildContext context) {
-    const Color azulPrimary = AppColors.primary;
+    final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
     return SafeArea(
       child: RefreshIndicator(
@@ -36,21 +38,21 @@ class ProfileSuccessView extends StatelessWidget {
           children: [
             // Header con avatar y nombre
             const SizedBox(height: 20),
-            const Center(
+            Center(
               child: CircleAvatar(
                 radius: 50,
                 backgroundColor: azulPrimary,
-                child: Icon(Icons.person, size: 50, color: Colors.white),
+                child: const Icon(Icons.person, size: 50, color: Colors.white),
               ),
             ),
             const SizedBox(height: 16),
             Center(
               child: Text(
                 '${user.name} ${user.lastName}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: Colors.black87,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
                 ),
               ),
             ),
@@ -60,12 +62,12 @@ class ProfileSuccessView extends StatelessWidget {
             // Opciones
             _buildOptionTile(
               icon: Icons.account_circle,
-              title: 'Mi cuenta',
+              title: context.l10n.myAccount,
               onTap: () {},
             ),
             _buildOptionTile(
               icon: Icons.receipt_long,
-              title: 'Mis órdenes',
+              title: context.l10n.myOrders,
               onTap: () {
                 Navigator.push(
                   context,
@@ -77,7 +79,7 @@ class ProfileSuccessView extends StatelessWidget {
             ),
             _buildOptionTile(
               icon: Icons.info,
-              title: 'Acerca de',
+              title: context.l10n.about,
               onTap: () {
                 Navigator.push(
                   context,
@@ -89,8 +91,15 @@ class ProfileSuccessView extends StatelessWidget {
             ),
             _buildOptionTile(
               icon: Icons.settings,
-              title: 'Configuración',
-              onTap: () {},
+              title: context.l10n.configuration,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ConfigurationPage(),
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 20),
@@ -105,7 +114,7 @@ class ProfileSuccessView extends StatelessWidget {
                     onLogout!();
                   }),
                   icon: const Icon(Icons.logout),
-                  label: const Text('Cerrar sesión'),
+                  label: Text(context.l10n.logout),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.error,
                     foregroundColor: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../widgets/custom_alert.dart';
@@ -11,15 +12,24 @@ class SocialRegisterSection extends StatelessWidget {
     return Column(
       children: [
         // ===== Separador con "O" =====
-        const Row(
+        Row(
           children: [
-            Expanded(child: Divider(thickness: 1)),
+            Expanded(
+                child: Divider(
+              thickness: 1,
+              color: Theme.of(context).dividerColor,
+            )),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text("o",
-                  style: TextStyle(color: Colors.black54, fontSize: 16)),
+                  style: TextStyle(
+                      color: Theme.of(context).dividerColor, fontSize: 16)),
             ),
-            Expanded(child: Divider(thickness: 1)),
+            Expanded(
+                child: Divider(
+              thickness: 1,
+              color: Theme.of(context).dividerColor,
+            )),
           ],
         ),
         const SizedBox(height: 20),
@@ -31,10 +41,12 @@ class SocialRegisterSection extends StatelessWidget {
             height: 20,
             width: 20,
           ),
-          text: "Continuar con Google",
-          color: Colors.white,
-          textColor: Colors.black,
-          borderColor: Colors.grey.shade300,
+          text: context.l10n.continueGoogle,
+          color: Theme.of(context).scaffoldBackgroundColor,
+          textColor:
+              Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
+          borderColor:
+              Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
           context: context,
         ),
 
@@ -58,11 +70,12 @@ class SocialRegisterSection extends StatelessWidget {
         // ===== Botón Facebook =====
         _buildSocialButton(
           icon: FontAwesomeIcons.facebook,
-          text: "Continuar con Facebook",
-          color: Colors.white,
-          textColor: Colors.black,
-          borderColor: Colors.grey.shade300,
-          colorIcon: const Color(0xFF1877F2),
+          text: context.l10n.continueFacebook,
+          color: Theme.of(context).scaffoldBackgroundColor,
+          textColor:
+              Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
+          borderColor:
+              Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
           context: context,
         ),
 
@@ -72,9 +85,10 @@ class SocialRegisterSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("¿Ya tienes cuenta?",
+            Text(context.l10n.yesAccount,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).textTheme.displayLarge?.color ??
+                      Colors.black,
                 )),
             TextButton(
               onPressed: () {
@@ -83,10 +97,10 @@ class SocialRegisterSection extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const LoginPage()),
                 );
               },
-              child: const Text(
-                "Inicia sesión",
-                style:
-                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              child: Text(
+                context.l10n.login,
+                style: const TextStyle(
+                    color: Colors.blue, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -111,7 +125,7 @@ class SocialRegisterSection extends StatelessWidget {
         onPressed: () {
           CustomAlert.warning(
             context,
-            'Funcionalidad no implementada',
+            context.l10n.functionalityNotImplemented,
           );
         },
         icon: imageIcon ??

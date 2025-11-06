@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/bloc/register_bloc.dart';
@@ -69,20 +70,20 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
               child: Column(
                 children: [
                   // Título
-                  const Text(
-                    '¡Bienvenido a Diseños Alma!',
+                  Text(
+                    context.l10n.registerTitle,
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                     ),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
-                    'Crea una cuenta para comenzar',
+                  Text(
+                    context.l10n.registerMessage,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -90,12 +91,12 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input name
                   TextFormField(
                     controller: _nameController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Introduce tu nombre',
+                      hintText: context.l10n.registerInputName,
                       hintStyle: const TextStyle(
                         color: Color.fromARGB(255, 110, 110, 110),
                         fontWeight: FontWeight.bold,
@@ -106,7 +107,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -141,8 +144,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         ),
                       ),
                     ),
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Ingrese su nombre' : null,
+                    validator: (v) => v == null || v.isEmpty
+                        ? context.l10n.validationName
+                        : null,
                   ),
 
                   const SizedBox(height: 20),
@@ -150,12 +154,12 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input last name
                   TextFormField(
                     controller: _lastNameController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Introduce tu apellido',
+                      hintText: context.l10n.registerInputLastName,
                       hintStyle: const TextStyle(
                         color: Color.fromARGB(255, 110, 110, 110),
                         fontWeight: FontWeight.bold,
@@ -166,7 +170,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -201,8 +207,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         ),
                       ),
                     ),
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Ingrese su apellido' : null,
+                    validator: (v) => v == null || v.isEmpty
+                        ? context.l10n.validationLastName
+                        : null,
                   ),
 
                   const SizedBox(height: 20),
@@ -210,12 +217,12 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input city
                   TextFormField(
                     controller: _cityController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Introduce tu ciudad',
+                      hintText: context.l10n.registerInputCity,
                       hintStyle: const TextStyle(
                         color: Color.fromARGB(255, 110, 110, 110),
                         fontWeight: FontWeight.bold,
@@ -226,7 +233,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -261,8 +270,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         ),
                       ),
                     ),
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Ingrese su ciudad' : null,
+                    validator: (v) => v == null || v.isEmpty
+                        ? context.l10n.validationCity
+                        : null,
                   ),
 
                   const SizedBox(height: 20),
@@ -270,12 +280,12 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input Address
                   TextFormField(
                     controller: _addressController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Introduce tu dirección',
+                      hintText: context.l10n.registerInputAddress,
                       hintStyle: const TextStyle(
                         color: Color.fromARGB(255, 110, 110, 110),
                         fontWeight: FontWeight.bold,
@@ -286,7 +296,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -321,8 +333,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         ),
                       ),
                     ),
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Ingrese su dirección' : null,
+                    validator: (v) => v == null || v.isEmpty
+                        ? context.l10n.validationAddress
+                        : null,
                   ),
 
                   const SizedBox(height: 20),
@@ -330,12 +343,12 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input phone
                   TextFormField(
                     controller: _phoneController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Introduce tu teléfono',
+                      hintText: context.l10n.registerInputPhone,
                       hintStyle: const TextStyle(
                         color: Color.fromARGB(255, 110, 110, 110),
                         fontWeight: FontWeight.bold,
@@ -346,7 +359,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -381,8 +396,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         ),
                       ),
                     ),
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Ingrese su teléfono' : null,
+                    validator: (v) => v == null || v.isEmpty
+                        ? context.l10n.validationPhone
+                        : null,
                   ),
 
                   const SizedBox(height: 20),
@@ -390,12 +406,12 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                   // Input email
                   TextFormField(
                     controller: _emailController,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Introduce tu correo electrónico',
+                      hintText: context.l10n.registerInputEmail,
                       hintStyle: const TextStyle(
                         color: Color.fromARGB(255, 110, 110, 110),
                         fontWeight: FontWeight.bold,
@@ -406,7 +422,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         color: Color.fromARGB(255, 110, 110, 110),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -441,8 +459,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         ),
                       ),
                     ),
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Ingrese su email' : null,
+                    validator: (v) => v == null || v.isEmpty
+                        ? context.l10n.validationEmail
+                        : null,
                   ),
 
                   const SizedBox(height: 20),
@@ -452,12 +471,12 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                     controller: _passwordController,
                     obscureText:
                         _obscurePassword, // alterna entre ocultar/mostrar
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Ingrese su contraseña',
+                      hintText: context.l10n.registerInputPassword,
                       hintStyle: const TextStyle(
                         color: Color.fromARGB(255, 110, 110, 110),
                         fontWeight: FontWeight.bold,
@@ -482,7 +501,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         },
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -518,7 +539,7 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                       ),
                     ),
                     validator: (v) => v == null || v.length < 6
-                        ? 'Mínimo 6 caracteres'
+                        ? context.l10n.validationPassword
                         : null,
                   ),
 
@@ -529,12 +550,12 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                     controller: _passwordConfirmController,
                     obscureText:
                         _obscurePasswordConfirm, // alterna entre ocultar/mostrar
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                         fontSize: 15),
                     decoration: InputDecoration(
-                      hintText: 'Confirma tu contraseña',
+                      hintText: context.l10n.registerInputConfirmPassword,
                       hintStyle: const TextStyle(
                         color: Color.fromARGB(255, 110, 110, 110),
                         fontWeight: FontWeight.bold,
@@ -559,7 +580,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         },
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade100,
+                      fillColor:
+                          Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
 
                       // borde normal
                       enabledBorder: OutlineInputBorder(
@@ -595,14 +618,11 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                       ),
                     ),
                     validator: (v) {
-                      if (v == null || v.isEmpty) {
-                        return 'Confirme su contraseña';
-                      }
-                      if (v.length < 6) {
-                        return 'Mínimo 6 caracteres';
+                      if (v == null || v.isEmpty || v.length < 6) {
+                        return context.l10n.validationConfirmPassword;
                       }
                       if (v != _passwordController.text) {
-                        return 'Las contraseñas no coinciden';
+                        return context.l10n.validationConfirmPasswordNotMatch;
                       }
                       return null;
                     },
@@ -614,7 +634,7 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                     width: double.infinity,
                     child: ElevatedButton.icon(
                       onPressed: () => _onRegisterPressed(context),
-                      label: const Text('Registrarse'),
+                      label: Text(context.l10n.signup),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: azulCielo,
                         foregroundColor: Colors.white,

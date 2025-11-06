@@ -1,5 +1,6 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../models/order_model.dart';
+import '../../../../../models/order_model.dart';
 
 Color _getStatusColor(Order order) {
   if (order.isPaid) return Colors.green;
@@ -38,20 +39,16 @@ String _formatDate(DateTime date) {
   return '$day/$month/$year $hour:$minute';
 }
 
-Widget buildOrderHeader(Order order) {
+Widget buildOrderHeader(Order order, BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(20),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
       borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
-          spreadRadius: 1,
-          blurRadius: 4,
-          offset: const Offset(0, 2),
-        ),
-      ],
+      border: Border.all(
+        color: Theme.of(context).dividerColor,
+        width: 1,
+      ),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +57,7 @@ Widget buildOrderHeader(Order order) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Orden #${order.orderNumber}',
+              '${context.l10n.order} #${order.orderNumber}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -75,7 +72,7 @@ Widget buildOrderHeader(Order order) {
             Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
             const SizedBox(width: 8),
             Text(
-              'Creada: ${_formatDate(order.createdAt)}',
+              '${context.l10n.created}: ${_formatDate(order.createdAt)}',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 14,
@@ -89,7 +86,7 @@ Widget buildOrderHeader(Order order) {
             Icon(Icons.update, size: 16, color: Colors.grey[600]),
             const SizedBox(width: 8),
             Text(
-              'Actualizada: ${_formatDate(order.updatedAt)}',
+              '${context.l10n.updated}: ${_formatDate(order.updatedAt)}',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 14,

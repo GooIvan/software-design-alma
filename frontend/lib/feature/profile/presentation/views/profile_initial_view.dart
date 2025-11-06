@@ -1,9 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../login/presentation/pages/login_page.dart';
 import '../../../register/presentation/pages/register_page.dart';
+import '../../../configuration/presentation/page/configuration_page.dart';
 
 class ProfileInitialView extends StatelessWidget {
   const ProfileInitialView({
@@ -12,7 +13,7 @@ class ProfileInitialView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color azulPrimary = AppColors.primary;
+    final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
       body: SafeArea(
@@ -23,19 +24,20 @@ class ProfileInitialView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Avatar
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 50,
-                  backgroundColor: azulPrimary,
-                  child: Icon(Icons.person, size: 50, color: Colors.white),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  child:
+                      const Icon(Icons.person, size: 50, color: Colors.white),
                 ),
                 const SizedBox(height: 16),
 
                 // texto invitado
                 Text(
-                  'Invitado',
+                  context.l10n.guest,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: Colors.black87,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                       ),
                 ),
                 const SizedBox(height: 30),
@@ -43,8 +45,8 @@ class ProfileInitialView extends StatelessWidget {
                 _buildInvitadoCard(
                   context,
                   icon: Icons.info_outline,
-                  title: '¿Sabías que puedes acceder a más funciones?',
-                  subtitle: 'Inicia sesión para ver tu cuenta, pedidos y más.',
+                  title: context.l10n.guestMessage1,
+                  subtitle: context.l10n.guestMessage2,
                 ),
 
                 const SizedBox(height: 20),
@@ -60,7 +62,7 @@ class ProfileInitialView extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.login),
-                    label: const Text('Iniciar sesión'),
+                    label: Text(context.l10n.signin),
                     style: FilledButton.styleFrom(
                       backgroundColor: azulPrimary,
                       foregroundColor: Colors.white,
@@ -89,9 +91,10 @@ class ProfileInitialView extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.person_add),
-                    label: const Text('Registrarse'),
+                    label: Text(context.l10n.signup),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: azulPrimary),
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
                       foregroundColor: azulPrimary,
                       padding: const EdgeInsets.symmetric(
                         vertical: 20,
@@ -101,6 +104,63 @@ class ProfileInitialView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Botón de configuración
+                Container(
+                  decoration: BoxDecoration(
+                    color: azulPrimary.withOpacity(0.05),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: azulPrimary.withOpacity(0.1),
+                      width: 1,
+                    ),
+                  ),
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ConfigurationPage()),
+                      );
+                    },
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: azulPrimary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        Icons.settings,
+                        color: azulPrimary,
+                        size: 20,
+                      ),
+                    ),
+                    title: Text(
+                      context.l10n.configuration,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                          ),
+                    ),
+                    subtitle: Text(
+                      'Idioma, tema y más',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.grey.shade600,
+                          ),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: azulPrimary.withOpacity(0.6),
+                      size: 16,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
                   ),
                 ),
@@ -116,7 +176,7 @@ class ProfileInitialView extends StatelessWidget {
       {required IconData icon,
       required String title,
       required String subtitle}) {
-    const Color azulPrimary = AppColors.primary;
+    final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
     return Card(
       color: azulPrimary.withOpacity(0.1),
@@ -133,7 +193,7 @@ class ProfileInitialView extends StatelessWidget {
         subtitle: Text(
           subtitle,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.black87,
+                color: Colors.grey.shade600,
               ),
         ),
       ),

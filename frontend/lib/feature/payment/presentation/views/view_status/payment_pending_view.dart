@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class PaymentPendingView extends StatelessWidget {
@@ -6,7 +7,7 @@ class PaymentPendingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -22,16 +23,16 @@ class PaymentPendingView extends StatelessWidget {
                   Container(
                     width: 180,
                     height: 180,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFF8E1),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFFF8E1),
                       shape: BoxShape.circle,
                     ),
                   ),
                   Container(
                     width: 120,
                     height: 120,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFECB3),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFFECB3),
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -54,10 +55,10 @@ class PaymentPendingView extends StatelessWidget {
               const SizedBox(height: 40),
 
               // ===== Mensaje principal =====
-              const Text(
-                'Pago en proceso',
+              Text(
+                context.l10n.pendingPayment,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFFFFB300),
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -67,11 +68,11 @@ class PaymentPendingView extends StatelessWidget {
               const SizedBox(height: 12),
 
               // ===== Subtítulo =====
-              const Text(
-                "Su pago está siendo procesado.\n"
-                "Recibirás una confirmación pronto..",
+              Text(
+                "${context.l10n.pendingPaymentMessage1}\n"
+                "${context.l10n.pendingPaymentMessage2}",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF808080),
                   fontSize: 14,
                 ),
@@ -94,9 +95,9 @@ class PaymentPendingView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
-                    'ENTENDIDO',
-                    style: TextStyle(
+                  child: Text(
+                    context.l10n.understand,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                       letterSpacing: 1,

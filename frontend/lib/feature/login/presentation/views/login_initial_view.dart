@@ -1,8 +1,8 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/social_login_section.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../data/bloc/login_bloc.dart';
 
 class LoginInitialView extends StatefulWidget {
@@ -40,7 +40,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
 
   @override
   Widget build(BuildContext context) {
-    const azulPrimary = AppColors.primary;
+    final azulPrimary = Theme.of(context).colorScheme.primary;
 
     return SafeArea(
       child: Center(
@@ -59,29 +59,29 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                     borderRadius:
                         BorderRadius.circular(30), // ajusta aquí el redondeo
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.lock,
                     size: 50,
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                   ),
                 ),
                 const SizedBox(height: 20),
 
                 // Título
-                const Text(
-                  '¡Bienvenido de nuevo!',
+                Text(
+                  context.l10n.loginTitle,
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Theme.of(context).textTheme.displayLarge?.color,
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  'Inicia sesión en tu cuenta',
+                Text(
+                  context.l10n.loginMessage,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.displayLarge?.color,
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -89,12 +89,12 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                 // Email
                 TextFormField(
                   controller: _emailController,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                       fontSize: 15),
                   decoration: InputDecoration(
-                    hintText: 'Introduce tu correo electrónico',
+                    hintText: context.l10n.inputEmail,
                     hintStyle: const TextStyle(
                       color: Color.fromARGB(255, 110, 110, 110),
                       fontWeight: FontWeight.bold,
@@ -105,7 +105,8 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       color: Color.fromARGB(255, 110, 110, 110),
                     ),
                     filled: true,
-                    fillColor: Colors.grey.shade100,
+                    fillColor: Theme.of(context).appBarTheme.backgroundColor ??
+                        Colors.white,
 
                     // borde normal
                     enabledBorder: OutlineInputBorder(
@@ -140,8 +141,9 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       ),
                     ),
                   ),
-                  validator: (v) =>
-                      v == null || v.isEmpty ? 'Ingrese su email' : null,
+                  validator: (v) => v == null || v.isEmpty
+                      ? context.l10n.validationEmail
+                      : null,
                 ),
 
                 const SizedBox(height: 20),
@@ -151,12 +153,12 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                   controller: _passwordController,
                   obscureText:
                       _obscurePassword, // alterna entre ocultar/mostrar
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                       fontSize: 15),
                   decoration: InputDecoration(
-                    hintText: 'Ingrese su contraseña',
+                    hintText: context.l10n.inputPassword,
                     hintStyle: const TextStyle(
                       color: Color.fromARGB(255, 110, 110, 110),
                       fontWeight: FontWeight.bold,
@@ -181,7 +183,8 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       },
                     ),
                     filled: true,
-                    fillColor: Colors.grey.shade100,
+                    fillColor: Theme.of(context).appBarTheme.backgroundColor ??
+                        Colors.white,
 
                     // borde normal
                     enabledBorder: OutlineInputBorder(
@@ -216,8 +219,9 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       ),
                     ),
                   ),
-                  validator: (v) =>
-                      v == null || v.length < 6 ? 'Mínimo 6 caracteres' : null,
+                  validator: (v) => v == null || v.length < 6
+                      ? context.l10n.validationPassword
+                      : null,
                 ),
 
                 const SizedBox(height: 10),
@@ -229,13 +233,13 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                     onPressed: () {
                       CustomAlert.warning(
                         context,
-                        'Funcionalidad no implementada',
+                        context.l10n.functionalityNotImplemented,
                       );
                     },
-                    child: const Text(
-                      '¿Olvidaste tu contraseña?',
+                    child: Text(
+                      context.l10n.forgotPassword,
                       style: TextStyle(
-                        color: azulPrimary,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ),
@@ -248,7 +252,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () => _onLoginPressed(context),
-                    label: const Text('Iniciar Sesión'),
+                    label: Text(context.l10n.signin),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: azulPrimary,
                       foregroundColor: Colors.white,

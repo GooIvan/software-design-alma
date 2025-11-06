@@ -10,6 +10,7 @@ import '../views/products/views_products_error.dart';
 import '../views/products/views_products_loading.dart';
 import '../views/products/views_products_success.dart';
 import '../widgets/promo_banner.dart';
+import '../../../../utils/extensions.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => CartBloc(),
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8F9FA),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
           child: RefreshIndicator(
             onRefresh: () => _refreshData(context),
@@ -36,20 +37,21 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // Banner promocional
-                  PromoBanner(context),
+                  promoBanner(context),
                   const SizedBox(height: 24),
 
                   // Título y productos populares
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
                         Text(
-                          'Lo más nuevo',
+                          context.l10n.homeNewest,
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color:
+                                Theme.of(context).textTheme.displayLarge?.color,
                           ),
                         ),
                       ],
@@ -62,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                         return const ViewProductsLoading();
                       } else if (state is ProductError) {
                         return ViewProductsError(
-                          title: 'Error al cargar productos',
+                          title: context.l10n.homeErrorMessageProducts,
                           onRetry: () {
                             context.read<ProductBloc>().add(LoadProducts());
                           },
@@ -76,14 +78,14 @@ class HomeScreen extends StatelessWidget {
 
                   // Título y categorías
                   const SizedBox(height: 32),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
-                      'Categorías',
+                      context.l10n.categories,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: Theme.of(context).textTheme.displayLarge?.color,
                       ),
                     ),
                   ),
@@ -94,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                         return const ViewsCategoriesLoading();
                       } else if (state is CategoryError) {
                         return ViewCategoriesError(
-                          title: 'Error al cargar categorías',
+                          title: context.l10n.homeErrorMessageCategories,
                           onRetry: () {
                             context.read<CategoryBloc>().add(LoadCategories());
                           },

@@ -34,9 +34,9 @@ class PaymentInputField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
-      style: const TextStyle(
+      style: TextStyle(
         fontWeight: FontWeight.bold,
-        color: Colors.black,
+        color: Theme.of(context).textTheme.displayLarge?.color,
         fontSize: 15,
       ),
       decoration: InputDecoration(
@@ -54,7 +54,7 @@ class PaymentInputField extends StatelessWidget {
             : null,
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: Colors.grey.shade100,
+        fillColor: Theme.of(context).scaffoldBackgroundColor,
 
         // borde normal
         enabledBorder: OutlineInputBorder(

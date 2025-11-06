@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class ViewProductsError extends StatelessWidget {
@@ -54,9 +55,9 @@ class ViewProductsError extends StatelessWidget {
                           horizontal: 12, vertical: 4),
                       minimumSize: const Size(80, 28),
                     ),
-                    child: const Text(
-                      'Reintentar',
-                      style: TextStyle(fontSize: 12),
+                    child: Text(
+                      context.l10n.retry,
+                      style: const TextStyle(fontSize: 12),
                     ),
                   ),
                 ],

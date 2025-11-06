@@ -1,29 +1,25 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../../models/order_item_model.dart';
+import '../../../../../models/order_item_model.dart';
 
 String _formatPrice(double price) {
   final formatter = NumberFormat('#,##0');
   return '\$${formatter.format(price)}';
 }
 
-Widget buildOrderItem(OrderItem item) {
+Widget buildOrderItem(OrderItem item, BuildContext context) {
   return Container(
     margin: const EdgeInsets.only(bottom: 12),
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
-          spreadRadius: 1,
-          blurRadius: 4,
-          offset: const Offset(0, 2),
-        ),
-      ],
-    ),
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).dividerColor,
+          width: 1,
+        )),
     child: Row(
       children: [
         // Imagen del producto
@@ -83,7 +79,7 @@ Widget buildOrderItem(OrderItem item) {
               const SizedBox(height: 4),
               if (item.size != null) ...[
                 Text(
-                  'Talla: ${item.size}',
+                  '${context.l10n.size}: ${item.size}',
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 14,
@@ -92,7 +88,7 @@ Widget buildOrderItem(OrderItem item) {
                 const SizedBox(height: 4),
               ],
               Text(
-                'Cantidad: ${item.quantity}',
+                '${context.l10n.quantity}: ${item.quantity}',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -100,7 +96,7 @@ Widget buildOrderItem(OrderItem item) {
               ),
               const SizedBox(height: 4),
               Text(
-                'Precio unitario: ${_formatPrice(item.price)}',
+                '${context.l10n.priceUnit}: ${_formatPrice(item.price)}',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -115,10 +111,10 @@ Widget buildOrderItem(OrderItem item) {
           children: [
             Text(
               _formatPrice(item.totalPrice),
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
-                color: Colors.black87,
+                color: Theme.of(context).textTheme.displayLarge?.color,
               ),
             ),
           ],

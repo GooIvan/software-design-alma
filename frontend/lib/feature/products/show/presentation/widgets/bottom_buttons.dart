@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
@@ -35,9 +36,9 @@ class BottomButtons extends StatelessWidget {
                   color: Colors.white,
                   size: 22,
                 ),
-                label: const Text(
-                  "Comprar ahora",
-                  style: TextStyle(
+                label: Text(
+                  context.l10n.buyNow,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 17,
                     fontWeight: FontWeight.normal,
@@ -66,9 +67,9 @@ class BottomButtons extends StatelessWidget {
                   color: Color(0xFF1E90FF),
                   size: 22,
                 ),
-                label: const Text(
-                  "Añadir a la cesta",
-                  style: TextStyle(
+                label: Text(
+                  context.l10n.addToCart,
+                  style: const TextStyle(
                     color: Color(0xFF1E90FF),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

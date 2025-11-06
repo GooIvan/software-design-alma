@@ -1,5 +1,6 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../../payment/presentation/pages/payment_page.dart';
+import '../../../../payment/presentation/pages/payment_page.dart';
 
 Widget buildPaymentButton(BuildContext context, int orderId) {
   return Container(
@@ -33,17 +34,17 @@ Widget buildPaymentButton(BuildContext context, int orderId) {
         ),
         elevation: 0,
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.payment,
             size: 20,
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(
-            'Realizar el pago',
-            style: TextStyle(
+            context.l10n.makeThePayment,
+            style: const TextStyle(
               fontSize: 18,
             ),
           ),

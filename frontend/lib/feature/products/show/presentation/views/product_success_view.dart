@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../widgets/custom_alert.dart';
 import '../../../../cart/data/bloc/cart_bloc.dart';
@@ -19,7 +20,7 @@ class ProductSuccessView extends StatelessWidget {
     final cartBloc = context.read<CartBloc>(); // Obtener CartBloc del contexto
 
     if (selectedSize.value == null) {
-      CustomAlert.warning(context, 'Por favor, selecciona una talla');
+      CustomAlert.warning(context, context.l10n.alertSizeRequired);
       return;
     }
     cartBloc.add(
@@ -30,7 +31,7 @@ class ProductSuccessView extends StatelessWidget {
       ),
     );
 
-    CustomAlert.success(context, 'Producto agregado al carrito');
+    CustomAlert.success(context, context.l10n.productAddedToCart);
 
     print('Producto agregado al carrito: "${product.name}", "$selectedSize"');
 
@@ -40,10 +41,10 @@ class ProductSuccessView extends StatelessWidget {
 
   void _handleBuyNow(BuildContext context) {
     if (selectedSize.value == null) {
-      CustomAlert.warning(context, 'Por favor, selecciona una talla');
+      CustomAlert.warning(context, context.l10n.alertSizeRequired);
       return;
     }
-    CustomAlert.warning(context, 'Funcionalidad no implementada');
+    CustomAlert.warning(context, context.l10n.functionalityNotImplemented);
   }
 
   @override
@@ -80,10 +81,10 @@ class ProductSuccessView extends StatelessWidget {
               // Nombre
               Text(
                 product.name,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
                 ),
               ),
 
@@ -105,9 +106,13 @@ class ProductSuccessView extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Talla
-              const Text(
-                "Seleccionar talla",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Text(
+                context.l10n.selectSize,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
+                ),
               ),
               const SizedBox(height: 8),
               SizeSelector(
@@ -122,14 +127,20 @@ class ProductSuccessView extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Descripcion
-              const Text(
-                "Descripción",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Text(
+                context.l10n.description,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
+                ),
               ),
               const SizedBox(height: 6),
               Text(
                 product.description,
-                style: const TextStyle(color: Colors.grey),
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.displayLarge?.color,
+                ),
               ),
               const SizedBox(height: 40),
             ],

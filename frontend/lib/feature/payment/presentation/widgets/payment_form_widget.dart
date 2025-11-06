@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/payment_input_field.dart';
@@ -22,15 +23,8 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -44,11 +38,11 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
                 children: [
                   const SizedBox(width: 8),
                   Text(
-                    'Información de la Tarjeta',
+                    context.l10n.informationCard,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
+                      color: Theme.of(context).textTheme.displayLarge?.color,
                     ),
                   ),
                 ],
@@ -58,7 +52,7 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
               // Número de tarjeta
               PaymentInputField(
                 controller: widget.controller.cardNumberController,
-                label: 'Número de tarjeta',
+                label: context.l10n.numberCard,
                 hint: '4111 1111 1111 1111',
                 icon: Icons.credit_card,
                 keyboardType: TextInputType.number,
@@ -80,11 +74,11 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Ingrese el número de tarjeta';
+                    return context.l10n.required;
                   }
                   final cleanValue = CardNumberFormatter.clean(value);
                   if (cleanValue.length < 13 || cleanValue.length > 19) {
-                    return 'Número de tarjeta inválido';
+                    return context.l10n.validation;
                   }
                   return null;
                 },
@@ -97,7 +91,7 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
                   Expanded(
                     child: PaymentInputField(
                       controller: widget.controller.expiryMonthController,
-                      label: 'Mes',
+                      label: context.l10n.month,
                       hint: '12',
                       keyboardType: TextInputType.number,
                       inputFormatters: [
@@ -106,11 +100,11 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
                       ],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Requerido';
+                          return context.l10n.required;
                         }
                         final month = int.tryParse(value);
                         if (month == null || month < 1 || month > 12) {
-                          return 'Inválido';
+                          return context.l10n.validation;
                         }
                         return null;
                       },
@@ -120,7 +114,7 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
                   Expanded(
                     child: PaymentInputField(
                       controller: widget.controller.expiryYearController,
-                      label: 'Año',
+                      label: context.l10n.year,
                       hint: '26',
                       keyboardType: TextInputType.number,
                       inputFormatters: [
@@ -129,12 +123,12 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
                       ],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Requerido';
+                          return context.l10n.required;
                         }
                         final year = int.tryParse(value);
                         final currentYear = DateTime.now().year % 100;
                         if (year == null || year < currentYear) {
-                          return 'Inválido';
+                          return context.l10n.validation;
                         }
                         return null;
                       },
@@ -157,10 +151,10 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
                 ],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'CVV requerido';
+                    return 'CVV ${context.l10n.required}';
                   }
                   if (value.length < 3 || value.length > 4) {
-                    return 'CVV inválido';
+                    return 'CVV ${context.l10n.validation}';
                   }
                   return null;
                 },
@@ -170,15 +164,15 @@ class _PaymentFormWidgetState extends State<PaymentFormWidget> {
               // Nombre del titular
               PaymentInputField(
                 controller: widget.controller.cardHolderNameController,
-                label: 'Nombre del titular',
+                label: context.l10n.nameHolder,
                 icon: Icons.person_outline,
                 textCapitalization: TextCapitalization.words,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Nombre requerido';
+                    return context.l10n.required;
                   }
                   if (value.trim().length < 2) {
-                    return 'Muy corto';
+                    return context.l10n.veryShort;
                   }
                   return null;
                 },

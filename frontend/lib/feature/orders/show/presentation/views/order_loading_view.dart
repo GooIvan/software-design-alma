@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../../../../../widgets/skeleton_loader.dart';
+import '../../../../../widgets/skeleton_loader.dart';
 
 class OrderLoadingView extends StatelessWidget {
   const OrderLoadingView({
     super.key,
   });
 
-  Widget _buildHeaderSkeleton() {
+  Widget _buildHeaderSkeleton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,21 +74,13 @@ class OrderLoadingView extends StatelessWidget {
     );
   }
 
-  Widget _buildItemSkeleton() {
+  Widget _buildItemSkeleton(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: const Row(
         children: [
@@ -153,20 +137,12 @@ class OrderLoadingView extends StatelessWidget {
     );
   }
 
-  Widget _buildSummarySkeleton() {
+  Widget _buildSummarySkeleton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +211,7 @@ class OrderLoadingView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header skeleton
-            _buildHeaderSkeleton(),
+            _buildHeaderSkeleton(context),
             const SizedBox(height: 20),
 
             // Título "Artículos" skeleton
@@ -247,14 +223,14 @@ class OrderLoadingView extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Items skeletons (2-3 items)
-            _buildItemSkeleton(),
-            _buildItemSkeleton(),
-            _buildItemSkeleton(),
+            _buildItemSkeleton(context),
+            _buildItemSkeleton(context),
+            _buildItemSkeleton(context),
 
             const SizedBox(height: 20),
 
             // Summary skeleton
-            _buildSummarySkeleton(),
+            _buildSummarySkeleton(context),
 
             const SizedBox(height: 20),
           ],

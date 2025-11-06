@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/di/service_locator.dart';
@@ -17,12 +18,12 @@ class OrdersPage extends StatelessWidget {
           OrdersBloc(sl<OrdersRepository>())..add(LoadOrders()),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
-          title: const Text(
-            'Mis Órdenes',
+          title: Text(
+            context.l10n.ordersTitle,
             style: TextStyle(
-              color: Colors.black,
+              color: Theme.of(context).textTheme.displayLarge?.color,
               fontWeight: FontWeight.bold,
             ),
           ),
