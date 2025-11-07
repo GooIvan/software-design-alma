@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../models/cart_item_model.dart';
 import '../../../../models/product_model.dart';
+import '../../../../models/discount_code_model.dart';
 import 'package:intl/intl.dart';
 
 part 'cart_event.dart';
@@ -16,6 +17,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<UpdateQuantity>(_onUpdateQuantity);
     on<ClearCart>(_onClearCart);
     on<LoadCart>(_onLoadCart);
+    on<ApplyDiscountToCart>(_onApplyDiscountToCart);
+    on<RemoveDiscountFromCart>(_onRemoveDiscountFromCart);
   }
 
   void _onAddToCart(AddToCart event, Emitter<CartState> emit) {
@@ -72,13 +75,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   void _onClearCart(ClearCart event, Emitter<CartState> emit) {
-    emit(const CartState(items: []));
+    emit(const CartState(items: [], appliedDiscountCode: null));
   }
 
   void _onLoadCart(LoadCart event, Emitter<CartState> emit) {
     // Aquí podrías cargar el carrito desde storage o API
     // Por ahora solo emitimos el estado actual
     emit(state);
+  }
+
+  void _onApplyDiscountToCart(
+      ApplyDiscountToCart event, Emitter<CartState> emit) {
+    emit(state.copyWith(appliedDiscountCode: event.discountCode));
+  }
+
+  void _onRemoveDiscountFromCart(
+      RemoveDiscountFromCart event, Emitter<CartState> emit) {
+    emit(state.copyWith(clearDiscount: true));
   }
 
   @override

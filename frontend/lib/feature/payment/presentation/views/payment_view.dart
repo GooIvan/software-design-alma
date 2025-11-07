@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/bloc/payment_bloc.dart';
 import '../../../orders/show/data/repositories/order_repository.dart';
 import '../../../../models/order_model.dart';
-import '../widgets/order_summary_card.dart';
+import '../../../../models/discount_code_model.dart';
+import '../../../../widgets/discount_code_widget.dart';
+import '../../../../widgets/order_summary_with_discount_card.dart';
 import '../widgets/payment_form_widget.dart';
 import '../widgets/payment_button.dart';
 import '../widgets/payment_status_widget.dart';
@@ -30,6 +32,8 @@ class _PaymentViewState extends State<PaymentView> {
 
   Order? _order;
   bool _orderLoading = true;
+  DiscountCode? _appliedDiscount;
+  double? _discountedTotal;
 
   @override
   void initState() {
@@ -55,6 +59,24 @@ class _PaymentViewState extends State<PaymentView> {
         _orderLoading = false;
       });
     }
+  }
+
+  void _onDiscountApplied(DiscountCode? discount) {
+    setState(() {
+      _appliedDiscount = discount;
+      if (discount != null && _order != null) {
+        _discountedTotal = discount.calculateDiscountedTotal(_order!.total);
+      } else {
+        _discountedTotal = null;
+      }
+    });
+  }
+
+  void _onDiscountRemoved() {
+    setState(() {
+      _appliedDiscount = null;
+      _discountedTotal = null;
+    });
   }
 
   void _processPayment() {
@@ -121,8 +143,21 @@ class _PaymentViewState extends State<PaymentView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Resumen de la orden
-            OrderSummaryCard(order: _order!),
+            // Resumen de la orden con descuento
+            OrderSummaryWithDiscountCard(
+              order: _order!,
+              appliedDiscount: _appliedDiscount,
+              discountedTotal: _discountedTotal,
+            ),
+            const SizedBox(height: 20),
+
+            // Widget de código de descuento
+            DiscountCodeWidget(
+              onDiscountApplied: _onDiscountApplied,
+              onDiscountRemoved: _onDiscountRemoved,
+              subtotal: _order!.total,
+              currentDiscount: _appliedDiscount,
+            ),
             const SizedBox(height: 20),
 
             // Formulario de tarjeta
