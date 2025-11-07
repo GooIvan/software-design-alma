@@ -13,6 +13,8 @@ class Api::Payments::PaymentsController < Api::BaseController
         order: {
           id: @order.id,
           total: @order.total,
+          subtotal: @order.order_items.sum { |item| item.price * item.quantity },
+          discount: get_discount_info(@order),
           currency: 'COP'
         }
       }
@@ -67,7 +69,9 @@ class Api::Payments::PaymentsController < Api::BaseController
           order: {
             id: @order.id,
             status: @order.status,
-            total: @order.total
+            total: @order.total,
+            subtotal: @order.order_items.sum { |item| item.price * item.quantity },
+            discount: get_discount_info(@order)
           }
         }
       else
@@ -82,7 +86,9 @@ class Api::Payments::PaymentsController < Api::BaseController
           order: {
             id: @order.id,
             status: @order.status,
-            total: @order.total
+            total: @order.total,
+            subtotal: @order.order_items.sum { |item| item.price * item.quantity },
+            discount: get_discount_info(@order)
           }
         }, status: :unprocessable_entity
       end
@@ -110,6 +116,8 @@ class Api::Payments::PaymentsController < Api::BaseController
           order_id: order.id,
           status: order.status,
           total: order.total,
+          subtotal: order.order_items.sum { |item| item.price * item.quantity },
+          discount: get_discount_info(order),
           created_at: order.created_at.iso8601,
           updated_at: order.updated_at.iso8601
         }
@@ -444,6 +452,22 @@ class Api::Payments::PaymentsController < Api::BaseController
       api_key: ENV['PAYU_API_KEY'] || '4Vj8eK4rloUd272L48hsrarnUA',
       api_login: ENV['PAYU_API_LOGIN'] || 'pRRXKOl8ikMmt9u',
       sandbox: Rails.env.development? || Rails.env.test?
+    }
+  end
+
+  def get_discount_info(order)
+    # Obtener información de descuento
+    discount_amount = order.discount_amount || 0
+    if discount_amount == 0 && order.discount_usage.present?
+      discount_amount = order.discount_usage.discount_amount
+    end
+    
+    {
+      code: order.discount_code&.code,
+      amount: discount_amount,
+      applied: discount_amount > 0,
+      discount_type: order.discount_code&.discount_type,
+      discount_value: order.discount_code&.value
     }
   end
 

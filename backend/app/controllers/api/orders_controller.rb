@@ -67,7 +67,44 @@ class Api::OrdersController < Api::BaseController
       }, status: :unprocessable_entity
     end
 
+    # Aplicar descuento si existe
+    discount_amount = 0
+    if params[:discount_code].present?
+      discount_code = DiscountCode.find_by(code: params[:discount_code])
+      
+      if discount_code.nil?
+        return render json: {
+          success: false,
+          message: "Código de descuento no encontrado"
+        }, status: :unprocessable_entity
+      end
+      
+      unless discount_code.usable_by?(current_user)
+        return render json: {
+          success: false,
+          message: "El código de descuento no es válido, ha expirado o ya fue utilizado"
+        }, status: :unprocessable_entity
+      end
+      
+      subtotal = @order.order_items.sum { |item| item.price * item.quantity }
+      discount_amount = discount_code.apply_to(subtotal)
+      
+      @order.discount_code = discount_code
+      @order.discount_amount = discount_amount
+      @order.total = subtotal - discount_amount
+    end
+
     if @order.save
+      # Crear registro de uso del descuento si aplica
+      if @order.discount_code.present? && discount_amount > 0
+        DiscountUsage.create!(
+          discount_code: @order.discount_code,
+          user: current_user,
+          order: @order,
+          discount_amount: discount_amount
+        )
+      end
+      
       render json: {
         success: true,
         message: "Orden creada exitosamente",
@@ -155,12 +192,24 @@ class Api::OrdersController < Api::BaseController
   end
 
   def order_json(order)
+    # Obtener información de descuento
+    discount_amount = order.discount_amount || 0
+    if discount_amount == 0 && order.discount_usage.present?
+      discount_amount = order.discount_usage.discount_amount
+    end
+    
     {
       id: order.id,
       order_number: "ORD-#{order.id.to_s.rjust(8, '0')}",
       status: order.status,
       status_display: order.status&.humanize,
       total: order.total,
+      subtotal: order.order_items.sum { |item| item.price * item.quantity },
+      discount: {
+        code: order.discount_code&.code,
+        amount: discount_amount,
+        applied: discount_amount > 0
+      },
       items_count: order.order_items.count,
       created_at: order.created_at.iso8601,
       updated_at: order.updated_at.iso8601
@@ -168,12 +217,29 @@ class Api::OrdersController < Api::BaseController
   end
 
   def order_detail_json(order)
+    # Obtener información de descuento
+    discount_amount = order.discount_amount || 0
+    if discount_amount == 0 && order.discount_usage.present?
+      discount_amount = order.discount_usage.discount_amount
+    end
+    
+    subtotal = order.order_items.sum { |item| item.price * item.quantity }
+    
     {
       id: order.id,
       order_number: "ORD-#{order.id.to_s.rjust(8, '0')}",
       status: order.status,
       status_display: order.status&.humanize,
+      subtotal: subtotal,
+      discount: {
+        code: order.discount_code&.code,
+        amount: discount_amount,
+        applied: discount_amount > 0,
+        discount_type: order.discount_code&.discount_type,
+        discount_value: order.discount_code&.value
+      },
       total: order.total,
+      final_total: subtotal - discount_amount,
       created_at: order.created_at.iso8601,
       updated_at: order.updated_at.iso8601,
       order_items: order.order_items.includes(:product).map do |item|

@@ -215,17 +215,44 @@
         <!-- Totales de la factura -->
         <div class="invoice-totals">
           <div class="totals-section">
+            <% subtotal_before_discount = @order_items.sum { |item| item.price * item.quantity } %>
             <div class="total-row">
               <span class="total-label">Subtotal:</span>
-              <span class="total-value">$<%= number_to_currency(@invoice.subtotal, unit: "", delimiter: ".", precision: 0) %></span>
+              <span class="total-value">$<%= number_to_currency(subtotal_before_discount, unit: "", delimiter: ".", precision: 0) %></span>
             </div>
+            
+            <% if @order.discount_code.present? %>
+              <% 
+                discount_amount = @order.discount_amount
+                if discount_amount == 0 && @order.discount_usage.present?
+                  discount_amount = @order.discount_usage.discount_amount
+                end
+              %>
+              <% if discount_amount && discount_amount > 0 %>
+                <div class="total-row discount-row">
+                  <span class="total-label">
+                    <i data-feather="percent" class="discount-icon"></i>
+                    Descuento (<%= @order.discount_code.code %>):
+                  </span>
+                  <span class="total-value discount-value">-$<%= number_to_currency(discount_amount, unit: "", delimiter: ".", precision: 0) %></span>
+                </div>
+              <% end %>
+            <% end %>
+            
             <div class="total-row">
               <span class="total-label">IVA (19%):</span>
               <span class="total-value">$<%= number_to_currency(@invoice.tax, unit: "", delimiter: ".", precision: 0) %></span>
             </div>
             <div class="total-row total-final">
+              <% 
+                discount_amount_for_total = @order.discount_amount
+                if discount_amount_for_total == 0 && @order.discount_usage.present?
+                  discount_amount_for_total = @order.discount_usage.discount_amount
+                end
+                final_invoice_total = subtotal_before_discount - (discount_amount_for_total || 0) + @invoice.tax
+              %>
               <span class="total-label">Total:</span>
-              <span class="total-value">$<%= number_to_currency(@invoice.total, unit: "", delimiter: ".", precision: 0) %></span>
+              <span class="total-value">$<%= number_to_currency(final_invoice_total, unit: "", delimiter: ".", precision: 0) %></span>
             </div>
           </div>
         </div>
@@ -395,6 +422,27 @@
 
   .total-final .total-value {
     color: #28a745;
+  }
+
+  .discount-row {
+    color: #28a745;
+  }
+
+  .discount-row .total-label {
+    color: #28a745;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .discount-row .total-value {
+    color: #28a745;
+    font-weight: bold;
+  }
+
+  .discount-icon {
+    width: 16px;
+    height: 16px;
   }
 </style>
 

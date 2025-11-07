@@ -4,9 +4,13 @@ class Admin::DiscountCodesController < ApplicationController
   before_action :authenticate_user!
   
   def validate
-    code = params[:code]&.strip&.upcase
+    # Manejar tanto parámetros directos como anidados
+    code = params[:code]&.strip&.upcase || params.dig(:discount_code, :code)&.strip&.upcase
+    
+    Rails.logger.info "[DISCOUNT_VALIDATION] Validando código: '#{code}' para usuario: #{current_user&.id}"
     
     if code.blank?
+      Rails.logger.info "[DISCOUNT_VALIDATION] Código vacío"
       render json: { valid: false, message: "El código no puede estar vacío" }
       return
     end
@@ -14,26 +18,38 @@ class Admin::DiscountCodesController < ApplicationController
     discount_code = DiscountCode.find_by(code: code)
     
     if discount_code.nil?
+      Rails.logger.info "[DISCOUNT_VALIDATION] Código no encontrado: #{code}"
       render json: { valid: false, message: "Código de descuento no encontrado" }
       return
     end
 
     unless discount_code.active?
+      Rails.logger.info "[DISCOUNT_VALIDATION] Código inactivo: #{code}"
       render json: { valid: false, message: "Este código de descuento no está activo" }
       return
     end
 
     if discount_code.expired?
+      Rails.logger.info "[DISCOUNT_VALIDATION] Código expirado: #{code}"
       render json: { valid: false, message: "Este código de descuento ha expirado" }
       return
     end
 
     if discount_code.max_uses && discount_code.discount_usages.count >= discount_code.max_uses
+      Rails.logger.info "[DISCOUNT_VALIDATION] Código alcanzó límite total: #{code} (#{discount_code.discount_usages.count}/#{discount_code.max_uses})"
       render json: { valid: false, message: "Este código de descuento ha alcanzado su límite de usos" }
       return
     end
 
+    if discount_code.max_uses_per_user && discount_code.discount_usages.where(user: current_user).count >= discount_code.max_uses_per_user
+      user_usage_count = discount_code.discount_usages.where(user: current_user).count
+      Rails.logger.info "[DISCOUNT_VALIDATION] Usuario alcanzó límite personal: #{code} (#{user_usage_count}/#{discount_code.max_uses_per_user})"
+      render json: { valid: false, message: "Ya has alcanzado el límite de usos para este código de descuento" }
+      return
+    end
+
     # Código válido
+    Rails.logger.info "[DISCOUNT_VALIDATION] Código válido: #{code}, tipo: #{discount_code.discount_type}, valor: #{discount_code.value}"
     render json: { 
       valid: true, 
       discount_code: {
