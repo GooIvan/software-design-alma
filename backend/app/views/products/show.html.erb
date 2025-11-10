@@ -5,94 +5,174 @@
 
 <%= stylesheet_link_tag 'product_style', media: 'all' %>
 
-<div class="container py-5 mb-6">
-  <div class="row align-items-start hellstar-product-layout">
-    <!-- Imagen del producto -->
-    <div class="col-md-6 text-center">
-      <%= image_tag @product.image, alt: @product.name, class: "img-fluid hellstar-product-image" %>
-    </div>
+<div class="container py-4 py-md-5 mb-6">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to t('home'), root_path, class: "text-decoration-none text-dark" %></li>
+      <li class="breadcrumb-item"><%= link_to @product.category.name, "#", class: "text-decoration-none text-dark" %></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= @product.name %></li>
+    </ol>
+  </nav>
 
-    <!-- Detalles del producto -->
-    <div class="col-md-6">
-      <h2 class="hellstar-title mb-2"><%= @product.name.upcase %></h2>
-      <% if (2..5).include?(@product.stock) %>
-        <div class="alert alert-warning fw-semibold mt-2">
-          <%= t("products.low_stock_plural", count: @product.stock) %>
-        </div>
-      <% elsif @product.stock == 1 %>
-        <div class="alert alert-warning fw-semibold mt-2">
-          <%= t("products.low_stock_singular") %>
-        </div>
-      <% elsif @product.stock == 0 %>
-        <div class="alert alert-danger fw-semibold mt-2">
-          <%= t("products.sold_out") %>
-        </div>
-      <% end %>
-
-      <p class="hellstar-price mb-3"><%= number_to_currency(@product.price, unit: "$", precision: 0) %></p>
-
-      <p class="mb-4 text-muted"><%= @product.description %></p>
-
-      <!-- Formulario -->
-      <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "open-cart-on-submit" } do |f| %>
-        <%= f.hidden_field :product_id, value: @product.id %>
-
-        <!-- Tallas -->
-        <% if @product.stock > 0 %>
-          <div class="mb-3">
-            <label class="form-label fw-bold"><%= t("products.size") %></label>
-            <div class="d-flex flex-wrap gap-3 mt-2">
-              <% @product.sizes.each_with_index do |size, index| %>
-                <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check", checked: index == 0 %>
-                <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
-                  <%= size %>
-                </label>
-              <% end %>
-            </div>
-          </div>
-        <% else %>
-          <div class="mb-3">
-            <label class="form-label fw-bold"><%= t("products.size") %></label>
-            <div class="d-flex flex-wrap gap-3 mt-2">
-              <% @product.sizes.each_with_index do |size, index| %>
-                <input type="radio" disabled class="btn-check">
-                <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
-                  <%= size %>
-                </label>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-
-        <!-- Cantidad -->
-        <div class="mb-3">
-          <label class="form-label fw-bold"><%= t("products.quantity") %></label>
-          <% if @product.stock == 0 %>
-            <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold", disabled: true %>
-          <% else %>
-            <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold" %>
+  <div class="row g-4 g-lg-5 align-items-start">
+    <!-- Galería de Imágenes -->
+    <div class="col-lg-6">
+      <div class="product-gallery sticky-top" style="top: 100px;">
+        <!-- Imagen principal -->
+        <div class="main-image-container mb-3 position-relative">
+          <%= image_tag @product.image, alt: @product.name, class: "img-fluid rounded-3 shadow-sm main-product-image w-100", id: "mainImage" %>
+          
+          <!-- Badge de stock -->
+          <% if @product.stock > 0 && @product.stock <= 5 %>
+            <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-3 px-3 py-2">
+              <%= t("products.low_stock_plural", count: @product.stock) %>
+            </span>
+          <% elsif @product.stock == 0 %>
+            <span class="badge bg-danger position-absolute top-0 start-0 m-3 px-3 py-2">
+              <%= t("products.sold_out") %>
+            </span>
           <% end %>
         </div>
 
-        <% if @product.stock == 0 %>
-          <button class="btn btn-secondary w-100 fw-bold" style="pointer-events: none; border-radius: 20px; width: 100%; height: 50px;" disabled>
-            <%= t('products.sold_out') %>
-          </button>
-        <% else %>
-          <%= f.submit t("products.add_to_cart"), class: "btn btn-dark w-100 hellstar-add-to-cart", style: "border-radius: 20px; width: 100%;" %>
-        <% end  %>
-      <% end %>
+        <!-- Thumbnails (preparado para múltiples imágenes) -->
+        <div class="thumbnails-container d-flex gap-2 overflow-auto">
+          <%= image_tag @product.image, alt: @product.name, class: "thumbnail-image img-fluid rounded-2 border border-2 border-dark cursor-pointer", style: "width: 80px; height: 80px; object-fit: cover;" %>
+          <!-- Aquí puedes agregar más imágenes en el futuro -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Detalles del producto -->
+    <div class="col-lg-6">
+      <div class="product-details">
+        <!-- Categoría -->
+        <p class="text-muted text-uppercase mb-2 small fw-semibold tracking-wider">
+          <%= @product.category.name %>
+        </p>
+
+        <!-- Título -->
+        <h1 class="hellstar-title display-5 mb-3"><%= @product.name.upcase %></h1>
+
+        <!-- Precio -->
+        <div class="price-container mb-4">
+          <p class="hellstar-price display-4 fw-bold mb-0">
+            <%= number_to_currency(@product.price, unit: "$", precision: 0) %>
+          </p>
+        </div>
+
+        <!-- Descripción -->
+        <div class="product-description mb-4 pb-4 border-bottom">
+          <p class="text-muted mb-0 lh-lg"><%= @product.description %></p>
+        </div>
+
+        <!-- Formulario -->
+        <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "open-cart-on-submit product-form" } do |f| %>
+          <%= f.hidden_field :product_id, value: @product.id %>
+
+          <!-- Tallas -->
+          <div class="mb-4">
+            <label class="form-label fw-bold d-flex align-items-center mb-3">
+              <svg class="me-2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+              <%= t("products.size") %>
+            </label>
+            <div class="sizes-grid">
+              <% @product.sizes.each_with_index do |size, index| %>
+                <div class="size-option-wrapper">
+                  <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check size-radio", checked: index == 0, disabled: @product.stock == 0 %>
+                  <label class="size-option-label" for="size_<%= size %>">
+                    <span class="size-text"><%= size %></span>
+                  </label>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Cantidad -->
+          <div class="mb-4">
+            <label class="form-label fw-bold d-flex align-items-center mb-3">
+              <svg class="me-2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18M9 21V9"/>
+              </svg>
+              <%= t("products.quantity") %>
+            </label>
+            <div class="quantity-selector">
+              <%= f.select :quantity, 
+                  options_for_select(1..[@product.stock, 9].min), 
+                  {}, 
+                  class: "form-select quantity-select", 
+                  disabled: @product.stock == 0 %>
+            </div>
+          </div>
+
+          <!-- Botón de agregar al carrito -->
+          <div class="d-grid gap-3 mb-4">
+            <% if @product.stock == 0 %>
+              <button class="btn btn-lg btn-secondary fw-bold disabled-button" disabled>
+                <svg width="20" height="20" fill="currentColor" class="me-2" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <%= t('products.sold_out') %>
+              </button>
+            <% else %>
+              <%= f.submit t("products.add_to_cart"), class: "btn btn-lg btn-dark fw-bold add-to-cart-button" %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- Información adicional -->
+        <div class="product-info-cards mt-4">
+          <div class="info-card d-flex align-items-start p-3 mb-2 bg-light rounded-3">
+            <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M20 7h-9M14 3v4M6 21V10a1 1 0 011-1h2a1 1 0 011 1v11M3 21h18"/>
+            </svg>
+            <div>
+              <p class="fw-semibold mb-1">Envío Gratis</p>
+              <p class="small text-muted mb-0">En compras superiores a $100.000</p>
+            </div>
+          </div>
+
+          <div class="info-card d-flex align-items-start p-3 mb-2 bg-light rounded-3">
+            <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+            <div>
+              <p class="fw-semibold mb-1">Cambios y Devoluciones</p>
+              <p class="small text-muted mb-0">Tienes 30 días para cambios</p>
+            </div>
+          </div>
+
+          <div class="info-card d-flex align-items-start p-3 bg-light rounded-3">
+            <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <div>
+              <p class="fw-semibold mb-1">Pago Seguro</p>
+              <p class="small text-muted mb-0">Tus datos están protegidos</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- JS: abrir carrito al añadir -->
+<!-- JS: funcionalidad mejorada del producto -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // === ABRIR CARRITO AL AÑADIR ===
     const forms = document.querySelectorAll("form.open-cart-on-submit");
-
     forms.forEach(form => {
-      form.addEventListener("submit", () => {
+      form.addEventListener("submit", (e) => {
+        const button = form.querySelector('.add-to-cart-button');
+        if (button) {
+          button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Agregando...';
+        }
+        
         const sideCart = document.getElementById("side-cart");
         if (sideCart) {
           sideCart.classList.remove("hidden");
@@ -102,5 +182,103 @@
         }
       });
     });
+
+    // === GALERÍA DE IMÁGENES ===
+    const thumbnails = document.querySelectorAll('.thumbnail-image');
+    const mainImage = document.getElementById('mainImage');
+    
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', () => {
+        thumbnails.forEach(t => t.classList.remove('active', 'border-dark'));
+        thumbnail.classList.add('active', 'border-dark');
+        
+        mainImage.style.opacity = '0';
+        setTimeout(() => {
+          mainImage.src = thumbnail.src;
+          mainImage.style.opacity = '1';
+        }, 150);
+      });
+    });
+    
+    // Activar primer thumbnail
+    if (thumbnails.length > 0) {
+      thumbnails[0].classList.add('active', 'border-dark');
+    }
+
+    // === ZOOM EN IMAGEN PRINCIPAL ===
+    const initZoom = () => {
+      if (mainImage) {
+        console.log('Zoom inicializado para:', mainImage);
+        
+        // Remover listeners anteriores (por si acaso)
+        const newMainImage = mainImage.cloneNode(true);
+        mainImage.parentNode.replaceChild(newMainImage, mainImage);
+        const img = document.getElementById('mainImage');
+        
+        img.addEventListener('click', function(e) {
+          console.log('Click en imagen detectado');
+          e.preventDefault();
+          e.stopPropagation();
+          
+          if (this.classList.contains('zoomed')) {
+            console.log('Quitando zoom');
+            this.classList.remove('zoomed');
+          } else {
+            console.log('Aplicando zoom');
+            this.classList.add('zoomed');
+          }
+        });
+        
+        // Restablecer zoom al cambiar de imagen
+        thumbnails.forEach(thumbnail => {
+          thumbnail.addEventListener('click', () => {
+            console.log('Reseteando zoom por cambio de imagen');
+            img.classList.remove('zoomed');
+          });
+        });
+      } else {
+        console.error('No se encontró mainImage');
+      }
+    };
+    
+    // Esperar a que la imagen se cargue completamente
+    if (mainImage) {
+      if (mainImage.complete) {
+        // Si ya está cargada
+        console.log('Imagen ya cargada, inicializando zoom inmediatamente');
+        initZoom();
+      } else {
+        // Si no está cargada, esperar al evento load
+        console.log('Esperando a que la imagen se cargue...');
+        mainImage.addEventListener('load', () => {
+          console.log('Imagen cargada, inicializando zoom');
+          initZoom();
+        });
+      }
+    }
+
+    // === FEEDBACK VISUAL EN SELECCIÓN DE TALLA ===
+    const sizeOptions = document.querySelectorAll('.size-radio');
+    sizeOptions.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const label = e.target.nextElementSibling;
+        if (label) {
+          // Animación de selección
+          label.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            label.style.transform = '';
+          }, 100);
+        }
+      });
+    });
+
+    // === SCROLL SUAVE AL AGREGAR AL CARRITO (mobile) ===
+    if (window.innerWidth < 768) {
+      forms.forEach(form => {
+        form.addEventListener('submit', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    }
   });
 </script>
