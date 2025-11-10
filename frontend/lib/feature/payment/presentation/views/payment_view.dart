@@ -53,6 +53,18 @@ class _PaymentViewState extends State<PaymentView> {
       setState(() {
         _order = order;
         _orderLoading = false;
+        // Si la orden tiene un descuento aplicado, lo establecemos automáticamente
+        if (order.hasDiscount) {
+          _appliedDiscount = DiscountCode(
+            code: order.discountCode!,
+            discountType:
+                'fixed_amount', // Asumimos que es monto fijo ya que tenemos el monto exacto
+            value: order.discountAmount!,
+            description: context.l10n.discountDescription(order.discountCode!),
+            discountAmount: order.discountAmount!,
+          );
+          _discountedTotal = order.total;
+        }
       });
     } catch (e) {
       setState(() {
@@ -151,14 +163,62 @@ class _PaymentViewState extends State<PaymentView> {
             ),
             const SizedBox(height: 20),
 
-            // Widget de código de descuento
-            DiscountCodeWidget(
-              onDiscountApplied: _onDiscountApplied,
-              onDiscountRemoved: _onDiscountRemoved,
-              subtotal: _order!.total,
-              currentDiscount: _appliedDiscount,
-            ),
-            const SizedBox(height: 20),
+            // Widget de código de descuento - solo si la orden no tiene descuento aplicado
+            if (!(_order!.hasDiscount))
+              Column(
+                children: [
+                  DiscountCodeWidget(
+                    onDiscountApplied: _onDiscountApplied,
+                    onDiscountRemoved: _onDiscountRemoved,
+                    subtotal: _order!.subtotal ?? _order!.total,
+                    currentDiscount: _appliedDiscount,
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+
+            // Si la orden ya tiene descuento, mostrar información del descuento aplicado
+            if (_order!.hasDiscount)
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.green.shade200),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.check_circle, color: Colors.green.shade600),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            context.l10n.discountApplied,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green.shade700,
+                            ),
+                          ),
+                          Text(
+                            context.l10n
+                                .discountCodeLabel(_order!.discountCode!),
+                            style: TextStyle(color: Colors.green.shade600),
+                          ),
+                          Text(
+                            context.l10n
+                                .discountValue(_order!.formattedDiscountAmount),
+                            style: TextStyle(color: Colors.green.shade600),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            if (_order!.hasDiscount) const SizedBox(height: 20),
 
             // Formulario de tarjeta
             PaymentFormWidget(controller: _formController),

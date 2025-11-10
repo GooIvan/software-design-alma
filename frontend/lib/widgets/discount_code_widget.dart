@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/discount_code_model.dart';
 import '../services/discount_code_service.dart';
+import '../utils/extensions.dart';
 
 class DiscountCodeWidget extends StatefulWidget {
   final Function(DiscountCode?) onDiscountApplied;
@@ -48,14 +49,14 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
 
     if (code.isEmpty) {
       setState(() {
-        _errorMessage = 'Ingresa un código de descuento';
+        _errorMessage = context.l10n.enterDiscountCodeMessage;
       });
       return;
     }
 
     if (!_discountService.isValidCodeFormat(code)) {
       setState(() {
-        _errorMessage = 'Formato de código inválido';
+        _errorMessage = context.l10n.invalidCodeFormat;
       });
       return;
     }
@@ -82,8 +83,8 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
           // Mostrar mensaje de éxito
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content:
-                  Text('Descuento aplicado: ${_appliedDiscount!.description}'),
+              content: Text(
+                  '${context.l10n.discountApplied}: ${_appliedDiscount!.description}'),
               backgroundColor: Colors.green,
               duration: const Duration(seconds: 2),
             ),
@@ -97,7 +98,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
     } catch (e) {
       setState(() {
         _isValidating = false;
-        _errorMessage = 'Error al validar código';
+        _errorMessage = context.l10n.codeValidationError;
         _appliedDiscount = null;
       });
       widget.onDiscountApplied(null);
@@ -117,10 +118,10 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Descuento removido'),
+      SnackBar(
+        content: Text(context.l10n.discountRemoved),
         backgroundColor: Colors.orange,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -138,7 +139,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                 const Icon(Icons.local_offer, size: 20),
                 const SizedBox(width: 8),
                 Text(
-                  'Código de descuento',
+                  context.l10n.discountCodeTitle,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -156,7 +157,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                       controller: _codeController,
                       textCapitalization: TextCapitalization.characters,
                       decoration: InputDecoration(
-                        hintText: 'Ingresa tu código',
+                        hintText: context.l10n.enterCode,
                         border: const OutlineInputBorder(),
                         errorText: _errorMessage,
                         suffixIcon: _isValidating
@@ -183,7 +184,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                             height: 16,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Aplicar'),
+                        : Text(context.l10n.applyDiscountCode),
                   ),
                 ],
               ),
@@ -206,7 +207,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Código aplicado: ${_appliedDiscount!.code}',
+                            context.l10n.appliedDiscountMessage(_appliedDiscount!.code),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.green.shade700,
@@ -221,7 +222,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                           ),
                           if (_appliedDiscount!.discountAmount != null) ...[
                             Text(
-                              'Descuento: ${_discountService.formatCurrency(_appliedDiscount!.discountAmount!)}',
+                              context.l10n.discountValue(_discountService.formatCurrency(_appliedDiscount!.discountAmount!)),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -236,7 +237,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                       onPressed: _removeDiscount,
                       icon: const Icon(Icons.close),
                       color: Colors.red.shade600,
-                      tooltip: 'Quitar descuento',
+                      tooltip: context.l10n.removeDiscount,
                     ),
                   ],
                 ),
@@ -247,7 +248,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
             if (_appliedDiscount == null && _errorMessage == null) ...[
               const SizedBox(height: 8),
               Text(
-                'Los códigos de descuento se aplicarán al total de tu compra',
+                context.l10n.discountInfo,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.grey.shade600,
                     ),
@@ -359,8 +360,8 @@ class _AvailableDiscountCodesState extends State<AvailableDiscountCodes> {
     }
 
     if (_availableCodes.isEmpty) {
-      return const Center(
-        child: Text('No hay códigos de descuento disponibles'),
+      return Center(
+        child: Text(context.l10n.noDiscountCodesAvailable),
       );
     }
 
@@ -384,14 +385,14 @@ class _AvailableDiscountCodesState extends State<AvailableDiscountCodes> {
               Text(code.description),
               if (code.expiresAt != null)
                 Text(
-                  'Expira: ${code.expiresAt!.day}/${code.expiresAt!.month}/${code.expiresAt!.year}',
+                  context.l10n.expireDate('${code.expiresAt!.day}/${code.expiresAt!.month}/${code.expiresAt!.year}'),
                   style: const TextStyle(fontSize: 12),
                 ),
             ],
           ),
           trailing: ElevatedButton(
             onPressed: () => widget.onCodeSelected(code),
-            child: const Text('Usar'),
+            child: Text(context.l10n.useDiscountCode),
           ),
         );
       },

@@ -10,6 +10,9 @@ class Order {
   final DateTime createdAt;
   final DateTime updatedAt;
   final List<OrderItem>? orderItems;
+  final String? discountCode;
+  final double? discountAmount;
+  final double? subtotal;
 
   Order({
     required this.id,
@@ -21,9 +24,29 @@ class Order {
     required this.createdAt,
     required this.updatedAt,
     this.orderItems,
+    this.discountCode,
+    this.discountAmount,
+    this.subtotal,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
+    // Parsear información del descuento desde el objeto anidado
+    String? discountCode;
+    double? discountAmount;
+    double? subtotal;
+
+    if (json['discount'] != null) {
+      final discount = json['discount'];
+      discountCode = discount['code'];
+      discountAmount = discount['amount'] != null
+          ? double.tryParse(discount['amount'].toString())
+          : null;
+    }
+
+    subtotal = json['subtotal'] != null
+        ? double.tryParse(json['subtotal'].toString())
+        : null;
+
     return Order(
       id: json['id'] ?? 0,
       orderNumber: json['order_number'] ?? '',
@@ -38,9 +61,11 @@ class Order {
               .map((item) => OrderItem.fromJson(item))
               .toList()
           : null,
+      discountCode: discountCode,
+      discountAmount: discountAmount,
+      subtotal: subtotal,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -53,6 +78,9 @@ class Order {
       'updated_at': updatedAt.toIso8601String(),
       if (orderItems != null)
         'order_items': orderItems!.map((item) => item.toJson()).toList(),
+      if (discountCode != null) 'discount_code': discountCode,
+      if (discountAmount != null) 'discount_amount': discountAmount,
+      if (subtotal != null) 'subtotal': subtotal,
     };
   }
 
@@ -60,9 +88,15 @@ class Order {
   bool get isPending => status == 'pending';
   bool get isPaid => status == 'paid';
   bool get isCancelled => status == 'cancelled';
+  bool get hasDiscount => discountCode != null && discountAmount != null;
 
   // Formateo de precio
   String get formattedTotal => '\$${total.toStringAsFixed(2)}';
+  String get formattedSubtotal =>
+      subtotal != null ? '\$${subtotal!.toStringAsFixed(2)}' : formattedTotal;
+  String get formattedDiscountAmount => discountAmount != null
+      ? '\$${discountAmount!.toStringAsFixed(2)}'
+      : '\$0.00';
 
   // Copia con modificaciones
   Order copyWith({
@@ -75,6 +109,9 @@ class Order {
     DateTime? createdAt,
     DateTime? updatedAt,
     List<OrderItem>? orderItems,
+    String? discountCode,
+    double? discountAmount,
+    double? subtotal,
   }) {
     return Order(
       id: id ?? this.id,
@@ -86,6 +123,9 @@ class Order {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       orderItems: orderItems ?? this.orderItems,
+      discountCode: discountCode ?? this.discountCode,
+      discountAmount: discountAmount ?? this.discountAmount,
+      subtotal: subtotal ?? this.subtotal,
     );
   }
 }

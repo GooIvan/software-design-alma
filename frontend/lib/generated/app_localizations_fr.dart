@@ -565,4 +565,154 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get systemThemeDescription => 'Suivre le système';
+
+  @override
+  String get sectionDiscountCode =>
+      '---------------------------------------------';
+
+  @override
+  String get discountApplied => 'Réduction appliquée';
+
+  @override
+  String get discountRemoved => 'Réduction supprimée';
+
+  @override
+  String get discountCodeNotFound => 'Code de réduction non trouvé';
+
+  @override
+  String get discountCodeInvalid => 'Code de réduction invalide';
+
+  @override
+  String get discountCodeExpired => 'Le code de réduction a expiré';
+
+  @override
+  String get discountCodeAlreadyUsed => 'Code de réduction déjà utilisé';
+
+  @override
+  String get discountCodeNotActive => 'Le code de réduction n\'est pas actif';
+
+  @override
+  String get discountCodeMaxUsesReached =>
+      'Le code de réduction a atteint la limite d\'utilisation';
+
+  @override
+  String get enterDiscountCode => 'Entrez le code de réduction';
+
+  @override
+  String get applyDiscountCode => 'Appliquer le code';
+
+  @override
+  String get removeDiscountCode => 'Supprimer la réduction';
+
+  @override
+  String get validatingDiscountCode => 'Validation du code...';
+
+  @override
+  String get discountCodeValidationError =>
+      'Erreur de validation du code de réduction';
+
+  @override
+  String get discountCodeSuccess => 'Code appliqué avec succès !';
+
+  @override
+  String get discountAmount => 'Réduction';
+
+  @override
+  String discountPercentage(int percentage) {
+    return 'Réduction ($percentage% de remise)';
+  }
+
+  @override
+  String discountFixed(String amount) {
+    return 'Réduction (\$$amount de remise)';
+  }
+
+  @override
+  String get subtotalBeforeDiscount => 'Sous-total';
+
+  @override
+  String get totalAfterDiscount => 'Total avec réduction';
+
+  @override
+  String get noDiscountCodesAvailable => 'Aucun code de réduction disponible';
+
+  @override
+  String get availableDiscountCodes => 'Codes disponibles';
+
+  @override
+  String get useDiscountCode => 'Utiliser';
+
+  @override
+  String discountCodeLabel(String code) {
+    return 'Code : $code';
+  }
+
+  @override
+  String discountValue(String value) {
+    return 'Réduction : $value';
+  }
+
+  @override
+  String discountDescription(String description) {
+    return 'Réduction appliquée : $description';
+  }
+
+  @override
+  String get discountCodeFormat => 'Format de code invalide';
+
+  @override
+  String discountMinimumAmount(String amount) {
+    return 'La commande doit être supérieure à $amount pour utiliser cette réduction';
+  }
+
+  @override
+  String get discountNotApplicable =>
+      'Cette réduction ne peut pas être appliquée à votre commande';
+
+  @override
+  String get promoCode => 'Code promo';
+
+  @override
+  String get havePromoCode => 'Avez-vous un code promo ?';
+
+  @override
+  String get youSave => 'Vous économisez';
+
+  @override
+  String get discountCodeTitle => 'Code de réduction';
+
+  @override
+  String get enterCode => 'Entrez votre code';
+
+  @override
+  String get validatingCode => 'Validation...';
+
+  @override
+  String get codeApplied => 'Code appliqué :';
+
+  @override
+  String get removeDiscount => 'Supprimer la réduction';
+
+  @override
+  String get codeValidationError => 'Erreur de validation du code';
+
+  @override
+  String get enterDiscountCodeMessage => 'Entrez un code de réduction';
+
+  @override
+  String get invalidCodeFormat => 'Format de code invalide';
+
+  @override
+  String appliedDiscountMessage(String code) {
+    return 'Code appliqué : $code';
+  }
+
+  @override
+  String get discountInfo =>
+      'Les codes de réduction seront appliqués au total de votre achat';
+
+  @override
+  String expireDate(String date) {
+    return 'Expire : $date';
+  }
 }

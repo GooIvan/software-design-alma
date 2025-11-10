@@ -60,14 +60,14 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
 
     if (code.isEmpty) {
       setState(() {
-        _errorMessage = 'Ingresa un código de descuento';
+        _errorMessage = context.l10n.enterDiscountCodeMessage;
       });
       return;
     }
 
     if (!_discountService.isValidCodeFormat(code)) {
       setState(() {
-        _errorMessage = 'Formato de código inválido';
+        _errorMessage = context.l10n.invalidCodeFormat;
       });
       return;
     }
@@ -98,8 +98,8 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
           // Mostrar mensaje de éxito
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content:
-                  Text('Descuento aplicado: ${_appliedDiscount!.description}'),
+              content: Text(
+                  '${context.l10n.discountApplied}: ${_appliedDiscount!.description}'),
               backgroundColor: Colors.green,
               duration: const Duration(seconds: 2),
             ),
@@ -116,7 +116,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
     } catch (e) {
       setState(() {
         _isValidating = false;
-        _errorMessage = 'Error al validar código';
+        _errorMessage = context.l10n.codeValidationError;
         _appliedDiscount = null;
       });
 
@@ -138,10 +138,10 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Descuento removido'),
+      SnackBar(
+        content: Text(context.l10n.discountRemoved),
         backgroundColor: Colors.orange,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -281,7 +281,8 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Código aplicado: ${_appliedDiscount!.code}',
+                            context.l10n
+                                .discountCodeLabel(_appliedDiscount!.code),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.green.shade700,
@@ -302,7 +303,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                       onPressed: _removeDiscount,
                       icon: const Icon(Icons.close, size: 20),
                       color: Colors.red.shade600,
-                      tooltip: 'Quitar descuento',
+                      tooltip: context.l10n.removeDiscount,
                       padding: EdgeInsets.zero,
                       constraints:
                           const BoxConstraints(minWidth: 32, minHeight: 32),
@@ -327,7 +328,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                 // Mostrar descuento si aplica
                 if (_appliedDiscount != null) ...[
                   _buildSummaryRow(
-                    'Descuento (${_appliedDiscount!.code})',
+                    '${context.l10n.discountAmount} (${_appliedDiscount!.code})',
                     '-${_formatCurrency(_appliedDiscount!.calculateDiscount(widget.subtotal))}',
                     isDiscount: true,
                   ),

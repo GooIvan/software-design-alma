@@ -1,3 +1,4 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../../models/order_model.dart';
 import '../../../../models/discount_code_model.dart';
@@ -33,7 +34,7 @@ class OrderSummaryWithDiscountCard extends StatelessWidget {
                 const Icon(Icons.receipt_long, size: 20),
                 const SizedBox(width: 8),
                 Text(
-                  'Resumen de la orden #${order.id}',
+                  '${context.l10n.sumaryOrder} #${order.id}',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -63,7 +64,8 @@ class OrderSummaryWithDiscountCard extends StatelessWidget {
             // Subtotal
             Row(
               children: [
-                const Expanded(child: Text('Subtotal:')),
+                Expanded(
+                    child: Text('${context.l10n.subtotalBeforeDiscount}:')),
                 Text(
                   '\$${order.total.toStringAsFixed(0)}',
                   style: const TextStyle(fontWeight: FontWeight.w500),
@@ -83,7 +85,7 @@ class OrderSummaryWithDiscountCard extends StatelessWidget {
                             size: 16, color: Colors.green.shade600),
                         const SizedBox(width: 4),
                         Text(
-                          'Descuento (${appliedDiscount!.code}):',
+                          '${context.l10n.discountAmount} (${appliedDiscount!.code}):',
                           style: TextStyle(color: Colors.green.shade600),
                         ),
                       ],
@@ -107,7 +109,7 @@ class OrderSummaryWithDiscountCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Total:',
+                    '${context.l10n.total}:',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -134,7 +136,7 @@ class OrderSummaryWithDiscountCard extends StatelessWidget {
                   border: Border.all(color: Colors.green.shade200),
                 ),
                 child: Text(
-                  'Ahorras \$${discount.toStringAsFixed(0)}',
+                  '${context.l10n.youSave} \$${discount.toStringAsFixed(0)}',
                   style: TextStyle(
                     color: Colors.green.shade700,
                     fontSize: 12,
