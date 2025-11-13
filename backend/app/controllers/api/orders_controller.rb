@@ -67,6 +67,9 @@ class Api::OrdersController < Api::BaseController
       }, status: :unprocessable_entity
     end
 
+    # Calcular subtotal siempre
+    subtotal = @order.order_items.sum { |item| item.price * item.quantity }
+    
     # Aplicar descuento si existe
     discount_amount = 0
     if params[:discount_code].present?
@@ -86,13 +89,14 @@ class Api::OrdersController < Api::BaseController
         }, status: :unprocessable_entity
       end
       
-      subtotal = @order.order_items.sum { |item| item.price * item.quantity }
       discount_amount = discount_code.apply_to(subtotal)
       
       @order.discount_code = discount_code
       @order.discount_amount = discount_amount
-      @order.total = subtotal - discount_amount
     end
+    
+    # Establecer el total final (con o sin descuento)
+    @order.total = subtotal - discount_amount
 
     if @order.save
       # Crear registro de uso del descuento si aplica

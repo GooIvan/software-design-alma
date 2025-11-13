@@ -343,29 +343,29 @@ body[data-theme="dark"] .profile-empty-icon {
   .profile-container {
     padding: 1rem;
   }
-  
+
   .profile-card-header,
   .profile-card-body {
     padding: 1rem;
   }
-  
+
   .profile-stat-item {
     padding: 0 0.5rem;
   }
-  
+
   .profile-stat-number {
     font-size: 1.5rem;
   }
-  
+
   .profile-orders-table {
     font-size: 0.85rem;
   }
-  
+
   .profile-orders-table th,
   .profile-orders-table td {
     padding: 0.5rem 0.25rem;
   }
-  
+
   .profile-action-btn {
     margin-bottom: 0.75rem;
   }
@@ -375,15 +375,15 @@ body[data-theme="dark"] .profile-empty-icon {
   .profile-title {
     font-size: 1.5rem;
   }
-  
+
   .profile-stat-number {
     font-size: 1.25rem;
   }
-  
+
   .profile-stat-label {
     font-size: 0.75rem;
   }
-  
+
   .profile-product-badge {
     font-size: 0.7rem;
     padding: 0.2rem 0.5rem;
@@ -423,4 +423,48 @@ body[data-theme="dark"] .profile-empty-icon {
 
 body[data-theme="dark"] .profile-section-divider {
   background: linear-gradient(90deg, transparent, #495057, transparent);
+}
+
+/* Estilos para información de descuento en la tabla */
+.order-discount-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  line-height: 1.3;
+}
+
+.order-discount-info small {
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.order-discount-info .text-muted {
+  color: #6c757d !important;
+}
+
+body[data-theme="dark"] .order-discount-info .text-muted {
+  color: #adb5bd !important;
+}
+
+.order-discount-info .text-success {
+  color: #28a745 !important;
+}
+
+.order-discount-info strong {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .order-discount-info {
+    gap: 0.1rem;
+  }
+
+  .order-discount-info small {
+    font-size: 0.7rem;
+  }
+
+  .order-discount-info strong {
+    font-size: 0.85rem;
+  }
 }

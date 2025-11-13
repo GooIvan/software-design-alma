@@ -874,3 +874,31 @@ select.custom-input:focus {
   border-radius: 8px;
   padding: 3px 5px;
 }
+
+/* Estilos para información de descuento en admin orders */
+.order-discount-info-admin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  line-height: 1.2;
+}
+
+.order-discount-info-admin small {
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.order-discount-info-admin .text-muted {
+  color: #6c757d !important;
+}
+
+.order-discount-info-admin .text-success {
+  color: #28a745 !important;
+  font-weight: 500;
+}
+
+.order-discount-info-admin strong {
+  font-size: 0.9rem;
+  font-weight: 600;
+}

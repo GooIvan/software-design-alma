@@ -83,6 +83,10 @@
               <div class="text-center">
                 <strong class="text-success">Total gastado:</strong>
                 <h4 class="text-success mb-0">$<%= number_to_currency(@orders.paid.sum(:total), unit: "", precision: 0) %></h4>
+                <% total_savings = @orders.paid.sum { |order| order.discount_amount || 0 } %>
+                <% if total_savings > 0 %>
+                  <small class="text-muted d-block">Ahorros con descuentos: $<%= number_to_currency(total_savings, unit: "", precision: 0) %></small>
+                <% end %>
               </div>
             </div>
           </div>
@@ -159,9 +163,28 @@
                       </span>
                     </td>
                     <td>
-                      <strong class="text-success">
-                        $<%= number_to_currency(order.total, unit: "", precision: 0) %>
-                      </strong>
+                      <% 
+                        subtotal = order.order_items.sum { |item| item.price * item.quantity }
+                        discount_amount = order.discount_amount || 0
+                        if discount_amount == 0 && order.discount_usage.present?
+                          discount_amount = order.discount_usage.discount_amount
+                        end
+                        final_total = subtotal - (discount_amount || 0)
+                      %>
+                      
+                      <% if order.discount_code.present? && discount_amount > 0 %>
+                        <div class="order-discount-info">
+                          <small class="text-muted">Subtotal: $<%= number_to_currency(subtotal, unit: "", precision: 0) %></small>
+                          <small class="text-success">Descuento (<%= order.discount_code.code %>): -$<%= number_to_currency(discount_amount, unit: "", precision: 0) %></small>
+                          <strong class="text-success">
+                            Total: $<%= number_to_currency(final_total, unit: "", precision: 0) %>
+                          </strong>
+                        </div>
+                      <% else %>
+                        <strong class="text-success">
+                          $<%= number_to_currency(final_total, unit: "", precision: 0) %>
+                        </strong>
+                      <% end %>
                     </td>
                     <td class="d-none d-md-table-cell">
                       <div class="d-flex flex-wrap">

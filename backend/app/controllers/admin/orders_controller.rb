@@ -67,6 +67,7 @@ class Admin::OrdersController < ApplicationController
       end
     end
 
+    # Establecer el total final (con o sin descuento)
     @order.total = subtotal - discount_amount
 
     if @order.errors.any?

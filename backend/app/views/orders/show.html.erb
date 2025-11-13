@@ -282,6 +282,13 @@
             <span>Volver al perfil</span>
           <% end %>
           
+          <% if @order.pending? %>
+            <%= link_to payment_order_path(@order), class: "btn-order-action btn-warning" do %>
+              <i data-feather="credit-card"></i>
+              <span>Realizar el pago</span>
+            <% end %>
+          <% end %>
+          
           <% if @order.paid? && @order.invoice.present? %>
             <%= link_to invoice_path(@order.invoice), class: "btn-order-action btn-success" do %>
               <i data-feather="file-text"></i>
@@ -442,6 +449,21 @@
     background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
     color: white;
     text-decoration: none;
+  }
+  
+  .btn-order-action.btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    color: #212529;
+    border: none;
+    font-weight: 600;
+  }
+  
+  .btn-order-action.btn-warning:hover {
+    background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+    color: #212529;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
   }
 
   /* Estilos para el resumen de precios */
