@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/discount_code_model.dart';
 import '../services/discount_code_service.dart';
 import '../utils/extensions.dart';
+
+String _formatCurrency(double amount) {
+  final formatter = NumberFormat('#,###');
+  return '\$${formatter.format(amount.round())}';
+}
+
+String getLocalizedDiscountDescription(
+    DiscountCode discountCode, BuildContext context) {
+  if (discountCode.isPercentage) {
+    return context.l10n.discountPercentage(discountCode.value.toInt());
+  } else {
+    return context.l10n.discountFixed(_formatCurrency(discountCode.value));
+  }
+}
 
 class DiscountCodeWidget extends StatefulWidget {
   final Function(DiscountCode?) onDiscountApplied;
@@ -84,7 +99,7 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                  '${context.l10n.discountApplied}: ${_appliedDiscount!.description}'),
+                  '${context.l10n.discountApplied}: ${getLocalizedDiscountDescription(_appliedDiscount!, context)}'),
               backgroundColor: Colors.green,
               duration: const Duration(seconds: 2),
             ),
@@ -207,14 +222,16 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            context.l10n.appliedDiscountMessage(_appliedDiscount!.code),
+                            context.l10n
+                                .appliedDiscountMessage(_appliedDiscount!.code),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.green.shade700,
                             ),
                           ),
                           Text(
-                            _appliedDiscount!.description,
+                            getLocalizedDiscountDescription(
+                                _appliedDiscount!, context),
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.green.shade600,
@@ -222,7 +239,9 @@ class _DiscountCodeWidgetState extends State<DiscountCodeWidget> {
                           ),
                           if (_appliedDiscount!.discountAmount != null) ...[
                             Text(
-                              context.l10n.discountValue(_discountService.formatCurrency(_appliedDiscount!.discountAmount!)),
+                              context.l10n.discountValue(
+                                  _discountService.formatCurrency(
+                                      _appliedDiscount!.discountAmount!)),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -382,10 +401,11 @@ class _AvailableDiscountCodesState extends State<AvailableDiscountCodes> {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(code.description),
+              Text(getLocalizedDiscountDescription(code, context)),
               if (code.expiresAt != null)
                 Text(
-                  context.l10n.expireDate('${code.expiresAt!.day}/${code.expiresAt!.month}/${code.expiresAt!.year}'),
+                  context.l10n.expireDate(
+                      '${code.expiresAt!.day}/${code.expiresAt!.month}/${code.expiresAt!.year}'),
                   style: const TextStyle(fontSize: 12),
                 ),
             ],

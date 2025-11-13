@@ -1,4 +1,5 @@
 import 'package:design_alma/utils/extensions.dart';
+import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -55,6 +56,14 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
     return '\$${formatter.format(amount.round())}';
   }
 
+  String _getLocalizedDiscountDescription(DiscountCode discountCode) {
+    if (discountCode.isPercentage) {
+      return context.l10n.discountPercentage(discountCode.value.toInt());
+    } else {
+      return context.l10n.discountFixed(_formatCurrency(discountCode.value));
+    }
+  }
+
   Future<void> _validateAndApplyDiscount() async {
     final code = _discountService.normalizeCode(_promoController.text);
 
@@ -95,14 +104,9 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
             widget.onDiscountApplied!(_appliedDiscount);
           }
 
-          // Mostrar mensaje de éxito
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  '${context.l10n.discountApplied}: ${_appliedDiscount!.description}'),
-              backgroundColor: Colors.green,
-              duration: const Duration(seconds: 2),
-            ),
+          CustomAlert.success(
+            context,
+            '${context.l10n.discountApplied}: ${_getLocalizedDiscountDescription(_appliedDiscount!)}',
           );
         } else {
           _appliedDiscount = null;
@@ -136,14 +140,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
     if (widget.onDiscountApplied != null) {
       widget.onDiscountApplied!(null);
     }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.l10n.discountRemoved),
-        backgroundColor: Colors.orange,
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    CustomAlert.warning(context, context.l10n.discountRemoved);
   }
 
   @override
@@ -290,7 +287,7 @@ class _CartSummaryWidgetState extends State<CartSummaryWidget> {
                             ),
                           ),
                           Text(
-                            _appliedDiscount!.description,
+                            _getLocalizedDiscountDescription(_appliedDiscount!),
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.green.shade600,
