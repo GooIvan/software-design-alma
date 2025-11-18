@@ -27,7 +27,7 @@ class MostPopularController < ApplicationController
 
     # Obtenemos los productos manteniendo el orden
     @products = Product.where(id: top_product_ids)
-                       .with_attached_image
+                       .with_attached_images
                        .sort_by { |p| top_product_ids.index(p.id) }
   end
 end

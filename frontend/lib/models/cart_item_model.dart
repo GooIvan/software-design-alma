@@ -2,7 +2,7 @@ class CartItem {
   final String id;
   final int productId;
   final String productName;
-  final String productImageUrl;
+  final List<String> productImages;
   final String categoryName;
   final double price;
   final String formattedPrice;
@@ -13,7 +13,7 @@ class CartItem {
     required this.id,
     required this.productId,
     required this.productName,
-    required this.productImageUrl,
+    required this.productImages,
     required this.categoryName,
     required this.price,
     required this.formattedPrice,
@@ -25,7 +25,7 @@ class CartItem {
     String? id,
     int? productId,
     String? productName,
-    String? productImageUrl,
+    List<String>? productImages,
     String? categoryName,
     double? price,
     String? formattedPrice,
@@ -36,7 +36,7 @@ class CartItem {
       id: id ?? this.id,
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
-      productImageUrl: productImageUrl ?? this.productImageUrl,
+      productImages: productImages ?? this.productImages,
       categoryName: categoryName ?? this.categoryName,
       price: price ?? this.price,
       formattedPrice: formattedPrice ?? this.formattedPrice,
@@ -50,7 +50,7 @@ class CartItem {
       'id': id,
       'product_id': productId,
       'product_name': productName,
-      'product_image_url': productImageUrl,
+      'product_images': productImages,
       'category_name': categoryName,
       'price': price,
       'formatted_price': formattedPrice,
@@ -64,7 +64,9 @@ class CartItem {
       id: json['id'].toString(),
       productId: json['product_id'],
       productName: json['product_name'],
-      productImageUrl: json['product_image_url'],
+      productImages: json['product_images'] != null
+          ? List<String>.from(json['product_images'])
+          : <String>[],
       categoryName: json['category_name'],
       price: double.parse(json['price'].toString()),
       formattedPrice: json['formatted_price'],

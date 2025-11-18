@@ -1,40 +1,252 @@
-<h1 class="text-center">Nuevo Producto</h1>
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold">
+    Crear Producto
+  </h1>
+</div>
 
-<%= form_with model: [ :admin, @category, @product ], local: true, html: { multipart: true } do |form| %>
+<div class="col-12">
+  <div class="p-4">
 
-  <%= render 'shared/form_errors', object: @product %>
+    <%= render 'shared/form_errors', object: @product %>
 
-  <div class="mb-3">
-    <%= form.label :name, "Nombre", class: "form-label" %>
-    <%= form.text_field :name, class: "form-control" %>
+    <%= form_with model: [:admin, @category, @product], local: true, html: { multipart: true, class: "needs-validation", novalidate: true } do |form| %>
+
+      <!-- Información del Producto -->
+      <div class="mb-4">
+        <h5 class="text-muted mb-3 border-bottom pb-2">
+          <i class="bi bi-info-circle me-2"></i>
+          Información del Producto
+        </h5>
+        
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :name, "Nombre del Producto", class: "input-label" %>
+              <%= form.text_field :name, 
+                  class: "custom-input #{'border-danger' if @product.errors[:name].any?}", 
+                  placeholder: "Ingresa el nombre del producto",
+                  required: true %>
+              <% if @product.errors[:name].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @product.errors[:name].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :description, "Descripción", class: "input-label" %>
+              <%= form.text_area :description, 
+                  class: "custom-input #{'border-danger' if @product.errors[:description].any?}", 
+                  placeholder: "Describe el producto...",
+                  rows: 3 %>
+              <% if @product.errors[:description].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @product.errors[:description].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Precio, Stock y Tallas -->
+      <div class="mb-4">
+        <h5 class="text-muted mb-3 border-bottom pb-2">
+          <i class="bi bi-box-seam me-2"></i>
+          Precio, Inventario y Tallas
+        </h5>
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :price, "Precio", class: "input-label" %>
+              <%= form.number_field :price, 
+                  class: "custom-input #{'border-danger' if @product.errors[:price].any?}", 
+                  placeholder: "Precio del producto",
+                  step: 0.01, 
+                  min: 0, 
+                  required: true %>
+              <% if @product.errors[:price].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @product.errors[:price].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :stock, "Stock Disponible", class: "input-label" %>
+              <%= form.number_field :stock, 
+                  class: "custom-input #{'border-danger' if @product.errors[:stock].any?}", 
+                  placeholder: "Cantidad disponible",
+                  min: 0,
+                  required: true %>
+              <% if @product.errors[:stock].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @product.errors[:stock].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="input-container">
+              <%= form.label :sizes, "Tallas Disponibles", class: "input-label" %>
+              <div class="d-flex flex-wrap gap-2 mt-2">
+                <%= form.collection_check_boxes :sizes, Product::SIZES, :to_s, :to_s, include_hidden: false do |b| %>
+                  <div class="form-check form-check-inline">
+                    <%= b.check_box class: "form-check-input" %>
+                    <%= b.label class: "form-check-label small text-muted" %>
+                  </div>
+                <% end %>
+              </div>
+              <% if @product.errors[:sizes].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @product.errors[:sizes].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Imágenes del Producto -->
+      <div class="mb-4">
+        <h5 class="text-muted mb-3 border-bottom pb-2">
+          <i class="bi bi-image me-2"></i>
+          Imágenes del Producto
+        </h5>
+
+        <div class="text-center">
+          <!-- 🔥 Contenedor de vista previa múltiple -->
+          <div id="product-preview" class="mb-3 d-flex flex-wrap justify-content-center gap-3">
+            <% if @product.images.attached? %>
+              <% @product.images.each do |img| %>
+                <%= image_tag img.variant(resize_to_limit: [200, 200]), class: "img-thumbnail rounded shadow-sm", style: "max-height: 150px; object-fit: cover;" %>
+              <% end %>
+            <% else %>
+              <div class="text-muted">
+                <i class="bi bi-image" style="font-size: 3rem;"></i>
+                <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
+              </div>
+            <% end %>
+          </div>
+
+          <label for="product_images" class="cssbuttons-io-button-secondary d-inline-flex align-items-center">
+            <%= form.file_field :images,
+                class: "d-none",
+                multiple: true,
+                accept: "image/*",
+                id: "product_images",
+                onchange: "previewMultipleImages(event)" %>
+            <i class="bi bi-cloud-upload me-2"></i>
+            <span>Subir Imágenes</span>
+          </label>
+
+          <% if @product.errors[:images].any? %>
+            <div class="text-danger small mt-2">
+              <i class="bi bi-exclamation-circle me-1"></i>
+              <%= @product.errors[:images].first %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+
+      <!-- Botones de acción -->
+      <div class="d-flex gap-3 pt-3">
+        <%= form.submit "Crear Producto", class: "cssbuttons-io-button" %>
+        <%= link_to admin_category_products_path(@category), class: "cssbuttons-io-button-secondary" do %>
+          <svg height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5m7-7l-7 7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Volver</span>
+        <% end %>
+      </div>
+    <% end %>
   </div>
+</div>
 
-  <div class="mb-3">
-    <%= form.label :description, "Descripción", class: "form-label" %>
-    <%= form.text_area :description, class: "form-control" %>
-  </div>
+<script>
+  let selectedFiles = [];
 
-  <div class="mb-3">
-    <%= form.label :price, "Precio", class: "form-label" %>
-    <%= form.number_field :price, step: 0.01, class: "form-control" %>
-  </div>
+  function previewMultipleImages(event) {
+    const files = Array.from(event.target.files);
+    const preview = document.getElementById('product-preview');
+    
+    // Agregar nuevos archivos al array existente
+    selectedFiles = [...selectedFiles, ...files];
+    
+    // Actualizar el preview
+    updatePreview();
+    
+    // Actualizar el input file con todos los archivos seleccionados
+    updateFileInput();
+  }
 
-  <%= form.collection_check_boxes :sizes, Product::SIZES, :to_s, :to_s, include_hidden: false do |b| %>
-    <div class="form-check">
-      <%= b.check_box class: "form-check-input" %>
-      <%= b.label class: "form-check-label" %>
-    </div>
-  <% end %>
+  function updatePreview() {
+    const preview = document.getElementById('product-preview');
+    preview.innerHTML = '';
 
-  <div class="mb-3">
-    <%= form.label :stock, "Stock", class: "form-label" %>
-    <%= form.number_field :stock, class: "form-control" %>
-  </div>
+    if (selectedFiles.length > 0) {
+      selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const container = document.createElement('div');
+          container.className = 'position-relative d-inline-block m-1';
+          
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.className = 'img-thumbnail rounded shadow-sm';
+          img.style.maxHeight = '150px';
+          img.style.objectFit = 'cover';
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.innerHTML = '&times;';
+          removeBtn.className = 'btn btn-danger btn-sm position-absolute';
+          removeBtn.style.cssText = 'top: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10;';
+          removeBtn.onclick = (e) => {
+            e.preventDefault();
+            removeImage(index);
+          };
+          
+          container.appendChild(img);
+          container.appendChild(removeBtn);
+          preview.appendChild(container);
+        };
+        reader.readAsDataURL(file);
+      });
+    } else {
+      preview.innerHTML = `
+        <div class="text-muted w-100 text-center">
+          <i class="bi bi-image" style="font-size: 3rem;"></i>
+          <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
+        </div>`;
+    }
+  }
 
-  <div class="mb-3">
-    <%= form.label :image, "Imagen", class: "form-label" %>
-    <%= form.file_field :image, class: "form-control" %>
-  </div>
+  function removeImage(index) {
+    selectedFiles.splice(index, 1);
+    updatePreview();
+    updateFileInput();
+  }
 
-  <%= form.submit "Crear producto", class: "btn btn-primary" %>
-<% end %>
+  function updateFileInput() {
+    const input = document.getElementById('product_images');
+    const dt = new DataTransfer();
+    
+    selectedFiles.forEach(file => {
+      dt.items.add(file);
+    });
+    
+    input.files = dt.files;
+  }
+</script>

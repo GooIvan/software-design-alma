@@ -10,8 +10,14 @@
   </span>
 </h2>
 <p class="text-muted"><%= l(@order.created_at, format: :short) %></p>
-<% subtotal = @order.total.to_f %> <!-- Número puro -->
-<% discount = 0 %><br> <!-- Número puro -->
+<% subtotal = @order.order_items.sum { |item| item.price * item.quantity } %> <!-- Calcular subtotal real -->
+<% 
+  # Obtener el descuento aplicado
+  discount = @order.discount_amount || 0
+  if discount == 0 && @order.discount_usage.present?
+    discount = @order.discount_usage.discount_amount
+  end
+%>
 
 <div class="gap-3 div-cards">
   <div class="cards p-4 w-66 d-flex flex-column">
@@ -26,8 +32,8 @@
       <% @order.order_items.each do |item| %>
         <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
           <!-- Imagen del producto -->
-          <% if item.product.image.attached? %>
-            <%= image_tag url_for(item.product.image), class: "rounded me-4", style: "width: 65px; height: 65px; object-fit: cover;" %>
+          <% if item.product.images.attached? && item.product.images.first.present? %>
+            <%= image_tag url_for(item.product.images.first), class: "rounded me-4", style: "width: 65px; height: 65px; object-fit: cover;" %>
           <% else %>
             <div class="rounded me-4" style="width: 65px; height: 65px; background-color: red;"></div>
           <% end %>
@@ -63,10 +69,19 @@
               <span class="text-muted"><%= t("admin.orders.subtotal") %></span>
               <strong>$<%= number_to_currency(subtotal, unit: "", precision: 0) %></strong>
             </li>
-            <li class="d-flex justify-content-between py-2">
-              <span class="text-muted"><%= t("admin.orders.discount") %></span>
-              <strong class="text-success">- $<%= number_to_currency(discount, unit: "", precision: 0) %></strong>
-            </li>
+            <% if @order.discount_code.present? && discount > 0 %>
+              <li class="d-flex justify-content-between py-2">
+                <span class="text-muted">
+                  <%= t("admin.orders.discount") %> (<%= @order.discount_code.code %>)
+                </span>
+                <strong class="text-success">- $<%= number_to_currency(discount, unit: "", precision: 0) %></strong>
+              </li>
+            <% else %>
+              <li class="d-flex justify-content-between py-2">
+                <span class="text-muted"><%= t("admin.orders.discount") %></span>
+                <strong class="text-success">- $<%= number_to_currency(0, unit: "", precision: 0) %></strong>
+              </li>
+            <% end %>
           </ul>
 
           <div class="d-flex justify-content-between pt-3">

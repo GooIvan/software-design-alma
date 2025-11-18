@@ -7,7 +7,7 @@ class Product {
   final List<String> sizes;
   final int stock;
   final int categoryId;
-  final String imageUrl;
+  final List<String> images;
   final String categoryName;
 
   Product({
@@ -19,22 +19,27 @@ class Product {
     required this.sizes,
     required this.stock,
     required this.categoryId,
-    required this.imageUrl,
+    required this.images,
     required this.categoryName,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
-      name: json['name'],
-      price: double.parse(json['price']),
-      formattedPrice: json['formatted_price'],
-      sizes: List<String>.from(json['sizes']),
-      stock: json['stock'],
-      categoryId: json['category_id'],
-      categoryName: json['category_name'],
-      imageUrl: json['image_url'],
-      description: json['description'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      price: json['price'] != null
+          ? double.tryParse(json['price'].toString()) ?? 0.0
+          : 0.0,
+      formattedPrice: json['formatted_price'] ?? '',
+      sizes:
+          json['sizes'] != null ? List<String>.from(json['sizes']) : <String>[],
+      stock: json['stock'] ?? 0,
+      categoryId: json['category_id'] ?? 0,
+      categoryName: json['category_name'] ?? '',
+      images: json['images'] != null
+          ? List<String>.from(json['images'])
+          : <String>[],
+      description: json['description'] ?? '',
     );
   }
 }

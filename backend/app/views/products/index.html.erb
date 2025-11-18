@@ -14,11 +14,19 @@
 
             <div class="w-100">
               <% if product.stock > 0 %>
-                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block" do %>
-                  <% if product.image.attached? %>
-                    <%= image_tag product.image,
-                          class: "card-img-top rounded-img",
-                          style: "height: 400px; object-fit: cover; width: 100%;" %>
+                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block position-relative #{'has-multiple-images' if product.images.count > 1}" do %>
+                  <% if product.images.attached? && product.images.first.present? %>
+                    <!-- Primera imagen (siempre visible) -->
+                    <%= image_tag product.images.first,
+                          class: "card-img-top rounded-img product-image-main",
+                          style: "height: 400px; object-fit: cover; width: 100%; transition: opacity 0.3s ease;" %>
+                    
+                    <!-- Segunda imagen (visible en hover) -->
+                    <% if product.images.count > 1 %>
+                      <%= image_tag product.images.second,
+                            class: "card-img-top rounded-img product-image-hover position-absolute",
+                            style: "height: 400px; object-fit: cover; width: 100%; top: 0; left: 0; opacity: 0; transition: opacity 0.3s ease;" %>
+                    <% end %>
                   <% else %>
                     <%= image_tag "placeholder.svg",
                           class: "card-img-top rounded-img",
@@ -26,9 +34,9 @@
                   <% end %>
                 <% end %>
               <% else %>
-                <div class="image-zoom-container d-block">
-                  <% if product.image.attached? %>
-                    <%= image_tag product.image,
+                <div class="image-zoom-container d-block position-relative">
+                  <% if product.images.attached? && product.images.first.present? %>
+                    <%= image_tag product.images.first,
                           class: "card-img-top rounded-img",
                           style: "height: 400px; object-fit: cover; width: 100%; opacity: 0.5; cursor: not-allowed;" %>
                   <% else %>
@@ -95,4 +103,15 @@
   <% else %>
     <p class="text-danger"><%= t("no_products") %></p>
   <% end %>
+
+<style>
+  /* Efecto hover para mostrar segunda imagen - solo cuando hay múltiples imágenes */
+  .image-zoom-container.has-multiple-images:hover .product-image-hover {
+    opacity: 1 !important;
+  }
+  
+  .image-zoom-container.has-multiple-images:hover .product-image-main {
+    opacity: 0 !important;
+  }
+</style>
 </div>

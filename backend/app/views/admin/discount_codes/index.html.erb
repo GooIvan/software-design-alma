@@ -1,0 +1,95 @@
+<% content_for :title, "Códigos de Descuento" %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h2">💰 Códigos de Descuento</h1>
+  <%= link_to "Crear Nuevo Código", new_admin_discount_code_path, class: "btn btn-primary" %>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <% if @discount_codes.any? %>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Tipo</th>
+              <th>Valor</th>
+              <th>Estado</th>
+              <th>Usos</th>
+              <th>Límite Usos</th>
+              <th>Expira</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @discount_codes.each do |discount_code| %>
+              <tr>
+                <td>
+                  <code class="bg-light px-2 py-1 rounded"><%= discount_code.code %></code>
+                </td>
+                <td>
+                  <% if discount_code.percentage? %>
+                    <span class="badge bg-info">Porcentaje</span>
+                  <% else %>
+                    <span class="badge bg-success">Monto Fijo</span>
+                  <% end %>
+                </td>
+                <td>
+                  <% if discount_code.percentage? %>
+                    <%= discount_code.value %>%
+                  <% else %>
+                    $<%= number_with_delimiter(discount_code.value) %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if discount_code.active? && !discount_code.expired? %>
+                    <span class="badge bg-success">Activo</span>
+                  <% elsif discount_code.expired? %>
+                    <span class="badge bg-danger">Expirado</span>
+                  <% else %>
+                    <span class="badge bg-secondary">Inactivo</span>
+                  <% end %>
+                </td>
+                <td>
+                  <%= discount_code.discount_usages.count %>
+                </td>
+                <td>
+                  <% if discount_code.max_uses %>
+                    <%= discount_code.max_uses %>
+                  <% else %>
+                    <span class="text-muted">Ilimitado</span>
+                  <% end %>
+                </td>
+                <td>
+                  <% if discount_code.expires_at %>
+                    <%= discount_code.expires_at.strftime("%d/%m/%Y") %>
+                  <% else %>
+                    <span class="text-muted">Sin límite</span>
+                  <% end %>
+                </td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <%= link_to "Editar", edit_admin_discount_code_path(discount_code), 
+                        class: "btn btn-outline-secondary" %>
+                    <%= button_to "Eliminar", admin_discount_code_path(discount_code), 
+                        method: :delete, 
+                        data: { confirm: "¿Estás seguro?" },
+                        class: "btn btn-outline-danger" %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="text-center py-5">
+        <i class="bi bi-percent display-1 text-muted mb-3"></i>
+        <h4>No hay códigos de descuento</h4>
+        <p class="text-muted">Crea tu primer código de descuento para ofrecer promociones a tus clientes.</p>
+        <%= link_to "Crear Código", new_admin_discount_code_path, class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

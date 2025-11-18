@@ -91,9 +91,19 @@
           <% @latest_products.each do |product| %>
             <div class="col-10 col-md-6 col-lg-3 mb-3 px-2 d-flex justify-content-center">
               <div class="w-100 h-100" style="max-width: 300px;">
-                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block" do %>
-                  <% if product.image.attached? %>
-                    <%= image_tag product.image, class: "card-img-top rounded-img", style: "height: 400px; object-fit: cover;" %>
+                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block position-relative #{'has-multiple-images' if product.images.count > 1}" do %>
+                  <% if product.images.attached? && product.images.first.present? %>
+                    <!-- Primera imagen (siempre visible) -->
+                    <%= image_tag product.images.first, 
+                        class: "card-img-top rounded-img product-image-main", 
+                        style: "height: 400px; object-fit: cover; transition: opacity 0.3s ease;" %>
+                    
+                    <!-- Segunda imagen (visible en hover) -->
+                    <% if product.images.count > 1 %>
+                      <%= image_tag product.images.second, 
+                          class: "card-img-top rounded-img product-image-hover position-absolute", 
+                          style: "height: 400px; object-fit: cover; top: 0; left: 0; width: 100%; opacity: 0; transition: opacity 0.3s ease;" %>
+                    <% end %>
                   <% else %>
                     <%= image_tag "placeholder.svg", class: "card-img-top rounded-img", style: "height: 200px; object-fit: cover;" %>
                   <% end %>
@@ -119,3 +129,14 @@
     </div>
   <% end %>
 </div>
+
+<style>
+  /* Efecto hover para mostrar segunda imagen - solo cuando hay múltiples imágenes */
+  .image-zoom-container.has-multiple-images:hover .product-image-hover {
+    opacity: 1 !important;
+  }
+  
+  .image-zoom-container.has-multiple-images:hover .product-image-main {
+    opacity: 0 !important;
+  }
+</style>

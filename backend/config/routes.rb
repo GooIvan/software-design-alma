@@ -57,6 +57,14 @@ Rails.application.routes.draw do
       end
     end
 
+    # 🏷️ Códigos de descuento API
+    resources :discount_codes, only: [] do
+      collection do
+        post :validate
+        get :available
+      end
+    end
+
     # 💳 Pagos PayU API
     namespace :payments do
       post :create_payment_intent, to: "payments#create_payment_intent"
@@ -117,6 +125,12 @@ Rails.application.routes.draw do
 
       resources :categories, param: :slug do
         resources :products
+      end
+
+      resources :discount_codes, only: [:index, :new, :create, :edit, :update, :destroy] do
+        collection do
+          post :validate
+        end
       end
     end
 

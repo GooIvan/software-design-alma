@@ -1,54 +1,395 @@
-<h1 class="mb-4 text-center">Editar Producto</h1>
+<!-- Header con título -->
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold">
+    Editar Producto
+  </h1>
+</div>
 
-<%= render 'shared/form_errors', object: @product %>
+<!-- Contenedor principal -->
+<div class="table-responsive table-personalized">
+  <div class="row g-0">
+    <!-- Columna principal -->
+    <div class="col-12 col-lg-8">
+      <div class="p-4">
+        <%= render 'shared/form_errors', object: @product %>
+        
+        <%= form_with model: [:admin, @category, @product], local: true, html: { multipart: true, class: "needs-validation", novalidate: true } do |form| %>
+          
+          <!-- Información del Producto -->
+          <div class="mb-4">
+            <h5 class="text-muted mb-3 border-bottom pb-2">
+              <i class="bi bi-info-circle me-2"></i>
+              Información del Producto
+            </h5>
+            
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="input-container">
+                  <%= form.label :name, "Nombre del Producto", class: "input-label" %>
+                  <%= form.text_field :name, 
+                      class: "custom-input #{'border-danger' if @product.errors[:name].any?}", 
+                      placeholder: "Ingresa el nombre del producto",
+                      required: true %>
+                  <% if @product.errors[:name].any? %>
+                    <div class="text-danger small mt-1">
+                      <i class="bi bi-exclamation-circle me-1"></i>
+                      <%= @product.errors[:name].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="input-container">
+                  <%= form.label :description, "Descripción", class: "input-label" %>
+                  <%= form.text_area :description, 
+                      class: "custom-input #{'border-danger' if @product.errors[:description].any?}", 
+                      placeholder: "Describe el producto...",
+                      rows: 3 %>
+                  <% if @product.errors[:description].any? %>
+                    <div class="text-danger small mt-1">
+                      <i class="bi bi-exclamation-circle me-1"></i>
+                      <%= @product.errors[:description].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<%= form_with model: [:admin, @category, @product], local: true do |f| %>
-  <div class="mb-3">
-    <%= f.label :name, "Nombre del producto", class: "form-label" %>
-    <%= f.text_field :name, class: "form-control" %>
-  </div>
+          <!-- Descripción y Stock -->
+          <div class="mb-4">
+            <h5 class="text-muted mb-3 border-bottom pb-2">
+              <i class="bi bi-box-seam me-2"></i>
+              Precio, inventario y Tallas
+            </h5>
+            
+            <div class="row g-4">
+              <div class="col-12">
+                <div class="input-container">
+                  <%= form.label :price, "Precio", class: "input-label" %>
+                  <%= form.number_field :price, 
+                      class: "custom-input #{'border-danger' if @product.errors[:price].any?}", 
+                      placeholder: "Precio del producto",
+                      step: 0.01,
+                      min: 0,
+                      required: true %>
+                  <% if @product.errors[:price].any? %>
+                    <div class="text-danger small mt-1">
+                      <i class="bi bi-exclamation-circle me-1"></i>
+                      <%= @product.errors[:price].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              
+              <div class="col-12">
+                <div class="input-container">
+                  <%= form.label :stock, "Stock Disponible", class: "input-label" %>
+                  <%= form.number_field :stock, 
+                      class: "custom-input #{'border-danger' if @product.errors[:stock].any?}", 
+                      placeholder: "Cantidad disponible",
+                      min: 0,
+                      required: true %>
+                  <% if @product.errors[:stock].any? %>
+                    <div class="text-danger small mt-1">
+                      <i class="bi bi-exclamation-circle me-1"></i>
+                      <%= @product.errors[:stock].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              
+              <div class="col-12">
+                <div class="input-container">
+                  <%= form.label :sizes, "Tallas Disponibles", class: "input-label" %>
+                  <div class="d-flex flex-wrap gap-2 mt-2">
+                    <%= form.collection_check_boxes :sizes, Product::SIZES, :to_s, :to_s, include_hidden: false do |b| %>
+                      <div class="form-check form-check-inline">
+                        <%= b.check_box class: "form-check-input" %>
+                        <%= b.label class: "form-check-label small text-muted" %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <% if @product.errors[:sizes].any? %>
+                    <div class="text-danger small mt-1">
+                      <i class="bi bi-exclamation-circle me-1"></i>
+                      <%= @product.errors[:sizes].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <div class="mb-3">
-    <%= f.label :description, "Descripción", class: "form-label" %>
-    <%= f.text_area :description, rows: 3, class: "form-control" %>
-  </div>
+          <!-- Imagen y Categoría -->
+          <div class="mb-4">
+            <h5 class="text-muted mb-3 border-bottom pb-2">
+              <i class="bi bi-image me-2"></i>
+              Imagen del Producto
+            </h5>
+            
+            <div class="row g-4">
+            
+              <div class="col-md-6">
+                <div class="input-container">
+                  <%= form.label :images, "Imágenes del Producto", class: "input-label" %>
+                  <div class="text-center">
+                    <div id="product-preview" class="mb-3 d-flex flex-wrap justify-content-center gap-2">
+                      <% if @product.images.attached? %>
+                        <% @product.images.each do |img| %>
+                          <%= image_tag img.variant(resize_to_limit: [150, 150]), class: "img-thumbnail rounded shadow-sm", style: "max-height: 80px; object-fit: cover;" %>
+                        <% end %>
+                      <% else %>
+                        <div class="w-100 text-muted">
+                          <i class="bi bi-image" style="font-size: 3rem;"></i>
+                          <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
+                        </div>
+                      <% end %>
+                    </div>
 
-  <div class="mb-3">
-    <%= f.label :price, "Precio", class: "form-label" %>
-    <%= f.number_field :price, step: 0.01, class: "form-control" %>
-  </div>
+                    <div class="text-center">
+                      <label for="product_images_edit" class="cssbuttons-io-button-secondary d-inline-flex align-items-center">
+                        <%= form.file_field :images,
+                            class: "d-none",
+                            multiple: true,
+                            accept: "image/*",
+                            id: "product_images_edit",
+                            onchange: "previewMultipleImages(event)" %>
+                        <i class="bi bi-cloud-upload me-2"></i>
+                        <span><%= @product.images.attached? ? "Cambiar Imágenes" : "Subir Imágenes" %></span>
+                      </label>
+                    </div>
+                    
+                    <% if @product.errors[:images].any? %>
+                      <div class="text-danger small mt-1">
+                        <i class="bi bi-exclamation-circle me-1"></i>
+                        <%= @product.errors[:images].first %>
+                      </div>
+                    <% end %>
+                    
+                    <div class="form-text mt-2">
+                      <small class="text-muted">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Formatos: JPG, PNG, WEBP (máx. 5MB cada una)
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-  <%= f.collection_check_boxes :sizes, Product::SIZES, :to_s, :to_s, include_hidden: false do |b| %>
-    <div class="form-check">
-      <%= b.check_box class: "form-check-input" %>
-      <%= b.label class: "form-check-label" %>
-    </div>
-  <% end %>
+              <div class="col-md-6">
+                <div class="input-container">
+                  <%= form.label :category_id, "Categoría", class: "input-label" %>
+                  <%= form.collection_select :category_id, Category.all, :id, :name, 
+                      { include_blank: "Selecciona una categoría" }, 
+                      { class: "custom-input #{'border-danger' if @product.errors[:category_id].any?}" } %>
+                  <% if @product.errors[:category_id].any? %>
+                    <div class="text-danger small mt-1">
+                      <i class="bi bi-exclamation-circle me-1"></i>
+                      <%= @product.errors[:category_id].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <div class="mb-3">
-    <%= f.label :stock, "Stock", class: "form-label" %>
-    <%= f.number_field :stock, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :category_id, "Categoría", class: "form-label" %>
-    <%= f.collection_select :category_id, Category.all, :id, :name, { include_blank: true }, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :image, "Imagen", class: "form-label" %>
-    <%= f.file_field :image, class: "form-control" %>
-
-    <% if @product.image.attached? %>
-      <div class="mt-2">
-        <%= image_tag @product.image, class: "img-fluid", style: "max-width: 200px;" %>
+          <!-- Botones de acción -->
+          <div class="d-flex gap-3 pt-3">
+            <%= form.submit "Guardar Cambios", class: "cssbuttons-io-button" %>
+            <%= link_to admin_category_products_path(@category), class: "cssbuttons-io-button-secondary" do %>
+              <svg height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5m7-7l-7 7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Volver</span>
+            <% end %>
+          </div>
+        <% end %>
       </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-12 col-lg-4 border-start">
+      <div class="p-4">
+        <div class="text-center mb-4">
+          <% if @product.images.attached? %>
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+              <% @product.images.limit(3).each do |img| %>
+                <%= image_tag img.variant(resize_to_limit: [100, 100]), class: "img-fluid rounded border", style: "max-width: 80px; max-height: 80px; object-fit: cover;" %>
+              <% end %>
+              <% if @product.images.count > 3 %>
+                <div class="bg-light rounded border d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                  <small class="text-muted">+<%= @product.images.count - 3 %></small>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="bg-light rounded d-flex align-items-center justify-content-center mb-3" style="height: 120px;">
+              <i class="bi bi-box text-muted" style="font-size: 3rem;"></i>
+            </div>
+          <% end %>
+          <h5 class="mb-1"><%= @product.name.presence || "Producto sin nombre" %></h5>
+        </div>
+
+        <div class="border-top pt-4">
+          <h6 class="text-muted mb-3">Información del Producto</h6>
+
+          <div class="mb-3">
+            <small class="text-muted d-block">ID del Producto</small>
+            <span class="fw-semibold">#<%= @product.id %></span>
+          </div>
+
+          <div class="mb-3">
+            <small class="text-muted d-block">Creado el</small>
+            <span class="fw-semibold"><%= @product.created_at.strftime("%d/%m/%Y") %></span>
+          </div>
+
+          <div class="mb-3">
+            <small class="text-muted d-block">Última actualización</small>
+            <span class="fw-semibold"><%= @product.updated_at.strftime("%d/%m/%Y") %></span>
+          </div>
+
+          <% if @product.category.present? %>
+            <div class="mb-3">
+              <small class="text-muted d-block">Categoría actual</small>
+              <span class="fw-semibold"><%= @product.category.name %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let selectedFiles = [];
+  let existingImages = [];
+
+  // Inicializar con las imágenes existentes del servidor
+  document.addEventListener('DOMContentLoaded', function() {
+    <% if @product.images.attached? %>
+      existingImages = [
+        <% @product.images.each_with_index do |img, index| %>
+          {
+            id: '<%= img.id %>',
+            url: '<%= url_for(img) %>',
+            index: <%= index %>
+          }<%= ',' unless index == @product.images.count - 1 %>
+        <% end %>
+      ];
     <% end %>
-  </div>
+    updatePreviewWithExisting();
+  });
 
-  <div class="row">
-    <%= f.submit "Guardar Cambios", class: "btn btn-primary w-25 me-3" %>
-    <%= link_to "Cancelar", admin_category_products_path, class: "w-25 btn btn-secondary" %>
-  </div>
-<% end %>
+  function previewMultipleImages(event) {
+    const files = Array.from(event.target.files);
+    
+    // Agregar nuevos archivos al array existente
+    selectedFiles = [...selectedFiles, ...files];
+    
+    // Actualizar el preview
+    updatePreviewWithExisting();
+    
+    // Actualizar el input file con todos los archivos seleccionados
+    updateFileInput();
+  }
 
+  function updatePreviewWithExisting() {
+    const preview = document.getElementById('product-preview');
+    preview.innerHTML = '';
+
+    // Mostrar imágenes existentes del servidor
+    existingImages.forEach((imgData, index) => {
+      const container = document.createElement('div');
+      container.className = 'position-relative d-inline-block m-1';
+      
+      const img = document.createElement('img');
+      img.src = imgData.url;
+      img.className = 'img-thumbnail rounded shadow-sm';
+      img.style.maxHeight = '80px';
+      img.style.objectFit = 'cover';
+      
+      const removeBtn = document.createElement('button');
+      removeBtn.innerHTML = '&times;';
+      removeBtn.className = 'btn btn-danger btn-sm position-absolute';
+      removeBtn.style.cssText = 'top: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10;';
+      removeBtn.onclick = (e) => {
+        e.preventDefault();
+        removeExistingImage(index);
+      };
+      
+      container.appendChild(img);
+      container.appendChild(removeBtn);
+      preview.appendChild(container);
+    });
+
+    // Mostrar nuevas imágenes seleccionadas
+    selectedFiles.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const container = document.createElement('div');
+        container.className = 'position-relative d-inline-block m-1';
+        
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'img-thumbnail rounded shadow-sm';
+        img.style.maxHeight = '80px';
+        img.style.objectFit = 'cover';
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '&times;';
+        removeBtn.className = 'btn btn-danger btn-sm position-absolute';
+        removeBtn.style.cssText = 'top: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10;';
+        removeBtn.onclick = (e) => {
+          e.preventDefault();
+          removeNewImage(index);
+        };
+        
+        container.appendChild(img);
+        container.appendChild(removeBtn);
+        preview.appendChild(container);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Si no hay imágenes, mostrar placeholder
+    if (existingImages.length === 0 && selectedFiles.length === 0) {
+      preview.innerHTML = `
+        <div class="w-100 text-muted text-center">
+          <i class="bi bi-image" style="font-size: 3rem;"></i>
+          <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
+        </div>`;
+    }
+  }
+
+  function removeExistingImage(index) {
+    existingImages.splice(index, 1);
+    updatePreviewWithExisting();
+    
+    // Crear un campo hidden para marcar la imagen como eliminada
+    const form = document.querySelector('form');
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = 'product[remove_images][]';
+    hiddenField.value = existingImages[index]?.id || '';
+    form.appendChild(hiddenField);
+  }
+
+  function removeNewImage(index) {
+    selectedFiles.splice(index, 1);
+    updatePreviewWithExisting();
+    updateFileInput();
+  }
+
+  function updateFileInput() {
+    const input = document.getElementById('product_images_edit');
+    const dt = new DataTransfer();
+    
+    selectedFiles.forEach(file => {
+      dt.items.add(file);
+    });
+    
+    input.files = dt.files;
+  }
+</script>

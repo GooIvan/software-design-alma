@@ -25,9 +25,11 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { host: request.host,
-     port: request.port,
-     locale: I18n.locale }
+    if api_request?
+      { host: request.host, port: request.port }
+    else
+      { host: request.host, port: request.port, locale: I18n.locale }
+    end
   end
 
   # Todo: Método para permitir parámetros adicionales para Devise (si es un controlador de Devise)

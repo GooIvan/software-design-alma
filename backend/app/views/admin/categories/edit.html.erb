@@ -1,24 +1,253 @@
-<h1 class="text-center"><%= @category.new_record? ? "Nueva Categoría" : "Editar Categoría" %></h1>
+<!-- Header con título y navegación -->
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold">
+    Editar Categoría
+  </h1>
+</div>
 
-<%= render 'shared/form_errors', object: @category %>
+<!-- Card del formulario -->
+<div class="table-responsive table-personalized">
+  <div class="row g-0">
+    <!-- Columna principal del formulario -->
+    <div class="col-12 col-lg-8">
+      <div class="p-4">
+        <%= render 'shared/form_errors', object: @category %>
+        
+        <%= form_with model: [:admin, @category], local: true, html: { multipart: true, class: "needs-validation", novalidate: true } do |form| %>
+          
+          <!-- Información Básica -->
+          <div class="mb-4">
+            <h5 class="text-muted mb-3 border-bottom pb-2">
+              <i class="bi bi-info-circle me-2"></i>
+              Información de la Categoría
+            </h5>
+            
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <div class="input-container">
+                  <%= form.label :name, "Nombre de la Categoría", class: "input-label" %>
+                  <%= form.text_field :name, 
+                      class: "custom-input #{'border-danger' if @category.errors[:name].any?}", 
+                      placeholder: "Electrodomésticos, Muebles, Ropa...",
+                      required: true %>
+                  <% if @category.errors[:name].any? %>
+                    <div class="text-danger small mt-1">
+                      <i class="bi bi-exclamation-circle me-1"></i>
+                      <%= @category.errors[:name].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<%= form_with model: [:admin, @category], local: true do |form| %>
-  <div class="mb-3">
-    <%= form.label :name, "Nombre" %>
-    <%= form.text_field :name, class: "form-control" %>
-  </div>
+          <!-- Imagen de la Categoría -->
+          <div class="mb-4">
+            <h5 class="text-muted mb-3 border-bottom pb-2">
+              <i class="bi bi-image me-2"></i>
+              Imagen de la Categoría
+            </h5>
+            
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <!-- Vista previa grande -->
+                <div class="mb-4">
+                  <div id="image-preview-container" class="border rounded p-4 bg-light text-center" style="min-height: 300px;">
+                    <% if @category.image.attached? %>
+                      <img id="preview-image" 
+                          src="<%= url_for(@category.image) %>" 
+                          class="img-fluid rounded shadow-sm" 
+                          style="max-width: 100%; max-height: 280px; object-fit: contain;">
+                    <% else %>
+                      <div id="preview-placeholder">
+                        <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
+                        <h5 class="text-muted mt-3 mb-2">Sin imagen asignada</h5>
+                        <p class="text-muted">Selecciona una imagen para ver la vista previa</p>
+                      </div>
+                      <img id="preview-image" class="img-fluid rounded shadow-sm d-none" style="max-width: 100%; max-height: 280px; object-fit: contain;">
+                    <% end %>
+                  </div>
+                </div>
 
-  <div class="mb-3">
-    <%= form.label :image, "Imagen", class: "form-label" %>
-    <%= form.file_field :image, class: "form-control" %>
+                <!-- Botón de selección -->
+                <div class="text-center">
+                  <div class="text-center">
+                    <div class="upload-box flex-grow-1">
+                      <div class="floating-folder folder-unit">
+                        <div class="front-side">
+                          <div class="folder-tab"></div>
+                          <div class="folder-cover"></div>
+                        </div>
+                        <div class="back-side folder-cover"></div>
+                      </div>
 
-    <% if @category.image.attached? %>
-      <div class="mt-2">
-        <%= image_tag @category.image, class: "img-fluid", style: "max-width: 200px;" %>
+                      <label class="file-upload-btn" for="category_image_edit">
+                        <%= form.file_field :image, 
+                            class: "hidden", 
+                            accept: "image/*",
+                            id: "category_image_edit",
+                            onchange: "previewImageEdit(event)" %>
+                        <i class="bi bi-cloud-upload me-2"></i>
+                        <span id="upload-text-edit">
+                          <%= @category.image.attached? ? "Cambiar Imagen" : "Seleccionar Imagen" %>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div class="form-text mt-3">
+                    <small class="text-muted">
+                      <i class="bi bi-info-circle me-1"></i>
+                      Formatos soportados: JPG, PNG, WEBP (máximo 5MB)
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="d-flex gap-3 pt-3 border-top">
+            <%= form.submit "Guardar Cambios", class: "cssbuttons-io-button" %>
+            <%= link_to admin_categories_path, class: "cssbuttons-io-button-secondary" do %>
+              <svg height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5m7-7l-7 7 7 7" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Volver</span>
+            <% end %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
-  </div>
+    </div>
 
-  <%= form.submit class: "btn btn-primary" %>
-  <%= link_to "Cancelar", admin_categories_path(@user), class: "btn btn-secondary ms-2" %>
-<% end %>
+    <!-- Sidebar con información de la categoría -->
+    <div class="col-12 col-lg-4 border-start">
+      <div class="p-4">
+        <!-- Imagen destacada -->
+        <div class="text-center mb-4">
+          <% if @category.image.attached? %>
+            <div class="mb-3">
+              <%= image_tag @category.image, 
+                  class: "img-fluid rounded border", 
+                  style: "max-width: 100%; max-height: 150px; object-fit: cover;" %>
+            </div>
+          <% else %>
+            <div class="bg-light rounded d-flex align-items-center justify-content-center mb-3" style="height: 150px;">
+              <i class="bi bi-folder text-muted" style="font-size: 3rem;"></i>
+            </div>
+          <% end %>
+          
+          <h5 class="mb-1"><%= @category.name %></h5>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="border-top pt-4">
+          <h6 class="text-muted mb-3">Información de la Categoría</h6>
+          
+          <div class="mb-3">
+            <small class="text-muted d-block">ID de la Categoría</small>
+            <span class="fw-semibold">#<%= @category.id %></span>
+          </div>
+          
+          <div class="mb-3">
+            <small class="text-muted d-block">Fecha de Creación</small>
+            <span class="fw-semibold"><%= @category.created_at.strftime("%d/%m/%Y") %></span>
+          </div>
+          
+          <div class="mb-3">
+            <small class="text-muted d-block">Última Actualización</small>
+            <span class="fw-semibold"><%= @category.updated_at.strftime("%d/%m/%Y") %></span>
+          </div>
+
+          <% if @category.respond_to?(:products) %>
+            <div class="mb-3">
+              <small class="text-muted d-block">Productos Asociados</small>
+              <span class="fw-semibold">
+                <%= @category.products.count rescue 0 %> productos
+              </span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function previewImageEdit(event) {
+    const file = event.target.files[0];
+    const previewImage = document.getElementById('preview-image');
+    const placeholder = document.getElementById('preview-placeholder');
+    const uploadText = document.getElementById('upload-text-edit');
+    
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        // Mostrar la imagen
+        previewImage.src = e.target.result;
+        previewImage.classList.remove('d-none');
+        
+        // Ocultar el placeholder
+        if (placeholder) {
+          placeholder.classList.add('d-none');
+        }
+        
+        // Cambiar el texto del botón
+        uploadText.textContent = 'Cambiar Imagen';
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // También funciona con drag and drop
+  document.addEventListener('DOMContentLoaded', function() {
+    const uploadBox = document.querySelector('.upload-box');
+    const fileInput = document.getElementById('category_image_edit');
+    
+    if (uploadBox && fileInput) {
+      // Prevenir comportamientos por defecto
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadBox.addEventListener(eventName, preventDefaults, false);
+      });
+      
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      
+      // Resaltar cuando se arrastra sobre el área
+      ['dragenter', 'dragover'].forEach(eventName => {
+        uploadBox.addEventListener(eventName, highlight, false);
+      });
+      
+      ['dragleave', 'drop'].forEach(eventName => {
+        uploadBox.addEventListener(eventName, unhighlight, false);
+      });
+      
+      function highlight(e) {
+        uploadBox.style.transform = 'scale(1.02)';
+        uploadBox.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
+      }
+      
+      function unhighlight(e) {
+        uploadBox.style.transform = 'scale(1)';
+        uploadBox.style.boxShadow = '';
+      }
+      
+      // Manejar el drop
+      uploadBox.addEventListener('drop', handleDrop, false);
+      
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        
+        if (files.length > 0) {
+          fileInput.files = files;
+          previewImageEdit({ target: { files: files } });
+        }
+      }
+    }
+  });
+</script>

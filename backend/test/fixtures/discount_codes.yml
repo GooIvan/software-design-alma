@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: MyString
+  discount_type: MyString
+  value: 9.99
+  max_uses: 1
+  max_uses_per_user: 1
+  starts_at: 2025-11-06 11:07:16
+  expires_at: 2025-11-06 11:07:16
+  active: false
+  user: one
+  created_by_id: 1
+
+two:
+  code: MyString
+  discount_type: MyString
+  value: 9.99
+  max_uses: 1
+  max_uses_per_user: 1
+  starts_at: 2025-11-06 11:07:16
+  expires_at: 2025-11-06 11:07:16
+  active: false
+  user: two
+  created_by_id: 1

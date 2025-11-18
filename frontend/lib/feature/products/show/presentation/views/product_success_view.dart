@@ -11,6 +11,9 @@ import '../../../../../models/product_model.dart';
 class ProductSuccessView extends StatelessWidget {
   final Product product;
 
+  // controlador reactivo para manejar la imagen seleccionada
+  final ValueNotifier<int> selectedImage = ValueNotifier(0);
+
   // controlador reactivo para manejar la talla seleccionada
   final ValueNotifier<String?> selectedSize = ValueNotifier<String?>(null);
 
@@ -90,17 +93,66 @@ class ProductSuccessView extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // Imagen producto
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(26),
-                  child: Image.network(
-                    product.imageUrl,
-                    height: 400,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              // Imagen del producto (carrusel)
+              ValueListenableBuilder<int>(
+                valueListenable: selectedImage,
+                builder: (context, index, _) {
+                  return Column(
+                    children: [
+                      // Imagen principal
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(26),
+                        child: Image.network(
+                          product.images[index],
+                          height: 400,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      // Miniaturas
+                      if (product.images.length > 1)
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: List.generate(product.images.length, (i) {
+                              return GestureDetector(
+                                onTap: () => selectedImage.value = i,
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 4),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: i == index
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                          : Colors.transparent,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                        10), // un poquito más grande
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        8), // un poquito más pequeño
+                                    child: Image.network(
+                                      product.images[i],
+                                      height: 70,
+                                      width: 70,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                          ),
+                        )
+                    ],
+                  );
+                },
               ),
 
               const SizedBox(height: 20),

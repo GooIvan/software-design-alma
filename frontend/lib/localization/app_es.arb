@@ -27,6 +27,7 @@
   "signin": "Iniciar sesión",
   "signup": "Regístrate",
   "unknownError": "Error desconocido, por favor intenta de nuevo.",
+  "whereWeAreLocated": "¿Dónde estamos ubicados?",
   "functionalityNotImplemented": "Funcionalidad no implementada",
   "see": "Ver",
   "clear": "Limpiar",
@@ -176,5 +177,104 @@
   "systemTheme": "Sistema",
   "lightThemeDescription": "Tema claro",
   "darkThemeDescription": "Tema oscuro",
-  "systemThemeDescription": "Sigue el sistema"
+  "systemThemeDescription": "Sigue el sistema",
+  "sectionDiscountCode": "---------------------------------------------",
+  "discountApplied": "Descuento aplicado",
+  "discountRemoved": "Descuento removido",
+  "discountCodeNotFound": "Código de descuento no encontrado",
+  "discountCodeInvalid": "Código de descuento inválido",
+  "discountCodeExpired": "El código de descuento ha expirado",
+  "discountCodeAlreadyUsed": "El código de descuento ya fue utilizado",
+  "discountCodeNotActive": "El código de descuento no está activo",
+  "discountCodeMaxUsesReached": "El código de descuento alcanzó el límite de usos",
+  "enterDiscountCode": "Ingresa el código de descuento",
+  "applyDiscountCode": "Aplicar código",
+  "removeDiscountCode": "Quitar descuento",
+  "validatingDiscountCode": "Validando código...",
+  "discountCodeValidationError": "Error al validar el código de descuento",
+  "discountCodeSuccess": "¡Código aplicado exitosamente!",
+  "discountAmount": "Descuento",
+  "discountPercentage": "Descuento ({percentage}% off)",
+  "@discountPercentage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "discountFixed": "Descuento (${amount} off)",
+  "@discountFixed": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "subtotalBeforeDiscount": "Subtotal",
+  "totalAfterDiscount": "Total con descuento",
+  "noDiscountCodesAvailable": "No hay códigos de descuento disponibles",
+  "availableDiscountCodes": "Códigos disponibles",
+  "useDiscountCode": "Usar",
+  "discountCodeLabel": "Código: {code}",
+  "@discountCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "discountValue": "Descuento: {value}",
+  "@discountValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "discountDescription": "Descuento aplicado: {description}",
+  "@discountDescription": {
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
+  },
+  "discountCodeFormat": "Formato de código inválido",
+  "discountMinimumAmount": "El pedido debe ser mayor a {amount} para usar este descuento",
+  "@discountMinimumAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "discountNotApplicable": "Este descuento no se puede aplicar a tu pedido",
+  "promoCode": "Código promocional",
+  "havePromoCode": "¿Tienes un código promocional?",
+  "youSave": "Ahorras",
+  "discountCodeTitle": "Código de descuento",
+  "enterCode": "Ingresa tu código",
+  "validatingCode": "Validando...",
+  "codeApplied": "Código aplicado:",
+  "removeDiscount": "Quitar descuento",
+  "codeValidationError": "Error al validar código",
+  "enterDiscountCodeMessage": "Ingresa un código de descuento",
+  "invalidCodeFormat": "Formato de código inválido",
+  "appliedDiscountMessage": "Código aplicado: {code}",
+  "@appliedDiscountMessage": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "discountInfo": "Los códigos de descuento se aplicarán al total de tu compra",
+  "expireDate": "Expira: {date}",
+  "@expireDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

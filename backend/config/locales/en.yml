@@ -247,15 +247,15 @@ en:
     cart:
       not_stock: "%{product} does not have enough stock (available: %{stock})"
     show:
-      title: "🧾 Your Order Summary"
+      title: "Your Order Summary"
       order_number: "Order ID"
       state: "Status"
       total: "Total"
-      product: "🛍️ Products"
+      product: "Products"
       size: "Size"
       quantity: "Quantity"
-      pay: "✅ Thank you! Your payment was approved."
-      pay_error: "⛔ Payment was not approved."
+      pay: "Thank you! Your payment was approved."
+      pay_error: "Payment was not approved."
       bottom_back: "Back"
     payment:
       title: "Pay for your order by card"

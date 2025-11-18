@@ -262,6 +262,12 @@ abstract class AppLocalizations {
   /// **'Unknown error, please try again.'**
   String get unknownError;
 
+  /// No description provided for @whereWeAreLocated.
+  ///
+  /// In en, this message translates to:
+  /// **'Where we are located?'**
+  String get whereWeAreLocated;
+
   /// No description provided for @functionalityNotImplemented.
   ///
   /// In en, this message translates to:
@@ -1161,6 +1167,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Follow system'**
   String get systemThemeDescription;
+
+  /// No description provided for @sectionDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionDiscountCode;
+
+  /// No description provided for @discountApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount applied'**
+  String get discountApplied;
+
+  /// No description provided for @discountRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount removed'**
+  String get discountRemoved;
+
+  /// No description provided for @discountCodeNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code not found'**
+  String get discountCodeNotFound;
+
+  /// No description provided for @discountCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid discount code'**
+  String get discountCodeInvalid;
+
+  /// No description provided for @discountCodeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code has expired'**
+  String get discountCodeExpired;
+
+  /// No description provided for @discountCodeAlreadyUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code already used'**
+  String get discountCodeAlreadyUsed;
+
+  /// No description provided for @discountCodeNotActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code is not active'**
+  String get discountCodeNotActive;
+
+  /// No description provided for @discountCodeMaxUsesReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code reached usage limit'**
+  String get discountCodeMaxUsesReached;
+
+  /// No description provided for @enterDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter discount code'**
+  String get enterDiscountCode;
+
+  /// No description provided for @applyDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply code'**
+  String get applyDiscountCode;
+
+  /// No description provided for @removeDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove discount'**
+  String get removeDiscountCode;
+
+  /// No description provided for @validatingDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Validating code...'**
+  String get validatingDiscountCode;
+
+  /// No description provided for @discountCodeValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error validating discount code'**
+  String get discountCodeValidationError;
+
+  /// No description provided for @discountCodeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Code applied successfully!'**
+  String get discountCodeSuccess;
+
+  /// No description provided for @discountAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get discountAmount;
+
+  /// No description provided for @discountPercentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount ({percentage}% off)'**
+  String discountPercentage(int percentage);
+
+  /// No description provided for @discountFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount (\${amount} off)'**
+  String discountFixed(String amount);
+
+  /// No description provided for @subtotalBeforeDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get subtotalBeforeDiscount;
+
+  /// No description provided for @totalAfterDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total with discount'**
+  String get totalAfterDiscount;
+
+  /// No description provided for @noDiscountCodesAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No discount codes available'**
+  String get noDiscountCodesAvailable;
+
+  /// No description provided for @availableDiscountCodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Available codes'**
+  String get availableDiscountCodes;
+
+  /// No description provided for @useDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get useDiscountCode;
+
+  /// No description provided for @discountCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Code: {code}'**
+  String discountCodeLabel(String code);
+
+  /// No description provided for @discountValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount: {value}'**
+  String discountValue(String value);
+
+  /// No description provided for @discountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount applied: {description}'**
+  String discountDescription(String description);
+
+  /// No description provided for @discountCodeFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code format'**
+  String get discountCodeFormat;
+
+  /// No description provided for @discountMinimumAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Order must be greater than {amount} to use this discount'**
+  String discountMinimumAmount(String amount);
+
+  /// No description provided for @discountNotApplicable.
+  ///
+  /// In en, this message translates to:
+  /// **'This discount cannot be applied to your order'**
+  String get discountNotApplicable;
+
+  /// No description provided for @promoCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Promo code'**
+  String get promoCode;
+
+  /// No description provided for @havePromoCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Have a promo code?'**
+  String get havePromoCode;
+
+  /// No description provided for @youSave.
+  ///
+  /// In en, this message translates to:
+  /// **'You save'**
+  String get youSave;
+
+  /// No description provided for @discountCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code'**
+  String get discountCodeTitle;
+
+  /// No description provided for @enterCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your code'**
+  String get enterCode;
+
+  /// No description provided for @validatingCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Validating...'**
+  String get validatingCode;
+
+  /// No description provided for @codeApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Code applied:'**
+  String get codeApplied;
+
+  /// No description provided for @removeDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove discount'**
+  String get removeDiscount;
+
+  /// No description provided for @codeValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error validating code'**
+  String get codeValidationError;
+
+  /// No description provided for @enterDiscountCodeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a discount code'**
+  String get enterDiscountCodeMessage;
+
+  /// No description provided for @invalidCodeFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code format'**
+  String get invalidCodeFormat;
+
+  /// No description provided for @appliedDiscountMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Code applied: {code}'**
+  String appliedDiscountMessage(String code);
+
+  /// No description provided for @discountInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount codes will be applied to your total purchase'**
+  String get discountInfo;
+
+  /// No description provided for @expireDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires: {date}'**
+  String expireDate(String date);
 }
 
 class _AppLocalizationsDelegate

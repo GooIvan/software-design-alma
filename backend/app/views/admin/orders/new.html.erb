@@ -16,6 +16,14 @@
     <%= form.select :status, Order.statuses.keys, { selected: Order.statuses.keys.first }, class: "form-select", required: true %>
   </div>
 
+  <div class="mb-3">
+    <%= form.label :discount_code_id, "Código de descuento (opcional)" %>
+    <%= form.collection_select :discount_code_id, DiscountCode.where(active: true), :id, :code, 
+        { prompt: "Seleccionar código de descuento", include_blank: "Sin descuento" }, 
+        { class: "form-select" } %>
+    <div class="form-text">Selecciona un código de descuento si aplica para esta orden.</div>
+  </div>
+
   <h4>Productos</h4>
 
   <div id="order-items-container"></div>

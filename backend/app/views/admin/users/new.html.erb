@@ -1,48 +1,177 @@
-<%= render 'shared/form_errors', object: @user %>
+<!-- Header con título y navegación -->
+<div class="titulo-res mb-4 d-flex justify-content-between align-items-center">
+  <h1 class="fw-bold">
+    Nuevo Usuario
+  </h1>
+</div>
 
-<h1 class="text-center">Nuevo Usuario</h1>
+<!-- Card del formulario -->
+<div class="table-responsive table-personalized">
+  <div class="p-4">
+    <%= render 'shared/form_errors', object: @user %>
+    
+    <%= form_with model: [:admin, @user], local: true, class: "needs-validation", novalidate: true do |form| %>
+      
+      <!-- Información Personal -->
+      <div class="mb-4">
+      
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :name, "Nombre", class: "input-label" %>
+              <%= form.text_field :name, 
+                  class: "custom-input #{'border-danger' if @user.errors[:name].any?}", 
+                  placeholder: "Ingresa tu nombre",
+                  required: true %>
+              <% if @user.errors[:name].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @user.errors[:name].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :last_name, "Apellido", class: "input-label" %>
+              <%= form.text_field :last_name, 
+                  class: "custom-input #{'border-danger' if @user.errors[:last_name].any?}", 
+                  placeholder: "Ingresa tu apellido",
+                  required: true %>
+              <% if @user.errors[:last_name].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @user.errors[:last_name].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<%= form_with model: [:admin, @user], local: true do |form| %>
-  <div class="mb-3">
-    <%= form.label :name, "Nombre" %>
-    <%= form.text_field :name, class: "form-control" %>
+      <!-- Información de Contacto -->
+      <div class="mb-4">
+        
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :email, "Correo Electrónico", class: "input-label" %>
+              <%= form.email_field :email, 
+                  class: "custom-input #{'border-danger' if @user.errors[:email].any?}", 
+                  placeholder: "usuario@ejemplo.com",
+                  required: true %>
+              <% if @user.errors[:email].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @user.errors[:email].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :phone, "Teléfono", class: "input-label" %>
+              <%= form.text_field :phone, 
+                  class: "custom-input #{'border-danger' if @user.errors[:phone].any?}", 
+                  placeholder: "+57 300 123 4567" %>
+              <% if @user.errors[:phone].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @user.errors[:phone].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información de Ubicación -->
+      <div class="mb-4">
+        
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :city, "Ciudad", class: "input-label" %>
+              <%= form.text_field :city, 
+                  class: "custom-input #{'border-danger' if @user.errors[:city].any?}", 
+                  placeholder: "Medellín, Bogotá, Cali..." %>
+              <% if @user.errors[:city].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @user.errors[:city].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :address, "Dirección", class: "input-label" %>
+              <%= form.text_field :address, 
+                  class: "custom-input #{'border-danger' if @user.errors[:address].any?}", 
+                  placeholder: "Calle 123 # 45-67" %>
+              <% if @user.errors[:address].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @user.errors[:address].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configuración de Cuenta -->
+      <div class="mb-4">
+        
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :password, "Contraseña", class: "input-label" %>
+              <%= form.password_field :password, 
+                  class: "custom-input #{'border-danger' if @user.errors[:password].any?}", 
+                  placeholder: "Mínimo 8 caracteres",
+                  required: true %>
+              <% if @user.errors[:password].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @user.errors[:password].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="input-container">
+              <%= form.label :role, "Rol del Usuario", class: "input-label" %>
+              <%= form.select :role, 
+                  [['Usuario Regular', 'user'], ['Administrador', 'admin']], 
+                  { prompt: "Seleccionar rol..." }, 
+                  { class: "custom-input #{'border-danger' if @user.errors[:role].any?}", 
+                    required: true } %>
+              <% if @user.errors[:role].any? %>
+                <div class="text-danger small mt-1">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  <%= @user.errors[:role].first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="d-flex gap-3 pt-3">
+        <%= form.submit "Crear Usuario", class: "cssbuttons-io-button" %>
+        <%= link_to admin_users_path, class: "cssbuttons-io-button-secondary" do %>
+          <svg height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Cancelar</span>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="mb-3">
-    <%= form.label :last_name, "Apellido" %>
-    <%= form.text_field :last_name, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :city, "Ciudad" %>
-    <%= form.text_field :city, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :address, "Dirección" %>
-    <%= form.text_field :address, class: "form-control" %>
-  </div>
-  
-  <div class="mb-3">
-    <%= form.label :phone, "Télefono" %>
-    <%= form.text_field :phone, class: "form-control" %> 
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :email, "Email" %>
-    <%= form.email_field :email, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :password, "Contraseña" %>
-    <%= form.password_field :password, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :role, "Rol" %>
-    <%= form.select :role, [['Usuario', 'user'], ['Administrador', 'admin']], {}, class: "form-select" %>
-  </div>
-
-  <%= form.submit "Crear Usuario", class: "btn btn-success" %>
-  <%= link_to "Cancelar", admin_users_path, class: "btn btn-secondary ms-2" %>
-<% end %>
+</div>

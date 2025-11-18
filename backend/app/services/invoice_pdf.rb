@@ -116,21 +116,51 @@ class InvoicePdf < Prawn::Document
   end
 
   def totals
+    # Calcular el subtotal original (antes del descuento)
+    subtotal_before_discount = @order.order_items.sum { |item| item.price * item.quantity }
+    
+    # Obtener el descuento aplicado
+    discount_amount = @order.discount_amount || 0
+    if discount_amount == 0 && @order.discount_usage.present?
+      discount_amount = @order.discount_usage.discount_amount
+    end
+
     # Tabla de totales
     totals_data = [
-      ["Subtotal:", format_currency(@invoice.subtotal)],
-      ["IVA (19%):", format_currency(@invoice.tax)],
-      ["TOTAL:", format_currency(@invoice.total)],
+      ["Subtotal:", format_currency(subtotal_before_discount)],
     ]
+
+    # Agregar fila de descuento si existe
+    discount_code_present = @order&.discount_code.present?
+    if discount_code_present && discount_amount > 0
+      totals_data << ["Descuento (#{@order.discount_code.code}):", "-#{format_currency(discount_amount)}"]
+    end
+
+    # Continuar con IVA y total
+    totals_data << ["IVA (19%):", format_currency(@invoice.tax)]
+    
+    # Calcular el total final considerando el descuento
+    final_total = subtotal_before_discount - discount_amount + @invoice.tax
+    totals_data << ["TOTAL:", format_currency(final_total)]
 
     table(totals_data, position: :right, width: 220) do
       columns(0).align = :right
       columns(1).align = :right
       columns(1).font_style = :bold
 
-      # Estilo para las primeras filas
-      row(0).text_color = "666666"
-      row(1).text_color = "666666"
+      # Estilo para las filas normales
+      rows(0..-2).each do |row|
+        row.text_color = "666666"
+      end
+
+      # Estilo especial para el descuento si existe
+      if discount_code_present && discount_amount > 0
+        discount_row_index = discount_code_present ? 1 : -1
+        if discount_row_index > 0
+          row(discount_row_index).text_color = "4CAF50"
+          row(discount_row_index).font_style = :bold
+        end
+      end
 
       # Estilo especial para el total
       row(-1).font_style = :bold
