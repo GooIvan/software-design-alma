@@ -1,0 +1,79 @@
+<!-- Sección de Estadísticas -->
+<div class="stats-section py-5">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-md-3 col-6">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h3 class="stat-number" data-target="5000">0</h3>
+          <p class="stat-label"><%= t('stats.happy_customers', default: 'Clientes Felices') %></p>
+        </div>
+      </div>
+      
+      <div class="col-md-3 col-6">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-box-seam"></i>
+          </div>
+          <h3 class="stat-number" data-target="<%= Product.count %>">0</h3>
+          <p class="stat-label"><%= t('stats.products', default: 'Productos') %></p>
+        </div>
+      </div>
+      
+      <div class="col-md-3 col-6">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-cart-check"></i>
+          </div>
+          <h3 class="stat-number" data-target="10000">0</h3>
+          <p class="stat-label"><%= t('stats.orders', default: 'Pedidos Entregados') %></p>
+        </div>
+      </div>
+      
+      <div class="col-md-3 col-6">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-star-fill"></i>
+          </div>
+          <h3 class="stat-number" data-target="98">0</h3>
+          <span class="stat-percentage">%</span>
+          <p class="stat-label"><%= t('stats.satisfaction', default: 'Satisfacción') %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const stats = document.querySelectorAll('.stat-number');
+  
+  const animateStats = (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = parseInt(entry.target.getAttribute('data-target'));
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            entry.target.textContent = target.toLocaleString();
+            clearInterval(timer);
+          } else {
+            entry.target.textContent = Math.floor(current).toLocaleString();
+          }
+        }, 30);
+        observer.unobserve(entry.target);
+      }
+    });
+  };
+  
+  const observer = new IntersectionObserver(animateStats, {
+    threshold: 0.5
+  });
+  
+  stats.forEach(stat => observer.observe(stat));
+});
+</script>

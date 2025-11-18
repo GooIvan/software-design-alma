@@ -43,6 +43,12 @@
     t('slogan4'),
   ] %>
 
+  <%# Sección de Beneficios/Features %>
+  <%= render 'home/features_section' %>
+
+  <%# Sección de Ofertas Especiales %>
+  <%= render 'home/special_offers' %>
+
   <%# Sección de categorías %>
   <% if @categories.present? %>
     <div class="container-fluid text-center position-relative py-5 p-6" id="categories">
@@ -81,22 +87,31 @@
     </div>
   <% end %>
 
+  <%# Sección de Productos Más Populares %>
+  <%= render 'home/popular_products' %>
+
   <%# Sección de productos nuevos %>
   <% if @latest_products.present? %>
     <div class="container-fluid py-5" id="whats_new">
-      <h2 class="pb-5 fw-bold subtittle text-center"><%= t('new_arrivals') %></h2>
+      <div class="text-center mb-5">
+        <h2 class="pb-3 fw-bold subtittle"><%= t('new_arrivals') %></h2>
+        <p class="section-subtitle"><%= t('new_arrivals_desc', default: 'Descubre nuestros últimos lanzamientos') %></p>
+      </div>
 
       <div class="scroll-wrapper">
         <div class="row flex-nowrap">
           <% @latest_products.each do |product| %>
             <div class="col-10 col-md-6 col-lg-3 mb-3 px-2 d-flex justify-content-center">
               <div class="w-100 h-100" style="max-width: 300px;">
-                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block" do %>
+                <%= link_to category_product_path(product.category, product), class: "image-zoom-container d-block position-relative" do %>
                   <% if product.image.attached? %>
                     <%= image_tag product.image, class: "card-img-top rounded-img", style: "height: 400px; object-fit: cover;" %>
                   <% else %>
                     <%= image_tag "placeholder.svg", class: "card-img-top rounded-img", style: "height: 200px; object-fit: cover;" %>
                   <% end %>
+                  <span class="product-badge new-badge">
+                    <i class="bi bi-star-fill"></i> Nuevo
+                  </span>
                 <% end %>
 
                 <div class="card-body pt-4 h-30">
@@ -118,4 +133,13 @@
       </div>
     </div>
   <% end %>
+
+  <%# Sección de Estadísticas %>
+  <%= render 'home/stats_section' %>
+
+  <%# Sección de Testimonios %>
+  <%= render 'home/testimonials' %>
+
+  <%# Sección de Newsletter %>
+  <%= render 'home/newsletter_section' %>
 </div>

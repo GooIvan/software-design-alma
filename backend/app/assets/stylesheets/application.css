@@ -237,3 +237,6 @@ main {
 .custom-checkbox input[type="checkbox"]:checked + .checkmark {
   transition: background-color 1.3s, border-color 1.3s, color 1.3s, transform 0.3s;
 }
+
+/* Import home sections styles */
+@import url("home_sections.css");

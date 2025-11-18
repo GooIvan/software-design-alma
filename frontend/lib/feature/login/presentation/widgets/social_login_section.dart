@@ -2,11 +2,64 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../services/auth_service.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../../register/presentation/pages/register_page.dart';
+import '../../../home/presentation/pages/homescreen.dart';
 
 class SocialLoginSection extends StatelessWidget {
-  const SocialLoginSection({super.key});
+  SocialLoginSection({super.key});
+
+  final AuthService _authService = AuthService();
+
+  // Método para manejar el login con Google
+  Future<void> _handleGoogleSignIn(BuildContext context) async {
+    try {
+      // Mostrar indicador de carga
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
+      final result = await _authService.signInWithGoogle();
+
+      // Cerrar el indicador de carga
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+
+      if (result != null && result['success'] == true) {
+        // Login exitoso, navegar al home
+        if (context.mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const HomeScreen()),
+          );
+        }
+      } else {
+        // Error al hacer login
+        if (context.mounted) {
+          CustomAlert.error(
+            context,
+            result?['error'] ?? 'Error al iniciar sesión con Google',
+          );
+        }
+      }
+    } catch (e) {
+      // Cerrar el indicador de carga si hay error
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        CustomAlert.error(
+          context,
+          'Error inesperado: $e',
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +102,7 @@ class SocialLoginSection extends StatelessWidget {
           borderColor:
               Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
           context: context,
+          onPressed: () => _handleGoogleSignIn(context),
         ),
 
         const SizedBox(height: 12),
@@ -119,11 +173,12 @@ class SocialLoginSection extends StatelessWidget {
     required Color textColor,
     required Color borderColor,
     Color? colorIcon,
+    VoidCallback? onPressed, // Callback opcional
   }) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () {
+        onPressed: onPressed ?? () {
           CustomAlert.warning(
               context, context.l10n.functionalityNotImplemented);
         },

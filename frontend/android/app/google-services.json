@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "354443077313",
+    "project_id": "design-alma",
+    "storage_bucket": "design-alma.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354443077313:android:YOUR_APP_ID",
+        "android_client_info": {
+          "package_name": "com.example.design_alma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354443077313-avq9omateakv46ujf9b7hch9omo4tff8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.design_alma",
+            "certificate_hash": "8fae0b1968339d4c64807a07652038c68f38e199ba"
+          }
+        },
+        {
+          "client_id": "354443077313-0fno50ulf9pt68kvb44hsu5fq3t8pnt1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "YOUR_API_KEY_HERE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354443077313-0fno50ulf9pt68kvb44hsu5fq3t8pnt1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

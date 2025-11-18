@@ -15,6 +15,11 @@ Rails.application.routes.draw do
 
   # === API para Flutter (sin locale) ===
   namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      # Google Sign-In endpoint para Flutter
+      post 'auth/google', to: 'auth#google_login'
+    end
+
     namespace :auth do
       devise_for :users,
         path: "",
