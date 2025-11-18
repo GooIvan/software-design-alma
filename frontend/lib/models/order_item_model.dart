@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class OrderItem {
   final int id;
   final int productId;
@@ -46,9 +48,11 @@ class OrderItem {
     };
   }
 
-  // Formateo de precios
-  String get formattedPrice => '\$${price.toStringAsFixed(2)}';
-  String get formattedTotalPrice => '\$${totalPrice.toStringAsFixed(2)}';
+    // Formateo de precios
+    String get formattedPrice =>
+      NumberFormat.currency(locale: 'es_CO', symbol: '\$').format(price);
+    String get formattedTotalPrice =>
+      NumberFormat.currency(locale: 'es_CO', symbol: '\$').format(totalPrice);
 
   // Información de talla
   String get sizeDisplay =>

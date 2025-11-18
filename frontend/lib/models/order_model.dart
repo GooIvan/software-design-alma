@@ -1,4 +1,5 @@
 import 'order_item_model.dart';
+import 'package:intl/intl.dart';
 
 class Order {
   final int id;
@@ -91,12 +92,12 @@ class Order {
   bool get hasDiscount => discountCode != null && discountAmount != null;
 
   // Formateo de precio
-  String get formattedTotal => '\$${total.toStringAsFixed(2)}';
-  String get formattedSubtotal =>
-      subtotal != null ? '\$${subtotal!.toStringAsFixed(2)}' : formattedTotal;
-  String get formattedDiscountAmount => discountAmount != null
-      ? '\$${discountAmount!.toStringAsFixed(2)}'
-      : '\$0.00';
+    String get formattedTotal => _currencyFormat.format(total);
+    String get formattedSubtotal =>
+      subtotal != null ? _currencyFormat.format(subtotal) : formattedTotal;
+    String get formattedDiscountAmount => discountAmount != null
+      ? _currencyFormat.format(discountAmount)
+      : _currencyFormat.format(0);
 
   // Copia con modificaciones
   Order copyWith({
@@ -129,3 +130,6 @@ class Order {
     );
   }
 }
+
+// Formateador de moneda con separador de miles en punto y coma decimal (locale español)
+final NumberFormat _currencyFormat = NumberFormat.currency(locale: 'es_CO', symbol: '\$');
