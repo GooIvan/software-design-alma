@@ -119,3 +119,109 @@
     </div>
   <% end %>
 </div>
+
+
+
+
+<!-- Modal para completar información del perfil -->
+<div class="modal fade" id="completeProfileModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg rounded-3">
+
+      <!-- Header -->
+      <div class="modal-header bg-primary text-white rounded-top">
+        <h5 class="modal-title">Completa tu información</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <!-- Body: Formulario Rails -->
+      <div class="modal-body p-4">
+        <%= form_with(model: current_user, url: profile_path, method: :patch, local: true, html: { id: "completeProfileForm" }) do |f| %>
+
+          <div class="mb-3">
+            <%= f.label :name, "Nombre", class: "form-label fw-semibold" %>
+            <%= f.text_field :name, class: "form-control", required: true %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :last_name, "Apellidos", class: "form-label fw-semibold" %>
+            <%= f.text_field :last_name, class: "form-control", required: true %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :city, "Ciudad", class: "form-label fw-semibold" %>
+            <%= f.text_field :city, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :phone, "Teléfono", class: "form-label fw-semibold" %>
+            <%= f.telephone_field :phone, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :address, "Dirección", class: "form-label fw-semibold" %>
+            <%= f.text_field :address, class: "form-control" %>
+          </div>
+
+          <!-- Footer del modal -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <%= f.submit "Guardar información", class: "btn btn-primary w-100" %>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script para mostrar el modal si el perfil no está completo -->
+<script>
+document.addEventListener("turbo:load", async () => {
+  const res = await fetch("/api/profile", { headers: { "Accept": "application/json" } });
+  const data = await res.json();
+
+  if (!data.user.profile_complete) {
+    const modalEl = document.getElementById("completeProfileModal");
+    const modal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
+    modal.show();
+  }
+});
+</script>
+
+<!-- Estilos adicionales para que sea amigable y azul cielo -->
+<style>
+.modal-content {
+  border-radius: 12px;
+}
+
+.modal-header {
+  border-bottom: none;
+  background-color: #0d6efd;
+}
+
+.modal-body .form-label {
+  color: #0d6efd;
+}
+
+.modal-body .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+</style>
