@@ -33,6 +33,9 @@ class Product < ApplicationRecord
 
   # 🔥 Validación personalizada: mínimo una imagen
   def must_have_at_least_one_image
+    # Solo validar en creación
+    return if persisted?  
+
     errors.add(:images, "debe tener al menos una imagen") unless images.attached?
   end
 end

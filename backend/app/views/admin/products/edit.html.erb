@@ -132,22 +132,33 @@
             <div class="row g-4">
             
               <div class="col-md-6">
-                <div class="input-container">
-                  <%= form.label :images, "Imágenes del Producto", class: "input-label" %>
+                <div class="input-container justify-content-center">
+                  <%= form.label :images, "Imágenes del Producto", class: "input-label text-center" %>
                   <div class="text-center">
-                    <div id="product-preview" class="mb-3 d-flex flex-wrap justify-content-center gap-2">
+                    <div id="product-preview" class="mb-3 d-flex flex-wrap justify-content-center gap-3">
                       <% if @product.images.attached? %>
-                        <% @product.images.each do |img| %>
-                          <%= image_tag img.variant(resize_to_limit: [150, 150]), class: "img-thumbnail rounded shadow-sm", style: "max-height: 80px; object-fit: cover;" %>
+                        <% @product.images.each_with_index do |img, index| %>
+                          <div class="position-relative d-inline-block image-container image-fade-in" data-image-id="<%= img.id %>" data-image-type="existing" data-image-index="<%= index %>">
+                            <div class="position-relative" style="width: 80px; height: 80px; border-radius: 8px; overflow: hidden;">
+                              <% begin %>
+                                <%= image_tag img.variant(resize_to_limit: [80, 80]), 
+                                    class: "img-thumbnail rounded shadow-sm", 
+                                    style: "width: 100%; height: 100%; object-fit: cover; border: none;" %>
+                              <% rescue => e %>
+                                <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted" style="font-size: 12px;">
+                                  Error: Imagen no compatible
+                                </div>
+                              <% end %>
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm position-absolute remove-image-btn" 
+                                    style="top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10; font-size: 14px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: all 0.2s ease;"
+                                    data-image-id="<%= img.id %>" data-image-type="existing">
+                              &times;
+                            </button>
+                          </div>
                         <% end %>
-                      <% else %>
-                        <div class="w-100 text-muted">
-                          <i class="bi bi-image" style="font-size: 3rem;"></i>
-                          <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
-                        </div>
                       <% end %>
                     </div>
-
                     <div class="text-center">
                       <label for="product_images_edit" class="cssbuttons-io-button-secondary d-inline-flex align-items-center">
                         <%= form.file_field :images,
@@ -157,7 +168,7 @@
                             id: "product_images_edit",
                             onchange: "previewMultipleImages(event)" %>
                         <i class="bi bi-cloud-upload me-2"></i>
-                        <span><%= @product.images.attached? ? "Cambiar Imágenes" : "Subir Imágenes" %></span>
+                        <span><%= @product.images.attached? ? "Agregar imágenes" : "Subir imágenes" %></span>
                       </label>
                     </div>
                     
@@ -216,17 +227,36 @@
           <% if @product.images.attached? %>
             <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
               <% @product.images.limit(3).each do |img| %>
-                <%= image_tag img.variant(resize_to_limit: [100, 100]), class: "img-fluid rounded border", style: "max-width: 80px; max-height: 80px; object-fit: cover;" %>
+                <div class="sidebar-image-container sidebar-image-wrapper">
+                  <div class="sidebar-image-loader">
+                    <div class="sidebar-spinner"></div>
+                  </div>
+                  <% begin %>
+                    <%= image_tag img.variant(resize_to_limit: [100, 100]), 
+                        class: "sidebar-image", 
+                        onload: "removeSidebarLoader(this)",
+                        onerror: "handleSidebarImageError(this)" %>
+                  <% rescue => e %>
+                    <div class="sidebar-image-error d-flex align-items-center justify-content-center h-100">
+                      <small class="text-muted">Error: Imagen no compatible</small>
+                    </div>
+                  <% end %>
+                </div>
               <% end %>
               <% if @product.images.count > 3 %>
-                <div class="bg-light rounded border d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                  <small class="text-muted">+<%= @product.images.count - 3 %></small>
+                <div class="sidebar-more-container">
+                  <div class="sidebar-more-badge bg-light rounded border d-flex align-items-center justify-content-center shadow-sm">
+                    <small class="text-muted fw-semibold">+<%= @product.images.count - 3 %></small>
+                  </div>
                 </div>
               <% end %>
             </div>
           <% else %>
-            <div class="bg-light rounded d-flex align-items-center justify-content-center mb-3" style="height: 120px;">
-              <i class="bi bi-box text-muted" style="font-size: 3rem;"></i>
+            <div class="sidebar-empty-state bg-light rounded d-flex flex-column align-items-center justify-content-center mb-3">
+              <div class="empty-icon-wrapper mb-2">
+                <i class="bi bi-images text-muted"></i>
+              </div>
+              <small class="text-muted">Sin imágenes</small>
             </div>
           <% end %>
           <h5 class="mb-1"><%= @product.name.presence || "Producto sin nombre" %></h5>
@@ -263,133 +293,444 @@
 </div>
 
 <script>
-  let selectedFiles = [];
-  let existingImages = [];
+/*
+  JS robusto para manejo de imágenes en Product
+  - Corre con Turbo y DOM normal
+  - No se duplica nada
+  - Siempre pasa product[remove_images][]
+  - existingImages siempre sincronizado
+*/
 
-  // Inicializar con las imágenes existentes del servidor
-  document.addEventListener('DOMContentLoaded', function() {
-    <% if @product.images.attached? %>
-      existingImages = [
-        <% @product.images.each_with_index do |img, index| %>
-          {
-            id: '<%= img.id %>',
-            url: '<%= url_for(img) %>',
-            index: <%= index %>
-          }<%= ',' unless index == @product.images.count - 1 %>
-        <% end %>
-      ];
-    <% end %>
-    updatePreviewWithExisting();
-  });
+// Variables globales con verificación para evitar redeclaraciones
+if (typeof window.productImageManager === 'undefined') {
+  window.productImageManager = {
+    selectedFiles: [],     // { id, file, objectUrl }
+    existingImages: [],    // { id, url }
+    removeImages: [],      // IDs of images marked for removal
+    initialized: false
+  };
+}
 
-  function previewMultipleImages(event) {
-    const files = Array.from(event.target.files);
+// ===============================
+// TURBO EVENT LISTENER - REGISTRADO INMEDIATAMENTE
+// ===============================
+document.addEventListener('turbo:before-fetch-request', function(event) {
+  console.log('🚀 TURBO:BEFORE-FETCH-REQUEST - Interceptando petición HTTP');
+  console.log('🔍 Event detail:', event.detail);
+  
+  // Solo procesar si es nuestro formulario de productos
+  const detail = event.detail;
+  const urlObj = detail.url || detail.fetchOptions?.url;
+  const fetchOptions = detail.fetchOptions || {};
+  
+  // Obtener la URL como string
+  const urlString = urlObj?.href || urlObj?.toString() || '';
+  
+  console.log('📍 URL detectada:', urlString, 'tipo:', typeof urlString);
+  console.log('📍 Method detectado:', fetchOptions.method);
+  
+  // Rails usa POST con _method=patch para formularios
+  const isPatchRequest = fetchOptions.method === 'PATCH' || fetchOptions.method === 'POST';
+  
+  if (urlString.includes('/products/') && isPatchRequest) {
+    console.log('📝 Es nuestro formulario de producto - verificando remove_images');
     
-    // Agregar nuevos archivos al array existente
-    selectedFiles = [...selectedFiles, ...files];
-    
-    // Actualizar el preview
-    updatePreviewWithExisting();
-    
-    // Actualizar el input file con todos los archivos seleccionados
-    updateFileInput();
-  }
-
-  function updatePreviewWithExisting() {
-    const preview = document.getElementById('product-preview');
-    preview.innerHTML = '';
-
-    // Mostrar imágenes existentes del servidor
-    existingImages.forEach((imgData, index) => {
-      const container = document.createElement('div');
-      container.className = 'position-relative d-inline-block m-1';
+    // Verificar si tenemos imágenes marcadas para eliminar en memoria
+    if (window.productImageManager && window.productImageManager.removeImages && window.productImageManager.removeImages.length > 0) {
+      console.log(`🔍 Imágenes en memoria para eliminar: ${window.productImageManager.removeImages.length}`);
       
-      const img = document.createElement('img');
-      img.src = imgData.url;
-      img.className = 'img-thumbnail rounded shadow-sm';
-      img.style.maxHeight = '80px';
-      img.style.objectFit = 'cover';
+      // Crear FormData a partir del body existente
+      let formData;
+      if (fetchOptions.body instanceof FormData) {
+        formData = fetchOptions.body;
+      } else {
+        // Si no es FormData, crear uno nuevo a partir de los datos del formulario
+        const form = document.querySelector('form');
+        formData = new FormData(form);
+      }
       
-      const removeBtn = document.createElement('button');
-      removeBtn.innerHTML = '&times;';
-      removeBtn.className = 'btn btn-danger btn-sm position-absolute';
-      removeBtn.style.cssText = 'top: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10;';
-      removeBtn.onclick = (e) => {
-        e.preventDefault();
-        removeExistingImage(index);
-      };
+      // Agregar los IDs de las imágenes a eliminar
+      window.productImageManager.removeImages.forEach(imageId => {
+        formData.append('product[remove_images][]', imageId);
+        console.log(`➕ Agregado a FormData: product[remove_images][] = ${imageId}`);
+      });
       
-      container.appendChild(img);
-      container.appendChild(removeBtn);
-      preview.appendChild(container);
-    });
-
-    // Mostrar nuevas imágenes seleccionadas
-    selectedFiles.forEach((file, index) => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const container = document.createElement('div');
-        container.className = 'position-relative d-inline-block m-1';
-        
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.className = 'img-thumbnail rounded shadow-sm';
-        img.style.maxHeight = '80px';
-        img.style.objectFit = 'cover';
-        
-        const removeBtn = document.createElement('button');
-        removeBtn.innerHTML = '&times;';
-        removeBtn.className = 'btn btn-danger btn-sm position-absolute';
-        removeBtn.style.cssText = 'top: -5px; right: -5px; width: 25px; height: 25px; border-radius: 50%; padding: 0; line-height: 1; z-index: 10;';
-        removeBtn.onclick = (e) => {
-          e.preventDefault();
-          removeNewImage(index);
-        };
-        
-        container.appendChild(img);
-        container.appendChild(removeBtn);
-        preview.appendChild(container);
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // Si no hay imágenes, mostrar placeholder
-    if (existingImages.length === 0 && selectedFiles.length === 0) {
-      preview.innerHTML = `
-        <div class="w-100 text-muted text-center">
-          <i class="bi bi-image" style="font-size: 3rem;"></i>
-          <p class="text-muted mt-2 small">No hay imágenes seleccionadas</p>
-        </div>`;
+      // Actualizar el body de la petición
+      fetchOptions.body = formData;
+      
+      // Verificar que se agregaron correctamente
+      console.log('📋 FormData final:');
+      for (let [key, value] of formData.entries()) {
+        console.log(`  ${key}: ${value}`);
+      }
+    } else {
+      console.log('ℹ️ No hay imágenes para eliminar en memoria');
     }
   }
+});
 
-  function removeExistingImage(index) {
-    existingImages.splice(index, 1);
-    updatePreviewWithExisting();
-    
-    // Crear un campo hidden para marcar la imagen como eliminada
-    const form = document.querySelector('form');
-    const hiddenField = document.createElement('input');
-    hiddenField.type = 'hidden';
-    hiddenField.name = 'product[remove_images][]';
-    hiddenField.value = existingImages[index]?.id || '';
-    form.appendChild(hiddenField);
+// ===============================
+// INIT
+// ===============================
+function initProductImageManager() {
+  console.log('🚀 Iniciando Product Image Manager...');
+  console.log('🔍 DOM ready state:', document.readyState);
+  
+  if (window.productImageManager.initialized) {
+    console.log('🔄 Reiniciando - limpiando estado anterior');
+    // Reset para nueva página
+    window.productImageManager.selectedFiles = [];
+    window.productImageManager.existingImages = [];
+    window.productImageManager.removeImages = [];
+  }
+  window.productImageManager.initialized = true;
+
+  loadExistingImagesFromDOM();
+  setupRemoveButtonListeners();
+  updatePreview();
+  checkForEmptyPreview();
+  
+  // Debug del formulario
+  const form = document.querySelector("form");
+  if (form) {
+    form.addEventListener("submit", function(e) {
+      const hiddenInputs = form.querySelectorAll('input[name="product[remove_images][]"]');
+      console.log('🚀 Enviando formulario con', hiddenInputs.length, 'imágenes para eliminar:');
+      hiddenInputs.forEach(input => console.log('  - ID:', input.value));
+      
+      // También mostrar la URL de acción del formulario
+      console.log('📍 Acción del formulario:', form.action);
+      console.log('📍 Método del formulario:', form.method);
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initProductImageManager);
+document.addEventListener("turbo:load", initProductImageManager);
+
+// ===============================
+// CARGAR EXISTENTES DESDE EL DOM
+// ===============================
+function loadExistingImagesFromDOM() {
+  console.log('🔍 Buscando preview container...');
+  const preview = document.getElementById("product-preview");
+  if (!preview) {
+    console.warn('❌ No se encontró el preview con ID "product-preview"');
+    console.log('📋 Elementos disponibles con ID que contiene "preview":', 
+      Array.from(document.querySelectorAll('[id*="preview"]')).map(el => el.id));
+    return;
   }
 
-  function removeNewImage(index) {
-    selectedFiles.splice(index, 1);
-    updatePreviewWithExisting();
-    updateFileInput();
+  console.log('✅ Preview encontrado:', preview);
+  const nodes = preview.querySelectorAll("[data-image-type='existing']");
+  console.log('🖼️ Nodos existentes encontrados:', nodes.length);
+
+  const temp = [];
+
+  nodes.forEach((node) => {
+    const img = node.querySelector("img");
+    const id = node.dataset.imageId;
+    console.log('  - Imagen ID:', id);
+
+    temp.push({
+      id: id,
+      url: img && img.src && img.src !== '' ? img.src : `placeholder-${id}`,
+    });
+  });
+
+  // quitar duplicados por id
+  const map = new Map();
+  temp.forEach((item) => {
+    if (item.id) map.set(String(item.id), item);
+  });
+  window.productImageManager.existingImages = [...map.values()];
+  console.log('✅ Imágenes existentes cargadas:', window.productImageManager.existingImages);
+}
+
+// ===============================
+// NUEVAS IMÁGENES
+// ===============================
+function previewMultipleImages(event) {
+  const files = Array.from(event.target.files || []);
+  if (!files.length) return;
+
+  files.forEach((file) => {
+    const id = crypto.randomUUID();
+    const objectUrl = URL.createObjectURL(file);
+
+    window.productImageManager.selectedFiles.push({ id, file, objectUrl });
+  });
+
+  updateFileInput();
+  updatePreview();
+  checkForEmptyPreview();
+}
+
+function updateFileInput() {
+  const input = document.querySelector("input[type='file']");
+  if (!input) return;
+
+  const dt = new DataTransfer();
+  window.productImageManager.selectedFiles.forEach((f) => dt.items.add(f.file));
+  input.files = dt.files;
+}
+
+// ===============================
+// RENDER PREVIEW
+// ===============================
+function updatePreview() {
+  const preview = document.getElementById("product-preview");
+  if (!preview) return;
+
+  // NO tocar las imágenes existentes que vienen desde Rails
+  // Solo eliminar y volver a agregar las nuevas imágenes
+  const newImageContainers = preview.querySelectorAll('[data-image-type="new"]');
+  newImageContainers.forEach(container => container.remove());
+
+  // NUEVAS
+  window.productImageManager.selectedFiles.forEach((f) => {
+    const container = document.createElement("div");
+    container.className =
+      "position-relative d-inline-block image-container image-fade-in";
+    container.dataset.imageType = "new";
+    container.dataset.fileId = f.id;
+
+    container.innerHTML = `
+      <div style="width:80px;height:80px;border-radius:8px;overflow:hidden;">
+        <img src="${f.objectUrl}" class="img-thumbnail rounded shadow-sm"
+             style="width:100%;height:100%;object-fit:cover;border:none;">
+      </div>
+
+      <button type="button" class="btn btn-danger btn-sm remove-image-btn"
+        data-image-type="new"
+        data-file-id="${f.id}"
+        style="top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;padding:0;line-height:1;position:absolute;z-index:10;">
+        &times;
+      </button>
+    `;
+
+    preview.appendChild(container);
+  });
+}
+
+// ===============================
+// ELIMINACIÓN
+// ===============================
+function setupRemoveButtonListeners() {
+  if (window._productRemoveListenerAttached) return;
+  window._productRemoveListenerAttached = true;
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".remove-image-btn");
+    if (!btn) return;
+
+    e.preventDefault();
+
+    const type = btn.dataset.imageType;
+    const container = btn.closest(".image-container");
+    
+    console.log('🗑️ Click en eliminar imagen, tipo:', type);
+
+    // animación
+    if (container) {
+      container.style.transition = "all 0.2s ease";
+      container.style.transform = "scale(0.8)";
+      container.style.opacity = "0";
+    }
+
+    setTimeout(() => {
+      if (type === "existing") {
+        const id = btn.dataset.imageId;
+        console.log('  - ID de imagen existente:', id);
+        if (id) {
+          markForRemoval(id);
+          window.productImageManager.existingImages = window.productImageManager.existingImages.filter((img) => img.id !== id);
+          console.log('  - Imágenes existentes restantes:', window.productImageManager.existingImages.length);
+        }
+      }
+
+      if (type === "new") {
+        const fileId = btn.dataset.fileId;
+        const found = window.productImageManager.selectedFiles.find((f) => f.id === fileId);
+        if (found) URL.revokeObjectURL(found.objectUrl);
+        window.productImageManager.selectedFiles = window.productImageManager.selectedFiles.filter((f) => f.id !== fileId);
+        updateFileInput();
+      }
+
+      if (container) container.remove();
+      updatePreview();
+      checkForEmptyPreview();
+    }, 150);
+  });
+}
+
+// CREAR INPUT HIDDEN PARA RAILS
+function markForRemoval(id) {
+  console.log('🔴 Marcando imagen para eliminación:', id);
+  const form = document.querySelector("form");
+  if (!form) {
+    console.error('❌ No se encontró el formulario');
+    return;
   }
 
-  function updateFileInput() {
-    const input = document.getElementById('product_images_edit');
-    const dt = new DataTransfer();
-    
-    selectedFiles.forEach(file => {
-      dt.items.add(file);
+  // Inicializar array de imágenes a eliminar si no existe
+  if (!window.productImageManager.removeImages) {
+    window.productImageManager.removeImages = [];
+  }
+
+  // Verificar si ya existe
+  if (window.productImageManager.removeImages.includes(id)) {
+    console.log('⚠️ Imagen ya marcada para eliminación:', id);
+    return;
+  }
+
+  // Agregar a la lista en memoria
+  window.productImageManager.removeImages.push(id);
+  console.log('💾 Guardado en memoria:', window.productImageManager.removeImages);
+
+  // Crear input hidden como respaldo (aunque puede que no funcione con Turbo)
+  const existing = form.querySelector(`input[name="product[remove_images][]"][value="${id}"]`);
+  if (!existing) {
+    const hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.name = "product[remove_images][]";
+    hidden.value = id;
+    hidden.setAttribute('data-remove-id', id);
+
+    form.appendChild(hidden);
+    console.log('✅ Input hidden creado como respaldo:', hidden.name, '=', hidden.value);
+  }
+  
+  // Verificar que se agregó
+  const hiddenInputs = form.querySelectorAll('input[name="product[remove_images][]"]');
+  console.log('📊 Total inputs de eliminación:', hiddenInputs.length);
+  
+  // Mostrar todos los inputs
+  hiddenInputs.forEach((input, index) => {
+    console.log(`  ${index + 1}. ID: ${input.value}`);
+  });
+}
+
+// ===============================
+// PLACEHOLDER
+// ===============================
+function checkForEmptyPreview() {
+  const preview = document.getElementById("product-preview");
+  if (!preview) return;
+
+  const imageContainers = preview.querySelectorAll(".image-container");
+  if (imageContainers.length === 0) {
+    showEmptyState();
+  } else {
+    // Eliminar placeholder si hay imágenes
+    const placeholder = preview.querySelector(".empty-placeholder");
+    if (placeholder) {
+      placeholder.remove();
+    }
+  }
+}
+
+function showEmptyState() {
+  const preview = document.getElementById("product-preview");
+  preview.innerHTML = `
+    <div class="w-100 text-center py-4 empty-placeholder">
+      <div class="mb-3"><i class="bi bi-images text-muted" style="font-size:3rem;"></i></div>
+      <p class="text-muted mb-2">No hay imágenes seleccionadas</p>
+      <small class="text-muted">Haz clic en "Subir imágenes" para agregar fotos</small>
+    </div>
+  `;
+}
+
+// ===============================
+// FUNCIONES PARA SIDEBAR
+// ===============================
+function removeSidebarLoader(img) {
+  const loader = img.parentElement.querySelector('.sidebar-image-loader');
+  if (loader) {
+    loader.style.display = 'none';
+  }
+  img.style.display = 'block';
+}
+
+function handleSidebarImageError(img) {
+  const container = img.parentElement;
+  const loader = container.querySelector('.sidebar-image-loader');
+  if (loader) {
+    loader.style.display = 'none';
+  }
+  
+  container.innerHTML = `
+    <div class="sidebar-image-error d-flex align-items-center justify-content-center" 
+         style="width: 100px; height: 100px; background-color: #f8f9fa; border-radius: 8px;">
+      <i class="bi bi-exclamation-triangle text-warning"></i>
+    </div>
+  `;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log('📄 DOMContentLoaded event');
+  setTimeout(initProductImageManager, 100);
+});
+
+document.addEventListener("turbo:load", () => {
+  console.log('⚡ turbo:load event');  
+  setTimeout(initProductImageManager, 100);
+  
+  // Agregar listener para debug del form                               
+  const form = document.querySelector("form");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      console.log('🚀 ENVIANDO FORMULARIO');
+      
+      // Verificar inputs de eliminación ANTES del submit
+      const removeInputs = form.querySelectorAll('input[name="product[remove_images][]"]');
+      console.log(`📤 Inputs de eliminación encontrados ANTES del envío: ${removeInputs.length}`);
+      
+      removeInputs.forEach((input, index) => {
+        console.log(`  ${index + 1}. Nombre: ${input.name}, Valor: ${input.value}, Tipo: ${input.type}, En DOM: ${input.isConnected}`);
+      });
+      
+      // Verificar que los inputs estén realmente en el formulario
+      const allInputs = form.querySelectorAll('input');
+      const removeInputsInForm = Array.from(allInputs).filter(input => input.name.includes('remove_images'));
+      console.log(`🔍 Total inputs en el form: ${allInputs.length}`);
+      console.log(`🔍 Inputs remove_images en el form: ${removeInputsInForm.length}`);
+      
+      // Mostrar todos los datos del formulario
+      const formData = new FormData(form);
+      console.log('📋 Datos completos del formulario:');
+      let hasRemoveImages = false;
+      for (let [key, value] of formData.entries()) {
+        console.log(`  ${key}: ${value}`);
+        if (key.includes('remove_images')) {
+          hasRemoveImages = true;
+        }
+      }
+      
+      if (!hasRemoveImages && removeInputs.length > 0) {
+        console.error('❌ ERROR: Se crearon inputs remove_images pero NO aparecen en FormData');
+        // Intentar agregarlos manualmente
+        removeInputs.forEach(input => {
+          if (input.value) {
+            formData.append(input.name, input.value);
+            console.log(`🔧 Agregado manualmente: ${input.name} = ${input.value}`);
+          }
+        });
+      }
+    });
+  }
+});
+
+// Limpiar al salir de la página
+document.addEventListener("turbo:before-visit", () => {
+  if (window.productImageManager) {
+    window.productImageManager.selectedFiles.forEach(f => {
+      if (f.objectUrl) URL.revokeObjectURL(f.objectUrl);
     });
     
-    input.files = dt.files;
+    window.productImageManager.initialized = false;
+    window.productImageManager.selectedFiles = [];
+    window.productImageManager.existingImages = [];
   }
+});
 </script>
