@@ -11,11 +11,16 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="card profile-card">
-          <div class="card-header profile-card-header bg-primary text-white">
+          <div class="card-header profile-card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h5>
               <i data-feather="info"></i>
               Información Personal
             </h5>
+            <div>
+              <%= link_to edit_profile_path, class: "btn text-white d-flex align-items-center gap-1" do %>
+                <i data-feather="edit"></i>
+              <% end %>
+            </div>
           </div>
           <div class="card-body profile-card-body">
             <div class="profile-info-item">

@@ -1,0 +1,57 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+
+      <div class="card shadow border-0 rounded-4 overflow-hidden" style="background: #f9fafb;">
+        
+        <!-- Header moderno -->
+        <div class="text-center py-4" style="background: linear-gradient(135deg, #4e73df, #224abe);">
+          <img src="https://ui-avatars.com/api/?name=<%= @user.name.first.upcase %> &background=ffffff&color=4e73df&size=120" 
+               class="rounded-circle shadow" alt="Avatar" style="width: 95px;">
+          <h4 class="text-white mt-3 mb-0">Editar Perfil</h4>
+          <p class="text-white-50 mb-0">Mantén tu información al día</p>
+        </div>
+
+        <div class="card-body p-4">
+
+          <%= form_with model: @user, url: profile_path, method: :patch, data: { turbo: false } do |f| %>
+
+            <!-- INPUT FLOTANTE -->
+            <div class="form-floating mb-4">
+              <%= f.text_field :name, class: "form-control", placeholder: "Nombre" %>
+              <%= f.label :name, "Nombre" %>
+            </div>
+
+            <div class="form-floating mb-4">
+              <%= f.text_field :last_name, class: "form-control", placeholder: "Apellido" %>
+              <%= f.label :last_name, "Apellido" %>
+            </div>
+
+            <div class="form-floating mb-4">
+              <%= f.text_field :phone, class: "form-control", placeholder: "Teléfono" %>
+              <%= f.label :phone, "Teléfono" %>
+            </div>
+
+            <div class="form-floating mb-4">
+              <%= f.text_field :address, class: "form-control", placeholder: "Dirección" %>
+              <%= f.label :address, "Dirección" %>
+            </div>
+
+            <div class="form-floating mb-4">
+              <%= f.text_field :city, class: "form-control", placeholder: "Ciudad" %>
+              <%= f.label :city, "Ciudad" %>
+            </div>
+
+            <div class="d-grid">
+              <%= f.submit "Guardar cambios", 
+                  class: "btn btn-primary btn-lg rounded-3 fw-bold shadow-sm" %>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

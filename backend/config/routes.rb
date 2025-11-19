@@ -26,7 +26,7 @@ Rails.application.routes.draw do
         }
     end
 
-    resource :profile, only: [:show], controller: "profile"
+    resource :profile, only: [:show, :edit, :update], controller: "profile"
 
     # Logout endpoint
     post :logout, to: "logout#create"
@@ -81,7 +81,7 @@ Rails.application.routes.draw do
     devise_for :users, skip: :omniauth_callbacks
 
     # 👤 Perfil
-    get "profile", to: "profile#show"
+    resource :profile, only: [:show, :edit, :update], controller: "profile"
 
     # 🏠 Home
     get "home", to: "home#index"
