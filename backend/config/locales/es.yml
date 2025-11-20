@@ -291,8 +291,8 @@ es:
 
   # Facturas
   invoice:
-    not_found: "Factura no encontrada"
-    title: "Facturas"
+    not_found: "comprobante no encontrado"
+    title: "comprobantes"
     status:
       pending: "Pendiente"
       sent: "Enviada"
@@ -300,7 +300,7 @@ es:
       overdue: "Vencida"
       cancelled: "Cancelada"
     details:
-      invoice_number: "Número de factura"
+      invoice_number: "Número de comprobante"
       date: "Fecha de emisión"
       due_date: "Fecha de vencimiento"
       customer: "Cliente"
@@ -309,6 +309,6 @@ es:
       tax: "Impuestos"
       total: "Total"
     actions:
-      view: "Ver factura"
+      view: "Ver comprobante"
       download: "Descargar PDF"
-      back_to_list: "Volver a facturas"
+      back_to_list: "Volver a comprobantes"

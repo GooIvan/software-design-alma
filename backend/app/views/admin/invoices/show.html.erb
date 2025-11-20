@@ -9,11 +9,11 @@
       <line x1="16" y1="17" x2="8" y2="17"/>
       <polyline points="10,9 9,9 8,9"/>
     </svg>
-    Factura #<%= @invoice.invoice_number %>
+    Comprobante de pago #<%= @invoice.invoice_number %>
   </h1>
   
-  <div class="admin-actions">
-    <%= link_to "← Volver a facturas", admin_invoices_path, class: "btn btn-secondary" %>
+  <div class="admin-actions mb-3">
+    <%= link_to "← Volver al listado", admin_invoices_path, class: "btn btn-secondary" %>
     <%= link_to "Descargar PDF", download_admin_invoice_path(@invoice), class: "btn btn-primary" %>
   </div>
 </div>
@@ -40,29 +40,53 @@
     
     <div class="info-group">
       <label>Pedido relacionado:</label>
-      <%= link_to "##{@invoice.order.id}", admin_order_path(@invoice.order), class: "text-link" %>
+      <% if @invoice.order.present? %>
+        <%= link_to "##{@invoice.order.id}", admin_order_path(@invoice.order), class: "text-link" %>
+      <% else %>
+        <span class="text-muted fst-italic">Pedido eliminado</span>
+      <% end %>
     </div>
+
   </div>
   
   <div class="invoice-totals">
-    <% 
-      # Calcular el subtotal original y descuento
-      subtotal_before_discount = @invoice.order.order_items.sum { |item| item.price * item.quantity }
-      discount_amount = @invoice.order.discount_amount || 0
-      if discount_amount == 0 && @invoice.order.discount_usage.present?
-        discount_amount = @invoice.order.discount_usage.discount_amount
-      end
-    %>
+<%
+if @invoice.order.present?
+  # Subtotal original
+  subtotal_before_discount = @invoice.order.order_items.sum { |item| item.price * item.quantity }
+
+  # Descuento
+  discount_amount = @invoice.order.discount_amount || 0
+  if discount_amount == 0 && @invoice.order.discount_usage.present?
+    discount_amount = @invoice.order.discount_usage.discount_amount
+  end
+
+  # Total final
+  final_total = subtotal_before_discount - discount_amount + @invoice.tax
+else
+  subtotal_before_discount = 0
+  discount_amount = 0
+  final_total = @invoice.tax || 0
+end
+%>
+
     <div class="total-row">
       <span>Subtotal:</span>
       <strong>$<%= number_with_precision(subtotal_before_discount, precision: 2) %></strong>
     </div>
-    <% if @invoice.order.discount_code.present? && discount_amount > 0 %>
-      <div class="total-row discount-row">
-        <span>Descuento (<%= @invoice.order.discount_code.code %>):</span>
-        <strong class="text-success">-$<%= number_with_precision(discount_amount, precision: 2) %></strong>
-      </div>
-    <% end %>
+<% if @invoice.order.present? && @invoice.order.discount_code.present? && discount_amount > 0 %>
+  <div class="total-row discount-row">
+    <span>Descuento (<%= @invoice.order.discount_code.code %>):</span>
+    <strong class="text-success">-$<%= number_with_precision(discount_amount, precision: 2) %></strong>
+  </div>
+<% else %>
+  <!-- Si no hay orden o ya fue eliminada -->
+  <div class="total-row discount-row">
+    <span>Descuento:</span>
+    <strong class="text-muted">No aplica</strong>
+  </div>
+<% end %>
+
     <div class="total-row">
       <span>Impuestos:</span>
       <strong>$<%= number_with_precision(@invoice.tax, precision: 2) %></strong>
@@ -78,7 +102,8 @@
 <!-- Información del cliente -->
 <div class="section-card">
   <h3>Información del Cliente</h3>
-  <% if @invoice.order.user %>
+  
+  <% if @invoice.order.present? && @invoice.order.user.present? %>
     <div class="customer-info">
       <div class="info-row">
         <strong>Email:</strong> <%= @invoice.order.user.email %>
@@ -87,47 +112,55 @@
         <strong>Cliente desde:</strong> <%= @invoice.order.user.created_at.strftime("%d/%m/%Y") %>
       </div>
     </div>
+  <% elsif @invoice.order.present? && @invoice.order.user.nil? %>
+    <p class="text-muted fst-italic">Usuario eliminado</p>
   <% else %>
-    <p class="text-muted">Usuario eliminado del sistema</p>
+    <p class="text-muted fst-italic">Pedido eliminado — no es posible mostrar información del usuario</p>
   <% end %>
 </div>
 
 <!-- Detalles de artículos -->
 <div class="section-card">
-  <h3>Artículos Facturados</h3>
-  <div class="items-table-container">
-    <table class="items-table">
-      <thead>
-        <tr>
-          <th>Artículo</th>
-          <th>Cantidad</th>
-          <th>Precio Unitario</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @invoice.order.order_items.each do |item| %>
+  <h3>Artículos</h3>
+
+  <% if @invoice.order.present? %>
+    <div class="items-table-container">
+      <table class="items-table">
+        <thead>
           <tr>
-            <td>
-              <div class="item-info">
-                <strong><%= item.product.name %></strong>
-                <% if item.product.description.present? %>
-                  <div class="item-description"><%= item.product.description %></div>
-                <% end %>
-                <% if item.size.present? %>
-                  <div class="item-size text-muted">Talla: <%= item.size %></div>
-                <% end %>
-              </div>
-            </td>
-            <td><%= item.quantity %></td>
-            <td>$<%= number_with_precision(item.price, precision: 2) %></td>
-            <td><strong>$<%= number_with_precision(item.total_price, precision: 2) %></strong></td>
+            <th>Artículo</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Total</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          <% @invoice.order.order_items.each do |item| %>
+            <tr>
+              <td>
+                <div class="item-info">
+                  <strong><%= item.product.name %></strong>
+                  <% if item.product.description.present? %>
+                    <div class="item-description"><%= item.product.description %></div>
+                  <% end %>
+                  <% if item.size.present? %>
+                    <div class="item-size text-muted">Talla: <%= item.size %></div>
+                  <% end %>
+                </div>
+              </td>
+              <td><%= item.quantity %></td>
+              <td>$<%= number_with_precision(item.price, precision: 2) %></td>
+              <td><strong>$<%= number_with_precision(item.total_price, precision: 2) %></strong></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="text-muted fst-italic">Pedido eliminado — no hay artículos para mostrar</p>
+  <% end %>
 </div>
+
 
 <!-- Acciones disponibles -->
 <div class="section-card">
@@ -137,7 +170,7 @@
       <%= link_to mark_as_sent_admin_invoice_path(@invoice), 
           method: :patch,
           class: "btn btn-success", 
-          data: { confirm: "¿Marcar factura como enviada?" } do %>
+          data: { confirm: "¿Marcar comprobante como enviada?" } do %>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20,6 9,17 4,12"/>
         </svg>
@@ -149,7 +182,7 @@
       <%= link_to mark_as_paid_admin_invoice_path(@invoice), 
           method: :patch,
           class: "btn btn-success", 
-          data: { confirm: "¿Marcar factura como pagada?" } do %>
+          data: { confirm: "¿Marcar comprobante como pagada?" } do %>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="10"/>
           <path d="M9,12l2,2 4,-4"/>
@@ -161,23 +194,23 @@
     <%= link_to regenerate_admin_invoice_path(@invoice), 
         method: :patch,
         class: "btn btn-warning", 
-        data: { confirm: "¿Regenerar factura? Esto actualizará los totales." } do %>
+        data: { confirm: "¿Regenerar comprobante? Esto actualizará los totales." } do %>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="23,4 23,10 17,10"/>
         <path d="M20.49,15a9,9,0,1,1-2.12-9.36L23,10"/>
       </svg>
-      Regenerar Factura
+      Regenerar Comprobante
     <% end %>
 
     <%= link_to admin_invoice_path(@invoice), 
         method: :delete,
         class: "btn btn-danger", 
-        data: { confirm: "¿Estás seguro de eliminar esta factura? Esta acción no se puede deshacer." } do %>
+        data: { confirm: "¿Estás seguro de eliminar este comprobante? Esta acción no se puede deshacer." } do %>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="3,6 5,6 21,6"/>
         <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"/>
       </svg>
-      Eliminar Factura
+      Eliminar Comprobante
     <% end %>
   </div>
 </div>

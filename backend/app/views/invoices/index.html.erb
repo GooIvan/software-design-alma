@@ -23,7 +23,7 @@
           </li>
           <li class="breadcrumb-item active" aria-current="page">
             <i data-feather="file-text" class="feather-icon-sm"></i>
-            Mis Facturas
+            Mis comprobantes
           </li>
         </ol>
       </nav>
@@ -34,11 +34,11 @@
           <div class="order-header-content">
             <h1 class="order-title">
               <i data-feather="file-text" class="order-title-icon"></i>
-              Mis Facturas
+              Mis comprobantes
             </h1>
             <div class="order-number-badge">
               <i data-feather="hash"></i>
-              <%= @invoices.count %> facturas
+              <%= @invoices.count %> comprobantes
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
                 <i data-feather="clock"></i>
               </div>
               <div class="info-content">
-                <span class="info-label">Facturas pendientes</span>
+                <span class="info-label">comprobantes pendientes</span>
                 <span class="info-value"><%= @pending_invoices.count %></span>
               </div>
             </div>
@@ -68,7 +68,7 @@
                 <i data-feather="check-circle"></i>
               </div>
               <div class="info-content">
-                <span class="info-label">Facturas pagadas</span>
+                <span class="info-label">comprobantes pagadas</span>
                 <span class="info-value"><%= @paid_invoices.count %></span>
               </div>
             </div>
@@ -78,7 +78,7 @@
                 <i data-feather="dollar-sign"></i>
               </div>
               <div class="info-content">
-                <span class="info-label">Total facturado</span>
+                <span class="info-label">Total </span>
                 <span class="info-value info-value-price">$<%= number_to_currency(@invoices.sum(&:total), unit: "", delimiter: ".", precision: 0) %></span>
               </div>
             </div>
@@ -91,7 +91,7 @@
         <div class="order-products-section">
           <h3 class="section-title">
             <i data-feather="list" class="section-icon"></i>
-            Lista de Facturas
+            Lista de comprobantes
           </h3>
 
           <% if @invoices.any? %>
@@ -105,7 +105,7 @@
                   </div>
                   
                   <div class="product-details">
-                    <h4 class="product-name">Factura <%= invoice.formatted_invoice_number %></h4>
+                    <h4 class="product-name">comprobante <%= invoice.formatted_invoice_number %></h4>
                     <div class="product-specs">
                       <span class="spec-badge">
                         <i data-feather="calendar" class="spec-icon"></i>
@@ -142,8 +142,8 @@
               <div class="empty-icon">
                 <i data-feather="file-x"></i>
               </div>
-              <h4>No tienes facturas</h4>
-              <p>Cuando realices una compra y el pago sea confirmado, aparecerá aquí tu factura.</p>
+              <h4>No tienes comprobantes</h4>
+              <p>Cuando realices una compra y el pago sea confirmado, aparecerá aquí tu comprobante.</p>
               <%= link_to root_path, class: "btn-order-action btn-primary" do %>
                 <i data-feather="shopping-bag"></i>
                 <span>Ir de compras</span>

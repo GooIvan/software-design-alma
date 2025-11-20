@@ -1,7 +1,7 @@
 namespace :invoices do
   desc "Sync invoice statuses with their corresponding order statuses"
   task sync_statuses: :environment do
-    puts "Sincronizando estados de facturas con órdenes..."
+    puts "Sincronizando estados de comprobante con órdenes..."
 
     updated_count = 0
 
@@ -11,11 +11,11 @@ namespace :invoices do
 
       if invoice.changed?
         invoice.save!
-        puts "Factura ##{invoice.invoice_number}: #{old_status} -> #{invoice.status}"
+        puts "comprobante ##{invoice.invoice_number}: #{old_status} -> #{invoice.status}"
         updated_count += 1
       end
     end
 
-    puts "Se actualizaron #{updated_count} facturas."
+    puts "Se actualizaron #{updated_count} comprobantes."
   end
 end

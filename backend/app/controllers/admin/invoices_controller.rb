@@ -19,7 +19,7 @@ class Admin::InvoicesController < ApplicationController
       pdf_content = pdf_service.generate
       
       send_data pdf_content,
-                filename: "factura-#{@invoice.invoice_number}.pdf",
+                filename: "comprobante-#{@invoice.invoice_number}.pdf",
                 type: 'application/pdf',
                 disposition: 'attachment'
     rescue => e
@@ -30,13 +30,13 @@ class Admin::InvoicesController < ApplicationController
 
   def mark_as_sent
     @invoice.update!(status: :sent)
-    redirect_to admin_invoice_path(@invoice), notice: 'Factura marcada como enviada'
+    redirect_to admin_invoice_path(@invoice), notice: 'comprobante marcado como enviada'
   end
 
   def mark_as_paid
     @invoice.update!(status: :paid)
     @invoice.order.update!(status: :paid) if @invoice.order.status != 'paid'
-    redirect_to admin_invoice_path(@invoice), notice: 'Factura marcada como pagada'
+    redirect_to admin_invoice_path(@invoice), notice: 'comprobante marcado como pagada'
   end
 
   def regenerate
@@ -45,21 +45,21 @@ class Admin::InvoicesController < ApplicationController
       tax: @invoice.order.tax_amount,
       total: @invoice.order.total_amount
     )
-    redirect_to admin_invoice_path(@invoice), notice: 'Factura regenerada exitosamente'
+    redirect_to admin_invoice_path(@invoice), notice: 'comprobante regenerado exitosamente'
   end
 
   def destroy
     @invoice.destroy!
-    redirect_to admin_invoices_path, notice: 'Factura eliminada exitosamente'
+    redirect_to admin_invoices_path, notice: 'comprobanto eliminada exitosamente'
   end
 
   def bulk_delete
     ids = params[:invoice_ids]
     if ids.present?
       Invoice.where(id: ids).destroy_all
-      redirect_to admin_invoices_path, notice: "#{ids.length} facturas eliminadas"
+      redirect_to admin_invoices_path, notice: "#{ids.length} comprobantes eliminados"
     else
-      redirect_to admin_invoices_path, alert: "No se seleccionaron facturas"
+      redirect_to admin_invoices_path, alert: "No se seleccionaron comprobantes"
     end
   end
 

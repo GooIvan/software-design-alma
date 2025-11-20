@@ -22,12 +22,12 @@ class InvoicesController < ApplicationController
         begin
           pdf = InvoicePdf.new(@invoice)
           send_data pdf.render,
-                    filename: "factura_#{@invoice.formatted_invoice_number}.pdf",
+                    filename: "comprobante_#{@invoice.formatted_invoice_number}.pdf",
                     type: "application/pdf",
                     disposition: "attachment"
         rescue => e
           Rails.logger.error "Error generando PDF: #{e.message}"
-          redirect_to invoice_path(@invoice), alert: "Error al generar el PDF de la factura"
+          redirect_to invoice_path(@invoice), alert: "Error al generar el PDF"
         end
       end
     end

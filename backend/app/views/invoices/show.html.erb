@@ -24,7 +24,7 @@
           <li class="breadcrumb-item">
             <%= link_to invoices_path do %>
               <i data-feather="file-text" class="feather-icon-sm"></i>
-              Facturas
+              Comprobantes de pago
             <% end %>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
@@ -41,7 +41,7 @@
           <div class="order-header-content">
             <h1 class="order-title">
               <i data-feather="file-text" class="order-title-icon"></i>
-              Factura
+              Comprobante de pago
             </h1>
             <div class="order-number-badge">
               <i data-feather="hash"></i>
@@ -91,7 +91,7 @@
         <div class="order-info-section">
           <h3 class="section-title">
             <i data-feather="info" class="section-icon"></i>
-            Información de la factura
+            Información de la Comprobantes de pago
           </h3>
           
           <div class="order-info-grid">
@@ -170,7 +170,7 @@
         <div class="order-products-section">
           <h3 class="section-title">
             <i data-feather="shopping-cart" class="section-icon"></i>
-            Productos facturados
+            Productos
           </h3>
 
           <div class="invoice-table">
@@ -264,8 +264,8 @@
               <i data-feather="check-circle"></i>
             </div>
             <div class="alert-content">
-              <h4 class="alert-title">¡Factura pagada!</h4>
-              <p class="alert-message">Esta factura ha sido pagada exitosamente.</p>
+              <h4 class="alert-title">Comprobantes pagada!</h4>
+              <p class="alert-message">Este Comprobante de pago ha sido pagada exitosamente.</p>
             </div>
           </div>
         <% else %>
@@ -274,8 +274,8 @@
               <i data-feather="alert-circle"></i>
             </div>
             <div class="alert-content">
-              <h4 class="alert-title">Factura pendiente de pago</h4>
-              <p class="alert-message">Esta factura aún no ha sido pagada.</p>
+              <h4 class="alert-title">Comprobante de pago pendiente de pago</h4>
+              <p class="alert-message">Este Comprobante de pago aún no ha sido pagada.</p>
             </div>
           </div>
         <% end %>
@@ -284,7 +284,7 @@
         <div class="order-actions">
           <%= link_to invoices_path, class: "btn-order-action btn-secondary" do %>
             <i data-feather="arrow-left"></i>
-            <span>Volver a facturas</span>
+            <span>Volver a Comprobantes de pago</span>
           <% end %>
           
           <%= link_to download_invoice_path(@invoice, format: :pdf), class: "btn-order-action btn-primary", target: "_blank" do %>

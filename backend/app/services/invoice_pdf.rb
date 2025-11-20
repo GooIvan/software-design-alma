@@ -33,7 +33,7 @@ class InvoicePdf < Prawn::Document
       Rails.logger.warn "No se pudo cargar el logo: #{e.message}"
     end
 
-    text "FACTURA", size: 28, style: :bold, align: :center
+    text "COMPROBANTE DE PAGO", size: 28, style: :bold, align: :center
     move_down 8
     text "#{@invoice.formatted_invoice_number}", size: 14, align: :center, color: "888888"
     move_down 25
@@ -62,14 +62,14 @@ class InvoicePdf < Prawn::Document
   end
 
   def invoice_details
-    text "DETALLES DE FACTURACION", size: 14, style: :bold
+    text "DETALLES", size: 14, style: :bold
     move_down 15
   end
 
   def customer_details
     # Información del cliente
     bounding_box([0, cursor], width: 250, height: 80) do
-      text "FACTURAR A:", size: 10, style: :bold, color: "888888"
+      text "ENTREGAR A:", size: 10, style: :bold, color: "888888"
       move_down 8
       text "#{@user.name} #{@user.last_name}", size: 11, style: :bold, color: "333333"
       text "#{@user.email}", size: 9, color: "666666"
@@ -188,9 +188,9 @@ class InvoicePdf < Prawn::Document
         fill_color "000000"
 
         pad(12) do
-          text "FACTURA PAGADA", size: 11, style: :bold, color: "2E7D32"
+          text "COMPROBANTE PAGADA", size: 11, style: :bold, color: "2E7D32"
           move_down 3
-          text "Esta factura ha sido pagada exitosamente.", size: 9, color: "2E7D32"
+          text "Este comprobante ha sido pagada exitosamente.", size: 9, color: "2E7D32"
         end
       end
     else
@@ -205,7 +205,7 @@ class InvoicePdf < Prawn::Document
         pad(12) do
           text "PENDIENTE DE PAGO", size: 11, style: :bold, color: "F57C00"
           move_down 3
-          text "Esta factura esta pendiente de pago.", size: 9, color: "F57C00"
+          text "Este comprobante esta pendiente de pago.", size: 9, color: "F57C00"
         end
       end
     end

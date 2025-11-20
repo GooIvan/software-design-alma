@@ -292,7 +292,7 @@
           <% if @order.paid? && @order.invoice.present? %>
             <%= link_to invoice_path(@order.invoice), class: "btn-order-action btn-success" do %>
               <i data-feather="file-text"></i>
-              <span>Ver Factura</span>
+              <span>Ver comprobante de pago</span>
             <% end %>
           <% end %>
           

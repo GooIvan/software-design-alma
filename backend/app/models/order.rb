@@ -17,6 +17,23 @@ class Order < ApplicationRecord
   # Remover el callback automático para evitar conflictos con descuentos
   # before_validation :set_item_prices_and_total
 
+  # Método público para calcular total sin descuento
+  def calculate_total_without_discount
+    subtotal = 0
+    order_items.each do |item|
+      next unless item.product_id.present?
+
+      product = Product.find_by(id: item.product_id)
+      if product
+        item.price = product.price
+        subtotal += item.price * item.quantity.to_i
+      end
+    end
+    self.total = subtotal
+  end
+
+  public :calculate_total_without_discount
+
   private
 
   def set_item_prices_and_total
@@ -51,21 +68,6 @@ class Order < ApplicationRecord
       code: discount_code.code, 
       amount: discount_value 
     }
-  end
-
-  # Método público para calcular total sin descuento
-  def calculate_total_without_discount
-    subtotal = 0
-    order_items.each do |item|
-      next unless item.product_id.present?
-
-      product = Product.find_by(id: item.product_id)
-      if product
-        item.price = product.price
-        subtotal += item.price * item.quantity.to_i
-      end
-    end
-    self.total = subtotal
   end
 
   def decrease_stock

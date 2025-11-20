@@ -1,32 +1,86 @@
 class CartItemsController < ApplicationController
   def create
-  cart = current_cart
-  product = Product.find(params[:product_id])
+    cart = current_cart
+    product = Product.find(params[:product_id])
 
-  sizes = Array(params[:sizes].presence || params[:size])
-  quantity = params[:quantity].to_i > 0 ? params[:quantity].to_i : 1
+    sizes = Array(params[:sizes].presence || params[:size])
+    quantity = params[:quantity].to_i > 0 ? params[:quantity].to_i : 1
 
-  if sizes.empty?
-    redirect_back fallback_location: root_path, alert: t("size_obligatory")
-    return
-  end
-
-  sizes.each do |size|
-    item = cart.cart_items.find_by(product_id: product.id, size: size)
-
-    if item
-      item.quantity += quantity
-    else
-      item = cart.cart_items.build(product: product, size: size, quantity: quantity)
+    if sizes.empty?
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "flash_messages",
+            partial: "shared/flash",
+            locals: { alert: t("size_obligatory") }
+          )
+        end
+        format.html { redirect_back fallback_location: root_path, alert: t("size_obligatory") }
+      end
+      return
     end
 
-    item.save
-  end
+    added_items = []
 
-  flash[:item_added] = true
-  redirect_back fallback_location: root_path
+    sizes.each do |size|
+      item = cart.cart_items.find_by(product_id: product.id, size: size)
+
+      if item
+        item.quantity += quantity
+      else
+        item = cart.cart_items.build(product: product, size: size, quantity: quantity)
+      end
+
+      item.save
+      added_items << item
+    end
+
+    cart_count = current_cart.cart_items.sum(:quantity)
+
+    respond_to do |format|
+      format.turbo_stream do
+        streams = []
+
+        added_items.each do |item|
+          streams << turbo_stream.replace(
+            "cart_item_#{item.id}",
+            partial: "cart_items/cart_item",
+            locals: { item: item }
+          )
+        end
+
+        streams << turbo_stream.replace("cart_count", partial: "shared/cart/cart_count")
+        streams << turbo_stream.replace("total_price", partial: "shared/cart/total_price")
+
+        streams << turbo_stream.replace(
+          "cart_icon_xl",
+          partial: "shared/cart/cart_icon",
+          locals: {
+            icon_id: "cart-toggle-xl",
+            extra_classes: "d-none d-lg-flex",
+            cart_items_count: cart_count
+          }
+        )
+
+        streams << turbo_stream.replace(
+          "cart_icon_mobile",
+          partial: "shared/cart/cart_icon",
+          locals: {
+            icon_id: "cart-toggle",
+            extra_classes: "d-lg-none",
+            cart_items_count: cart_count
+          }
+        )
+
+        render turbo_stream: streams
+      end
+
+      format.html do
+        flash[:item_added] = true
+        redirect_back fallback_location: root_path
+      end
+    end
   end
-  
 
   def destroy
     item = current_cart.cart_items.find(params[:id])

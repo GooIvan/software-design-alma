@@ -1,34 +1,38 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!  # ← esto redirige al login si no hay sesión
 
-  def create
-    if current_cart.cart_items.empty?
-      redirect_back fallback_location: root_path, alert: "El carrito está vacío."
-      return
-    end
-
-    order_items_attributes = current_cart.cart_items.map do |item|
-      {
-        product_id: item.product.id,
-        quantity: item.quantity,
-        size: item.size,
-      }
-    end
-
-    @order = Order.new(
-      user: current_user,
-      status: :pending,
-      order_items_attributes: order_items_attributes,
-    )
-
-    if @order.save
-      current_cart.cart_items.destroy_all
-      redirect_to payment_order_path(@order), notice: "Orden creada. Procede al pago."
-    else
-      flash[:alert] = @order.errors.map(&:message).to_sentence
-      redirect_back fallback_location: root_path
-    end
+def create
+  if current_cart.cart_items.empty?
+    redirect_back fallback_location: root_path, alert: "El carrito está vacío."
+    return
   end
+
+  order_items_attributes = current_cart.cart_items.map do |item|
+    {
+      product_id: item.product.id,
+      quantity: item.quantity,
+      size: item.size,
+    }
+  end
+
+  @order = Order.new(
+    user: current_user,
+    status: :pending,
+    order_items_attributes: order_items_attributes,
+  )
+
+  # 🔥 ESTA LÍNEA ES LA QUE FALTABA 🔥
+  @order.calculate_total_without_discount
+
+  if @order.save
+    current_cart.cart_items.destroy_all
+    redirect_to payment_order_path(@order), notice: "Orden creada. Procede al pago."
+  else
+    flash[:alert] = @order.errors.full_messages.to_sentence
+    redirect_back fallback_location: root_path
+  end
+end
+
 
   def payment
     @order = Order.find(params[:id])
