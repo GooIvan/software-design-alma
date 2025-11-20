@@ -63,70 +63,44 @@ class ProductCard extends StatelessWidget {
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16),
                       ),
-                      child: Image.network(
-                        product.images.first,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Color(0xFF29B6F6)),
-                            ),
-                          );
-                        },
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFF8F9FA),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(16),
-                              topRight: Radius.circular(16),
-                            ),
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.shopping_bag_outlined,
-                                  size: 50,
-                                  color: Colors.grey,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  context.l10n.noImage,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
+                      child: product.images.isEmpty
+                          ? _buildFallback(context) // 🔥 Fallback si no hay imágenes
+                          : Image.network(
+                              product.images.first,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Color(0xFF29B6F6),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  _buildFallback(context), // 🔥 Fallback si falla la carga
                             ),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
-                  // Botón de favoritos mejorado
+
+                  // ❤️ Botón de favoritos
                   Positioned(
                     top: 12,
                     right: 12,
                     child: GestureDetector(
                       onTap: () {
-                        // TODO: Agregar/quitar de favoritos
                         print('Favorito: ${product.name}');
                       },
                       child: Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).appBarTheme.backgroundColor ??
-                                  Colors.white,
+                          color: Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -440,5 +414,34 @@ class ProductCard extends StatelessWidget {
     CustomAlert.success(context, context.l10n.aggProductToCart);
 
     print('Producto agregado al carrito: "${product.name}", "$selectedSize"');
+  }
+
+  /// 🔘 --- WIDGET FALLBACK --- 🔘
+  /// Fondo gris + ícono + texto
+  Widget _buildFallback(BuildContext context) {
+    return Container(
+      color: const Color(0xFFF8F9FA),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.image_not_supported_outlined,
+              size: 50,
+              color: Colors.grey,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              context.l10n.noImage,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Colors.grey,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
