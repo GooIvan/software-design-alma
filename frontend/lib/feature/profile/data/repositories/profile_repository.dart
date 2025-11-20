@@ -71,6 +71,58 @@ class ProfileRepository {
     await _clearUserData(prefs);
   }
 
+  Future<User?> updateProfile(User user) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    if (token == null) {
+      throw Exception('Usuario no autenticado');
+    }
+
+    try {
+      // Hacer petición PUT al backend
+      final response = await http.put(
+        Uri.parse('${Api.baseUrl}/api/profile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'name': user.name,
+          'last_name': user.lastName,
+          'phone': user.phone,
+          'address': user.address,
+          'city': user.city,
+        }),
+      );
+
+      print('Update response status: ${response.statusCode}');
+      print('Update response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        if (data['success'] == true && data['user'] != null) {
+          final userData = data['user'];
+          
+          // Actualizar los datos del usuario en SharedPreferences
+          await prefs.setString('user_data', jsonEncode(userData));
+          return User.fromJson(userData);
+        } else {
+          throw Exception('Formato de respuesta inválido');
+        }
+      } else if (response.statusCode == 401) {
+        await _clearUserData(prefs);
+        throw const TokenExpiredException('Token inválido o expirado');
+      } else {
+        throw Exception('Error al actualizar perfil: Status ${response.statusCode}, Body: ${response.body}');
+      }
+    } catch (e) {
+      print('Error en updateProfile: $e');
+      rethrow;
+    }
+  }
+
   Future<void> _clearUserData(SharedPreferences prefs) async {
     await prefs.remove('token');
     await prefs.remove('user_data');

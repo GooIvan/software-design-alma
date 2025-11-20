@@ -1,11 +1,14 @@
 import 'package:design_alma/feature/profile/presentation/widgets/confirm_box.dart';
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../models/user_model.dart';
 import '../../../about/pages/about_page.dart';
 import '../../../configuration/presentation/page/configuration_page.dart';
 import '../../../orders/index/presentation/pages/orders_page.dart';
+import '../../data/bloc/profile_bloc.dart';
+import '../pages/edit_profile_page.dart';
 
 class ProfileSuccessView extends StatelessWidget {
   final User user;
@@ -27,6 +30,7 @@ class ProfileSuccessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color azulPrimary = Theme.of(context).colorScheme.primary;
+    final profileBloc = context.read<ProfileBloc>();
 
     return SafeArea(
       child: RefreshIndicator(
@@ -39,10 +43,47 @@ class ProfileSuccessView extends StatelessWidget {
             // Header con avatar y nombre
             const SizedBox(height: 20),
             Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: azulPrimary,
-                child: const Icon(Icons.person, size: 50, color: Colors.white),
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: azulPrimary,
+                    child: const Icon(Icons.person, size: 50, color: Colors.white),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BlocProvider.value(
+                              value: profileBloc,
+                              child: EditProfilePage(user: user),
+                            ),
+                          ),
+                        );
+                        if (result == true) {
+                          _onReload();
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: azulPrimary,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
@@ -61,11 +102,26 @@ class ProfileSuccessView extends StatelessWidget {
 
             // Opciones
             _buildOptionTile(
+              context: context,
               icon: Icons.account_circle,
               title: context.l10n.myAccount,
-              onTap: () {},
+              onTap: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider.value(
+                      value: profileBloc,
+                      child: EditProfilePage(user: user),
+                    ),
+                  ),
+                );
+                if (result == true) {
+                  _onReload();
+                }
+              },
             ),
             _buildOptionTile(
+              context: context,
               icon: Icons.receipt_long,
               title: context.l10n.myOrders,
               onTap: () {
@@ -78,6 +134,7 @@ class ProfileSuccessView extends StatelessWidget {
               },
             ),
             _buildOptionTile(
+              context: context,
               icon: Icons.info,
               title: context.l10n.about,
               onTap: () {
@@ -90,6 +147,7 @@ class ProfileSuccessView extends StatelessWidget {
               },
             ),
             _buildOptionTile(
+              context: context,
               icon: Icons.settings,
               title: context.l10n.configuration,
               onTap: () {
@@ -137,6 +195,7 @@ class ProfileSuccessView extends StatelessWidget {
   }
 
   Widget _buildOptionTile({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required VoidCallback onTap,

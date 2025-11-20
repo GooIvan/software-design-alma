@@ -12,6 +12,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(this.repository) : super(ProfileInitial()) {
     on<LoadProfile>(_onLoadProfile);
     on<LogoutRequested>(_onLogoutRequested);
+    on<UpdateProfile>(_onUpdateProfile);
   }
 
   Future<void> _onLoadProfile(
@@ -39,6 +40,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileLogoutSuccess());
     } catch (e) {
       emit(ProfileError('Error al cerrar sesión: $e'));
+    }
+  }
+
+  Future<void> _onUpdateProfile(
+      UpdateProfile event, Emitter<ProfileState> emit) async {
+    emit(ProfileLoading());
+    try {
+      final updatedUser = await repository.updateProfile(event.user);
+      if (updatedUser != null) {
+        emit(ProfileUpdated(updatedUser));
+        // After update, emit ProfileLoaded to show updated data
+        emit(ProfileLoaded(updatedUser));
+      } else {
+        emit(const ProfileError('No se pudo actualizar el perfil'));
+      }
+    } on TokenExpiredException catch (e) {
+      emit(ProfileTokenExpired(e.message));
+    } catch (e) {
+      emit(ProfileError('Error al actualizar: $e'));
     }
   }
 }
