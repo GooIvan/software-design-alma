@@ -715,4 +715,90 @@ class AppLocalizationsFr extends AppLocalizations {
   String expireDate(String date) {
     return 'Expire : $date';
   }
+
+  @override
+  String get termsTitle => 'Termes et Conditions';
+
+  @override
+  String get termsLastUpdated => 'Dernière mise à jour';
+
+  @override
+  String get termsUpdatedDate => '15 mars 2025';
+
+  @override
+  String get termsIntro =>
+      'Bienvenue dans notre application. En utilisant nos services, vous acceptez ces Termes et Conditions. Veuillez les lire attentivement.';
+
+  @override
+  String get termsScopeTitle => '1. Portée du Service';
+
+  @override
+  String get termsScope =>
+      'Notre application propose des fonctionnalités liées aux achats, commandes, gestion des utilisateurs et communication avec notre plateforme.';
+
+  @override
+  String get termsDataTitle => '2. Utilisation des Données';
+
+  @override
+  String get termsData =>
+      'Les informations personnelles fournies par l’utilisateur seront traitées conformément à notre Politique de Confidentialité et utilisées uniquement pour des services liés.';
+
+  @override
+  String get termsProductsTitle => '3. Produits et Services';
+
+  @override
+  String get termsProducts =>
+      'Les produits proposés sont soumis à disponibilité. Nous nous réservons le droit de modifier les prix, les caractéristiques ou la disponibilité sans préavis.';
+
+  @override
+  String get termsPaymentsTitle => '4. Paiements';
+
+  @override
+  String get termsPayments =>
+      'Les paiements effectués via l’application doivent utiliser les méthodes autorisées et seront traités en toute sécurité.';
+
+  @override
+  String get termsDeliveryTitle => '5. Livraisons et Expéditions';
+
+  @override
+  String get termsDelivery =>
+      'Les délais de livraison peuvent varier selon la localisation de l\'utilisateur et la disponibilité du produit.';
+
+  @override
+  String get termsLiabilityTitle => '6. Limitation de Responsabilité';
+
+  @override
+  String get termsLiability =>
+      'Nous ne sommes pas responsables des dommages indirects, accidentels ou consécutifs liés à l’utilisation de l’application.';
+
+  @override
+  String get termsChangesTitle => '7. Modifications des Termes';
+
+  @override
+  String get termsChanges =>
+      'Nous nous réservons le droit de mettre à jour ces termes lorsque nécessaire. Les modifications seront publiées dans l’application.';
+
+  @override
+  String get termsContactTitle => '8. Contact';
+
+  @override
+  String get termsContact =>
+      'Si vous avez des questions ou des commentaires, vous pouvez contacter notre équipe de support.';
+
+  @override
+  String get termsAcceptButton => 'Accepter';
+
+  @override
+  String get registerAcceptTerms => 'J\'accepte les termes et conditions';
+
+  @override
+  String get registerAcceptTermsLabel =>
+      'Acceptez-vous les termes et conditions ?';
+
+  @override
+  String get registerAcceptTermsError =>
+      'Vous devez accepter les termes et conditions pour continuer.';
+
+  @override
+  String get configurationSubtitle => 'Langue, thème et plus';
 }
