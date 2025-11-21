@@ -9,6 +9,7 @@ import '../../feature/products/index/core/products_injection.dart';
 import '../../feature/products/show/core/product_injection.dart';
 import '../../feature/profile/core/profile_injection.dart';
 import '../../feature/register/core/register_injection.dart';
+import '../../feature/favorites/core/favorites_injection.dart';
 
 final sl = GetIt.instance;
 
@@ -35,4 +36,7 @@ void init() {
   //* Se inicializa el módulo de Orders
   initOrdersModule();
   initOrderModule();
+
+  //* Se inicializa el módulo de Favorites
+  initFavoritesModule();
 }
