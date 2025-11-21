@@ -3,7 +3,9 @@ class FavoritesController < ApplicationController
   before_action :set_favorite, only: [:destroy]
 
   def index
-    @favorites = current_user.favorites.includes(product: [:images, :category])
+    @favorites = current_user.favorites.includes(:product)
+    # Precargar las imágenes de los productos
+    Product.where(id: @favorites.map(&:product_id)).with_attached_images.load
   end
 
   def create
