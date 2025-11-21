@@ -796,6 +796,24 @@ abstract class AppLocalizations {
   /// **'Order'**
   String get order;
 
+  /// Title shown when there are no orders
+  ///
+  /// In en, this message translates to:
+  /// **'You have no orders yet'**
+  String get noOrdersTitle;
+
+  /// Secondary text shown when there are no orders
+  ///
+  /// In en, this message translates to:
+  /// **'When you place orders, they will appear here.'**
+  String get noOrdersSubtitle;
+
+  /// Button to start shopping when order list is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Start Shopping'**
+  String get startShopping;
+
   /// No description provided for @errorOrdersLoading.
   ///
   /// In en, this message translates to:

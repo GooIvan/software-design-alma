@@ -116,6 +116,18 @@
   "noOrdersFilterFound": "No se encontraron pedidos con los filtros seleccionados.",
   "clearFilters": "Ver todas las órdenes",
   "order": "Orden",
+  "noOrdersTitle": "No tienes órdenes todavía",
+  "noOrdersSubtitle": "Cuando realices compras, aparecerán aquí.",
+  "startShopping": "Comenzar a comprar",
+  "@noOrdersTitle": {
+    "description": "Título mostrado cuando la lista de órdenes está vacía"
+  },
+  "@noOrdersSubtitle": {
+    "description": "Texto secundario mostrado cuando no hay órdenes"
+  },
+  "@startShopping": {
+    "description": "Botón para iniciar compra cuando no hay órdenes"
+  },
   "errorOrdersLoading": "Error al cargar las órdenes.",
   "errorOrderLoading": "Error al cargar la orden.",
   "noArticles": "No hay artículos en esta orden",

@@ -116,6 +116,18 @@
   "noOrdersFilterFound": "Aucune commande trouvée avec les filtres sélectionnés.",
   "clearFilters": "Voir toutes les commandes",
   "order": "Commande",
+  "noOrdersTitle": "Vous n'avez pas encore de commandes",
+  "noOrdersSubtitle": "Lorsque vous passerez des commandes, elles apparaîtront ici.",
+  "startShopping": "Commencer les achats",
+  "@noOrdersTitle": {
+    "description": "Titre affiché lorsque la liste de commandes est vide"
+  },
+  "@noOrdersSubtitle": {
+    "description": "Texte secondaire affiché lorsqu'il n'y a aucune commande"
+  },
+  "@startShopping": {
+    "description": "Bouton pour commencer à acheter lorsque la liste de commandes est vide"
+  },
   "errorOrdersLoading": "Erreur lors du chargement des commandes.",
   "errorOrderLoading": "Erreur lors du chargement de la commande.",
   "noArticles": "Aucun article dans cette commande",
