@@ -26,8 +26,7 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
   bool _obscurePassword = true;
   bool _obscurePasswordConfirm = true;
-
-  bool _acceptTerms = false; // NUEVO
+  bool _acceptTerms = false;
 
   @override
   void dispose() {
@@ -45,9 +44,8 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
   void _onRegisterPressed(BuildContext context) {
     if (!_acceptTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:
-              Text("Debes aceptar los términos y condiciones para continuar."),
+        SnackBar(
+          content: Text(context.l10n.registerAcceptTermsError),
         ),
       );
       return;
@@ -101,17 +99,16 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                 const SizedBox(height: 30),
 
                 // ---------------- INPUTS ----------------
-                // Name
                 _buildTextField(
                   controller: _nameController,
                   icon: Icons.person,
                   hint: context.l10n.registerInputName,
-                  validator: (v) => v!.isEmpty ? context.l10n.validationName : null,
+                  validator: (v) =>
+                      v!.isEmpty ? context.l10n.validationName : null,
                 ),
 
                 const SizedBox(height: 20),
 
-                // Last name
                 _buildTextField(
                   controller: _lastNameController,
                   icon: Icons.person,
@@ -122,7 +119,6 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
                 const SizedBox(height: 20),
 
-                // City
                 _buildTextField(
                   controller: _cityController,
                   icon: Icons.location_city,
@@ -133,7 +129,6 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
                 const SizedBox(height: 20),
 
-                // Address
                 _buildTextField(
                   controller: _addressController,
                   icon: Icons.home,
@@ -144,7 +139,6 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
                 const SizedBox(height: 20),
 
-                // Phone
                 _buildTextField(
                   controller: _phoneController,
                   icon: Icons.phone,
@@ -155,7 +149,6 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
                 const SizedBox(height: 20),
 
-                // Email
                 _buildTextField(
                   controller: _emailController,
                   icon: Icons.mail,
@@ -166,7 +159,6 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
                 const SizedBox(height: 20),
 
-                // Password
                 _buildPasswordField(
                   controller: _passwordController,
                   obscure: _obscurePassword,
@@ -179,7 +171,6 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
 
                 const SizedBox(height: 20),
 
-                // Confirm password
                 _buildPasswordField(
                   controller: _passwordConfirmController,
                   obscure: _obscurePasswordConfirm,
@@ -216,9 +207,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
                         onTap: () {
                           Navigator.pushNamed(context, "/terms");
                         },
-                        child: const Text(
-                          "Acepto los términos y condiciones",
-                          style: TextStyle(
+                        child: Text(
+                          context.l10n.registerAcceptTerms,
+                          style: const TextStyle(
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.bold,
                           ),
@@ -276,7 +267,8 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       decoration: InputDecoration(
         hintText: hint,
-        prefixIcon: Icon(icon, size: 20, color: Color.fromARGB(255, 110, 110, 110)),
+        prefixIcon:
+            Icon(icon, size: 20, color: const Color.fromARGB(255, 110, 110, 110)),
         filled: true,
         fillColor: Colors.white,
         enabledBorder: _borderNone(),
@@ -304,8 +296,10 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
         prefixIcon:
             const Icon(Icons.vpn_key, size: 20, color: Color.fromARGB(255, 110, 110, 110)),
         suffixIcon: IconButton(
-          icon: Icon(obscure ? Icons.visibility_off : Icons.visibility,
-              color: const Color.fromARGB(255, 110, 110, 110)),
+          icon: Icon(
+            obscure ? Icons.visibility_off : Icons.visibility,
+            color: const Color.fromARGB(255, 110, 110, 110),
+          ),
           onPressed: () => toggle(),
         ),
         filled: true,
