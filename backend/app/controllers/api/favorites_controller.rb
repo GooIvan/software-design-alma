@@ -3,24 +3,38 @@ module Api
     before_action :authenticate_user!
     before_action :set_favorite, only: [:destroy]
 
-    # GET /api/favorites
     def index
-      favorites = current_user.favorites.includes(product: [:images, :category])
-      
+      @favorites = current_user.favorites
+        .includes(product: { images_attachments: :blob, category: {} })
+
       render json: {
         status: "success",
-        data: favorites.as_json(
-          include: { 
-            product: { 
-              only: [:id, :name, :price, :description, :category_id], 
-              methods: [:formatted_price, :image_urls],
-              include: {
-                category: { only: [:id, :name, :slug] }
+        data: @favorites.map do |fav|
+          product = fav.product
+
+          {
+            id: fav.id,
+            created_at: fav.created_at,
+
+            product: {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              description: product.description,
+              category_id: product.category_id,
+              formatted_price: product.formatted_price,
+
+              # Generar URLs sin tocar el modelo
+              images: product.images.map { |img| url_for(img) },
+
+              category: {
+                id: product.category.id,
+                name: product.category.name,
+                slug: product.category.slug
               }
-            } 
-          },
-          only: [:id, :created_at]
-        )
+            }
+          }
+        end
       }
     end
 
