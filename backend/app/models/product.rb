@@ -18,6 +18,9 @@ class Product < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   has_many :order_items, dependent: :destroy
 
+  has_many :favorites, dependent: :destroy
+  has_many :users_who_favorited, through: :favorites, source: :user
+
   def formatted_price
     ActionController::Base.helpers.number_to_currency(price, unit: "", separator: ",", delimiter: ".", precision: 0)
   end

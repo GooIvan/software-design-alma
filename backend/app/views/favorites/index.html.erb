@@ -1,0 +1,161 @@
+<div class="container py-5">
+  <h1 class="fw-bold mb-5 text-uppercase text-center" style="font-size: 3rem;"><%= t('my_favorites') %></h1>
+
+  <% if @favorites.empty? %>
+    <div class="text-center py-5">
+      <i class="bi bi-heart text-danger" style="font-size: 4rem;"></i>
+      <p class="mt-3 text-muted fs-5"><%= t('no_favorites') %></p>
+      <%= link_to "Explorar productos", root_path, class: "btn btn-dark rounded-pill px-4 py-2 mt-3" %>
+    </div>
+  <% else %>
+    <div class="row g-4 justify-content-center">
+      <% @favorites.each do |fav| %>
+        <% product = fav.product %>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+          <div class="favorite-card d-flex flex-column h-100 p-3 w-100">
+
+            <!-- Imagen cuadrada con hover -->
+            <%= link_to category_product_path(product.category, product),
+                class: "mb-3 image-zoom-container d-block position-relative #{'has-multiple-images' if product.images.count > 1}" do %>
+
+              <% if product.images.attached? %>
+                <%= image_tag product.images.first,
+                      class: "rounded-img product-image-main",
+                      style: "width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: opacity .3s ease;" %>
+
+                <% if product.images.count > 1 %>
+                  <%= image_tag product.images.second,
+                        class: "rounded-img product-image-hover position-absolute",
+                        style: "width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; top: 0; left: 0; opacity: 0; transition: opacity .3s ease;" %>
+                <% end %>
+              <% else %>
+                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 100%; aspect-ratio: 1 / 1;">
+                  <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                </div>
+              <% end %>
+            <% end %>
+
+            <!-- Info -->
+            <div class="w-100 text-start mt-3 mt-auto">
+              <h5 class="fw-bold text-uppercase"><%= product.name %></h5>
+              <p class="text-success fw-bold fs-5 mb-2">$ <%= product.formatted_price %></p>
+
+              <%= link_to t('see_products'),
+                    category_product_path(product.category, product),
+                    class: "btn btn-dark w-100 rounded-pill fw-semibold mb-2" %>
+
+              <%= button_to favorite_path(fav),
+                    method: :delete,
+                    data: { confirm: "¿Eliminar de favoritos?" },
+                    class: "btn btn-danger w-100 rounded-pill fw-semibold mt-2" do %>
+                <%= t('delete_favorite') %>
+              <% end %>
+            </div>
+
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+/* Hover para segunda imagen */
+.image-zoom-container.has-multiple-images:hover .product-image-hover {
+  opacity: 1 !important;
+}
+.image-zoom-container.has-multiple-images:hover .product-image-main {
+  opacity: 0 !important;
+}
+
+/* Efecto hover card */
+.favorite-card {
+  transition: transform .2s ease, box-shadow .2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.favorite-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Garantiza que todas las columnas tengan la misma altura */
+.row > .col-12,
+.row > .col-sm-6,
+.row > .col-md-4,
+.row > .col-lg-3 {
+  display: flex;
+}
+
+/* Imagen cuadrada y botones con mismo ancho */
+.favorite-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+/* Botones ocupan el ancho completo de la card */
+.favorite-card .btn {
+  width: 100%;
+}
+</style>
+
+<script>
+  function initializeFavorites() {
+    if (typeof anime === 'undefined') {
+      console.warn('Anime.js no está cargado aún');
+      return;
+    }
+
+    // Animación de las cards de favoritos
+    anime({
+      targets: '.favorite-card',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      duration: 600,
+      delay: anime.stagger(150, { start: 200 }),
+      easing: 'easeOutQuart'
+    });
+
+    // Animación de los botones
+    anime({
+      targets: '.favorite-card .btn',
+      scale: [0.8, 1],
+      opacity: [0, 1],
+      duration: 500,
+      delay: anime.stagger(100, { start: 400 }),
+      easing: 'easeOutBack'
+    });
+
+    // Hover smooth en las cards
+    const cards = document.querySelectorAll('.favorite-card');
+    cards.forEach(card => {
+      card.removeEventListener('mouseenter', handleCardHover);
+      card.removeEventListener('mouseleave', handleCardLeave);
+
+      card.addEventListener('mouseenter', handleCardHover);
+      card.addEventListener('mouseleave', handleCardLeave);
+    });
+  }
+
+  function handleCardHover(e) {
+    anime({
+      targets: e.currentTarget,
+      scale: 1.02,
+      duration: 300,
+      easing: 'easeOutQuart'
+    });
+  }
+
+  function handleCardLeave(e) {
+    anime({
+      targets: e.currentTarget,
+      scale: 1,
+      duration: 300,
+      easing: 'easeOutQuart'
+    });
+  }
+
+  // Ejecutar animaciones con Turbo (Rails 7)
+  document.addEventListener('turbo:load', initializeFavorites);
+  document.addEventListener('turbo:render', initializeFavorites);
+</script>

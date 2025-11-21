@@ -65,6 +65,9 @@ Rails.application.routes.draw do
       end
     end
 
+    # ⭐ Favoritos API
+    resources :favorites, only: [:index, :create, :destroy]
+
     # 💳 Pagos PayU API
     namespace :payments do
       post :create_payment_intent, to: "payments#create_payment_intent"
@@ -82,6 +85,9 @@ Rails.application.routes.draw do
 
     # 👤 Perfil
     resource :profile, only: [:show, :edit, :update], controller: "profile"
+
+    # Favoritos
+    resources :favorites, only: [:index, :create, :destroy]
 
     # 🏠 Home
     get "home", to: "home#index"

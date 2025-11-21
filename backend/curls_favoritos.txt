@@ -1,0 +1,146 @@
+# ===============================
+# CURLS PARA TESTING API FAVORITOS
+# ===============================
+
+# PASO 1: LOGIN (obtener token de autenticación)
+curl -X POST http://localhost:3000/api/auth/sign_in \
+  -H "Content-Type: application/json" \
+  -d '{"user":{"email":"user@example.com","password":"password123"}}'
+
+# RESPUESTA ESPERADA:
+# {
+#   "status": "success",
+#   "data": {
+#     "user": {...},
+#     "token": "eyJhbGciOiJIUzI1NiJ9..."
+#   }
+# }
+
+# ⚠️ IMPORTANTE: Copia el token de la respuesta y reemplaza YOUR_AUTH_TOKEN abajo
+
+# ===============================
+# TESTS DE FAVORITOS
+# ===============================
+
+# 1. OBTENER LISTA DE FAVORITOS (debe estar vacía inicialmente)
+curl -X GET http://localhost:3000/api/favorites \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json"
+
+# 2. AGREGAR PRODUCTO ID 1 A FAVORITOS
+curl -X POST http://localhost:3000/api/favorites \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"product_id":1}'
+
+# 3. AGREGAR PRODUCTO ID 2 A FAVORITOS
+curl -X POST http://localhost:3000/api/favorites \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"product_id":2}'
+
+# 4. OBTENER LISTA DE FAVORITOS (debe tener 2 productos)
+curl -X GET http://localhost:3000/api/favorites \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json"
+
+# 5. ELIMINAR UN FAVORITO (reemplaza :id con el ID real del favorito de la respuesta anterior)
+curl -X DELETE http://localhost:3000/api/favorites/1 \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json"
+
+# 6. VERIFICAR QUE SE ELIMINÓ (debe tener solo 1 producto)
+curl -X GET http://localhost:3000/api/favorites \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json"
+
+# ===============================
+# TESTS DE ERRORES
+# ===============================
+
+# ERROR 1: Producto inexistente
+curl -X POST http://localhost:3000/api/favorites \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"product_id":99999}'
+
+# ERROR 2: Sin autenticación
+curl -X GET http://localhost:3000/api/favorites \
+  -H "Content-Type: application/json"
+
+# ERROR 3: Favorito inexistente
+curl -X DELETE http://localhost:3000/api/favorites/99999 \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json"
+
+# ERROR 4: Parámetro faltante
+curl -X POST http://localhost:3000/api/favorites \
+  -H "Authorization: Bearer YOUR_AUTH_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+
+# ===============================
+# RESPUESTAS ESPERADAS
+# ===============================
+
+# GET /api/favorites (éxito):
+# {
+#   "status": "success",
+#   "data": [
+#     {
+#       "id": 1,
+#       "created_at": "2025-11-21T...",
+#       "product": {
+#         "id": 1,
+#         "name": "Camiseta Diseño Único",
+#         "price": "25000",
+#         "description": "...",
+#         "category_id": 1,
+#         "formatted_price": "25.000",
+#         "image_urls": ["http://localhost:3000/..."],
+#         "category": {
+#           "id": 1,
+#           "name": "Camisetas",
+#           "slug": "camisetas"
+#         }
+#       }
+#     }
+#   ]
+# }
+
+# POST /api/favorites (éxito):
+# {
+#   "status": "success",
+#   "message": "Agregado a favoritos",
+#   "data": {
+#     "id": 1,
+#     "user_id": 1,
+#     "product_id": 1,
+#     "created_at": "2025-11-21T...",
+#     "product": {
+#       "id": 1,
+#       "name": "Camiseta Diseño Único",
+#       "price": "25000",
+#       "description": "...",
+#       "formatted_price": "25.000",
+#       "image_urls": ["..."]
+#     }
+#   }
+# }
+
+# DELETE /api/favorites/:id (éxito):
+# {
+#   "status": "success",
+#   "message": "Eliminado de favoritos"
+# }
+
+# ERROR (producto no encontrado):
+# {
+#   "status": "error",
+#   "message": "Producto no encontrado"
+# }
+
+# ERROR (sin autenticación):
+# {
+#   "error": "You need to sign in or sign up before continuing."
+# }

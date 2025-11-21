@@ -77,6 +77,10 @@ es:
 
   #TODO: Titulo
   title: Diseños Alma
+  "my_favorites": "Mis favoritos"
+  "see_products": "Ver productos"
+  "no_favorites": "No tienes productos favoritos aún."
+  "delete_favorite": "Eliminar de favoritos"
 
   #TODO: LOGIN
   login: Iniciar sesión

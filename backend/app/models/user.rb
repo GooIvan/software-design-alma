@@ -6,6 +6,9 @@ class User < ApplicationRecord
   # Relaciones
   has_many :orders, dependent: :destroy
 
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_products, through: :favorites, source: :product
+
   # Validaciones de presencia y longitud mínima
   validates :name, :last_name, :city, :phone, :address,
             presence: true,
@@ -33,6 +36,21 @@ class User < ApplicationRecord
       user.phone = "N/A"
       user.address = "N/A"
     end
+  end
+
+  # --------------------------
+  # Métodos de favoritos
+  # --------------------------
+  def favorite?(product)
+    favorites.exists?(product_id: product.id)
+  end
+
+  def favorite!(product)
+    favorites.find_or_create_by(product_id: product.id)
+  end
+
+  def unfavorite!(product)
+    favorites.where(product_id: product.id).destroy_all
   end
 
   private

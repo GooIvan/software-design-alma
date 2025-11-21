@@ -42,7 +42,42 @@
 
     <!-- Detalles del producto -->
     <div class="col-md-6">
-      <h2 class="hellstar-title mb-2"><%= @product.name.upcase %></h2>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <!-- Nombre del producto -->
+        <h2 class="hellstar-title m-0"><%= @product.name.upcase %></h2>
+
+        <!-- Botón de favorito -->
+        <% favorite = current_user&.favorites&.find_by(product_id: @product.id) %>
+
+        <% if current_user.nil? %>
+          <!-- Usuario NO logueado → redirige a login -->
+          <%= link_to new_user_session_path,
+                class: "btn btn-light d-flex align-items-center justify-content-center rounded-circle",
+                style: "width: 50px; height: 50px;" do %>
+            <i class="bi bi-heart" style="font-size: 1.3rem;"></i>
+          <% end %>
+
+        <% elsif favorite.present? %>
+          <!-- Ya es favorito → botón para eliminar -->
+          <%= button_to favorite_path(favorite),
+                method: :delete,
+                class: "btn btn-danger d-flex align-items-center justify-content-center rounded-circle",
+                style: "width: 50px; height: 50px;" do %>
+            <i class="bi bi-heart-fill" style="font-size: 1.3rem;"></i>
+          <% end %>
+        <% else %>
+          <!-- No es favorito → botón para agregar -->
+          <%= button_to favorites_path(product_id: @product.id),
+                method: :post,
+                class: "btn btn-light d-flex align-items-center justify-content-center rounded-circle",
+                style: "width: 50px; height: 50px;" do %>
+            <i class="bi bi-heart" style="font-size: 1.3rem;"></i>
+          <% end %>
+        <% end %>
+
+      </div>
+
       <% if (2..5).include?(@product.stock) %>
         <div class="alert alert-warning fw-semibold mt-2">
           <%= t("products.low_stock_plural", count: @product.stock) %>
@@ -161,5 +196,12 @@
   
   .main-product-image {
     transition: all 0.3s ease;
+  }
+  .favorite-btn {
+  transition: transform .15s ease-in-out;
+  }
+
+  .favorite-btn:hover {
+    transform: scale(1.1);
   }
 </style>
