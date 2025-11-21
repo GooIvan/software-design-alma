@@ -1,4 +1,4 @@
-import 'package:design_alma/feature/terms/pages/terms%20_and_conditions.dart';
+import 'package:design_alma/feature/terms/pages/terms _and_conditions.dart';
 import 'package:design_alma/utils/extensions.dart';
 import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
   final _passwordController = TextEditingController();
 
   bool _obscurePassword = true;
-  bool _acceptTerms = false; // NUEVO
+  bool _acceptTerms = false;
 
   @override
   void dispose() {
@@ -32,7 +32,10 @@ class _LoginInitialViewState extends State<LoginInitialView> {
 
   void _onLoginPressed(BuildContext context) {
     if (!_acceptTerms) {
-      CustomAlert.warning(context, "Debes aceptar los términos y condiciones.");
+      CustomAlert.warning(
+        context,
+        context.l10n.registerAcceptTermsError, // 🔥 INTERNACIONALIZADO
+      );
       return;
     }
 
@@ -66,9 +69,11 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                     color: azulPrimary,
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  child: Icon(Icons.lock,
-                      size: 50,
-                      color: Theme.of(context).scaffoldBackgroundColor),
+                  child: Icon(
+                    Icons.lock,
+                    size: 50,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
                 ),
                 const SizedBox(height: 20),
 
@@ -102,20 +107,23 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                     hintText: context.l10n.inputEmail,
                     prefixIcon: const Icon(Icons.mail, size: 20),
                     filled: true,
-                    fillColor:
-                        Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+                    fillColor: Theme.of(context).appBarTheme.backgroundColor ??
+                        Colors.white,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide:
-                          const BorderSide(color: Colors.blueAccent, width: 1),
+                      borderSide: const BorderSide(
+                        color: Colors.blueAccent,
+                        width: 1,
+                      ),
                     ),
                   ),
-                  validator: (v) =>
-                      v == null || v.isEmpty ? context.l10n.validationEmail : null,
+                  validator: (v) => v == null || v.isEmpty
+                      ? context.l10n.validationEmail
+                      : null,
                 ),
 
                 const SizedBox(height: 20),
@@ -139,25 +147,28 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                           setState(() => _obscurePassword = !_obscurePassword),
                     ),
                     filled: true,
-                    fillColor:
-                        Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+                    fillColor: Theme.of(context).appBarTheme.backgroundColor ??
+                        Colors.white,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide:
-                          const BorderSide(color: Colors.blueAccent, width: 1),
+                      borderSide: const BorderSide(
+                        color: Colors.blueAccent,
+                        width: 1,
+                      ),
                     ),
                   ),
-                  validator: (v) =>
-                      v == null || v.length < 6 ? context.l10n.validationPassword : null,
+                  validator: (v) => v == null || v.length < 6
+                      ? context.l10n.validationPassword
+                      : null,
                 ),
 
                 const SizedBox(height: 10),
 
-                // Checkbox Términos y condiciones
+                // 🔥 Checkbox Términos y Condiciones INTERNACIONALIZADO
                 Row(
                   children: [
                     Checkbox(
@@ -170,13 +181,14 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const TermsAndConditionsPage(),
+                              builder: (_) =>
+                                  const TermsAndConditionsPage(),
                             ),
                           );
                         },
-                        child: const Text(
-                          "¿Aceptas los Términos y Condiciones?",
-                          style: TextStyle(
+                        child: Text(
+                          context.l10n.registerAcceptTerms, // ← CAMBIA DE IDIOMA
+                          style: const TextStyle(
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.bold,
                           ),
