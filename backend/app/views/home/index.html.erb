@@ -44,14 +44,18 @@
   ] %>
 
   <%# Sección de Beneficios/Features %>
-  <%= render 'home/features_section' %>
+  <div class="fade-right">
+    <%= render 'home/features_section' %>
+  </div>
 
   <%# Sección de Ofertas Especiales %>
-  <%= render 'home/special_offers' %>
+  <div class="scale-up">
+    <%= render 'home/special_offers' %>
+  </div>
 
   <%# Sección de categorías %>
   <% if @categories.present? %>
-    <div class="container-fluid text-center position-relative py-5 p-6" id="categories">
+    <div class="container-fluid text-center position-relative py-5 p-6 fade-blur" id="categories">
       <h2 class="pb-5 fw-bold subtittle"><%= t('categories') %></h2>
       <div class="scroll-wrapper">
         <div class="row flex-nowrap flex-md-wrap justify-content-start justify-content-lg-center">
@@ -88,11 +92,13 @@
   <% end %>
 
   <%# Sección de Productos Más Populares %>
-  <%= render 'home/popular_products' %>
+  <div class="fade-left">
+    <%= render 'home/popular_products' %>
+  </div>
 
   <%# Sección de productos nuevos %>
   <% if @latest_products.present? %>
-    <div class="container-fluid py-5" id="whats_new">
+    <div class="container-fluid py-5 rotate-in" id="whats_new">
       <div class="text-center mb-5">
         <h2 class="pb-3 fw-bold subtittle"><%= t('new_arrivals') %></h2>
         <p class="section-subtitle"><%= t('new_arrivals_desc', default: 'Descubre nuestros últimos lanzamientos') %></p>
@@ -135,11 +141,17 @@
   <% end %>
 
   <%# Sección de Estadísticas %>
-  <%= render 'home/stats_section' %>
+  <div class="scale-up">
+    <%= render 'home/stats_section' %>
+  </div>
 
   <%# Sección de Testimonios %>
-  <%= render 'home/testimonials' %>
+  <div class="fade-right">
+    <%= render 'home/testimonials' %>
+  </div>
 
   <%# Sección de Newsletter %>
-  <%= render 'home/newsletter_section' %>
+  <div class="fade-blur">
+    <%= render 'home/newsletter_section' %>
+  </div>
 </div>
