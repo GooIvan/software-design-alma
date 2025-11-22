@@ -2,10 +2,10 @@ class Api::BaseController < ApplicationController
   include Devise::Controllers::Helpers if defined?(Devise)
   
   respond_to :json
-  before_action :authenticate_request
   skip_before_action :verify_authenticity_token
   
   before_action :ensure_session_loaded
+  before_action :authenticate_request
 
   attr_reader :current_user
   
@@ -58,5 +58,10 @@ class Api::BaseController < ApplicationController
 
   def authenticate_api_user!
     authenticate_request
+  end
+
+  # Respuesta estándar para OPTIONS (preflight CORS)
+  def options
+    head :ok
   end
 end

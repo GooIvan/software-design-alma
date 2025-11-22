@@ -322,6 +322,12 @@ abstract class AppLocalizations {
   /// **'---------------------------------------------'**
   String get sectionFavorites;
 
+  /// No description provided for @errorMessageFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading your favorites'**
+  String get errorMessageFavorites;
+
   /// No description provided for @noFavorites.
   ///
   /// In en, this message translates to:
@@ -333,6 +339,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add products to favorites to see them here.'**
   String get messageNoFavorites;
+
+  /// No description provided for @noFavoritesWithLogin1.
+  ///
+  /// In en, this message translates to:
+  /// **'¿Want to see your favorites?'**
+  String get noFavoritesWithLogin1;
+
+  /// No description provided for @noFavoritesWithLogin2.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to see your saved favorites.'**
+  String get noFavoritesWithLogin2;
+
+  /// No description provided for @addedToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Product added to favorites'**
+  String get addedToFavorites;
 
   /// No description provided for @sectionProfile.
   ///

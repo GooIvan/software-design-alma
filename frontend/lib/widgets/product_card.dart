@@ -2,6 +2,7 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../feature/cart/data/bloc/cart_bloc.dart';
+import '../feature/favorites/data/bloc/favorites_bloc.dart';
 import '../feature/products/show/presentation/pages/product_screen.dart';
 import '../models/product_model.dart';
 import 'custom_alert.dart';
@@ -31,10 +32,13 @@ class ProductCard extends StatelessWidget {
         onTap: () {
           print(
               'Tocaste el producto: "${product.name}" con id: "${product.id}"');
+          // Convertir categoryName a slug (minúsculas, espacios por guiones)
+          String categorySlug =
+              product.categoryName.toLowerCase().replaceAll(' ', '-');
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => ProductScreen(
-                categoryName: product.categoryName,
+                categoryName: categorySlug,
                 id: product.id,
               ),
             ),
@@ -64,13 +68,15 @@ class ProductCard extends StatelessWidget {
                         topRight: Radius.circular(16),
                       ),
                       child: product.images.isEmpty
-                          ? _buildFallback(context) // 🔥 Fallback si no hay imágenes
+                          ? _buildFallback(
+                              context) // 🔥 Fallback si no hay imágenes
                           : Image.network(
                               product.images.first,
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: double.infinity,
-                              loadingBuilder: (context, child, loadingProgress) {
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
                                 if (loadingProgress == null) return child;
                                 return const Center(
                                   child: CircularProgressIndicator(
@@ -82,7 +88,8 @@ class ProductCard extends StatelessWidget {
                                 );
                               },
                               errorBuilder: (context, error, stackTrace) =>
-                                  _buildFallback(context), // 🔥 Fallback si falla la carga
+                                  _buildFallback(
+                                      context), // 🔥 Fallback si falla la carga
                             ),
                     ),
                   ),
@@ -93,14 +100,24 @@ class ProductCard extends StatelessWidget {
                     right: 12,
                     child: GestureDetector(
                       onTap: () {
-                        print('Favorito: ${product.name}');
+                        context
+                            .read<FavoritesBloc>()
+                            .add(AddFavorite(product.id));
+
+                        CustomAlert.success(
+                          context,
+                          '"${product.name}" ${context.l10n.addedToFavorites}',
+                        );
+
+                        print('Agregado a favoritos: ${product.name}');
                       },
                       child: Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
+                          color:
+                              Theme.of(context).appBarTheme.backgroundColor ??
+                                  Colors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(

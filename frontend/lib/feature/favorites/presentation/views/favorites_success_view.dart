@@ -33,7 +33,7 @@ class FavoritesSuccessView extends StatelessWidget {
         itemCount: favorites.length,
         itemBuilder: (context, index) {
           return ProductCard(
-            product: favorites[index].product, // 👈 YA FUNCIONA
+            product: favorites[index].product,
             showCategory: false,
           );
         },

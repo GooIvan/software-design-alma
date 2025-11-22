@@ -121,11 +121,23 @@ class AppLocalizationsEn extends AppLocalizations {
       '---------------------------------------------';
 
   @override
+  String get errorMessageFavorites => 'Error loading your favorites';
+
+  @override
   String get noFavorites => 'Your favorites list is empty';
 
   @override
   String get messageNoFavorites =>
       'Add products to favorites to see them here.';
+
+  @override
+  String get noFavoritesWithLogin1 => '¿Want to see your favorites?';
+
+  @override
+  String get noFavoritesWithLogin2 => 'Log in to see your saved favorites.';
+
+  @override
+  String get addedToFavorites => 'Product added to favorites';
 
   @override
   String get sectionProfile => '---------------------------------------------';

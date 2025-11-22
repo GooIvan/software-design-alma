@@ -66,6 +66,7 @@ Rails.application.routes.draw do
     end
 
     # ⭐ Favoritos API
+    match "/favorites", to: "favorites#options", via: [:options]
     resources :favorites, only: [:index, :create, :destroy]
 
     # 💳 Pagos PayU API

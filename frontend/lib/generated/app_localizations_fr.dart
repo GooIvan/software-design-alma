@@ -123,11 +123,25 @@ class AppLocalizationsFr extends AppLocalizations {
       '---------------------------------------------';
 
   @override
+  String get errorMessageFavorites =>
+      'Erreur lors du chargement de vos favoris';
+
+  @override
   String get noFavorites => 'Votre liste de favoris est vide';
 
   @override
   String get messageNoFavorites =>
       'Ajoutez des produits à vos favoris pour les voir ici.';
+
+  @override
+  String get noFavoritesWithLogin1 => '¿Voulez-vous voir vos favoris?';
+
+  @override
+  String get noFavoritesWithLogin2 =>
+      'Connectez-vous pour voir vos favoris enregistrés.';
+
+  @override
+  String get addedToFavorites => 'Produit ajouté aux favoris';
 
   @override
   String get sectionProfile => '---------------------------------------------';

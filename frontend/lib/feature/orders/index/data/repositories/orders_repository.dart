@@ -18,25 +18,41 @@ class OrdersRepository {
       throw Exception('Usuario no autenticado');
     }
 
-    final response =
-        await http.get(Uri.parse('${Api.baseUrl}/api/orders'), headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
+    final url = Uri.parse('${Api.baseUrl}/api/orders');
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
 
-      if (responseData['success'] == true && responseData['orders'] != null) {
-        final List<dynamic> ordersData = responseData['orders'];
-        return ordersData.map((json) => Order.fromJson(json)).toList();
-      } else {
-        throw Exception(responseData['message'] ?? 'Error al cargar órdenes');
-      }
-    } else if (response.statusCode == 401) {
-      throw Exception('Token de autenticación inválido');
-    } else {
-      throw Exception('Error al cargar órdenes: ${response.statusCode}');
+    final body = jsonDecode(response.body);
+
+    switch (response.statusCode) {
+      case 200:
+        // API Rails estándar: { status: "success", data: [...] }
+        if (body['data'] is List) {
+          return (body['data'] as List)
+              .map((json) => Order.fromJson(json))
+              .toList();
+        }
+
+        // Formato alterno que tú mismo podrías haber usado: { success: true, orders: [...] }
+        if (body['success'] == true && body['orders'] is List) {
+          return (body['orders'] as List)
+              .map((json) => Order.fromJson(json))
+              .toList();
+        }
+
+        throw Exception('Formato de respuesta inesperado');
+
+      case 401:
+        throw Exception('Token de autenticación inválido');
+
+      default:
+        throw Exception(
+            'Error al cargar órdenes: ${response.statusCode} — ${body['message'] ?? ''}');
     }
   }
 }

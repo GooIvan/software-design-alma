@@ -2,7 +2,14 @@ import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class EmptyFavoritesPage extends StatelessWidget {
-  const EmptyFavoritesPage({super.key});
+  final String title;
+  final String description;
+
+  const EmptyFavoritesPage({
+    super.key,
+    this.title = '',
+    this.description = '',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +53,7 @@ class EmptyFavoritesPage extends StatelessWidget {
 
             // Título
             Text(
-              context.l10n.noFavorites,
+              title.isNotEmpty ? title : context.l10n.noFavorites,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
@@ -54,7 +61,9 @@ class EmptyFavoritesPage extends StatelessWidget {
 
             // Descripción
             Text(
-              context.l10n.messageNoFavorites,
+              description.isNotEmpty
+                  ? description
+                  : context.l10n.messageNoFavorites,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.grey.shade600,
                   ),

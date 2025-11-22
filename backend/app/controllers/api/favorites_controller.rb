@@ -1,8 +1,8 @@
 module Api
-  class FavoritesController < ApplicationController
-    before_action :authenticate_user!
+  class FavoritesController < Api::BaseController
     before_action :set_favorite, only: [:destroy]
 
+    # GET /api/favorites
     def index
       @favorites = current_user.favorites
         .includes(product: { images_attachments: :blob, category: {} })
@@ -14,6 +14,7 @@ module Api
 
           {
             id: fav.id,
+            user_id: fav.user_id,
             created_at: fav.created_at,
 
             product: {
@@ -22,16 +23,13 @@ module Api
               price: product.price,
               description: product.description,
               category_id: product.category_id,
+              category_name: product.category.name,
               formatted_price: product.formatted_price,
+              sizes: product.sizes,
+              stock: product.stock,
 
               # Generar URLs sin tocar el modelo
-              images: product.images.map { |img| url_for(img) },
-
-              category: {
-                id: product.category.id,
-                name: product.category.name,
-                slug: product.category.slug
-              }
+              images: product.images.map { |img| url_for(img) }
             }
           }
         end
@@ -47,14 +45,23 @@ module Api
         render json: { 
           status: "success", 
           message: "Agregado a favoritos",
-          data: favorite.as_json(
-            include: { 
-              product: { 
-                only: [:id, :name, :price, :description], 
-                methods: [:formatted_price, :image_urls] 
-              } 
+          data: {
+            id: favorite.id,
+            user_id: favorite.user_id,
+            created_at: favorite.created_at,
+            product: {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              description: product.description,
+              category_id: product.category_id,
+              category_name: product.category.name,
+              formatted_price: product.formatted_price,
+              sizes: product.sizes,
+              stock: product.stock,
+              images: product.images.map { |img| url_for(img) }
             }
-          )
+          }
         }, status: :created
       else
         render json: { 
