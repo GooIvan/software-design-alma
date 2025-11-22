@@ -14,7 +14,7 @@ class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<FavoritesBloc>()..add(LoadFavorites()),
+      create: (context) => FavoritesBloc(sl())..add(LoadFavorites()),
       child: Scaffold(body:
           BlocBuilder<FavoritesBloc, FavoritesState>(builder: (context, state) {
         if (state is FavoritesLoading) {

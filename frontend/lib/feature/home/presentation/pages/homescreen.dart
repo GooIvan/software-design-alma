@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/service_locator.dart';
 import '../../../../feature/cart/data/bloc/cart_bloc.dart';
+import '../../../favorites/data/bloc/favorites_bloc.dart';
 import '../../data/bloc/category/category_bloc.dart';
 import '../../data/bloc/product/product_bloc.dart';
 import '../views/categories/views_categories_error.dart';
@@ -15,6 +17,7 @@ import '../widgets/seccion_map.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
   Future<void> _refreshData(BuildContext context) async {
     context.read<ProductBloc>().add(LoadProducts());
     context.read<CategoryBloc>().add(LoadCategories());
@@ -22,8 +25,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CartBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CartBloc(),
+        ),
+        BlocProvider(
+          create: (context) => FavoritesBloc(sl()),
+        ),
+      ],
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
@@ -41,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                   promoBanner(context),
                   const SizedBox(height: 24),
 
-                  // Título y productos populares
+                  // Productos populares
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
@@ -59,6 +69,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
+
                   BlocBuilder<ProductBloc, ProductState>(
                     builder: (context, state) {
                       if (state is ProductLoading) {
@@ -77,8 +88,8 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
 
-                  // Título y categorías
                   const SizedBox(height: 32),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
@@ -91,6 +102,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
+
                   BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (context, state) {
                       if (state is CategoryLoading) {
@@ -104,15 +116,16 @@ class HomeScreen extends StatelessWidget {
                         );
                       } else if (state is CategoryLoaded) {
                         return ViewCategoriesSuccess(
-                            categories: state.categories);
+                          categories: state.categories,
+                        );
                       }
                       return const SizedBox();
                     },
                   ),
 
-                  // Mapa
                   const SizedBox(height: 32),
-                  const SeccionMap()
+
+                  const SeccionMap(),
                 ],
               ),
             ),

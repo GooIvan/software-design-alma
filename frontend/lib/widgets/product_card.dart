@@ -98,41 +98,60 @@ class ProductCard extends StatelessWidget {
                   Positioned(
                     top: 12,
                     right: 12,
-                    child: GestureDetector(
-                      onTap: () {
-                        context
-                            .read<FavoritesBloc>()
-                            .add(AddFavorite(product.id));
-
-                        CustomAlert.success(
-                          context,
-                          '"${product.name}" ${context.l10n.addedToFavorites}',
-                        );
-
-                        print('Agregado a favoritos: ${product.name}');
-                      },
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).appBarTheme.backgroundColor ??
+                    child: BlocBuilder<FavoritesBloc, FavoritesState>(
+                      builder: (context, state) {
+                        bool isFavorite = false;
+                        if (state is FavoritesLoaded) {
+                          isFavorite = state.favorites
+                              .any((fav) => fav.product.id == product.id);
+                        }
+                        return GestureDetector(
+                          onTap: () {
+                            if (!isFavorite) {
+                              context
+                                  .read<FavoritesBloc>()
+                                  .add(AddFavorite(product.id));
+                              CustomAlert.success(
+                                context,
+                                context.l10n.addedToFavorites,
+                              );
+                              print('Agregado a favoritos: ${product.name}');
+                            } else {
+                              context
+                                  .read<FavoritesBloc>()
+                                  .add(RemoveFavorite(product.id));
+                              print('Eliminado de favoritos: ${product.name}');
+                            }
+                          },
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                      .appBarTheme
+                                      .backgroundColor ??
                                   Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.15),
-                              blurRadius: 8,
-                              offset: const Offset(0, 3),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.15),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.favorite_border,
-                          size: 22,
-                          color: Color(0xFF6C7175),
-                        ),
-                      ),
+                            child: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              size: 22,
+                              color: isFavorite
+                                  ? Colors.red
+                                  : const Color(0xFF6C7175),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
