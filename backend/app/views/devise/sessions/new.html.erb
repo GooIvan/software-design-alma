@@ -129,6 +129,7 @@
     const emailField = document.getElementById("user_email");
     const rememberCheckbox = document.getElementById("user_remember_me");
     const loginForm = document.querySelector('form[action*="sign_in"]'); // solo el de login
+    const loginButton = document.getElementById('refresh-button');
 
     // Rellenar email si está guardado
     const savedEmail = localStorage.getItem("remember_email");
@@ -144,6 +145,12 @@
       } else {
         localStorage.removeItem("remember_email");
       }
+    });
+
+    // Efecto ripple en el botón
+    loginButton.addEventListener('mouseenter', function(e) {
+      this.style.setProperty('--ripple-x', e.offsetX + 'px');
+      this.style.setProperty('--ripple-y', e.offsetY + 'px');
     });
   });
 </script>

@@ -10,7 +10,7 @@
   <nav aria-label="breadcrumb" class="mb-4">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><%= link_to t('home'), root_path, class: "text-decoration-none text-dark" %></li>
-      <li class="breadcrumb-item"><%= link_to @product.category.name, "#", class: "text-decoration-none text-dark" %></li>
+      <li class="breadcrumb-item"><%= link_to @product.category.name, category_products_path(@product.category), class: "text-decoration-none text-dark" %></li>
       <li class="breadcrumb-item active" aria-current="page"><%= @product.name %></li>
     </ol>
   </nav>
