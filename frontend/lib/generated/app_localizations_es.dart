@@ -379,6 +379,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get order => 'Orden';
 
   @override
+  String get noOrdersTitle => 'No tienes órdenes todavía';
+
+  @override
+  String get noOrdersSubtitle => 'Cuando realices compras, aparecerán aquí.';
+
+  @override
+  String get startShopping => 'Comenzar a comprar';
+
+  @override
   String get errorOrdersLoading => 'Error al cargar las órdenes.';
 
   @override

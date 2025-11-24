@@ -120,6 +120,18 @@
   "noOrdersFilterFound": "No orders found with the selected filters.",
   "clearFilters": "See all orders",
   "order": "Order",
+  "noOrdersTitle": "You have no orders yet",
+  "noOrdersSubtitle": "When you place orders, they will appear here.",
+  "startShopping": "Start Shopping",
+  "@noOrdersTitle": {
+    "description": "Title shown when there are no orders"
+  },
+  "@noOrdersSubtitle": {
+    "description": "Secondary text shown when there are no orders"
+  },
+  "@startShopping": {
+    "description": "Button to start shopping when order list is empty"
+  },
   "errorOrdersLoading": "Error loading orders.",
   "errorOrderLoading": "Error loading order.",
   "noArticles": "There are no articles in this order",
