@@ -1,3 +1,4 @@
+import 'package:design_alma/feature/favorites/data/bloc/favorites_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:design_alma/routes/routes.dart';
 import 'package:design_alma/screens/logo_intro.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        BlocProvider(
+          create: (context) => FavoritesBloc(sl()),
+        ),
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         BlocProvider(create: (context) => CartBloc()),

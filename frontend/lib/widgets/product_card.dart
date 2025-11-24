@@ -111,10 +111,6 @@ class ProductCard extends StatelessWidget {
                               context
                                   .read<FavoritesBloc>()
                                   .add(AddFavorite(product.id));
-                              CustomAlert.success(
-                                context,
-                                context.l10n.addedToFavorites,
-                              );
                               print('Agregado a favoritos: ${product.name}');
                             } else {
                               context

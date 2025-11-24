@@ -1,3 +1,4 @@
+import 'package:design_alma/feature/favorites/data/bloc/favorites_bloc.dart';
 import 'package:design_alma/feature/orders/create/data/repositories/create_order_repository.dart';
 import 'package:design_alma/feature/payment/presentation/pages/payment_page.dart';
 import 'package:design_alma/utils/extensions.dart';
@@ -141,7 +142,7 @@ class ProductSuccessView extends StatelessWidget {
                 valueListenable: selectedImage,
                 builder: (context, index, _) {
                   if (product.images.isEmpty) {
-                    return Column(
+                    return Stack(
                       children: [
                         // Imagen principal placeholder
                         Container(
@@ -157,11 +158,17 @@ class ProductSuccessView extends StatelessWidget {
                             color: Colors.grey,
                           ),
                         ),
+                        // ❤️ Botón de favoritos arriba a la derecha
+                        Positioned(
+                          top: 16,
+                          right: 16,
+                          child: _FavoriteButton(product: product),
+                        ),
                       ],
                     );
                   }
 
-                  return Column(
+                  return Stack(
                     children: [
                       // Imagen principal (con fallback)
                       ClipRRect(
@@ -186,57 +193,72 @@ class ProductSuccessView extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 12),
-
+                      // ❤️ Botón de favoritos arriba a la derecha
+                      Positioned(
+                        top: 16,
+                        right: 16,
+                        child: _FavoriteButton(product: product),
+                      ),
+                      // Miniaturas
                       if (product.images.length > 1)
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: List.generate(product.images.length, (i) {
-                              return GestureDetector(
-                                onTap: () => selectedImage.value = i,
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: i == index
-                                          ? Theme.of(context).colorScheme.primary
-                                          : Colors.transparent,
-                                      width: 2,
+                        Positioned(
+                          bottom: 12,
+                          left: 0,
+                          right: 0,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:
+                                  List.generate(product.images.length, (i) {
+                                return GestureDetector(
+                                  onTap: () => selectedImage.value = i,
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 4),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: i == index
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                            : Colors.transparent,
+                                        width: 2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.network(
-                                      product.images[i],
-                                      height: 70,
-                                      width: 70,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (_, __, ___) => Container(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.network(
+                                        product.images[i],
                                         height: 70,
                                         width: 70,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.shade300,
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: const Icon(
-                                          Icons.image,
-                                          size: 40,
-                                          color: Colors.grey,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (_, __, ___) => Container(
+                                          height: 70,
+                                          width: 70,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade300,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: const Icon(
+                                            Icons.image,
+                                            size: 40,
+                                            color: Colors.grey,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }),
+                                );
+                              }),
+                            ),
                           ),
-                        )
+                        ),
                     ],
                   );
-                }
+                },
               ),
 
               const SizedBox(height: 20),
@@ -315,6 +337,53 @@ class ProductSuccessView extends StatelessWidget {
           handleBuyNow: () => _handleBuyNow(context),
         ),
       ),
+    );
+  }
+}
+
+class _FavoriteButton extends StatelessWidget {
+  final Product product;
+  const _FavoriteButton({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FavoritesBloc, FavoritesState>(
+      builder: (_, state) {
+        bool isFavorite = false;
+
+        if (state is FavoritesLoaded) {
+          isFavorite = state.favorites.any((f) => f.product.id == product.id);
+        }
+
+        return GestureDetector(
+          onTap: () {
+            if (!isFavorite) {
+              context.read<FavoritesBloc>().add(AddFavorite(product.id));
+            } else {
+              context.read<FavoritesBloc>().add(RemoveFavorite(product.id));
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color:
+                  Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                ),
+              ],
+            ),
+            child: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: isFavorite ? Colors.red : Colors.grey,
+              size: 28,
+            ),
+          ),
+        );
+      },
     );
   }
 }

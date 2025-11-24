@@ -1,7 +1,7 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/di/service_locator.dart';
+import '../../../../core/di/service_locator.dart';
 import '../../data/bloc/favorites_bloc.dart';
 import '../views/favorites_error_view.dart';
 import '../views/favorites_loading_view.dart';

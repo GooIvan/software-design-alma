@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/di/service_locator.dart';
 import '../../../../feature/cart/data/bloc/cart_bloc.dart';
-import '../../../favorites/data/bloc/favorites_bloc.dart';
 import '../../data/bloc/category/category_bloc.dart';
 import '../../data/bloc/product/product_bloc.dart';
 import '../views/categories/views_categories_error.dart';
@@ -25,15 +23,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => CartBloc(),
-        ),
-        BlocProvider(
-          create: (context) => FavoritesBloc(sl()),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => CartBloc(),
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
