@@ -1,9 +1,9 @@
-import 'package:design_alma/feature/admin/app/widgets/admin_custom_bottom_navbar.dart';
 import 'package:design_alma/feature/admin/dashboard/presentation/page/dashboard_page.dart';
 import 'package:design_alma/feature/admin/users/presentation/page/users_page.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/admin_custom_appbar.dart';
+import '../widgets/admin_custom_appbar.dart';
+import '../widgets/admin_custom_bottom_navbar.dart';
 
 class AdminMainScaffold extends StatefulWidget {
   final int initialIndex;
