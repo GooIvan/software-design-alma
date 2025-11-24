@@ -19,7 +19,9 @@
   "myAccount": "My Account",
   "myOrders": "My Orders",
   "about": "About",
+  "privacyPolicy": "Privacy Policy",
   "configuration": "Configuration",
+  "adminPanel": "Admin Panel",
   "guest": "Guest",
   "logout": "Logout",
   "cancel": "Cancel",
@@ -48,6 +50,10 @@
   "logoutConfirm": "Are you sure you want to logout?",
   "guestMessage1": "Did you know you can access more features?",
   "guestMessage2": "Sign in to see your account, orders and more.",
+  "logoutSuccess": "Logout successful",
+  "yesLogout": "Yes, logout",
+  "adminConfirm": "Are you sure you want to access the admin panel?",
+  "yesAdmin": "Yes, access",
   "sectionLogin": "---------------------------------------------",
   "loginTitle": "Welcome back!",
   "loginMessage": "log in to your account",
@@ -292,5 +298,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "adminPanelSection": "---------------------------------------------",
+  "users": "Users",
+  "goOutConfirm": "Are you sure you want to return to the home page?",
+  "yesGoOut": "Yes, return"
 }

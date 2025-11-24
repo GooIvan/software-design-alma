@@ -6,6 +6,7 @@ import '../../../../models/user_model.dart';
 import '../../../about/pages/about_page.dart';
 import '../../../configuration/presentation/page/configuration_page.dart';
 import '../../../orders/index/presentation/pages/orders_page.dart';
+import '../widgets/admin_confirm_box.dart';
 
 class ProfileSuccessView extends StatelessWidget {
   final User user;
@@ -90,6 +91,11 @@ class ProfileSuccessView extends StatelessWidget {
               },
             ),
             _buildOptionTile(
+              icon: Icons.privacy_tip,
+              title: context.l10n.privacyPolicy,
+              onTap: () {},
+            ),
+            _buildOptionTile(
               icon: Icons.settings,
               title: context.l10n.configuration,
               onTap: () {
@@ -103,6 +109,29 @@ class ProfileSuccessView extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
+
+            // Botón de administrador
+            if (user.role == 'admin')
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => adminConfirmBox(context),
+                    icon: const Icon(Icons.dashboard),
+                    label: Text(context.l10n.adminPanel),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.warning,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      textStyle: const TextStyle(fontSize: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
 
             // Botón de cerrar sesión
             Padding(

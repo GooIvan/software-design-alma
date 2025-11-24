@@ -66,7 +66,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get about => 'À propos';
 
   @override
+  String get privacyPolicy => 'Politique de confidentialité';
+
+  @override
   String get configuration => 'Configuration';
+
+  @override
+  String get adminPanel => 'Panneau d\'administration';
 
   @override
   String get guest => 'Invité';
@@ -159,6 +165,19 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get guestMessage2 =>
       'Connectez-vous pour voir votre compte, vos commandes et plus encore.';
+
+  @override
+  String get logoutSuccess => 'Déconnexion réussie';
+
+  @override
+  String get yesLogout => 'Oui, se déconnecter';
+
+  @override
+  String get adminConfirm =>
+      'Êtes-vous sûr de vouloir accéder au panneau d\'administration ?';
+
+  @override
+  String get yesAdmin => 'Oui, accéder';
 
   @override
   String get sectionLogin => '---------------------------------------------';
@@ -739,4 +758,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String expireDate(String date) {
     return 'Expire : $date';
   }
+
+  @override
+  String get adminPanelSection =>
+      '---------------------------------------------';
+
+  @override
+  String get users => 'Utilisateurs';
+
+  @override
+  String get goOutConfirm =>
+      'Êtes-vous sûr de vouloir revenir à la page d\'accueil ?';
+
+  @override
+  String get yesGoOut => 'Oui, revenir';
 }

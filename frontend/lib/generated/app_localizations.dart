@@ -214,11 +214,23 @@ abstract class AppLocalizations {
   /// **'About'**
   String get about;
 
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
   /// No description provided for @configuration.
   ///
   /// In en, this message translates to:
   /// **'Configuration'**
   String get configuration;
+
+  /// No description provided for @adminPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Panel'**
+  String get adminPanel;
 
   /// No description provided for @guest.
   ///
@@ -387,6 +399,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in to see your account, orders and more.'**
   String get guestMessage2;
+
+  /// No description provided for @logoutSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout successful'**
+  String get logoutSuccess;
+
+  /// No description provided for @yesLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, logout'**
+  String get yesLogout;
+
+  /// No description provided for @adminConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to access the admin panel?'**
+  String get adminConfirm;
+
+  /// No description provided for @yesAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, access'**
+  String get yesAdmin;
 
   /// No description provided for @sectionLogin.
   ///
@@ -1467,6 +1503,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expires: {date}'**
   String expireDate(String date);
+
+  /// No description provided for @adminPanelSection.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get adminPanelSection;
+
+  /// No description provided for @users.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get users;
+
+  /// No description provided for @goOutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to return to the home page?'**
+  String get goOutConfirm;
+
+  /// No description provided for @yesGoOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, return'**
+  String get yesGoOut;
 }
 
 class _AppLocalizationsDelegate

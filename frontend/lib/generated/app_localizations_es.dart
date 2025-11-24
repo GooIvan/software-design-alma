@@ -66,7 +66,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get about => 'Acerca de';
 
   @override
+  String get privacyPolicy => 'Política de Privacidad';
+
+  @override
   String get configuration => 'Configuración';
+
+  @override
+  String get adminPanel => 'Panel de Administración';
 
   @override
   String get guest => 'Invitado';
@@ -155,6 +161,19 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get guestMessage2 =>
       'Inicia sesión para ver tu cuenta, pedidos y mas.';
+
+  @override
+  String get logoutSuccess => 'Sesión cerrada correctamente';
+
+  @override
+  String get yesLogout => 'Sí, cerrar sesión';
+
+  @override
+  String get adminConfirm =>
+      '¿Estás seguro de que deseas acceder al panel de administración?';
+
+  @override
+  String get yesAdmin => 'Sí, acceder';
 
   @override
   String get sectionLogin => '---------------------------------------------';
@@ -730,4 +749,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String expireDate(String date) {
     return 'Expira: $date';
   }
+
+  @override
+  String get adminPanelSection =>
+      '---------------------------------------------';
+
+  @override
+  String get users => 'Usuarios';
+
+  @override
+  String get goOutConfirm => '¿Estás seguro de que deseas regresar al inicio?';
+
+  @override
+  String get yesGoOut => 'Sí, regresar';
 }

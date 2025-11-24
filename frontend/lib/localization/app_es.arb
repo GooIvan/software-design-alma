@@ -19,7 +19,9 @@
   "myAccount": "Mi Cuenta",
   "myOrders": "Mis ordenes",
   "about": "Acerca de",
+  "privacyPolicy": "Política de Privacidad",
   "configuration": "Configuración",
+  "adminPanel": "Panel de Administración",
   "guest": "Invitado",
   "logout": "Cerrar Sesión",
   "cancel": "Cancelar",
@@ -48,6 +50,10 @@
   "logoutConfirm": "¿Estás seguro de que deseas cerrar sesión?",
   "guestMessage1": "¿Sabías que puedes acceder a más funciones?",
   "guestMessage2": "Inicia sesión para ver tu cuenta, pedidos y mas.",
+  "logoutSuccess": "Sesión cerrada correctamente",
+  "yesLogout": "Sí, cerrar sesión",
+  "adminConfirm": "¿Estás seguro de que deseas acceder al panel de administración?",
+  "yesAdmin": "Sí, acceder",
   "sectionLogin": "---------------------------------------------",
   "loginTitle": "Bienvenido de nuevo!",
   "loginMessage": "inicia sesión en tu cuenta",
@@ -292,5 +298,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "adminPanelSection": "---------------------------------------------",
+  "users": "Usuarios",
+  "goOutConfirm": "¿Estás seguro de que deseas regresar al inicio?",
+  "yesGoOut": "Sí, regresar"
 }

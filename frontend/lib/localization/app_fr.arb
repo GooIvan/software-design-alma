@@ -19,7 +19,9 @@
   "myAccount": "Mon compte",
   "myOrders": "Mes commandes",
   "about": "À propos",
+  "privacyPolicy": "Politique de confidentialité",
   "configuration": "Configuration",
+  "adminPanel": "Panneau d'administration",
   "guest": "Invité",
   "logout": "Se déconnecter",
   "cancel": "Annuler",
@@ -48,6 +50,10 @@
   "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
   "guestMessage1": "Saviez-vous que vous pouvez accéder à plus de fonctions ?",
   "guestMessage2": "Connectez-vous pour voir votre compte, vos commandes et plus encore.",
+  "logoutSuccess": "Déconnexion réussie",
+  "yesLogout": "Oui, se déconnecter",
+  "adminConfirm": "Êtes-vous sûr de vouloir accéder au panneau d'administration ?",
+  "yesAdmin": "Oui, accéder",
   "sectionLogin": "---------------------------------------------",
   "loginTitle": "Bon retour !",
   "loginMessage": "connectez-vous à votre compte",
@@ -292,5 +298,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "adminPanelSection": "---------------------------------------------",
+  "users": "Utilisateurs",
+  "goOutConfirm": "Êtes-vous sûr de vouloir revenir à la page d'accueil ?",
+  "yesGoOut": "Oui, revenir"
 }

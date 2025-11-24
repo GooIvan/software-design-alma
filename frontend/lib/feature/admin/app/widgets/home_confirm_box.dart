@@ -1,8 +1,7 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../widgets/custom_alert.dart';
 
-void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
+void homeConfirmBox(BuildContext context) {
   final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
   showModalBottomSheet(
@@ -47,7 +46,7 @@ void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Icon(
-                        Icons.logout,
+                        Icons.logout_rounded,
                         size: 50,
                         color: Theme.of(context).appBarTheme.backgroundColor ??
                             Colors.white,
@@ -59,7 +58,7 @@ void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
 
                   // Texto centrado
                   Text(
-                    context.l10n.logoutConfirm,
+                    context.l10n.goOutConfirm,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.displayLarge?.color,
@@ -107,13 +106,10 @@ void confirmBox(BuildContext context, {required VoidCallback onConfirm}) {
                             elevation: 0,
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
-                            onConfirm();
-                            CustomAlert.success(
-                                context, context.l10n.logoutSuccess);
+                            Navigator.of(context).pushNamed('/main');
                           },
                           child: Text(
-                            context.l10n.yesLogout,
+                            context.l10n.yesGoOut,
                           ),
                         ),
                       ),
