@@ -8,19 +8,22 @@ class ProfileRepository {
   Future<User?> fetchProfile() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // obtener token
-    final token = prefs.getString('token');
+    // obtener token (priorizar auth_token de Google login)
+    final token = prefs.getString('auth_token') ?? prefs.getString('token');
 
-    if (token == null) {
+    if (token == null || token.isEmpty) {
       throw Exception('Usuario no autenticado');
     }
 
     // Hacer petición al backend
+    // El token ya incluye "Bearer-" así que no agregamos "Bearer " adicional
+    final authHeader = token.startsWith('Bearer') ? token : 'Bearer $token';
+    
     final response = await http.get(
       Uri.parse('${Api.baseUrl}/api/profile'),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
+        'Authorization': authHeader,
       },
     );
 
@@ -48,7 +51,7 @@ class ProfileRepository {
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
+    final token = prefs.getString('auth_token') ?? prefs.getString('token');
 
     if (token != null) {
       try {
@@ -73,9 +76,9 @@ class ProfileRepository {
 
   Future<User?> updateProfile(User user) async {
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
+    final token = prefs.getString('auth_token') ?? prefs.getString('token');
 
-    if (token == null) {
+    if (token == null || token.isEmpty) {
       throw Exception('Usuario no autenticado');
     }
 

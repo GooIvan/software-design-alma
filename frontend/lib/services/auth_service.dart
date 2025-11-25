@@ -2,12 +2,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../global/api.dart';
 
 class AuthService {
-  // URL de tu backend Rails
-  static const String baseUrl = 'http://10.0.2.2:3000'; // Para emulador Android
-  // static const String baseUrl = 'http://localhost:3000'; // Para iOS simulator
-  // static const String baseUrl = 'https://tu-dominio.com'; // Para producción
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -34,7 +31,7 @@ class AuthService {
 
       // Enviar el token al backend Rails
       final response = await http.post(
-        Uri.parse('$baseUrl/api/v1/auth/google'),
+        Uri.parse('${Api.baseUrl}/api/v1/auth/google'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -55,6 +52,7 @@ class AuthService {
         await prefs.setString('auth_token', data['token'] ?? '');
         await prefs.setString('user_email', googleUser.email);
         await prefs.setString('user_name', googleUser.displayName ?? '');
+        await prefs.setString('user_photo_url', googleUser.photoUrl ?? '');
         
         return {
           'success': true,

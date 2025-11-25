@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../services/auth_service.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../../register/presentation/pages/register_page.dart';
-import '../../../home/presentation/pages/homescreen.dart';
+import '../../../../app/main_scaffold.dart';
 
 class SocialLoginSection extends StatelessWidget {
   SocialLoginSection({super.key});
@@ -34,11 +34,21 @@ class SocialLoginSection extends StatelessWidget {
       }
 
       if (result != null && result['success'] == true) {
-        // Login exitoso, navegar al home
+        // Mostrar alert de éxito
         if (context.mounted) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const HomeScreen()),
+          CustomAlert.success(
+            context,
+            'Inicio de sesión exitoso',
           );
+          
+          // Esperar un momento para que se vea el alert, luego navegar
+          await Future.delayed(const Duration(seconds: 1));
+          
+          if (context.mounted) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const MainScaffold(initialIndex: 3)),
+            );
+          }
         }
       } else {
         // Error al hacer login

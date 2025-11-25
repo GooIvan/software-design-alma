@@ -81,9 +81,11 @@ body[data-theme="dark"] .popular-products-section {
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   margin-bottom: 0.5rem;
   color: #333;
+  text-decoration: none !important;
+  border: none !important;
 }
 
 body[data-theme="dark"] .section-title {
@@ -163,6 +165,17 @@ body[data-theme="dark"] .product-card-modern {
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
+.product-link {
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block;
+}
+
+.product-link:hover {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
 .product-info {
   padding: 1.5rem;
   flex-grow: 1;
@@ -178,6 +191,11 @@ body[data-theme="dark"] .product-card-modern {
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-decoration: none !important;
+}
+
+.product-link .product-name {
+  text-decoration: none !important;
 }
 
 body[data-theme="dark"] .product-name {
@@ -240,6 +258,15 @@ body[data-theme="dark"] .rating-count {
 .testimonials-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+}
+
+.testimonials-section .subtittle,
+.testimonials-section .section-title {
+  color: white !important;
+}
+
+.testimonials-section .section-subtitle {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .testimonial-card {
@@ -361,9 +388,12 @@ body[data-theme="dark"] .stat-label {
 }
 
 .newsletter-title {
-  font-size: 2rem;
+  font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  text-decoration: none !important;
+  border: none !important;
+  color: white !important;
 }
 
 .newsletter-title i {
@@ -375,6 +405,7 @@ body[data-theme="dark"] .stat-label {
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
   opacity: 0.9;
+  color: white;
 }
 
 .newsletter-benefits {

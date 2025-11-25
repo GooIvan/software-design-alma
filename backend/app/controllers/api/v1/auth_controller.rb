@@ -1,6 +1,5 @@
 class Api::V1::AuthController < ApplicationController
   skip_before_action :verify_authenticity_token
-  skip_before_action :authenticate_user!, only: [:google_login]
 
   def google_login
     begin
@@ -55,8 +54,7 @@ class Api::V1::AuthController < ApplicationController
   private
 
   def generate_auth_token(user)
-    # Por ahora, retornamos un token simple
-    # En producción deberías usar JWT
-    "Bearer-#{user.id}-#{SecureRandom.hex(20)}"
+    # Generar JWT token usando el mismo servicio que el login normal
+    JwtService.encode(user_id: user.id)
   end
 end
