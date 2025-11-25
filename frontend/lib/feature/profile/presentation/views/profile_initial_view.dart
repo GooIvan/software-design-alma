@@ -7,7 +7,9 @@ import '../../../register/presentation/pages/register_page.dart';
 import '../../../configuration/presentation/page/configuration_page.dart';
 
 class ProfileInitialView extends StatelessWidget {
-  const ProfileInitialView({super.key});
+  const ProfileInitialView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class ProfileInitialView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Avatar
                 CircleAvatar(
                   radius: 50,
                   backgroundColor: Theme.of(context).colorScheme.primary,
@@ -29,7 +32,7 @@ class ProfileInitialView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // "Invitado"
+                // texto invitado
                 Text(
                   context.l10n.guest,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -90,7 +93,8 @@ class ProfileInitialView extends StatelessWidget {
                     icon: const Icon(Icons.person_add),
                     label: Text(context.l10n.signup),
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: azulPrimary),
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
                       foregroundColor: azulPrimary,
                       padding: const EdgeInsets.symmetric(
                         vertical: 20,
@@ -106,7 +110,7 @@ class ProfileInitialView extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // Botón configuración
+                // Botón de configuración
                 Container(
                   decoration: BoxDecoration(
                     color: azulPrimary.withOpacity(0.05),
@@ -143,9 +147,8 @@ class ProfileInitialView extends StatelessWidget {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                     ),
-
                     subtitle: Text(
-                      context.l10n.configurationSubtitle,
+                      'Idioma, tema y más',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Colors.grey.shade600,
                           ),
@@ -169,12 +172,10 @@ class ProfileInitialView extends StatelessWidget {
     );
   }
 
-  Widget _buildInvitadoCard(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-  }) {
+  Widget _buildInvitadoCard(BuildContext context,
+      {required IconData icon,
+      required String title,
+      required String subtitle}) {
     final Color azulPrimary = Theme.of(context).colorScheme.primary;
 
     return Card(

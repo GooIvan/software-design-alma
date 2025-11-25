@@ -1,11 +1,9 @@
-import 'package:design_alma/feature/terms/pages/terms _and_conditions.dart';
 import 'package:design_alma/utils/extensions.dart';
 import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/social_login_section.dart';
 import '../../data/bloc/login_bloc.dart';
-import '../../../terms/pages/terms _and_conditions.dart';
 
 class LoginInitialView extends StatefulWidget {
   const LoginInitialView({super.key});
@@ -20,8 +18,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _obscurePassword = true;
-  bool _acceptTerms = false;
+  bool _obscurePassword = true; // para controlar el ojito
 
   @override
   void dispose() {
@@ -31,14 +28,6 @@ class _LoginInitialViewState extends State<LoginInitialView> {
   }
 
   void _onLoginPressed(BuildContext context) {
-    if (!_acceptTerms) {
-      CustomAlert.warning(
-        context,
-        context.l10n.registerAcceptTermsError, // 🔥 INTERNACIONALIZADO
-      );
-      return;
-    }
-
     if (_formKey.currentState!.validate()) {
       context.read<LoginBloc>().add(
             LoginSubmitted(
@@ -61,13 +50,14 @@ class _LoginInitialViewState extends State<LoginInitialView> {
             key: _formKey,
             child: Column(
               children: [
-                // Avatar
+                // Avatar de login
                 Container(
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
                     color: azulPrimary,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius:
+                        BorderRadius.circular(30), // ajusta aquí el redondeo
                   ),
                   child: Icon(
                     Icons.lock,
@@ -100,23 +90,53 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                 TextFormField(
                   controller: _emailController,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).textTheme.displayLarge?.color,
-                  ),
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
+                      fontSize: 15),
                   decoration: InputDecoration(
                     hintText: context.l10n.inputEmail,
-                    prefixIcon: const Icon(Icons.mail, size: 20),
+                    hintStyle: const TextStyle(
+                      color: Color.fromARGB(255, 110, 110, 110),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.mail,
+                      size: 20,
+                      color: Color.fromARGB(255, 110, 110, 110),
+                    ),
                     filled: true,
                     fillColor: Theme.of(context).appBarTheme.backgroundColor ??
                         Colors.white,
+
+                    // borde normal
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
+
+                    // borde cuando está enfocado
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
                         color: Colors.blueAccent,
+                        width: 1,
+                      ),
+                    ),
+
+                    // borde cuando hay error (mantiene radius)
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.red,
+                        width: 1,
+                      ),
+                    ),
+
+                    // borde cuando está enfocado y hay error
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.red,
                         width: 1,
                       ),
                     ),
@@ -131,32 +151,70 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                 // Password
                 TextFormField(
                   controller: _passwordController,
-                  obscureText: _obscurePassword,
+                  obscureText:
+                      _obscurePassword, // alterna entre ocultar/mostrar
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).textTheme.displayLarge?.color,
-                  ),
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
+                      fontSize: 15),
                   decoration: InputDecoration(
                     hintText: context.l10n.inputPassword,
-                    prefixIcon: const Icon(Icons.vpn_key, size: 20),
+                    hintStyle: const TextStyle(
+                      color: Color.fromARGB(255, 110, 110, 110),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.vpn_key,
+                      size: 20,
+                      color: Color.fromARGB(255, 110, 110, 110),
+                    ),
                     suffixIcon: IconButton(
-                      icon: Icon(_obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility),
-                      onPressed: () =>
-                          setState(() => _obscurePassword = !_obscurePassword),
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: const Color.fromARGB(255, 110, 110, 110),
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
                     ),
                     filled: true,
                     fillColor: Theme.of(context).appBarTheme.backgroundColor ??
                         Colors.white,
+
+                    // borde normal
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
+
+                    // borde cuando está enfocado
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
                         color: Colors.blueAccent,
+                        width: 1,
+                      ),
+                    ),
+
+                    // borde cuando hay error
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.red,
+                        width: 1,
+                      ),
+                    ),
+
+                    // borde cuando hay error + foco
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.red,
                         width: 1,
                       ),
                     ),
@@ -168,34 +226,23 @@ class _LoginInitialViewState extends State<LoginInitialView> {
 
                 const SizedBox(height: 10),
 
-                // 🔥 Checkbox Términos y Condiciones INTERNACIONALIZADO
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _acceptTerms,
-                      onChanged: (v) => setState(() => _acceptTerms = v!),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  const TermsAndConditionsPage(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          context.l10n.registerAcceptTerms, // ← CAMBIA DE IDIOMA
-                          style: const TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                // Forgot password
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      CustomAlert.warning(
+                        context,
+                        context.l10n.functionalityNotImplemented,
+                      );
+                    },
+                    child: Text(
+                      context.l10n.forgotPassword,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                    )
-                  ],
+                    ),
+                  ),
                 ),
 
                 const SizedBox(height: 20),
@@ -211,9 +258,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       textStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                          fontSize: 16, fontWeight: FontWeight.bold),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
