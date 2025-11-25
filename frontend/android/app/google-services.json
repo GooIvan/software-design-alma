@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "354443077313-nif3c0qe824fcd1u9k5umsr1hcv6dlr0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.design_alma",
+            "certificate_hash": "b918e3ec312d9194c0ff360977562f09ebbe0212"
+          }
+        },
+        {
           "client_id": "354443077313-0fno50ulf9pt68kvb44hsu5fq3t8pnt1.apps.googleusercontent.com",
           "client_type": 3
         }
