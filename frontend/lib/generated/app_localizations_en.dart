@@ -710,4 +710,90 @@ class AppLocalizationsEn extends AppLocalizations {
   String expireDate(String date) {
     return 'Expires: $date';
   }
+
+  @override
+  String get termsTitle => 'Terms and Conditions';
+
+  @override
+  String get termsLastUpdated => 'Last updated';
+
+  @override
+  String get termsUpdatedDate => 'March 15, 2025';
+
+  @override
+  String get termsIntro =>
+      'Welcome to our application. By using our services, you agree to these Terms and Conditions. Please read them carefully.';
+
+  @override
+  String get termsScopeTitle => '1. Service Scope';
+
+  @override
+  String get termsScope =>
+      'Our application provides features related to shopping, orders, user management, and communication with our platform.';
+
+  @override
+  String get termsDataTitle => '2. Data Usage';
+
+  @override
+  String get termsData =>
+      'Personal information provided by the user will be handled according to our Privacy Policy and used only for service-related purposes.';
+
+  @override
+  String get termsProductsTitle => '3. Products and Services';
+
+  @override
+  String get termsProducts =>
+      'Products offered are subject to availability. We reserve the right to modify prices, characteristics, or availability without prior notice.';
+
+  @override
+  String get termsPaymentsTitle => '4. Payments';
+
+  @override
+  String get termsPayments =>
+      'Payments made through the app must be completed using the allowed methods and will be processed securely.';
+
+  @override
+  String get termsDeliveryTitle => '5. Deliveries and Shipping';
+
+  @override
+  String get termsDelivery =>
+      'Delivery times may vary depending on user location and product availability.';
+
+  @override
+  String get termsLiabilityTitle => '6. Limitation of Liability';
+
+  @override
+  String get termsLiability =>
+      'We are not responsible for indirect, incidental, or consequential damages arising from the use of the application.';
+
+  @override
+  String get termsChangesTitle => '7. Changes to the Terms';
+
+  @override
+  String get termsChanges =>
+      'We reserve the right to update these terms when necessary. Any changes will be published in the app.';
+
+  @override
+  String get termsContactTitle => '8. Contact';
+
+  @override
+  String get termsContact =>
+      'If you have questions or comments, you can reach our support team.';
+
+  @override
+  String get termsAcceptButton => 'Accept';
+
+  @override
+  String get registerAcceptTerms => 'I accept the terms and conditions';
+
+  @override
+  String get registerAcceptTermsLabel =>
+      'Do you accept the terms and conditions?';
+
+  @override
+  String get registerAcceptTermsError =>
+      'You must accept the terms and conditions to continue.';
+
+  @override
+  String get configurationSubtitle => 'Language, theme and more';
 }

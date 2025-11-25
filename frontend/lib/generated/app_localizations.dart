@@ -1443,6 +1443,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expires: {date}'**
   String expireDate(String date);
+
+  /// No description provided for @termsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get termsTitle;
+
+  /// No description provided for @termsLastUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated'**
+  String get termsLastUpdated;
+
+  /// No description provided for @termsUpdatedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'March 15, 2025'**
+  String get termsUpdatedDate;
+
+  /// No description provided for @termsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to our application. By using our services, you agree to these Terms and Conditions. Please read them carefully.'**
+  String get termsIntro;
+
+  /// No description provided for @termsScopeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Service Scope'**
+  String get termsScopeTitle;
+
+  /// No description provided for @termsScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Our application provides features related to shopping, orders, user management, and communication with our platform.'**
+  String get termsScope;
+
+  /// No description provided for @termsDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Data Usage'**
+  String get termsDataTitle;
+
+  /// No description provided for @termsData.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information provided by the user will be handled according to our Privacy Policy and used only for service-related purposes.'**
+  String get termsData;
+
+  /// No description provided for @termsProductsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Products and Services'**
+  String get termsProductsTitle;
+
+  /// No description provided for @termsProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Products offered are subject to availability. We reserve the right to modify prices, characteristics, or availability without prior notice.'**
+  String get termsProducts;
+
+  /// No description provided for @termsPaymentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Payments'**
+  String get termsPaymentsTitle;
+
+  /// No description provided for @termsPayments.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments made through the app must be completed using the allowed methods and will be processed securely.'**
+  String get termsPayments;
+
+  /// No description provided for @termsDeliveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'5. Deliveries and Shipping'**
+  String get termsDeliveryTitle;
+
+  /// No description provided for @termsDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery times may vary depending on user location and product availability.'**
+  String get termsDelivery;
+
+  /// No description provided for @termsLiabilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'6. Limitation of Liability'**
+  String get termsLiabilityTitle;
+
+  /// No description provided for @termsLiability.
+  ///
+  /// In en, this message translates to:
+  /// **'We are not responsible for indirect, incidental, or consequential damages arising from the use of the application.'**
+  String get termsLiability;
+
+  /// No description provided for @termsChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'7. Changes to the Terms'**
+  String get termsChangesTitle;
+
+  /// No description provided for @termsChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'We reserve the right to update these terms when necessary. Any changes will be published in the app.'**
+  String get termsChanges;
+
+  /// No description provided for @termsContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'8. Contact'**
+  String get termsContactTitle;
+
+  /// No description provided for @termsContact.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have questions or comments, you can reach our support team.'**
+  String get termsContact;
+
+  /// No description provided for @termsAcceptButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get termsAcceptButton;
+
+  /// No description provided for @registerAcceptTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I accept the terms and conditions'**
+  String get registerAcceptTerms;
+
+  /// No description provided for @registerAcceptTermsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you accept the terms and conditions?'**
+  String get registerAcceptTermsLabel;
+
+  /// No description provided for @registerAcceptTermsError.
+  ///
+  /// In en, this message translates to:
+  /// **'You must accept the terms and conditions to continue.'**
+  String get registerAcceptTermsError;
+
+  /// No description provided for @configurationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language, theme and more'**
+  String get configurationSubtitle;
 }
 
 class _AppLocalizationsDelegate
