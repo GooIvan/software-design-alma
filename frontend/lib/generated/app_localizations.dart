@@ -1527,6 +1527,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yes, return'**
   String get yesGoOut;
+
+  /// No description provided for @errorLoadingDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading admin dashboard.'**
+  String get errorLoadingDashboard;
+
+  /// No description provided for @usersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total users'**
+  String get usersCount;
+
+  /// No description provided for @paidOrdersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid orders'**
+  String get paidOrdersCount;
+
+  /// No description provided for @pendingOrdersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending orders'**
+  String get pendingOrdersCount;
+
+  /// No description provided for @totalRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Total revenue'**
+  String get totalRevenue;
+
+  /// No description provided for @ene.
+  ///
+  /// In en, this message translates to:
+  /// **'Jan'**
+  String get ene;
+
+  /// No description provided for @feb.
+  ///
+  /// In en, this message translates to:
+  /// **'Feb'**
+  String get feb;
+
+  /// No description provided for @mar.
+  ///
+  /// In en, this message translates to:
+  /// **'Mar'**
+  String get mar;
+
+  /// No description provided for @abr.
+  ///
+  /// In en, this message translates to:
+  /// **'Apr'**
+  String get abr;
+
+  /// No description provided for @may.
+  ///
+  /// In en, this message translates to:
+  /// **'May'**
+  String get may;
+
+  /// No description provided for @jun.
+  ///
+  /// In en, this message translates to:
+  /// **'Jun'**
+  String get jun;
+
+  /// No description provided for @jul.
+  ///
+  /// In en, this message translates to:
+  /// **'Jul'**
+  String get jul;
+
+  /// No description provided for @ago.
+  ///
+  /// In en, this message translates to:
+  /// **'Aug'**
+  String get ago;
+
+  /// No description provided for @sep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sep'**
+  String get sep;
+
+  /// No description provided for @oct.
+  ///
+  /// In en, this message translates to:
+  /// **'Oct'**
+  String get oct;
+
+  /// No description provided for @nov.
+  ///
+  /// In en, this message translates to:
+  /// **'Nov'**
+  String get nov;
+
+  /// No description provided for @dic.
+  ///
+  /// In en, this message translates to:
+  /// **'Dec'**
+  String get dic;
+
+  /// No description provided for @notData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data available'**
+  String get notData;
+
+  /// No description provided for @orders_chart_not_enough_data.
+  ///
+  /// In en, this message translates to:
+  /// **'There are only {count} data. At least {minPoints} are required to display the chart.'**
+  String orders_chart_not_enough_data(int count, int minPoints);
 }
 
 class _AppLocalizationsDelegate

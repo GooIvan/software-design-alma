@@ -754,4 +754,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yesGoOut => 'Yes, return';
+
+  @override
+  String get errorLoadingDashboard => 'Error loading admin dashboard.';
+
+  @override
+  String get usersCount => 'Total users';
+
+  @override
+  String get paidOrdersCount => 'Paid orders';
+
+  @override
+  String get pendingOrdersCount => 'Pending orders';
+
+  @override
+  String get totalRevenue => 'Total revenue';
+
+  @override
+  String get ene => 'Jan';
+
+  @override
+  String get feb => 'Feb';
+
+  @override
+  String get mar => 'Mar';
+
+  @override
+  String get abr => 'Apr';
+
+  @override
+  String get may => 'May';
+
+  @override
+  String get jun => 'Jun';
+
+  @override
+  String get jul => 'Jul';
+
+  @override
+  String get ago => 'Aug';
+
+  @override
+  String get sep => 'Sep';
+
+  @override
+  String get oct => 'Oct';
+
+  @override
+  String get nov => 'Nov';
+
+  @override
+  String get dic => 'Dec';
+
+  @override
+  String get notData => 'No data available';
+
+  @override
+  String orders_chart_not_enough_data(int count, int minPoints) {
+    return 'There are only $count data. At least $minPoints are required to display the chart.';
+  }
 }

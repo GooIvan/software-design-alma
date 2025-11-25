@@ -31,6 +31,7 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   flutter_map: ^8.2.2
   latlong2: ^0.9.1
+  fl_chart: ^0.66.0
 
 dev_dependencies:
   flutter_test:

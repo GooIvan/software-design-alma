@@ -302,5 +302,34 @@
   "adminPanelSection": "---------------------------------------------",
   "users": "Users",
   "goOutConfirm": "Are you sure you want to return to the home page?",
-  "yesGoOut": "Yes, return"
+  "yesGoOut": "Yes, return",
+  "errorLoadingDashboard": "Error loading admin dashboard.",
+  "usersCount": "Total users",
+  "paidOrdersCount": "Paid orders",
+  "pendingOrdersCount": "Pending orders",
+  "totalRevenue": "Total revenue",
+  "ene": "Jan",
+  "feb": "Feb",
+  "mar": "Mar",
+  "abr": "Apr",
+  "may": "May",
+  "jun": "Jun",
+  "jul": "Jul",
+  "ago": "Aug",
+  "sep": "Sep",
+  "oct": "Oct",
+  "nov": "Nov",
+  "dic": "Dec",
+  "notData": "No data available",
+  "orders_chart_not_enough_data": "There are only {count} data. At least {minPoints} are required to display the chart.",
+  "@orders_chart_not_enough_data": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "minPoints": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 
+import '../../feature/admin/feature/dashboard/core/dashboard_injection.dart';
 import '../../feature/categories/core/categories_injection.dart';
 import '../../feature/home/core/home_injection.dart';
 import '../../feature/login/core/login_injection.dart';
@@ -39,4 +40,7 @@ void init() {
 
   //* Se inicializa el módulo de Favorites
   initFavoritesModule();
+
+  //* Se inicializa el módulo de Dashboard (Admin)
+  initDashboardModule();
 }

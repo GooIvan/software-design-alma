@@ -5,7 +5,7 @@ module Api
           active_users_count: User.count,
           paid_orders_count: Order.where(status: 'paid').count,
           total_pending_orders: Order.where(status: 'pending').count,
-          total_revenue: Order.where(status: 'paid').sum(:total),
+            total_revenue: Order.where(status: 'paid').sum(:total).to_f,
           popular_categories: popular_categories,
           top_products: top_products,
           orders_per_month: orders_per_month,
