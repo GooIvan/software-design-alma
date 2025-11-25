@@ -14,7 +14,7 @@ class RegisterInitialView extends StatefulWidget {
 class _RegisterInitialViewState extends State<RegisterInitialView> {
   final _formKey = GlobalKey<FormState>();
 
-  // Controladores para inputs
+  // Controladores
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
@@ -24,8 +24,9 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
 
-  bool _obscurePassword = true; // para controlar el ojito
-  bool _obscurePasswordConfirm = true; // para controlar el ojito
+  bool _obscurePassword = true;
+  bool _obscurePasswordConfirm = true;
+  bool _acceptTerms = false;
 
   @override
   void dispose() {
@@ -41,6 +42,15 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
   }
 
   void _onRegisterPressed(BuildContext context) {
+    if (!_acceptTerms) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.registerAcceptTermsError),
+        ),
+      );
+      return;
+    }
+
     if (_formKey.currentState!.validate()) {
       context.read<RegisterBloc>().add(
             RegisterSubmitted(
@@ -64,597 +74,263 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
     return SafeArea(
       child: Center(
         child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  // Título
-                  Text(
-                    context.l10n.registerTitle,
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.displayLarge?.color,
-                    ),
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                // ---------------- TÍTULO ----------------
+                Text(
+                  context.l10n.registerTitle,
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.displayLarge?.color,
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    context.l10n.registerMessage,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).textTheme.displayLarge?.color,
-                    ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  context.l10n.registerMessage,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).textTheme.displayLarge?.color,
                   ),
-                  const SizedBox(height: 30),
+                ),
+                const SizedBox(height: 30),
 
-                  // Input name
-                  TextFormField(
-                    controller: _nameController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.displayLarge?.color,
-                        fontSize: 15),
-                    decoration: InputDecoration(
-                      hintText: context.l10n.registerInputName,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 110, 110, 110),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.person,
-                        size: 20,
-                        color: Color.fromARGB(255, 110, 110, 110),
-                      ),
-                      filled: true,
-                      fillColor:
-                          Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
+                // ---------------- INPUTS ----------------
+                _buildTextField(
+                  controller: _nameController,
+                  icon: Icons.person,
+                  hint: context.l10n.registerInputName,
+                  validator: (v) =>
+                      v!.isEmpty ? context.l10n.validationName : null,
+                ),
 
-                      // borde normal
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
+                const SizedBox(height: 20),
 
-                      // borde cuando está enfocado
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.blueAccent,
-                          width: 1,
-                        ),
-                      ),
+                _buildTextField(
+                  controller: _lastNameController,
+                  icon: Icons.person,
+                  hint: context.l10n.registerInputLastName,
+                  validator: (v) =>
+                      v!.isEmpty ? context.l10n.validationLastName : null,
+                ),
 
-                      // borde cuando hay error (mantiene radius)
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
+                const SizedBox(height: 20),
 
-                      // borde cuando está enfocado y hay error
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
+                _buildTextField(
+                  controller: _cityController,
+                  icon: Icons.location_city,
+                  hint: context.l10n.registerInputCity,
+                  validator: (v) =>
+                      v!.isEmpty ? context.l10n.validationCity : null,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  controller: _addressController,
+                  icon: Icons.home,
+                  hint: context.l10n.registerInputAddress,
+                  validator: (v) =>
+                      v!.isEmpty ? context.l10n.validationAddress : null,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  controller: _phoneController,
+                  icon: Icons.phone,
+                  hint: context.l10n.registerInputPhone,
+                  validator: (v) =>
+                      v!.isEmpty ? context.l10n.validationPhone : null,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildTextField(
+                  controller: _emailController,
+                  icon: Icons.mail,
+                  hint: context.l10n.registerInputEmail,
+                  validator: (v) =>
+                      v!.isEmpty ? context.l10n.validationEmail : null,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildPasswordField(
+                  controller: _passwordController,
+                  obscure: _obscurePassword,
+                  toggle: () =>
+                      setState(() => _obscurePassword = !_obscurePassword),
+                  hint: context.l10n.registerInputPassword,
+                  validator: (v) =>
+                      v!.length < 6 ? context.l10n.validationPassword : null,
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildPasswordField(
+                  controller: _passwordConfirmController,
+                  obscure: _obscurePasswordConfirm,
+                  toggle: () => setState(
+                      () => _obscurePasswordConfirm = !_obscurePasswordConfirm),
+                  hint: context.l10n.registerInputConfirmPassword,
+                  validator: (v) {
+                    if (v == null || v.isEmpty || v.length < 6) {
+                      return context.l10n.validationConfirmPassword;
+                    }
+                    if (v != _passwordController.text) {
+                      return context.l10n.validationConfirmPasswordNotMatch;
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 25),
+
+                // ---------------- CHECKBOX TÉRMINOS ----------------
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: _acceptTerms,
+                      onChanged: (value) {
+                        setState(() {
+                          _acceptTerms = value!;
+                        });
+                      },
                     ),
-                    validator: (v) => v == null || v.isEmpty
-                        ? context.l10n.validationName
-                        : null,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Input last name
-                  TextFormField(
-                    controller: _lastNameController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.displayLarge?.color,
-                        fontSize: 15),
-                    decoration: InputDecoration(
-                      hintText: context.l10n.registerInputLastName,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 110, 110, 110),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.person,
-                        size: 20,
-                        color: Color.fromARGB(255, 110, 110, 110),
-                      ),
-                      filled: true,
-                      fillColor:
-                          Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
-
-                      // borde normal
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-
-                      // borde cuando está enfocado
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.blueAccent,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error (mantiene radius)
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando está enfocado y hay error
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    validator: (v) => v == null || v.isEmpty
-                        ? context.l10n.validationLastName
-                        : null,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Input city
-                  TextFormField(
-                    controller: _cityController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.displayLarge?.color,
-                        fontSize: 15),
-                    decoration: InputDecoration(
-                      hintText: context.l10n.registerInputCity,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 110, 110, 110),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.location_city,
-                        size: 20,
-                        color: Color.fromARGB(255, 110, 110, 110),
-                      ),
-                      filled: true,
-                      fillColor:
-                          Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
-
-                      // borde normal
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-
-                      // borde cuando está enfocado
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.blueAccent,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error (mantiene radius)
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando está enfocado y hay error
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    validator: (v) => v == null || v.isEmpty
-                        ? context.l10n.validationCity
-                        : null,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Input Address
-                  TextFormField(
-                    controller: _addressController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.displayLarge?.color,
-                        fontSize: 15),
-                    decoration: InputDecoration(
-                      hintText: context.l10n.registerInputAddress,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 110, 110, 110),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.home,
-                        size: 20,
-                        color: Color.fromARGB(255, 110, 110, 110),
-                      ),
-                      filled: true,
-                      fillColor:
-                          Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
-
-                      // borde normal
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-
-                      // borde cuando está enfocado
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.blueAccent,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error (mantiene radius)
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando está enfocado y hay error
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    validator: (v) => v == null || v.isEmpty
-                        ? context.l10n.validationAddress
-                        : null,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Input phone
-                  TextFormField(
-                    controller: _phoneController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.displayLarge?.color,
-                        fontSize: 15),
-                    decoration: InputDecoration(
-                      hintText: context.l10n.registerInputPhone,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 110, 110, 110),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.phone,
-                        size: 20,
-                        color: Color.fromARGB(255, 110, 110, 110),
-                      ),
-                      filled: true,
-                      fillColor:
-                          Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
-
-                      // borde normal
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-
-                      // borde cuando está enfocado
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.blueAccent,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error (mantiene radius)
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando está enfocado y hay error
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    validator: (v) => v == null || v.isEmpty
-                        ? context.l10n.validationPhone
-                        : null,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Input email
-                  TextFormField(
-                    controller: _emailController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.displayLarge?.color,
-                        fontSize: 15),
-                    decoration: InputDecoration(
-                      hintText: context.l10n.registerInputEmail,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 110, 110, 110),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.mail,
-                        size: 20,
-                        color: Color.fromARGB(255, 110, 110, 110),
-                      ),
-                      filled: true,
-                      fillColor:
-                          Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
-
-                      // borde normal
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-
-                      // borde cuando está enfocado
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.blueAccent,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error (mantiene radius)
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando está enfocado y hay error
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    validator: (v) => v == null || v.isEmpty
-                        ? context.l10n.validationEmail
-                        : null,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Input password
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText:
-                        _obscurePassword, // alterna entre ocultar/mostrar
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.displayLarge?.color,
-                        fontSize: 15),
-                    decoration: InputDecoration(
-                      hintText: context.l10n.registerInputPassword,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 110, 110, 110),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.vpn_key,
-                        size: 20,
-                        color: Color.fromARGB(255, 110, 110, 110),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: const Color.fromARGB(255, 110, 110, 110),
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/terms");
                         },
-                      ),
-                      filled: true,
-                      fillColor:
-                          Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
-
-                      // borde normal
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-
-                      // borde cuando está enfocado
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.blueAccent,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error + foco
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
+                        child: Text(
+                          context.l10n.registerAcceptTerms,
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                    validator: (v) => v == null || v.length < 6
-                        ? context.l10n.validationPassword
-                        : null,
-                  ),
+                  ],
+                ),
 
-                  const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-                  // Input password confirm
-                  TextFormField(
-                    controller: _passwordConfirmController,
-                    obscureText:
-                        _obscurePasswordConfirm, // alterna entre ocultar/mostrar
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.displayLarge?.color,
-                        fontSize: 15),
-                    decoration: InputDecoration(
-                      hintText: context.l10n.registerInputConfirmPassword,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 110, 110, 110),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.vpn_key,
-                        size: 20,
-                        color: Color.fromARGB(255, 110, 110, 110),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePasswordConfirm
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: const Color.fromARGB(255, 110, 110, 110),
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePasswordConfirm = !_obscurePasswordConfirm;
-                          });
-                        },
-                      ),
-                      filled: true,
-                      fillColor:
-                          Theme.of(context).appBarTheme.backgroundColor ??
-                              Colors.white,
-
-                      // borde normal
-                      enabledBorder: OutlineInputBorder(
+                // ---------------- BOTÓN REGISTRO ----------------
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _onRegisterPressed(context),
+                    label: Text(context.l10n.signup),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: azulCielo,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      textStyle: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-
-                      // borde cuando está enfocado
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.blueAccent,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
-                      ),
-
-                      // borde cuando hay error + foco
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                          width: 1,
-                        ),
                       ),
                     ),
-                    validator: (v) {
-                      if (v == null || v.isEmpty || v.length < 6) {
-                        return context.l10n.validationConfirmPassword;
-                      }
-                      if (v != _passwordController.text) {
-                        return context.l10n.validationConfirmPasswordNotMatch;
-                      }
-                      return null;
-                    },
+                    icon: const Icon(Icons.check),
                   ),
+                ),
 
-                  const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () => _onRegisterPressed(context),
-                      label: Text(context.l10n.signup),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: azulCielo,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        textStyle: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  const SocialRegisterSection(),
-                ],
-              ),
-            )),
+                const SocialRegisterSection(),
+              ],
+            ),
+          ),
+        ),
       ),
+    );
+  }
+
+  // ************************************************************
+  // -------------------- WIDGETS REUTILIZABLES -----------------
+  // ************************************************************
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required IconData icon,
+    required String hint,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      decoration: InputDecoration(
+        hintText: hint,
+        prefixIcon:
+            Icon(icon, size: 20, color: const Color.fromARGB(255, 110, 110, 110)),
+        filled: true,
+        fillColor: Colors.white,
+        enabledBorder: _borderNone(),
+        focusedBorder: _borderBlue(),
+        errorBorder: _borderRed(),
+        focusedErrorBorder: _borderRed(),
+      ),
+      validator: validator,
+    );
+  }
+
+  Widget _buildPasswordField({
+    required TextEditingController controller,
+    required bool obscure,
+    required Function toggle,
+    required String hint,
+    required String? Function(String?) validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscure,
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      decoration: InputDecoration(
+        hintText: hint,
+        prefixIcon:
+            const Icon(Icons.vpn_key, size: 20, color: Color.fromARGB(255, 110, 110, 110)),
+        suffixIcon: IconButton(
+          icon: Icon(
+            obscure ? Icons.visibility_off : Icons.visibility,
+            color: const Color.fromARGB(255, 110, 110, 110),
+          ),
+          onPressed: () => toggle(),
+        ),
+        filled: true,
+        fillColor: Colors.white,
+        enabledBorder: _borderNone(),
+        focusedBorder: _borderBlue(),
+        errorBorder: _borderRed(),
+        focusedErrorBorder: _borderRed(),
+      ),
+      validator: validator,
+    );
+  }
+
+  OutlineInputBorder _borderNone() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide.none,
+    );
+  }
+
+  OutlineInputBorder _borderBlue() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(color: Colors.blueAccent, width: 1),
+    );
+  }
+
+  OutlineInputBorder _borderRed() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(color: Colors.red, width: 1),
     );
   }
 }
