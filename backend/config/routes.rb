@@ -78,6 +78,8 @@ Rails.application.routes.draw do
       # Webhook de PayU
       post :payu_webhook, to: "payments#payu_webhook"
     end
+    
+    get 'dashboard', to: 'dashboard#index'
   end
 
   scope "(:locale)", locale: /en|es/ do

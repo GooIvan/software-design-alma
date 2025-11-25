@@ -8,6 +8,7 @@ class Admin::DashboardController < ApplicationController
     @users = User.all
     @orders = Order.all
     @category = Category.all
+    @total_revenue = Order.where(status: 'paid').sum(:total)
 
     @labels = (1..12).map { |m| Date::MONTHNAMES[m] }
     year = Date.current.year.to_s
