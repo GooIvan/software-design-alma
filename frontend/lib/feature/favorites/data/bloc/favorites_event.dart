@@ -7,6 +7,8 @@ abstract class FavoritesEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ResetFavoritesState extends FavoritesEvent {}
+
 class LoadFavorites extends FavoritesEvent {}
 
 class RefreshFavorites extends FavoritesEvent {}

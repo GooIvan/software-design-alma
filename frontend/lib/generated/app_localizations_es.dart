@@ -819,9 +819,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notData => 'No data available';
 
   @override
+  String get loginFavoriteAlert =>
+      'Debes iniciar sesión para agregar a favoritos.';
+
+  @override
   String orders_chart_not_enough_data(int count, int minPoints) {
     return 'Solo hay $count datos. Se necesitan al menos $minPoints para mostrar la gráfica.';
   }
+
+  @override
+  String get termsSection => '---------------------------------------------';
 
   @override
   String get termsTitle => 'Términos y Condiciones';

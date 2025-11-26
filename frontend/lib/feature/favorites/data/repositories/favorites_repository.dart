@@ -23,7 +23,7 @@ class FavoritesRepository {
     final token = await _getToken();
 
     if (token == null) {
-      throw Exception('Usuario no autenticado');
+      throw UnauthorizedException('Usuario no autenticado');
     }
     final response =
         await http.get(Uri.parse('${Api.baseUrl}/api/favorites'), headers: {
@@ -55,7 +55,7 @@ class FavoritesRepository {
     final token = await _getToken();
 
     if (token == null) {
-      throw Exception('Usuario no autenticado');
+      throw UnauthorizedException('Usuario no autenticado');
     }
 
     final response = await http.post(
@@ -93,7 +93,7 @@ class FavoritesRepository {
     final token = await _getToken();
 
     if (token == null) {
-      throw Exception('Usuario no autenticado');
+      throw UnauthorizedException('Usuario no autenticado');
     }
 
     final response = await http.delete(

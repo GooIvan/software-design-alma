@@ -10,6 +10,9 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   final FavoritesRepository repository;
 
   FavoritesBloc(this.repository) : super(FavoritesInitial()) {
+    on<ResetFavoritesState>((event, emit) async {
+      emit(FavoritesInitial());
+    });
     on<LoadFavorites>((event, emit) async {
       emit(FavoritesLoading());
       try {

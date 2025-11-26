@@ -321,8 +321,9 @@
   "nov": "Nov",
   "dic": "Dic",
   "notData": "No data available",
+  "loginFavoriteAlert": "Debes iniciar sesión para agregar a favoritos.",
   "orders_chart_not_enough_data": "Solo hay {count} datos. Se necesitan al menos {minPoints} para mostrar la gráfica.",
-
+  "termsSection": "---------------------------------------------",
   "termsTitle": "Términos y Condiciones",
   "termsLastUpdated": "Última actualización",
   "termsUpdatedDate": "15 de marzo de 2025",

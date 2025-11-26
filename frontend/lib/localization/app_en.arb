@@ -321,6 +321,7 @@
   "nov": "Nov",
   "dic": "Dec",
   "notData": "No data available",
+  "loginFavoriteAlert": "You must be logged in to add to favorites.",
   "orders_chart_not_enough_data": "There are only {count} data. At least {minPoints} are required to display the chart.",
   "@orders_chart_not_enough_data": {
     "placeholders": {
@@ -332,7 +333,7 @@
       }
     }
   },
-
+  "termsSection": "---------------------------------------------",
   "termsTitle": "Terms and Conditions",
   "termsLastUpdated": "Last updated",
   "termsUpdatedDate": "March 15, 2025",

@@ -1636,11 +1636,23 @@ abstract class AppLocalizations {
   /// **'No data available'**
   String get notData;
 
+  /// No description provided for @loginFavoriteAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to add to favorites.'**
+  String get loginFavoriteAlert;
+
   /// No description provided for @orders_chart_not_enough_data.
   ///
   /// In en, this message translates to:
   /// **'There are only {count} data. At least {minPoints} are required to display the chart.'**
   String orders_chart_not_enough_data(int count, int minPoints);
+
+  /// No description provided for @termsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get termsSection;
 
   /// No description provided for @termsTitle.
   ///

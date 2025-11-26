@@ -201,7 +201,6 @@
   "darkThemeDescription": "Thème sombre",
   "systemThemeDescription": "Suivre le système",
   "sectionDiscountCode": "---------------------------------------------",
-
   "discountApplied": "Réduction appliquée",
   "discountRemoved": "Réduction supprimée",
   "discountCodeNotFound": "Code de réduction non trouvé",
@@ -220,13 +219,17 @@
   "discountPercentage": "Réduction ({percentage}% de remise)",
   "@discountPercentage": {
     "placeholders": {
-      "percentage": { "type": "int" }
+      "percentage": {
+        "type": "int"
+      }
     }
   },
   "discountFixed": "Réduction (${amount} de remise)",
   "@discountFixed": {
     "placeholders": {
-      "amount": { "type": "String" }
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "subtotalBeforeDiscount": "Sous-total",
@@ -236,20 +239,36 @@
   "useDiscountCode": "Utiliser",
   "discountCodeLabel": "Code : {code}",
   "@discountCodeLabel": {
-    "placeholders": { "code": { "type": "String" } }
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
   },
   "discountValue": "Réduction : {value}",
   "@discountValue": {
-    "placeholders": { "value": { "type": "String" } }
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   },
   "discountDescription": "Réduction appliquée : {description}",
   "@discountDescription": {
-    "placeholders": { "description": { "type": "String" } }
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
   },
   "discountCodeFormat": "Format de code invalide",
   "discountMinimumAmount": "La commande doit être supérieure à {amount} pour utiliser cette réduction",
   "@discountMinimumAmount": {
-    "placeholders": { "amount": { "type": "String" } }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   },
   "discountNotApplicable": "Cette réduction ne peut pas être appliquée à votre commande",
   "promoCode": "Code promo",
@@ -265,16 +284,21 @@
   "invalidCodeFormat": "Format de code invalide",
   "appliedDiscountMessage": "Code appliqué : {code}",
   "@appliedDiscountMessage": {
-    "placeholders": { "code": { "type": "String" } }
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
   },
   "discountInfo": "Les codes de réduction seront appliqués au total de votre achat",
   "expireDate": "Expire : {date}",
   "@expireDate": {
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
-
   "adminPanelSection": "---------------------------------------------",
   "users": "Utilisateurs",
   "goOutConfirm": "Êtes-vous sûr de vouloir revenir à la page d'accueil ?",
@@ -284,7 +308,6 @@
   "paidOrdersCount": "Commandes payées",
   "pendingOrdersCount": "Commandes en attente",
   "totalRevenue": "Revenu total",
-
   "ene": "Jan",
   "feb": "Fév",
   "mar": "Mar",
@@ -297,17 +320,20 @@
   "oct": "Oct",
   "nov": "Nov",
   "dic": "Déc",
-
   "notData": "Pas de données disponibles",
-
+  "loginFavoriteAlert": "Vous devez être connecté pour ajouter aux favoris.",
   "orders_chart_not_enough_data": "Il n'y a que {count} données. Au moins {minPoints} sont nécessaires pour afficher le graphique.",
   "@orders_chart_not_enough_data": {
     "placeholders": {
-      "count": { "type": "int" },
-      "minPoints": { "type": "int" }
+      "count": {
+        "type": "int"
+      },
+      "minPoints": {
+        "type": "int"
+      }
     }
   },
-
+  "termsSection": "---------------------------------------------",
   "termsTitle": "Termes et Conditions",
   "termsLastUpdated": "Dernière mise à jour",
   "termsUpdatedDate": "15 mars 2025",
