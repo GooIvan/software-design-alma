@@ -30,8 +30,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _lastNameController =
         TextEditingController(text: widget.user.lastName ?? '');
     _phoneController = TextEditingController(text: widget.user.phone ?? '');
-    _addressController =
-        TextEditingController(text: widget.user.address ?? '');
+    _addressController = TextEditingController(text: widget.user.address ?? '');
     _cityController = TextEditingController(text: widget.user.city ?? '');
     _emailController = TextEditingController(text: widget.user.email);
   }
@@ -68,9 +67,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.editProfile),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
@@ -220,7 +217,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     TextFormField(
                       controller: _addressController,
                       enabled: !isLoading,
-                      maxLines: 2,
                       decoration: InputDecoration(
                         labelText: context.l10n.address,
                         prefixIcon: const Icon(Icons.home_outlined),
@@ -242,7 +238,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ElevatedButton(
                       onPressed: isLoading ? null : _saveChanges,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        backgroundColor: const Color(0xFF6EC6FF),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         textStyle: const TextStyle(

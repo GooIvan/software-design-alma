@@ -1,0 +1,9 @@
+# config/rails.yml
+# Configuración de credenciales para Rails en entorno Docker
+# Este archivo debe ser referenciado por tu configuración de Docker Compose o entorno de Rails
+
+GOOGLE_CLIENT_ID: <%= ENV["GOOGLE_CLIENT_ID"] %>
+GOOGLE_CLIENT_SECRET: <%= ENV["GOOGLE_CLIENT_SECRET"] %>
+FACEBOOK_APP_ID: <%= ENV["FACEBOOK_APP_ID"] %>
+FACEBOOK_APP_SECRET: <%= ENV["FACEBOOK_APP_SECRET"] %>
+APP_URL: <%= ENV["APP_URL"] %>

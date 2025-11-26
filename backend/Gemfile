@@ -18,6 +18,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 gem "devise"
 gem "devise-jwt"
+gem 'dotenv-rails'
 
 # OmniAuth para autenticación con Google y Facebook
 gem "omniauth-google-oauth2"

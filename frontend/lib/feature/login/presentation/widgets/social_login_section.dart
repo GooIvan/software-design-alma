@@ -40,13 +40,14 @@ class SocialLoginSection extends StatelessWidget {
             context,
             'Inicio de sesión exitoso',
           );
-          
+
           // Esperar un momento para que se vea el alert, luego navegar
           await Future.delayed(const Duration(seconds: 1));
-          
+
           if (context.mounted) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const MainScaffold(initialIndex: 3)),
+              MaterialPageRoute(
+                  builder: (_) => const MainScaffold(initialIndex: 3)),
             );
           }
         }
@@ -133,17 +134,17 @@ class SocialLoginSection extends StatelessWidget {
          */
 
         // ===== Botón Facebook =====
-        _buildSocialButton(
-          icon: FontAwesomeIcons.facebook,
-          text: context.l10n.continueFacebook,
-          color: Theme.of(context).scaffoldBackgroundColor,
-          textColor:
-              Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
-          borderColor:
-              Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
-          colorIcon: const Color(0xFF1877F2),
-          context: context,
-        ),
+        // _buildSocialButton(
+        //   icon: FontAwesomeIcons.facebook,
+        //   text: context.l10n.continueFacebook,
+        //   color: Theme.of(context).scaffoldBackgroundColor,
+        //   textColor:
+        //       Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
+        //   borderColor:
+        //       Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+        //   colorIcon: const Color(0xFF1877F2),
+        //   context: context,
+        // ),
 
         const SizedBox(height: 20),
 
@@ -188,10 +189,11 @@ class SocialLoginSection extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: onPressed ?? () {
-          CustomAlert.warning(
-              context, context.l10n.functionalityNotImplemented);
-        },
+        onPressed: onPressed ??
+            () {
+              CustomAlert.warning(
+                  context, context.l10n.functionalityNotImplemented);
+            },
         icon: imageIcon ??
             FaIcon(
               icon,

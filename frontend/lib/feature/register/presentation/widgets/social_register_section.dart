@@ -68,16 +68,16 @@ class SocialRegisterSection extends StatelessWidget {
          */
 
         // ===== Botón Facebook =====
-        _buildSocialButton(
-          icon: FontAwesomeIcons.facebook,
-          text: context.l10n.continueFacebook,
-          color: Theme.of(context).scaffoldBackgroundColor,
-          textColor:
-              Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
-          borderColor:
-              Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
-          context: context,
-        ),
+        // _buildSocialButton(
+        //   icon: FontAwesomeIcons.facebook,
+        //   text: context.l10n.continueFacebook,
+        //   color: Theme.of(context).scaffoldBackgroundColor,
+        //   textColor:
+        //       Theme.of(context).textTheme.displayLarge?.color ?? Colors.black,
+        //   borderColor:
+        //       Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
+        //   context: context,
+        // ),
 
         const SizedBox(height: 20),
 
