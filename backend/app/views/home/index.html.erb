@@ -44,18 +44,18 @@
   ] %>
 
   <%# Sección de Beneficios/Features %>
-  <div class="fade-right">
+  <div class="fade-up">
     <%= render 'home/features_section' %>
   </div>
 
   <%# Sección de Ofertas Especiales %>
-  <div class="scale-up">
+  <div class="fade-up">
     <%= render 'home/special_offers' %>
   </div>
 
   <%# Sección de categorías %>
   <% if @categories.present? %>
-    <div class="container-fluid text-center position-relative py-5 p-6 fade-blur" id="categories">
+    <div class="container-fluid text-center position-relative py-5 p-6 fade-up" id="categories">
       <h2 class="pb-5 fw-bold subtittle"><%= t('categories') %></h2>
       <div class="scroll-wrapper">
         <div class="row flex-nowrap flex-md-wrap justify-content-start justify-content-lg-center">
@@ -92,13 +92,13 @@
   <% end %>
 
   <%# Sección de Productos Más Populares %>
-  <div class="fade-left">
+  <div class="fade-up">
     <%= render 'home/popular_products' %>
   </div>
 
   <%# Sección de productos nuevos %>
   <% if @latest_products.present? %>
-    <div class="container-fluid py-5 rotate-in" id="whats_new">
+    <div class="container-fluid py-5" id="whats_new">
       <div class="text-center mb-5">
         <h2 class="pb-3 fw-bold subtittle" style="text-decoration: none !important; border: none !important;"><%= t('new_arrivals') %></h2>
         <p class="section-subtitle"><%= t('new_arrivals_desc', default: 'Descubre nuestros últimos lanzamientos') %></p>
@@ -151,12 +151,12 @@
   <% end %>
 
   <%# Sección de Estadísticas %>
-  <div class="scale-up">
+  <div class="fade-up">
     <%= render 'home/stats_section' %>
   </div>
 
   <%# Sección de Testimonios %>
-  <div class="fade-right">
+  <div class="fade-up">
     <%= render 'home/testimonials' %>
   </div>
 
