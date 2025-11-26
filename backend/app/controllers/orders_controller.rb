@@ -20,11 +20,20 @@ class OrdersController < ApplicationController
       status: :pending,
       order_items_attributes: order_items_attributes,
     )
+    @order.send(:set_item_prices_and_total)
 
     if @order.save
       current_cart.cart_items.destroy_all
       redirect_to payment_order_path(@order), notice: "Orden creada. Procede al pago."
     else
+      Rails.logger.error "[ORDER ERROR] No se pudo crear la orden: #{@order.errors.full_messages.join(", ")}"
+      if @order.order_items.any? { |item| item.errors.any? }
+        @order.order_items.each_with_index do |item, idx|
+          if item.errors.any?
+            Rails.logger.error "[ORDER ITEM ERROR] Item ##{idx + 1}: #{item.errors.full_messages.join(", ")}"
+          end
+        end
+      end
       flash[:alert] = @order.errors.map(&:message).to_sentence
       redirect_back fallback_location: root_path
     end
