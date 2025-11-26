@@ -136,7 +136,7 @@ List<Widget> _buildPricingInfo(Order order, BuildContext context) {
       ),
       const SizedBox(height: 8),
 
-      // Total final
+      // Total final (ya viene con descuento aplicado)
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -148,7 +148,7 @@ List<Widget> _buildPricingInfo(Order order, BuildContext context) {
             ),
           ),
           Text(
-            _formatPrice(order.total - (order.discountAmount ?? 0.0)),
+            _formatPrice(order.total),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
