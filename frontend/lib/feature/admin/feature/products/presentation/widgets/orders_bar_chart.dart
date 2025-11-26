@@ -18,12 +18,12 @@ class OrdersLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     // 🔥 VALIDACIONES DINÁMICAS
     if (data.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24),
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 24),
         child: Text(
-          context.l10n.notData,
+          "No hay datos disponibles",
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.grey),
+          style: TextStyle(color: Colors.grey),
         ),
       );
     }
@@ -87,7 +87,7 @@ class OrdersLineChart extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(top: 6.0),
                     child: Text(
-                      _formatMonth(monthStr, context),
+                      _formatMonth(monthStr),
                       style: const TextStyle(fontSize: 11, color: Colors.grey),
                     ),
                   );
@@ -121,20 +121,20 @@ class OrdersLineChart extends StatelessWidget {
   // ---------------------------------------------------
   // UTIL: Formatear yyyy-MM → Ene, Feb, Mar...
   // ---------------------------------------------------
-  String _formatMonth(String isoMonth, BuildContext context) {
+  String _formatMonth(String isoMonth) {
     final monthNames = [
-      context.l10n.ene,
-      context.l10n.feb,
-      context.l10n.mar,
-      context.l10n.abr,
-      context.l10n.may,
-      context.l10n.jun,
-      context.l10n.jul,
-      context.l10n.ago,
-      context.l10n.sep,
-      context.l10n.oct,
-      context.l10n.nov,
-      context.l10n.dic
+      'Ene',
+      'Feb',
+      'Mar',
+      'Abr',
+      'May',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dic'
     ];
 
     try {

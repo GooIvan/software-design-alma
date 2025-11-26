@@ -6,6 +6,7 @@ import '../../../../models/user_model.dart';
 import '../../../about/pages/about_page.dart';
 import '../../../configuration/presentation/page/configuration_page.dart';
 import '../../../orders/index/presentation/pages/orders_page.dart';
+import '../../../terms/pages/terms _and_conditions.dart';
 import '../widgets/admin_confirm_box.dart';
 
 class ProfileSuccessView extends StatelessWidget {
@@ -93,7 +94,14 @@ class ProfileSuccessView extends StatelessWidget {
             _buildOptionTile(
               icon: Icons.privacy_tip,
               title: context.l10n.privacyPolicy,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TermsAndConditionsPage(),
+                  ),
+                );
+              },
             ),
             _buildOptionTile(
               icon: Icons.settings,

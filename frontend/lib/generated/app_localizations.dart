@@ -106,6 +106,18 @@ abstract class AppLocalizations {
   /// **'---------------------------------------------'**
   String get sectionKeywords;
 
+  /// No description provided for @products.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get products;
+
+  /// No description provided for @soldOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold Out'**
+  String get soldOut;
+
   /// No description provided for @version.
   ///
   /// In en, this message translates to:
@@ -1509,6 +1521,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'---------------------------------------------'**
   String get adminPanelSection;
+
+  /// No description provided for @productsLowStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Products with Low Stock'**
+  String get productsLowStock;
+
+  /// No description provided for @notProductsLowStock.
+  ///
+  /// In en, this message translates to:
+  /// **'No products with low stock'**
+  String get notProductsLowStock;
+
+  /// No description provided for @popularCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular categories'**
+  String get popularCategories;
+
+  /// No description provided for @notPopularCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'No popular categories'**
+  String get notPopularCategories;
+
+  /// No description provided for @popularProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular products'**
+  String get popularProducts;
+
+  /// No description provided for @notPopularProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'No popular products'**
+  String get notPopularProducts;
+
+  /// No description provided for @stock.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock'**
+  String get stock;
+
+  /// No description provided for @sales.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get sales;
+
+  /// No description provided for @productsSold.
+  ///
+  /// In en, this message translates to:
+  /// **'Products sold'**
+  String get productsSold;
 
   /// No description provided for @users.
   ///

@@ -1,3 +1,4 @@
+import 'package:design_alma/feature/admin/feature/products/presentation/page/admin_products_page.dart';
 import 'package:design_alma/feature/admin/feature/users/presentation/page/users_page.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,7 @@ class _AdminMainScaffoldState extends State<AdminMainScaffold> {
     final List<Widget> pages = [
       const AdminDashboardPage(),
       const AdminUsersPage(),
+      const AdminProductsPage(),
     ];
 
     return Scaffold(

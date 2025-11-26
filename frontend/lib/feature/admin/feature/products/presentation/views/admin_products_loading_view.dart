@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:design_alma/widgets/skeleton_loader.dart';
 
-class DashboardLoadingView extends StatelessWidget {
-  const DashboardLoadingView({super.key});
+class AdminProductsLoadingView extends StatelessWidget {
+  const AdminProductsLoadingView({super.key});
 
   @override
   Widget build(BuildContext context) {

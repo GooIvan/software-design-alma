@@ -48,7 +48,14 @@ class AdminCustomBottomNavBar extends StatelessWidget {
             SalomonBottomBarItem(
               icon: const Icon(FeatherIcons.users),
               title: Text(context.l10n.users),
-              selectedColor: Colors.orange,
+              selectedColor: Colors.blue,
+            ),
+
+            /// products
+            SalomonBottomBarItem(
+              icon: const Icon(FeatherIcons.layers),
+              title: Text(context.l10n.products),
+              selectedColor: Colors.blue,
             ),
           ],
         ),

@@ -1,12 +1,22 @@
 class PopularCategory {
+  final int id;
   final String name;
+  final String imageUrl;
   final int soldCount;
 
-  PopularCategory({required this.name, required this.soldCount});
+  PopularCategory({
+    required this.id,
+    required this.name,
+    required this.soldCount,
+    required this.imageUrl,
+  });
 
   factory PopularCategory.fromJson(Map<String, dynamic> json) {
+    final nameObj = json['name'];
     return PopularCategory(
-      name: json['name'],
+      id: nameObj['id'],
+      name: nameObj['name'],
+      imageUrl: nameObj['image_url'],
       soldCount: json['sold_count'],
     );
   }
@@ -16,6 +26,7 @@ class Product {
   final int id;
   final String name;
   final String description;
+  final String imageUrl;
   final String price;
   final int stock;
   final String createdAt;
@@ -28,6 +39,7 @@ class Product {
     required this.id,
     required this.name,
     required this.description,
+    required this.imageUrl,
     required this.price,
     required this.stock,
     required this.createdAt,
@@ -42,6 +54,7 @@ class Product {
       id: json['id'],
       name: json['name'],
       description: json['description'],
+      imageUrl: json['image_url'],
       price: json['price'],
       stock: json['stock'],
       createdAt: json['created_at'],

@@ -21,7 +21,14 @@ module Api
                 .group('categories.id')
                 .order('sold_count DESC')
                 .limit(5)
-                .map { |c| { name: c.name, sold_count: c.sold_count.to_i } }
+                .map do |c|
+                  {
+                    name: c.as_json.merge(
+                      'image_url' => c.image.attached? ? url_for(c.image) : nil
+                    ),
+                    sold_count: c.sold_count.to_i
+                  }
+                end
       end
 
       def top_products
@@ -31,7 +38,10 @@ module Api
                .order('sold_count DESC')
                .limit(5)
                .map do |p|
-                 p.as_json.merge('sold_count' => p.sold_count.to_i)
+                 p.as_json.merge(
+                   'sold_count' => p.sold_count.to_i,
+                   'image_url' => p.images.attached? ? url_for(p.images.first) : nil
+                 )
                end
       end
 
@@ -43,7 +53,11 @@ module Api
       end
 
       def low_stock_products
-        Product.where('stock < ?', 5).map(&:as_json)
+        Product.where('stock < ?', 5).map do |p|
+          p.as_json.merge(
+            'image_url' => p.images.attached? ? url_for(p.images.first) : nil
+          )
+        end
       end
     end
 end

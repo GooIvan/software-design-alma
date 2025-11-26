@@ -12,6 +12,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sectionKeywords => '---------------------------------------------';
 
   @override
+  String get products => 'Productos';
+
+  @override
+  String get soldOut => 'Agotado';
+
+  @override
   String get version => 'Versión';
 
   @override
@@ -753,6 +759,33 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get adminPanelSection =>
       '---------------------------------------------';
+
+  @override
+  String get productsLowStock => 'Productos con bajo stock';
+
+  @override
+  String get notProductsLowStock => 'No hay productos con bajo stock';
+
+  @override
+  String get popularCategories => 'Categorías populares';
+
+  @override
+  String get notPopularCategories => 'No hay categorías populares';
+
+  @override
+  String get popularProducts => 'Productos populares';
+
+  @override
+  String get notPopularProducts => 'No hay productos populares';
+
+  @override
+  String get stock => 'Unidades';
+
+  @override
+  String get sales => 'Ventas';
+
+  @override
+  String get productsSold => 'Productos vendidos';
 
   @override
   String get users => 'Usuarios';
