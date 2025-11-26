@@ -33,8 +33,13 @@
           <%= button_to orders_path(locale: I18n.locale),
                 method: :post,
                 class: "cart-button w-100 text-center",
+                id: "checkout-button",
                 form: { class: "w-100", data: { turbo: false } } do %>
-            <%= "#{t("checkout")} #{total_price}" %>
+            <span class="checkout-text"><%= "#{t("checkout")} #{total_price}" %></span>
+            <span class="checkout-spinner d-none">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Creando orden...
+            </span>
           <% end %>
         </div>
       <% end %>
@@ -44,6 +49,7 @@
 <script>
   function attachCartListeners() {
     const loadingBar = document.getElementById("cart-loading-bar");
+    const checkoutButton = document.getElementById("checkout-button");
 
     function showCartLoadingBar() {
       if (!loadingBar) return;
@@ -60,6 +66,24 @@
         loadingBar.style.width = "0%";
         loadingBar.style.display = "none";
       }, 300);
+    }
+
+    // Manejar click en botón de checkout
+    if (checkoutButton) {
+      const form = checkoutButton.closest("form");
+      if (form) {
+        form.addEventListener("submit", function(e) {
+          const textSpan = checkoutButton.querySelector(".checkout-text");
+          const spinnerSpan = checkoutButton.querySelector(".checkout-spinner");
+          
+          if (textSpan && spinnerSpan) {
+            textSpan.classList.add("d-none");
+            spinnerSpan.classList.remove("d-none");
+            checkoutButton.style.opacity = "0.8";
+            checkoutButton.style.pointerEvents = "none";
+          }
+        });
+      }
     }
 
     document.querySelectorAll("#side-cart form").forEach(form => {

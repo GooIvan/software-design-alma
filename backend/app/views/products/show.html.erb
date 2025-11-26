@@ -1,204 +1,224 @@
 <div class="m-3">
-    <%= render 'shared/form_errors', object: @product%>
-    <%= render 'shared/form_exited', object: @product%>
+  <%= render 'shared/form_errors', object: @product%>
+  <%= render 'shared/form_exited', object: @product%>
 </div>
 
 <%= stylesheet_link_tag 'product_style', media: 'all' %>
 
-<div class="container py-5 mb-6">
-  <div class="row align-items-start hellstar-product-layout">
-    <!-- Galería de imágenes del producto -->
-    <div class="col-md-6">
-      <% if @product.images.attached? && @product.images.first.present? %>
-        <!-- Imagen principal -->
-        <div class="main-image-container mb-3">
-          <%= image_tag @product.images.first, 
-              alt: @product.name, 
+<div class="container py-4 py-md-5 mb-6">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to t('home'), root_path, class: "text-decoration-none text-dark" %></li>
+      <li class="breadcrumb-item"><%= link_to @product.category.name, category_products_path(@product.category), class: "text-decoration-none text-dark" %></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= @product.name %></li>
+    </ol>
+  </nav>
+
+  <div class="container py-5 mb-6">
+    <div class="row align-items-start hellstar-product-layout">
+
+      <!-- Galería -->
+      <div class="col-md-6">
+        <% if @product.images.attached? && @product.images.first.present? %>
+          <div class="main-image-container mb-3">
+            <%= image_tag @product.images.first,
+              alt: @product.name,
               class: "img-fluid",
               id: "mainProductImage",
               style: "width: 100%; height: 500px; object-fit: cover; border-radius: 10px;" %>
-        </div>
-        
-        <!-- Miniaturas -->
-        <% if @product.images.count > 1 %>
-          <div class="d-flex gap-2 flex-wrap justify-content-center">
-            <% @product.images.each_with_index do |img, index| %>
-              <div class="thumbnail-container <%= 'active' if index == 0 %>" data-index="<%= index %>">
-                <%= image_tag img, 
-                    class: "product-thumbnail", 
+          </div>
+
+          <% if @product.images.count > 1 %>
+            <div class="d-flex gap-2 flex-wrap justify-content-center">
+              <% @product.images.each_with_index do |img, index| %>
+                <div class="thumbnail-container <%= 'active' if index == 0 %>" data-index="<%= index %>">
+                  <%= image_tag img,
+                    class: "product-thumbnail",
                     style: "width: 80px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid #ddd; transition: all 0.3s ease;",
                     data: { image_url: url_for(img) },
                     onclick: "changeMainImage(this.dataset.imageUrl, this)" %>
-              </div>
-            <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+        <% else %>
+          <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px; border-radius: 10px;">
+            <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
           </div>
         <% end %>
-      <% else %>
-        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px; border-radius: 10px;">
-          <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
-        </div>
-      <% end %>
-    </div>
-
-    <!-- Detalles del producto -->
-    <div class="col-md-6">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <!-- Nombre del producto -->
-        <h2 class="hellstar-title m-0"><%= @product.name.upcase %></h2>
-
-        <!-- Botón de favorito -->
-        <% favorite = current_user&.favorites&.find_by(product_id: @product.id) %>
-
-        <% if current_user.nil? %>
-          <!-- Usuario NO logueado → redirige a login -->
-          <%= link_to new_user_session_path,
-                class: "btn btn-light d-flex align-items-center justify-content-center rounded-circle",
-                style: "width: 50px; height: 50px;" do %>
-            <i class="bi bi-heart" style="font-size: 1.3rem;"></i>
-          <% end %>
-
-        <% elsif favorite.present? %>
-          <!-- Ya es favorito → botón para eliminar -->
-          <%= button_to favorite_path(favorite),
-                method: :delete,
-                class: "btn btn-danger d-flex align-items-center justify-content-center rounded-circle",
-                style: "width: 50px; height: 50px;" do %>
-            <i class="bi bi-heart-fill" style="font-size: 1.3rem;"></i>
-          <% end %>
-        <% else %>
-          <!-- No es favorito → botón para agregar -->
-          <%= button_to favorites_path(product_id: @product.id),
-                method: :post,
-                class: "btn btn-light d-flex align-items-center justify-content-center rounded-circle",
-                style: "width: 50px; height: 50px;" do %>
-            <i class="bi bi-heart" style="font-size: 1.3rem;"></i>
-          <% end %>
-        <% end %>
-
       </div>
 
-      <% if (2..5).include?(@product.stock) %>
-        <div class="alert alert-warning fw-semibold mt-2">
-          <%= t("products.low_stock_plural", count: @product.stock) %>
-        </div>
-      <% elsif @product.stock == 1 %>
-        <div class="alert alert-warning fw-semibold mt-2">
-          <%= t("products.low_stock_singular") %>
-        </div>
-      <% elsif @product.stock == 0 %>
-        <div class="alert alert-danger fw-semibold mt-2">
-          <%= t("products.sold_out") %>
-        </div>
-      <% end %>
+      <!-- Detalles -->
+      <div class="col-lg-6">
+        <div class="product-details">
 
-      <p class="hellstar-price mb-3"><%= number_to_currency(@product.price, unit: "$", precision: 0) %></p>
+          <!-- Categoría -->
+          <p class="text-muted text-uppercase mb-2 small fw-semibold tracking-wider">
+            <%= @product.category.name %>
+          </p>
 
-      <p class="mb-4 text-muted"><%= @product.description %></p>
+          <!-- Nombre -->
+          <h1 class="hellstar-title display-5 mb-3"><%= @product.name.upcase %></h1>
 
-      <!-- Formulario -->
-      <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "open-cart-on-submit" } do |f| %>
-        <%= f.hidden_field :product_id, value: @product.id %>
-
-        <!-- Tallas -->
-        <% if @product.stock > 0 %>
-          <div class="mb-3">
-            <label class="form-label fw-bold"><%= t("products.size") %></label>
-            <div class="d-flex flex-wrap gap-3 mt-2">
-              <% @product.sizes.each_with_index do |size, index| %>
-                <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check", checked: index == 0 %>
-                <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
-                  <%= size %>
-                </label>
-              <% end %>
-            </div>
+          <!-- Precio -->
+          <div class="price-container mb-4">
+            <p class="hellstar-price display-4 fw-bold mb-0">
+              <%= number_to_currency(@product.price, unit: "$", precision: 0) %>
+            </p>
           </div>
-        <% else %>
-          <div class="mb-3">
-            <label class="form-label fw-bold"><%= t("products.size") %></label>
-            <div class="d-flex flex-wrap gap-3 mt-2">
-              <% @product.sizes.each_with_index do |size, index| %>
-                <input type="radio" disabled class="btn-check">
-                <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
-                  <%= size %>
-                </label>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
 
-        <!-- Cantidad -->
-        <div class="mb-3">
-          <label class="form-label fw-bold"><%= t("products.quantity") %></label>
-          <% if @product.stock == 0 %>
-            <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold", disabled: true %>
-          <% else %>
-            <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold" %>
+          <!-- Stock bajo (fusionado desde HEAD) -->
+          <% if (2..5).include?(@product.stock) %>
+            <div class="alert alert-warning fw-semibold mt-2">
+              <%= t("products.low_stock_plural", count: @product.stock) %>
+            </div>
           <% end %>
-        </div>
 
-        <% if @product.stock == 0 %>
-          <button class="btn btn-secondary w-100 fw-bold" style="pointer-events: none; border-radius: 20px; width: 100%; height: 50px;" disabled>
-            <%= t('products.sold_out') %>
-          </button>
-        <% else %>
-          <%= f.submit t("products.add_to_cart"), class: "btn btn-dark w-100 hellstar-add-to-cart", style: "border-radius: 20px; width: 100%;" %>
-        <% end  %>
-      <% end %>
+          <!-- Descripción -->
+          <div class="product-description mb-4 pb-4 border-bottom">
+            <p class="text-muted mb-0 lh-lg"><%= @product.description %></p>
+          </div>
+
+          <!-- Formulario -->
+          <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "open-cart-on-submit product-form" } do |f| %>
+            <%= f.hidden_field :product_id, value: @product.id %>
+
+            <!-- Tallas -->
+            <div class="mb-4">
+              <label class="form-label fw-bold d-flex align-items-center mb-3">
+                <svg class="me-2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                </svg>
+                <%= t("products.size") %>
+              </label>
+              <div class="sizes-grid">
+                <% @product.sizes.each_with_index do |size, index| %>
+                  <div class="size-option-wrapper">
+                    <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check size-radio", checked: index == 0, disabled: @product.stock == 0 %>
+                    <label class="size-option-label" for="size_<%= size %>">
+                      <span class="size-text"><%= size %></span>
+                    </label>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Cantidad -->
+            <div class="mb-4">
+              <label class="form-label fw-bold d-flex align-items-center mb-3">
+                <svg class="me-2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M3 9h18M9 21V9"/>
+                </svg>
+                <%= t("products.quantity") %>
+              </label>
+              <div class="quantity-selector">
+                <%= f.select :quantity,
+                    options_for_select(1..[@product.stock, 9].min),
+                    {},
+                    class: "form-select quantity-select",
+                    disabled: @product.stock == 0 %>
+              </div>
+            </div>
+
+            <!-- Botón agregar -->
+            <div class="d-grid gap-3 mb-4">
+              <% if @product.stock == 0 %>
+                <button class="btn btn-lg btn-secondary fw-bold disabled-button" disabled>
+                  <svg width="20" height="20" fill="currentColor" class="me-2" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                  <%= t('products.sold_out') %>
+                </button>
+              <% else %>
+                <%= f.submit t("products.add_to_cart"), class: "btn btn-lg btn-dark fw-bold add-to-cart-button" %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- Info extra -->
+          <div class="product-info-cards mt-4">
+
+            <div class="info-card d-flex align-items-start p-3 mb-2 bg-light rounded-3">
+              <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M20 7h-9M14 3v4M6 21V10a1 1 0 011-1h2a1 1 0 011 1v11M3 21h18"/>
+              </svg>
+              <div>
+                <p class="fw-semibold mb-1">Envío Gratis</p>
+                <p class="small text-muted mb-0">En compras superiores a $100.000</p>
+              </div>
+            </div>
+
+            <div class="info-card d-flex align-items-start p-3 mb-2 bg-light rounded-3">
+              <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+              </svg>
+              <div>
+                <p class="fw-semibold mb-1">Cambios y Devoluciones</p>
+                <p class="small text-muted mb-0">Tienes 30 días para cambios</p>
+              </div>
+            </div>
+
+            <div class="info-card d-flex align-items-start p-3 bg-light rounded-3">
+              <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+              <div>
+                <p class="fw-semibold mb-1">Pago Seguro</p>
+                <p class="small text-muted mb-0">Tus datos están protegidos</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- JS: abrir carrito al añadir -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const forms = document.querySelectorAll("form.open-cart-on-submit");
-
     forms.forEach(form => {
       form.addEventListener("submit", () => {
         const sideCart = document.getElementById("side-cart");
         if (sideCart) {
           sideCart.classList.remove("hidden");
-          requestAnimationFrame(() => {
-            sideCart.classList.add("open");
-          });
+          requestAnimationFrame(() => sideCart.classList.add("open"));
         }
       });
     });
   });
 
-  // Función para cambiar la imagen principal
   function changeMainImage(imageUrl, thumbnailElement) {
     const mainImage = document.getElementById('mainProductImage');
     mainImage.src = imageUrl;
-    
-    // Remover clase activa de todas las miniaturas
+
     document.querySelectorAll('.thumbnail-container').forEach(thumb => {
       thumb.classList.remove('active');
     });
-    
-    // Agregar clase activa a la miniatura seleccionada
+
     thumbnailElement.closest('.thumbnail-container').classList.add('active');
   }
 </script>
 
 <style>
-  /* Estilos para la galería de imágenes */
   .thumbnail-container.active .product-thumbnail {
     border-color: #007bff !important;
     transform: scale(1.05);
   }
-  
+
   .product-thumbnail:hover {
     border-color: #007bff !important;
     transform: scale(1.02);
   }
-  
-  .main-product-image {
-    transition: all 0.3s ease;
-  }
+
   .favorite-btn {
-  transition: transform .15s ease-in-out;
+    transition: transform .15s ease-in-out;
   }
 
   .favorite-btn:hover {

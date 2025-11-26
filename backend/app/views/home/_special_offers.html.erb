@@ -1,0 +1,107 @@
+<!-- Sección de Ofertas Especiales -->
+<div class="special-offers-section py-5 fade-up">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Oferta Grande -->
+      <div class="col-lg-8">
+        <div class="offer-card offer-card-large">
+          <div class="offer-content">
+            <span class="offer-badge">
+              <i class="bi bi-lightning-fill"></i> <%= t('offers.flash_sale', default: 'Oferta Relámpago') %>
+            </span>
+            <h2 class="offer-title"><%= t('offers.big_title', default: 'Hasta 70% de Descuento') %></h2>
+            <p class="offer-description"><%= t('offers.big_desc', default: 'En productos seleccionados esta semana') %></p>
+            <div class="offer-countdown" id="countdown">
+              <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">Días</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">Horas</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">Min</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">Seg</span>
+              </div>
+            </div>
+            <%= link_to most_popular_path, class: "btn btn-offer-shop" do %>
+              <%= t('offers.shop_now', default: 'Comprar Ahora') %>
+              <i class="bi bi-arrow-right"></i>
+            <% end %>
+          </div>
+          <div class="offer-image">
+            <div class="offer-decoration"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ofertas Pequeñas -->
+      <div class="col-lg-4">
+        <div class="row g-4">
+          <div class="col-12">
+            <div class="offer-card offer-card-small offer-card-blue">
+              <div class="small-offer-content">
+                <h4 class="small-offer-title"><%= t('offers.new_arrivals', default: 'Nuevos Productos') %></h4>
+                <p class="small-offer-desc"><%= t('offers.new_desc', default: '20% OFF') %></p>
+                <%= link_to most_popular_path, class: "btn-small-offer" do %>
+                  <%= t('offers.discover', default: 'Descubrir') %> <i class="bi bi-arrow-right"></i>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-12">
+            <div class="offer-card offer-card-small offer-card-green">
+              <div class="small-offer-content">
+                <h4 class="small-offer-title"><%= t('offers.free_shipping', default: 'Envío Gratis') %></h4>
+                <p class="small-offer-desc"><%= t('offers.shipping_desc', default: 'En compras +$100k') %></p>
+                <%= link_to most_popular_path, class: "btn-small-offer" do %>
+                  <%= t('offers.shop', default: 'Comprar') %> <i class="bi bi-arrow-right"></i>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Countdown Timer
+function startCountdown() {
+  // Establecer fecha objetivo (3 días desde ahora)
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate() + 3);
+  
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = endDate - now;
+    
+    if (distance < 0) {
+      document.getElementById('countdown').innerHTML = '<p class="text-white">¡Oferta finalizada!</p>';
+      return;
+    }
+    
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    document.getElementById('days').textContent = String(days).padStart(2, '0');
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+  }
+  
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', startCountdown);
+</script>

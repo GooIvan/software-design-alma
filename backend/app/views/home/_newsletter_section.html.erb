@@ -1,0 +1,48 @@
+<!-- Sección de Newsletter -->
+<div class="newsletter-section py-5">
+  <div class="container">
+    <div class="newsletter-container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="newsletter-content">
+            <h2 class="pb-3 fw-bold subtittle newsletter-title" style="text-decoration: none !important; border: none !important;">
+              <i class="bi bi-envelope-heart"></i>
+              <%= t('newsletter.title', default: 'Suscríbete a Nuestro Newsletter') %>
+            </h2>
+            <p class="newsletter-description">
+              <%= t('newsletter.description', default: 'Recibe ofertas exclusivas, nuevos productos y noticias directamente en tu correo.') %>
+            </p>
+            <ul class="newsletter-benefits">
+              <li><i class="bi bi-check-circle-fill"></i> <%= t('newsletter.benefit1', default: 'Descuentos exclusivos') %></li>
+              <li><i class="bi bi-check-circle-fill"></i> <%= t('newsletter.benefit2', default: 'Entérate de nuevos productos') %></li>
+              <li><i class="bi bi-check-circle-fill"></i> <%= t('newsletter.benefit3', default: 'Ofertas especiales') %></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="col-lg-6">
+          <div class="newsletter-form-wrapper">
+            <form class="newsletter-form" action="#" method="post">
+              <div class="input-group">
+                <input 
+                  type="email" 
+                  class="form-control newsletter-input" 
+                  placeholder="<%= t('newsletter.placeholder', default: 'Ingresa tu correo electrónico') %>"
+                  required
+                >
+                <button class="btn btn-newsletter" type="submit">
+                  <%= t('newsletter.button', default: 'Suscribirse') %>
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              </div>
+              <small class="newsletter-privacy">
+                <i class="bi bi-lock"></i>
+                <%= t('newsletter.privacy', default: 'Tu información está segura con nosotros.') %>
+              </small>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

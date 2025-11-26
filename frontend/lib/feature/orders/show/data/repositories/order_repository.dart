@@ -8,7 +8,7 @@ import '../../../../../models/order_model.dart';
 class OrderRepository {
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    return prefs.getString('auth_token') ?? prefs.getString('token');
   }
 
   Future<Order> fetchOrder(int orderId) async {

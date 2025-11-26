@@ -159,6 +159,36 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileErrorMessage => 'Error al cargar el perfil';
 
   @override
+  String get editProfile => 'Editar perfil';
+
+  @override
+  String get saveChanges => 'Guardar cambios';
+
+  @override
+  String get profileUpdated => 'Perfil actualizado exitosamente';
+
+  @override
+  String get profileUpdateError => 'Error al actualizar el perfil';
+
+  @override
+  String get name => 'Nombre';
+
+  @override
+  String get lastName => 'Apellido';
+
+  @override
+  String get phone => 'Teléfono';
+
+  @override
+  String get address => 'Dirección';
+
+  @override
+  String get city => 'Ciudad';
+
+  @override
+  String get email => 'Correo electrónico';
+
+  @override
   String get logoutConfirm => '¿Estás seguro de que deseas cerrar sesión?';
 
   @override

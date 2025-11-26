@@ -24,10 +24,12 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<bool> _hasUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
+      final token = prefs.getString('auth_token') ?? prefs.getString('token');
+      final userEmail = prefs.getString('user_email');
       final userData = prefs.getString('user_data');
 
-      return token != null && userData != null;
+      // Validar que tenga token Y (user_email O user_data)
+      return token != null && token.isNotEmpty && (userEmail != null || userData != null);
     } catch (e) {
       return false;
     }
@@ -44,8 +46,13 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       final prefs = await SharedPreferences.getInstance();
 
+      // Limpiar tokens de ambos sistemas (auth_token y token)
+      await prefs.remove('auth_token');
       await prefs.remove('token');
       await prefs.remove('user_data');
+      await prefs.remove('user_email');
+      await prefs.remove('user_name');
+      await prefs.remove('user_photo_url');
 
       setState(() {
         _futureBuilderKey = UniqueKey();
@@ -93,6 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onRetry: () {
                       context.read<ProfileBloc>().add(LoadProfile());
                     },
+                    onLogout: _handleLogout,
                   );
                 } else if (state is ProfileLoaded) {
                   return ProfileSuccessView(

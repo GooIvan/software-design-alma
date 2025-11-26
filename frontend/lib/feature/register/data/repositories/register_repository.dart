@@ -65,13 +65,16 @@ class RegisterRepository {
   /// Método para obtener el token guardado
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    return prefs.getString('auth_token') ?? prefs.getString('token');
   }
 
   /// Método para eliminar la info de usuario y token (logout)
   Future<void> clearStoredData() async {
     final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('auth_token');
     await prefs.remove('token');
     await prefs.remove('user_data');
+    await prefs.remove('user_email');
+    await prefs.remove('user_name');
   }
 }

@@ -1,3 +1,24 @@
+/* Remover cualquier decoración de títulos de sección */
+h2.pb-3,
+h2.subtittle,
+.text-center h2,
+.text-center .subtittle,
+.mb-5 h2,
+h2.fw-bold {
+  text-decoration: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+h2.pb-3::after,
+h2.subtittle::after,
+h2.fw-bold::after {
+  display: none !important;
+}
+
 /* Estilos para el contenedor del video */
 .video-container {
   position: relative;
@@ -94,7 +115,21 @@
 
 .subtittle {
   font-size: 3.5rem;
+  border: none !important;
+  border-bottom: none !important;
+  text-decoration: none !important;
 }
+
+h2.subtittle,
+h2.pb-3,
+.pb-3.fw-bold,
+h2.pb-3.fw-bold.subtittle {
+  border: none !important;
+  border-bottom: none !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
 @media (max-width: 991.98px) {
   .p-6 {
     padding: 3rem !important;

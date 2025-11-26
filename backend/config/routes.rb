@@ -15,6 +15,10 @@ Rails.application.routes.draw do
 
   # === API para Flutter (sin locale) ===
   namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      post 'auth/google', to: 'auth#google_login'
+    end
+
     namespace :auth do
       devise_for :users,
         path: "",
@@ -27,6 +31,7 @@ Rails.application.routes.draw do
     end
 
     resource :profile, only: [:show, :edit, :update], controller: "profile"
+    resource :profile, only: [:show, :update], controller: "profile"
 
     # Logout endpoint
     post :logout, to: "logout#create"

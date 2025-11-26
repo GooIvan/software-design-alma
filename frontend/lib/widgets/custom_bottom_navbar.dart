@@ -48,7 +48,7 @@ class CustomBottomNavBar extends StatelessWidget {
             SalomonBottomBarItem(
               icon: const Icon(FeatherIcons.grid),
               title: Text(context.l10n.categories),
-              selectedColor: Colors.orange,
+              selectedColor: Colors.blue,
             ),
 
             /// Favoritos
@@ -62,7 +62,7 @@ class CustomBottomNavBar extends StatelessWidget {
             SalomonBottomBarItem(
               icon: const Icon(FeatherIcons.user),
               title: Text(context.l10n.profile),
-              selectedColor: Colors.purple,
+              selectedColor: Colors.blue,
             ),
           ],
         ),

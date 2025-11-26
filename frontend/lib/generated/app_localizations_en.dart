@@ -158,6 +158,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileErrorMessage => 'Error loading profile';
 
   @override
+  String get editProfile => 'Edit profile';
+
+  @override
+  String get saveChanges => 'Save changes';
+
+  @override
+  String get profileUpdated => 'Profile updated successfully';
+
+  @override
+  String get profileUpdateError => 'Error updating profile';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get lastName => 'Last name';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get email => 'Email';
+
+  @override
   String get logoutConfirm => 'Are you sure you want to logout?';
 
   @override
