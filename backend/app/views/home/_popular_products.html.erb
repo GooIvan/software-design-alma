@@ -13,8 +13,8 @@
             <div class="product-card-modern">
               <%= link_to category_product_path(product.category, product), class: "product-link" do %>
                 <div class="product-image-wrapper">
-                  <% if product.image.attached? %>
-                    <%= image_tag product.image, class: "product-image" %>
+                  <% if product.images.attached? && product.images.first.present? %>
+                    <%= image_tag product.images.first, class: "product-image" %>
                   <% else %>
                     <%= image_tag "placeholder.svg", class: "product-image" %>
                   <% end %>

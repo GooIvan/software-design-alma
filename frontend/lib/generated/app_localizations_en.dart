@@ -90,6 +90,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unknownError => 'Unknown error, please try again.';
 
   @override
+  String get whereWeAreLocated => 'Where we are located?';
+
+  @override
   String get functionalityNotImplemented => 'Functionality not implemented';
 
   @override
@@ -390,6 +393,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get order => 'Order';
 
   @override
+  String get noOrdersTitle => 'You have no orders yet';
+
+  @override
+  String get noOrdersSubtitle =>
+      'When you place orders, they will appear here.';
+
+  @override
+  String get startShopping => 'Start Shopping';
+
+  @override
   String get errorOrdersLoading => 'Error loading orders.';
 
   @override
@@ -579,4 +592,238 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get systemThemeDescription => 'Follow system';
+
+  @override
+  String get sectionDiscountCode =>
+      '---------------------------------------------';
+
+  @override
+  String get discountApplied => 'Discount applied';
+
+  @override
+  String get discountRemoved => 'Discount removed';
+
+  @override
+  String get discountCodeNotFound => 'Discount code not found';
+
+  @override
+  String get discountCodeInvalid => 'Invalid discount code';
+
+  @override
+  String get discountCodeExpired => 'Discount code has expired';
+
+  @override
+  String get discountCodeAlreadyUsed => 'Discount code already used';
+
+  @override
+  String get discountCodeNotActive => 'Discount code is not active';
+
+  @override
+  String get discountCodeMaxUsesReached => 'Discount code reached usage limit';
+
+  @override
+  String get enterDiscountCode => 'Enter discount code';
+
+  @override
+  String get applyDiscountCode => 'Apply code';
+
+  @override
+  String get removeDiscountCode => 'Remove discount';
+
+  @override
+  String get validatingDiscountCode => 'Validating code...';
+
+  @override
+  String get discountCodeValidationError => 'Error validating discount code';
+
+  @override
+  String get discountCodeSuccess => 'Code applied successfully!';
+
+  @override
+  String get discountAmount => 'Discount';
+
+  @override
+  String discountPercentage(int percentage) {
+    return 'Discount ($percentage% off)';
+  }
+
+  @override
+  String discountFixed(String amount) {
+    return 'Discount (\$$amount off)';
+  }
+
+  @override
+  String get subtotalBeforeDiscount => 'Subtotal';
+
+  @override
+  String get totalAfterDiscount => 'Total with discount';
+
+  @override
+  String get noDiscountCodesAvailable => 'No discount codes available';
+
+  @override
+  String get availableDiscountCodes => 'Available codes';
+
+  @override
+  String get useDiscountCode => 'Use';
+
+  @override
+  String discountCodeLabel(String code) {
+    return 'Code: $code';
+  }
+
+  @override
+  String discountValue(String value) {
+    return 'Discount: $value';
+  }
+
+  @override
+  String discountDescription(String description) {
+    return 'Discount applied: $description';
+  }
+
+  @override
+  String get discountCodeFormat => 'Invalid code format';
+
+  @override
+  String discountMinimumAmount(String amount) {
+    return 'Order must be greater than $amount to use this discount';
+  }
+
+  @override
+  String get discountNotApplicable =>
+      'This discount cannot be applied to your order';
+
+  @override
+  String get promoCode => 'Promo code';
+
+  @override
+  String get havePromoCode => 'Have a promo code?';
+
+  @override
+  String get youSave => 'You save';
+
+  @override
+  String get discountCodeTitle => 'Discount code';
+
+  @override
+  String get enterCode => 'Enter your code';
+
+  @override
+  String get validatingCode => 'Validating...';
+
+  @override
+  String get codeApplied => 'Code applied:';
+
+  @override
+  String get removeDiscount => 'Remove discount';
+
+  @override
+  String get codeValidationError => 'Error validating code';
+
+  @override
+  String get enterDiscountCodeMessage => 'Enter a discount code';
+
+  @override
+  String get invalidCodeFormat => 'Invalid code format';
+
+  @override
+  String appliedDiscountMessage(String code) {
+    return 'Code applied: $code';
+  }
+
+  @override
+  String get discountInfo =>
+      'Discount codes will be applied to your total purchase';
+
+  @override
+  String expireDate(String date) {
+    return 'Expires: $date';
+  }
+
+  @override
+  String get termsTitle => 'Terms and Conditions';
+
+  @override
+  String get termsLastUpdated => 'Last updated';
+
+  @override
+  String get termsUpdatedDate => 'March 15, 2025';
+
+  @override
+  String get termsIntro =>
+      'Welcome to our application. By using our services, you agree to these Terms and Conditions. Please read them carefully.';
+
+  @override
+  String get termsScopeTitle => '1. Service Scope';
+
+  @override
+  String get termsScope =>
+      'Our application provides features related to shopping, orders, user management, and communication with our platform.';
+
+  @override
+  String get termsDataTitle => '2. Data Usage';
+
+  @override
+  String get termsData =>
+      'Personal information provided by the user will be handled according to our Privacy Policy and used only for service-related purposes.';
+
+  @override
+  String get termsProductsTitle => '3. Products and Services';
+
+  @override
+  String get termsProducts =>
+      'Products offered are subject to availability. We reserve the right to modify prices, characteristics, or availability without prior notice.';
+
+  @override
+  String get termsPaymentsTitle => '4. Payments';
+
+  @override
+  String get termsPayments =>
+      'Payments made through the app must be completed using the allowed methods and will be processed securely.';
+
+  @override
+  String get termsDeliveryTitle => '5. Deliveries and Shipping';
+
+  @override
+  String get termsDelivery =>
+      'Delivery times may vary depending on user location and product availability.';
+
+  @override
+  String get termsLiabilityTitle => '6. Limitation of Liability';
+
+  @override
+  String get termsLiability =>
+      'We are not responsible for indirect, incidental, or consequential damages arising from the use of the application.';
+
+  @override
+  String get termsChangesTitle => '7. Changes to the Terms';
+
+  @override
+  String get termsChanges =>
+      'We reserve the right to update these terms when necessary. Any changes will be published in the app.';
+
+  @override
+  String get termsContactTitle => '8. Contact';
+
+  @override
+  String get termsContact =>
+      'If you have questions or comments, you can reach our support team.';
+
+  @override
+  String get termsAcceptButton => 'Accept';
+
+  @override
+  String get registerAcceptTerms => 'I accept the terms and conditions';
+
+  @override
+  String get registerAcceptTermsLabel =>
+      'Do you accept the terms and conditions?';
+
+  @override
+  String get registerAcceptTermsError =>
+      'You must accept the terms and conditions to continue.';
+
+  @override
+  String get configurationSubtitle => 'Language, theme and more';
 }

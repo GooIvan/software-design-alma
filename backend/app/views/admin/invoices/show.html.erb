@@ -45,17 +45,32 @@
   </div>
   
   <div class="invoice-totals">
+    <% 
+      # Calcular el subtotal original y descuento
+      subtotal_before_discount = @invoice.order.order_items.sum { |item| item.price * item.quantity }
+      discount_amount = @invoice.order.discount_amount || 0
+      if discount_amount == 0 && @invoice.order.discount_usage.present?
+        discount_amount = @invoice.order.discount_usage.discount_amount
+      end
+    %>
     <div class="total-row">
       <span>Subtotal:</span>
-      <strong>$<%= number_with_precision(@invoice.subtotal, precision: 2) %></strong>
+      <strong>$<%= number_with_precision(subtotal_before_discount, precision: 2) %></strong>
     </div>
+    <% if @invoice.order.discount_code.present? && discount_amount > 0 %>
+      <div class="total-row discount-row">
+        <span>Descuento (<%= @invoice.order.discount_code.code %>):</span>
+        <strong class="text-success">-$<%= number_with_precision(discount_amount, precision: 2) %></strong>
+      </div>
+    <% end %>
     <div class="total-row">
       <span>Impuestos:</span>
       <strong>$<%= number_with_precision(@invoice.tax, precision: 2) %></strong>
     </div>
     <div class="total-row total-final">
       <span>Total:</span>
-      <strong>$<%= number_with_precision(@invoice.total, precision: 2) %></strong>
+      <% final_total = subtotal_before_discount - discount_amount + @invoice.tax %>
+      <strong>$<%= number_with_precision(final_total, precision: 2) %></strong>
     </div>
   </div>
 </div>
@@ -211,6 +226,14 @@
   font-weight: bold;
   margin-top: 0.5rem;
   padding-top: 1rem;
+}
+
+.discount-row {
+  color: #059669;
+}
+
+.discount-row .text-success {
+  color: #059669 !important;
 }
 
 .section-card {

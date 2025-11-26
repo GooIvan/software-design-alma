@@ -262,6 +262,12 @@ abstract class AppLocalizations {
   /// **'Unknown error, please try again.'**
   String get unknownError;
 
+  /// No description provided for @whereWeAreLocated.
+  ///
+  /// In en, this message translates to:
+  /// **'Where we are located?'**
+  String get whereWeAreLocated;
+
   /// No description provided for @functionalityNotImplemented.
   ///
   /// In en, this message translates to:
@@ -850,6 +856,24 @@ abstract class AppLocalizations {
   /// **'Order'**
   String get order;
 
+  /// Title shown when there are no orders
+  ///
+  /// In en, this message translates to:
+  /// **'You have no orders yet'**
+  String get noOrdersTitle;
+
+  /// Secondary text shown when there are no orders
+  ///
+  /// In en, this message translates to:
+  /// **'When you place orders, they will appear here.'**
+  String get noOrdersSubtitle;
+
+  /// Button to start shopping when order list is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Start Shopping'**
+  String get startShopping;
+
   /// No description provided for @errorOrdersLoading.
   ///
   /// In en, this message translates to:
@@ -1221,6 +1245,414 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Follow system'**
   String get systemThemeDescription;
+
+  /// No description provided for @sectionDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get sectionDiscountCode;
+
+  /// No description provided for @discountApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount applied'**
+  String get discountApplied;
+
+  /// No description provided for @discountRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount removed'**
+  String get discountRemoved;
+
+  /// No description provided for @discountCodeNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code not found'**
+  String get discountCodeNotFound;
+
+  /// No description provided for @discountCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid discount code'**
+  String get discountCodeInvalid;
+
+  /// No description provided for @discountCodeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code has expired'**
+  String get discountCodeExpired;
+
+  /// No description provided for @discountCodeAlreadyUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code already used'**
+  String get discountCodeAlreadyUsed;
+
+  /// No description provided for @discountCodeNotActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code is not active'**
+  String get discountCodeNotActive;
+
+  /// No description provided for @discountCodeMaxUsesReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code reached usage limit'**
+  String get discountCodeMaxUsesReached;
+
+  /// No description provided for @enterDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter discount code'**
+  String get enterDiscountCode;
+
+  /// No description provided for @applyDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply code'**
+  String get applyDiscountCode;
+
+  /// No description provided for @removeDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove discount'**
+  String get removeDiscountCode;
+
+  /// No description provided for @validatingDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Validating code...'**
+  String get validatingDiscountCode;
+
+  /// No description provided for @discountCodeValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error validating discount code'**
+  String get discountCodeValidationError;
+
+  /// No description provided for @discountCodeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Code applied successfully!'**
+  String get discountCodeSuccess;
+
+  /// No description provided for @discountAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get discountAmount;
+
+  /// No description provided for @discountPercentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount ({percentage}% off)'**
+  String discountPercentage(int percentage);
+
+  /// No description provided for @discountFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount (\${amount} off)'**
+  String discountFixed(String amount);
+
+  /// No description provided for @subtotalBeforeDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get subtotalBeforeDiscount;
+
+  /// No description provided for @totalAfterDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total with discount'**
+  String get totalAfterDiscount;
+
+  /// No description provided for @noDiscountCodesAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No discount codes available'**
+  String get noDiscountCodesAvailable;
+
+  /// No description provided for @availableDiscountCodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Available codes'**
+  String get availableDiscountCodes;
+
+  /// No description provided for @useDiscountCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get useDiscountCode;
+
+  /// No description provided for @discountCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Code: {code}'**
+  String discountCodeLabel(String code);
+
+  /// No description provided for @discountValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount: {value}'**
+  String discountValue(String value);
+
+  /// No description provided for @discountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount applied: {description}'**
+  String discountDescription(String description);
+
+  /// No description provided for @discountCodeFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code format'**
+  String get discountCodeFormat;
+
+  /// No description provided for @discountMinimumAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Order must be greater than {amount} to use this discount'**
+  String discountMinimumAmount(String amount);
+
+  /// No description provided for @discountNotApplicable.
+  ///
+  /// In en, this message translates to:
+  /// **'This discount cannot be applied to your order'**
+  String get discountNotApplicable;
+
+  /// No description provided for @promoCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Promo code'**
+  String get promoCode;
+
+  /// No description provided for @havePromoCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Have a promo code?'**
+  String get havePromoCode;
+
+  /// No description provided for @youSave.
+  ///
+  /// In en, this message translates to:
+  /// **'You save'**
+  String get youSave;
+
+  /// No description provided for @discountCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code'**
+  String get discountCodeTitle;
+
+  /// No description provided for @enterCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your code'**
+  String get enterCode;
+
+  /// No description provided for @validatingCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Validating...'**
+  String get validatingCode;
+
+  /// No description provided for @codeApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Code applied:'**
+  String get codeApplied;
+
+  /// No description provided for @removeDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove discount'**
+  String get removeDiscount;
+
+  /// No description provided for @codeValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error validating code'**
+  String get codeValidationError;
+
+  /// No description provided for @enterDiscountCodeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a discount code'**
+  String get enterDiscountCodeMessage;
+
+  /// No description provided for @invalidCodeFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code format'**
+  String get invalidCodeFormat;
+
+  /// No description provided for @appliedDiscountMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Code applied: {code}'**
+  String appliedDiscountMessage(String code);
+
+  /// No description provided for @discountInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount codes will be applied to your total purchase'**
+  String get discountInfo;
+
+  /// No description provided for @expireDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires: {date}'**
+  String expireDate(String date);
+
+  /// No description provided for @termsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get termsTitle;
+
+  /// No description provided for @termsLastUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated'**
+  String get termsLastUpdated;
+
+  /// No description provided for @termsUpdatedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'March 15, 2025'**
+  String get termsUpdatedDate;
+
+  /// No description provided for @termsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to our application. By using our services, you agree to these Terms and Conditions. Please read them carefully.'**
+  String get termsIntro;
+
+  /// No description provided for @termsScopeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Service Scope'**
+  String get termsScopeTitle;
+
+  /// No description provided for @termsScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Our application provides features related to shopping, orders, user management, and communication with our platform.'**
+  String get termsScope;
+
+  /// No description provided for @termsDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Data Usage'**
+  String get termsDataTitle;
+
+  /// No description provided for @termsData.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information provided by the user will be handled according to our Privacy Policy and used only for service-related purposes.'**
+  String get termsData;
+
+  /// No description provided for @termsProductsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Products and Services'**
+  String get termsProductsTitle;
+
+  /// No description provided for @termsProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Products offered are subject to availability. We reserve the right to modify prices, characteristics, or availability without prior notice.'**
+  String get termsProducts;
+
+  /// No description provided for @termsPaymentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Payments'**
+  String get termsPaymentsTitle;
+
+  /// No description provided for @termsPayments.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments made through the app must be completed using the allowed methods and will be processed securely.'**
+  String get termsPayments;
+
+  /// No description provided for @termsDeliveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'5. Deliveries and Shipping'**
+  String get termsDeliveryTitle;
+
+  /// No description provided for @termsDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery times may vary depending on user location and product availability.'**
+  String get termsDelivery;
+
+  /// No description provided for @termsLiabilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'6. Limitation of Liability'**
+  String get termsLiabilityTitle;
+
+  /// No description provided for @termsLiability.
+  ///
+  /// In en, this message translates to:
+  /// **'We are not responsible for indirect, incidental, or consequential damages arising from the use of the application.'**
+  String get termsLiability;
+
+  /// No description provided for @termsChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'7. Changes to the Terms'**
+  String get termsChangesTitle;
+
+  /// No description provided for @termsChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'We reserve the right to update these terms when necessary. Any changes will be published in the app.'**
+  String get termsChanges;
+
+  /// No description provided for @termsContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'8. Contact'**
+  String get termsContactTitle;
+
+  /// No description provided for @termsContact.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have questions or comments, you can reach our support team.'**
+  String get termsContact;
+
+  /// No description provided for @termsAcceptButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get termsAcceptButton;
+
+  /// No description provided for @registerAcceptTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I accept the terms and conditions'**
+  String get registerAcceptTerms;
+
+  /// No description provided for @registerAcceptTermsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you accept the terms and conditions?'**
+  String get registerAcceptTermsLabel;
+
+  /// No description provided for @registerAcceptTermsError.
+  ///
+  /// In en, this message translates to:
+  /// **'You must accept the terms and conditions to continue.'**
+  String get registerAcceptTermsError;
+
+  /// No description provided for @configurationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language, theme and more'**
+  String get configurationSubtitle;
 }
 
 class _AppLocalizationsDelegate

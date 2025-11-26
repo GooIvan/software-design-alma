@@ -1,0 +1,271 @@
+<% content_for :title, "Editar Código: #{@discount_code.code}" %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="h2">💰 Editar Código de Descuento</h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to "Códigos de Descuento", admin_discount_codes_path %></li>
+        <li class="breadcrumb-item"><%= @discount_code.code %></li>
+        <li class="breadcrumb-item active" aria-current="page">Editar</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-pencil-square me-2"></i>Información del Código
+        </h5>
+      </div>
+      <div class="card-body">
+        <%= form_with model: [:admin, @discount_code], local: true, class: "needs-validation", novalidate: true do |form| %>
+          <% if @discount_code.errors.any? %>
+            <div class="alert alert-danger">
+              <h6>Se encontraron los siguientes errores:</h6>
+              <ul class="mb-0">
+                <% @discount_code.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <%= form.label :code, "Código", class: "form-label" %>
+                <%= form.text_field :code, class: "form-control #{'is-invalid' if @discount_code.errors[:code].any?}", 
+                    placeholder: "Ej: DESCUENTO20", style: "text-transform: uppercase;", required: true %>
+                <% if @discount_code.errors[:code].any? %>
+                  <div class="invalid-feedback">
+                    <%= @discount_code.errors[:code].first %>
+                  </div>
+                <% else %>
+                  <div class="form-text">
+                    Debe ser único y fácil de recordar. Se convertirá automáticamente a mayúsculas.
+                  </div>
+                <% end %>
+              </div>
+
+              <div class="mb-3">
+                <%= form.label :discount_type, "Tipo de Descuento", class: "form-label" %>
+                <%= form.select :discount_type, 
+                    options_for_select([
+                      ['Porcentaje', 'percentage'],
+                      ['Monto Fijo', 'fixed_amount']
+                    ], @discount_code.discount_type), 
+                    { prompt: "Selecciona un tipo" }, 
+                    { class: "form-select #{'is-invalid' if @discount_code.errors[:discount_type].any?}", required: true } %>
+                <% if @discount_code.errors[:discount_type].any? %>
+                  <div class="invalid-feedback">
+                    <%= @discount_code.errors[:discount_type].first %>
+                  </div>
+                <% end %>
+                <% if @discount_code.discount_usages.any? %>
+                  <div class="form-text text-warning">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    Este código ya ha sido usado. Cambiar el tipo podría afectar futuros usos.
+                  </div>
+                <% end %>
+              </div>
+
+              <div class="mb-3">
+                <%= form.label :value, "Valor", class: "form-label" %>
+                <div class="input-group">
+                  <span class="input-group-text" id="value-addon">
+                    <span id="currency-symbol"><%= @discount_code.percentage? ? '%' : '$' %></span>
+                  </span>
+                  <%= form.number_field :value, class: "form-control #{'is-invalid' if @discount_code.errors[:value].any?}", 
+                      step: 0.01, min: 0, required: true, "aria-describedby": "value-addon" %>
+                  <% if @discount_code.errors[:value].any? %>
+                    <div class="invalid-feedback">
+                      <%= @discount_code.errors[:value].first %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="form-text" id="value-help">
+                  <% if @discount_code.percentage? %>
+                    Ingresa un valor entre 1 y 100 para el porcentaje de descuento.
+                  <% else %>
+                    Ingresa la cantidad en pesos que se descontará del total.
+                  <% end %>
+                </div>
+                <% if @discount_code.discount_usages.any? %>
+                  <div class="form-text text-warning">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    Este código ya ha sido usado. Cambiar el valor podría afectar futuros usos.
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <%= form.label :expires_at, "Fecha de Expiración", class: "form-label" %>
+                <%= form.datetime_local_field :expires_at, 
+                    value: @discount_code.expires_at&.strftime("%Y-%m-%dT%H:%M"),
+                    class: "form-control #{'is-invalid' if @discount_code.errors[:expires_at].any?}" %>
+                <% if @discount_code.errors[:expires_at].any? %>
+                  <div class="invalid-feedback">
+                    <%= @discount_code.errors[:expires_at].first %>
+                  </div>
+                <% else %>
+                  <div class="form-text">
+                    Deja vacío para que no expire nunca.
+                  </div>
+                <% end %>
+              </div>
+
+              <div class="mb-3">
+                <%= form.label :max_uses, "Límite Total de Usos", class: "form-label" %>
+                <%= form.number_field :max_uses, class: "form-control", min: 1 %>
+                <div class="form-text">
+                  Deja vacío para usos ilimitados. 
+                  <% if @discount_code.discount_usages.any? %>
+                    <span class="text-info">
+                      (Ya se han usado <%= @discount_code.discount_usages.count %> veces)
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <%= form.label :max_uses_per_user, "Límite de Usos por Usuario", class: "form-label" %>
+                <%= form.number_field :max_uses_per_user, class: "form-control", min: 1 %>
+                <div class="form-text">
+                  Deja vacío para que cada usuario pueda usar el código ilimitadas veces.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <%= form.label :user_id, "Usuario Específico (Opcional)", class: "form-label" %>
+                <%= form.select :user_id, 
+                    options_from_collection_for_select(User.all, :id, :email, @discount_code.user_id), 
+                    { prompt: "Todos los usuarios pueden usar este código" }, 
+                    { class: "form-select" } %>
+                <div class="form-text">
+                  Si seleccionas un usuario, solo ese usuario podrá usar este código.
+                  <% if @discount_code.discount_usages.any? %>
+                    <span class="text-warning">
+                      <br><i class="bi bi-exclamation-triangle me-1"></i>
+                      Este código ya ha sido usado. Cambiar el usuario podría afectar la validación de futuros usos.
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="form-check mb-3">
+                <%= form.check_box :active, class: "form-check-input" %>
+                <%= form.label :active, "Código activo", class: "form-check-label" %>
+                <div class="form-text">
+                  Los códigos inactivos no pueden ser utilizados.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <%= form.submit "Actualizar Código de Descuento", class: "btn btn-primary" %>
+            <%= link_to "Cancelar", admin_discount_codes_path, class: "btn btn-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <!-- Estadísticas del código -->
+    <% if @discount_code.discount_usages.any? %>
+      <div class="card mb-3">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="bi bi-graph-up me-2"></i>Estadísticas Actuales
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-2">
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Usos totales:</span>
+              <span class="fw-bold"><%= @discount_code.discount_usages.count %></span>
+            </div>
+          </div>
+          <div class="mb-2">
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Usuarios únicos:</span>
+              <span class="fw-bold"><%= @discount_code.users.distinct.count %></span>
+            </div>
+          </div>
+          <div class="mb-2">
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Descuento total:</span>
+              <span class="fw-bold text-success">
+                $<%= number_with_delimiter(@discount_code.discount_usages.sum(:discount_amount) || 0) %>
+              </span>
+            </div>
+          </div>
+          <div class="alert alert-warning mt-3">
+            <small>
+              <i class="bi bi-exclamation-triangle me-1"></i>
+              Ten cuidado al modificar códigos que ya han sido utilizados.
+            </small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-info-circle me-2"></i>Ayuda
+        </h5>
+      </div>
+      <div class="card-body">
+        <h6>Tipos de Descuento</h6>
+        <ul class="list-unstyled">
+          <li><strong>Porcentaje:</strong> Descuenta un porcentaje del total (ej: 20% de descuento)</li>
+          <li><strong>Monto Fijo:</strong> Descuenta una cantidad específica (ej: $500 de descuento)</li>
+        </ul>
+
+        <h6 class="mt-3">Consejos para Edición</h6>
+        <ul class="list-unstyled">
+          <li>• Si ya hay usos, ten cuidado al cambiar el tipo o valor</li>
+          <li>• Puedes desactivar temporalmente sin eliminar</li>
+          <li>• Extender fechas de expiración es común</li>
+          <li>• Aumentar límites de uso ayuda en promociones exitosas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const discountTypeSelect = document.getElementById('discount_code_discount_type');
+  const currencySymbol = document.getElementById('currency-symbol');
+  const valueHelp = document.getElementById('value-help');
+  
+  function updateValueDisplay() {
+    const isPercentage = discountTypeSelect.value === 'percentage';
+    currencySymbol.textContent = isPercentage ? '%' : '$';
+    valueHelp.innerHTML = isPercentage 
+      ? 'Ingresa un valor entre 1 y 100 para el porcentaje de descuento.'
+      : 'Ingresa la cantidad en pesos que se descontará del total.';
+  }
+  
+  discountTypeSelect.addEventListener('change', updateValueDisplay);
+  
+  // Convertir código a mayúsculas automáticamente
+  const codeInput = document.getElementById('discount_code_code');
+  codeInput.addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+  });
+});
+</script>

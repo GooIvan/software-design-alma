@@ -28,20 +28,25 @@ class CreateOrderRepository {
   }
 
   /// Crea una orden desde una lista de CartItem
-  Future<Order> createOrderFromCart(List<CartItem> cartItems) async {
+  Future<Order> createOrderFromCart(List<CartItem> cartItems,
+      {String? discountCode}) async {
     final items = _convertCartItemsToApiFormat(cartItems);
-    return await createOrder(items);
+    return await createOrder(items, discountCode: discountCode);
   }
 
   /// Crea una orden desde una lista de mapas (formato API directo)
-  Future<Order> createOrder(List<Map<String, dynamic>> items) async {
+  Future<Order> createOrder(List<Map<String, dynamic>> items,
+      {String? discountCode}) async {
     final token = await _getToken();
 
     if (token == null) {
       throw Exception('Usuario no autenticado');
     }
 
-    final requestBody = {'items': items};
+    final requestBody = {
+      'items': items,
+      if (discountCode != null) 'discount_code': discountCode,
+    };
 
     final response = await http.post(
       Uri.parse('${Api.baseUrl}/api/orders'),

@@ -64,8 +64,20 @@ class CartPage extends StatelessWidget {
                           CartSummaryWidget(
                             subtotal: state.totalPrice,
                             tax: 0, // impuesto fijo de ejemplo
-                            discount: 0, // Descuento fijo de ejemplo
-                            total: state.totalPrice,
+                            discount: state.discountAmount,
+                            total: state.finalTotal,
+                            currentDiscountCode: state.appliedDiscountCode,
+                            onDiscountApplied: (discountCode) {
+                              if (discountCode != null) {
+                                context
+                                    .read<CartBloc>()
+                                    .add(ApplyDiscountToCart(discountCode));
+                              } else {
+                                context
+                                    .read<CartBloc>()
+                                    .add(const RemoveDiscountFromCart());
+                              }
+                            },
                           ),
                         ],
                       );
@@ -173,7 +185,10 @@ class CartPage extends StatelessWidget {
 
     try {
       final repository = CreateOrderRepository();
-      final order = await repository.createOrderFromCart(cartState.items);
+      final order = await repository.createOrderFromCart(
+        cartState.items,
+        discountCode: cartState.appliedDiscountCode?.code,
+      );
 
       // Cerrar loading
       if (context.mounted) {

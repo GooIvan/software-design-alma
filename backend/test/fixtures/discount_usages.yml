@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  discount_code: one
+  user: one
+  order: one
+
+two:
+  discount_code: two
+  user: two
+  order: two

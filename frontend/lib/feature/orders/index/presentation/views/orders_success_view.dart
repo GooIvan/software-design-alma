@@ -37,6 +37,81 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
     return '\$${formatter.format(total)}';
   }
 
+  double _calculateSubtotal(Order order) {
+    // Si hay subtotal disponible, usarlo
+    if (order.subtotal != null) {
+      return order.subtotal!;
+    }
+
+    // Si hay descuento, calcular subtotal original
+    if (order.discountAmount != null && order.discountAmount! > 0) {
+      return order.total + order.discountAmount!;
+    }
+
+    // Si no hay descuento, el subtotal es igual al total
+    return order.total;
+  }
+
+  Widget _buildPriceInfo(Order order, BuildContext context) {
+    final hasDiscount = order.discountCode != null &&
+        order.discountAmount != null &&
+        order.discountAmount! > 0;
+
+    if (!hasDiscount) {
+      return Text(
+        _formatTotal(order.total),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: Theme.of(context).textTheme.displayLarge?.color,
+        ),
+      );
+    }
+
+    final subtotal = _calculateSubtotal(order);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '${context.l10n.subtotalBeforeDiscount}: ${_formatTotal(subtotal)}',
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Row(
+          children: [
+            Icon(
+              Icons.local_offer,
+              size: 12,
+              color: Colors.green[600],
+            ),
+            const SizedBox(width: 4),
+            Text(
+              '${context.l10n.discountAmount} (${order.discountCode}): -${_formatTotal(order.discountAmount!)}',
+              style: TextStyle(
+                color: Colors.green[600],
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '${context.l10n.total}: ${_formatTotal(order.total)}',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Theme.of(context).textTheme.displayLarge?.color,
+          ),
+        ),
+      ],
+    );
+  }
+
   String _getFilterLabel(OrderFilter filter, BuildContext context) {
     switch (filter) {
       case OrderFilter.all:
@@ -120,16 +195,69 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
     final filteredOrders = _getFilteredAndSortedOrders();
 
     if (widget.orders.isEmpty) {
-      return Center(
-        child: Text(
-          context.l10n.ordersNotFound,
-          style: const TextStyle(
-            fontSize: 16,
-            color: Colors.grey,
-          ),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.receipt_long_outlined,
+              size: 90,
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Título principal (internacionalizado)
+            Text(
+              context.l10n.noOrdersTitle, // <-- Nuevo key para localización
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Texto secundario (internacionalizado)
+            Text(
+              context.l10n.noOrdersSubtitle, // <-- Nuevo key para localización
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Botón para comenzar a comprar
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // O navega al Home si así lo tienen
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                context.l10n.startShopping, // <-- Nuevo key para localización
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
         ),
-      );
-    }
+      ),
+    );
+  }
 
     return Column(
       children: [
@@ -419,17 +547,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                                                 ),
                                               ),
                                               const SizedBox(height: 4),
-                                              Text(
-                                                _formatTotal(order.total),
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .displayLarge
-                                                      ?.color,
-                                                ),
-                                              ),
+                                              _buildPriceInfo(order, context),
                                               const SizedBox(height: 8),
                                               Text(
                                                 DateFormat('dd/MM/yyyy').format(

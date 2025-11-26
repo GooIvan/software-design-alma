@@ -1,4 +1,5 @@
 class Admin::InvoicesController < ApplicationController
+  layout "admin"
   before_action :authenticate_user!
   before_action :ensure_admin
   before_action :set_invoice, only: [:show, :destroy, :download, :mark_as_sent, :mark_as_paid, :regenerate]

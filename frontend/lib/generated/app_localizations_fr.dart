@@ -90,6 +90,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unknownError => 'Erreur inconnue, veuillez réessayer.';
 
   @override
+  String get whereWeAreLocated => 'Où nous sommes situés ?';
+
+  @override
   String get functionalityNotImplemented => 'Fonctionnalité non implémentée';
 
   @override
@@ -398,6 +401,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get order => 'Commande';
 
   @override
+  String get noOrdersTitle => 'Vous n\'avez pas encore de commandes';
+
+  @override
+  String get noOrdersSubtitle =>
+      'Lorsque vous passerez des commandes, elles apparaîtront ici.';
+
+  @override
+  String get startShopping => 'Commencer les achats';
+
+  @override
   String get errorOrdersLoading => 'Erreur lors du chargement des commandes.';
 
   @override
@@ -592,4 +605,240 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get systemThemeDescription => 'Suivre le système';
+
+  @override
+  String get sectionDiscountCode =>
+      '---------------------------------------------';
+
+  @override
+  String get discountApplied => 'Réduction appliquée';
+
+  @override
+  String get discountRemoved => 'Réduction supprimée';
+
+  @override
+  String get discountCodeNotFound => 'Code de réduction non trouvé';
+
+  @override
+  String get discountCodeInvalid => 'Code de réduction invalide';
+
+  @override
+  String get discountCodeExpired => 'Le code de réduction a expiré';
+
+  @override
+  String get discountCodeAlreadyUsed => 'Code de réduction déjà utilisé';
+
+  @override
+  String get discountCodeNotActive => 'Le code de réduction n\'est pas actif';
+
+  @override
+  String get discountCodeMaxUsesReached =>
+      'Le code de réduction a atteint la limite d\'utilisation';
+
+  @override
+  String get enterDiscountCode => 'Entrez le code de réduction';
+
+  @override
+  String get applyDiscountCode => 'Appliquer le code';
+
+  @override
+  String get removeDiscountCode => 'Supprimer la réduction';
+
+  @override
+  String get validatingDiscountCode => 'Validation du code...';
+
+  @override
+  String get discountCodeValidationError =>
+      'Erreur de validation du code de réduction';
+
+  @override
+  String get discountCodeSuccess => 'Code appliqué avec succès !';
+
+  @override
+  String get discountAmount => 'Réduction';
+
+  @override
+  String discountPercentage(int percentage) {
+    return 'Réduction ($percentage% de remise)';
+  }
+
+  @override
+  String discountFixed(String amount) {
+    return 'Réduction (\$$amount de remise)';
+  }
+
+  @override
+  String get subtotalBeforeDiscount => 'Sous-total';
+
+  @override
+  String get totalAfterDiscount => 'Total avec réduction';
+
+  @override
+  String get noDiscountCodesAvailable => 'Aucun code de réduction disponible';
+
+  @override
+  String get availableDiscountCodes => 'Codes disponibles';
+
+  @override
+  String get useDiscountCode => 'Utiliser';
+
+  @override
+  String discountCodeLabel(String code) {
+    return 'Code : $code';
+  }
+
+  @override
+  String discountValue(String value) {
+    return 'Réduction : $value';
+  }
+
+  @override
+  String discountDescription(String description) {
+    return 'Réduction appliquée : $description';
+  }
+
+  @override
+  String get discountCodeFormat => 'Format de code invalide';
+
+  @override
+  String discountMinimumAmount(String amount) {
+    return 'La commande doit être supérieure à $amount pour utiliser cette réduction';
+  }
+
+  @override
+  String get discountNotApplicable =>
+      'Cette réduction ne peut pas être appliquée à votre commande';
+
+  @override
+  String get promoCode => 'Code promo';
+
+  @override
+  String get havePromoCode => 'Avez-vous un code promo ?';
+
+  @override
+  String get youSave => 'Vous économisez';
+
+  @override
+  String get discountCodeTitle => 'Code de réduction';
+
+  @override
+  String get enterCode => 'Entrez votre code';
+
+  @override
+  String get validatingCode => 'Validation...';
+
+  @override
+  String get codeApplied => 'Code appliqué :';
+
+  @override
+  String get removeDiscount => 'Supprimer la réduction';
+
+  @override
+  String get codeValidationError => 'Erreur de validation du code';
+
+  @override
+  String get enterDiscountCodeMessage => 'Entrez un code de réduction';
+
+  @override
+  String get invalidCodeFormat => 'Format de code invalide';
+
+  @override
+  String appliedDiscountMessage(String code) {
+    return 'Code appliqué : $code';
+  }
+
+  @override
+  String get discountInfo =>
+      'Les codes de réduction seront appliqués au total de votre achat';
+
+  @override
+  String expireDate(String date) {
+    return 'Expire : $date';
+  }
+
+  @override
+  String get termsTitle => 'Termes et Conditions';
+
+  @override
+  String get termsLastUpdated => 'Dernière mise à jour';
+
+  @override
+  String get termsUpdatedDate => '15 mars 2025';
+
+  @override
+  String get termsIntro =>
+      'Bienvenue dans notre application. En utilisant nos services, vous acceptez ces Termes et Conditions. Veuillez les lire attentivement.';
+
+  @override
+  String get termsScopeTitle => '1. Portée du Service';
+
+  @override
+  String get termsScope =>
+      'Notre application propose des fonctionnalités liées aux achats, commandes, gestion des utilisateurs et communication avec notre plateforme.';
+
+  @override
+  String get termsDataTitle => '2. Utilisation des Données';
+
+  @override
+  String get termsData =>
+      'Les informations personnelles fournies par l’utilisateur seront traitées conformément à notre Politique de Confidentialité et utilisées uniquement pour des services liés.';
+
+  @override
+  String get termsProductsTitle => '3. Produits et Services';
+
+  @override
+  String get termsProducts =>
+      'Les produits proposés sont soumis à disponibilité. Nous nous réservons le droit de modifier les prix, les caractéristiques ou la disponibilité sans préavis.';
+
+  @override
+  String get termsPaymentsTitle => '4. Paiements';
+
+  @override
+  String get termsPayments =>
+      'Les paiements effectués via l’application doivent utiliser les méthodes autorisées et seront traités en toute sécurité.';
+
+  @override
+  String get termsDeliveryTitle => '5. Livraisons et Expéditions';
+
+  @override
+  String get termsDelivery =>
+      'Les délais de livraison peuvent varier selon la localisation de l\'utilisateur et la disponibilité du produit.';
+
+  @override
+  String get termsLiabilityTitle => '6. Limitation de Responsabilité';
+
+  @override
+  String get termsLiability =>
+      'Nous ne sommes pas responsables des dommages indirects, accidentels ou consécutifs liés à l’utilisation de l’application.';
+
+  @override
+  String get termsChangesTitle => '7. Modifications des Termes';
+
+  @override
+  String get termsChanges =>
+      'Nous nous réservons le droit de mettre à jour ces termes lorsque nécessaire. Les modifications seront publiées dans l’application.';
+
+  @override
+  String get termsContactTitle => '8. Contact';
+
+  @override
+  String get termsContact =>
+      'Si vous avez des questions ou des commentaires, vous pouvez contacter notre équipe de support.';
+
+  @override
+  String get termsAcceptButton => 'Accepter';
+
+  @override
+  String get registerAcceptTerms => 'J\'accepte les termes et conditions';
+
+  @override
+  String get registerAcceptTermsLabel =>
+      'Acceptez-vous les termes et conditions ?';
+
+  @override
+  String get registerAcceptTermsError =>
+      'Vous devez accepter les termes et conditions pour continuer.';
+
+  @override
+  String get configurationSubtitle => 'Langue, thème et plus';
 }

@@ -27,6 +27,7 @@
   "signin": "Se connecter",
   "signup": "S'inscrire",
   "unknownError": "Erreur inconnue, veuillez réessayer.",
+  "whereWeAreLocated": "Où nous sommes situés ?",
   "functionalityNotImplemented": "Fonctionnalité non implémentée",
   "see": "Voir",
   "clear": "Effacer",
@@ -125,6 +126,18 @@
   "noOrdersFilterFound": "Aucune commande trouvée avec les filtres sélectionnés.",
   "clearFilters": "Voir toutes les commandes",
   "order": "Commande",
+  "noOrdersTitle": "Vous n'avez pas encore de commandes",
+  "noOrdersSubtitle": "Lorsque vous passerez des commandes, elles apparaîtront ici.",
+  "startShopping": "Commencer les achats",
+  "@noOrdersTitle": {
+    "description": "Titre affiché lorsque la liste de commandes est vide"
+  },
+  "@noOrdersSubtitle": {
+    "description": "Texte secondaire affiché lorsqu'il n'y a aucune commande"
+  },
+  "@startShopping": {
+    "description": "Bouton pour commencer à acheter lorsque la liste de commandes est vide"
+  },
   "errorOrdersLoading": "Erreur lors du chargement des commandes.",
   "errorOrderLoading": "Erreur lors du chargement de la commande.",
   "noArticles": "Aucun article dans cette commande",
@@ -186,5 +199,103 @@
   "systemTheme": "Système",
   "lightThemeDescription": "Thème clair",
   "darkThemeDescription": "Thème sombre",
-  "systemThemeDescription": "Suivre le système"
+  "systemThemeDescription": "Suivre le système",
+  "sectionDiscountCode": "---------------------------------------------",
+
+  "discountApplied": "Réduction appliquée",
+  "discountRemoved": "Réduction supprimée",
+  "discountCodeNotFound": "Code de réduction non trouvé",
+  "discountCodeInvalid": "Code de réduction invalide",
+  "discountCodeExpired": "Le code de réduction a expiré",
+  "discountCodeAlreadyUsed": "Code de réduction déjà utilisé",
+  "discountCodeNotActive": "Le code de réduction n'est pas actif",
+  "discountCodeMaxUsesReached": "Le code de réduction a atteint la limite d'utilisation",
+  "enterDiscountCode": "Entrez le code de réduction",
+  "applyDiscountCode": "Appliquer le code",
+  "removeDiscountCode": "Supprimer la réduction",
+  "validatingDiscountCode": "Validation du code...",
+  "discountCodeValidationError": "Erreur de validation du code de réduction",
+  "discountCodeSuccess": "Code appliqué avec succès !",
+  "discountAmount": "Réduction",
+  "discountPercentage": "Réduction ({percentage}% de remise)",
+  "@discountPercentage": {
+    "placeholders": {
+      "percentage": { "type": "int" }
+    }
+  },
+  "discountFixed": "Réduction (${amount} de remise)",
+  "@discountFixed": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "subtotalBeforeDiscount": "Sous-total",
+  "totalAfterDiscount": "Total avec réduction",
+  "noDiscountCodesAvailable": "Aucun code de réduction disponible",
+  "availableDiscountCodes": "Codes disponibles",
+  "useDiscountCode": "Utiliser",
+  "discountCodeLabel": "Code : {code}",
+  "@discountCodeLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "discountValue": "Réduction : {value}",
+  "@discountValue": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "discountDescription": "Réduction appliquée : {description}",
+  "@discountDescription": {
+    "placeholders": { "description": { "type": "String" } }
+  },
+  "discountCodeFormat": "Format de code invalide",
+  "discountMinimumAmount": "La commande doit être supérieure à {amount} pour utiliser cette réduction",
+  "@discountMinimumAmount": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "discountNotApplicable": "Cette réduction ne peut pas être appliquée à votre commande",
+  "promoCode": "Code promo",
+  "havePromoCode": "Avez-vous un code promo ?",
+  "youSave": "Vous économisez",
+  "discountCodeTitle": "Code de réduction",
+  "enterCode": "Entrez votre code",
+  "validatingCode": "Validation...",
+  "codeApplied": "Code appliqué :",
+  "removeDiscount": "Supprimer la réduction",
+  "codeValidationError": "Erreur de validation du code",
+  "enterDiscountCodeMessage": "Entrez un code de réduction",
+  "invalidCodeFormat": "Format de code invalide",
+  "appliedDiscountMessage": "Code appliqué : {code}",
+  "@appliedDiscountMessage": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "discountInfo": "Les codes de réduction seront appliqués au total de votre achat",
+  "expireDate": "Expire : {date}",
+  "@expireDate": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+
+  "termsTitle": "Termes et Conditions",
+  "termsLastUpdated": "Dernière mise à jour",
+  "termsUpdatedDate": "15 mars 2025",
+  "termsIntro": "Bienvenue dans notre application. En utilisant nos services, vous acceptez ces Termes et Conditions. Veuillez les lire attentivement.",
+  "termsScopeTitle": "1. Portée du Service",
+  "termsScope": "Notre application propose des fonctionnalités liées aux achats, commandes, gestion des utilisateurs et communication avec notre plateforme.",
+  "termsDataTitle": "2. Utilisation des Données",
+  "termsData": "Les informations personnelles fournies par l’utilisateur seront traitées conformément à notre Politique de Confidentialité et utilisées uniquement pour des services liés.",
+  "termsProductsTitle": "3. Produits et Services",
+  "termsProducts": "Les produits proposés sont soumis à disponibilité. Nous nous réservons le droit de modifier les prix, les caractéristiques ou la disponibilité sans préavis.",
+  "termsPaymentsTitle": "4. Paiements",
+  "termsPayments": "Les paiements effectués via l’application doivent utiliser les méthodes autorisées et seront traités en toute sécurité.",
+  "termsDeliveryTitle": "5. Livraisons et Expéditions",
+  "termsDelivery": "Les délais de livraison peuvent varier selon la localisation de l'utilisateur et la disponibilité du produit.",
+  "termsLiabilityTitle": "6. Limitation de Responsabilité",
+  "termsLiability": "Nous ne sommes pas responsables des dommages indirects, accidentels ou consécutifs liés à l’utilisation de l’application.",
+  "termsChangesTitle": "7. Modifications des Termes",
+  "termsChanges": "Nous nous réservons le droit de mettre à jour ces termes lorsque nécessaire. Les modifications seront publiées dans l’application.",
+  "termsContactTitle": "8. Contact",
+  "termsContact": "Si vous avez des questions ou des commentaires, vous pouvez contacter notre équipe de support.",
+  "termsAcceptButton": "Accepter",
+  "registerAcceptTerms": "J'accepte les termes et conditions",
+  "registerAcceptTermsLabel": "Acceptez-vous les termes et conditions ?",
+  "registerAcceptTermsError": "Vous devez accepter les termes et conditions pour continuer.",
+  "configurationSubtitle": "Langue, thème et plus"
 }

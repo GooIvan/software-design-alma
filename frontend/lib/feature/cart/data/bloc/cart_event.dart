@@ -51,3 +51,16 @@ class ClearCart extends CartEvent {
 class LoadCart extends CartEvent {
   const LoadCart();
 }
+
+class ApplyDiscountToCart extends CartEvent {
+  final DiscountCode? discountCode;
+
+  const ApplyDiscountToCart(this.discountCode);
+
+  @override
+  List<Object> get props => [discountCode ?? 'null'];
+}
+
+class RemoveDiscountFromCart extends CartEvent {
+  const RemoveDiscountFromCart();
+}

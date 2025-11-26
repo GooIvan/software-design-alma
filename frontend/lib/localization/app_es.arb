@@ -27,6 +27,7 @@
   "signin": "Iniciar sesión",
   "signup": "Regístrate",
   "unknownError": "Error desconocido, por favor intenta de nuevo.",
+  "whereWeAreLocated": "¿Dónde estamos ubicados?",
   "functionalityNotImplemented": "Funcionalidad no implementada",
   "see": "Ver",
   "clear": "Limpiar",
@@ -125,6 +126,18 @@
   "noOrdersFilterFound": "No se encontraron pedidos con los filtros seleccionados.",
   "clearFilters": "Ver todas las órdenes",
   "order": "Orden",
+  "noOrdersTitle": "No tienes órdenes todavía",
+  "noOrdersSubtitle": "Cuando realices compras, aparecerán aquí.",
+  "startShopping": "Comenzar a comprar",
+  "@noOrdersTitle": {
+    "description": "Título mostrado cuando la lista de órdenes está vacía"
+  },
+  "@noOrdersSubtitle": {
+    "description": "Texto secundario mostrado cuando no hay órdenes"
+  },
+  "@startShopping": {
+    "description": "Botón para iniciar compra cuando no hay órdenes"
+  },
   "errorOrdersLoading": "Error al cargar las órdenes.",
   "errorOrderLoading": "Error al cargar la orden.",
   "noArticles": "No hay artículos en esta orden",
@@ -155,7 +168,7 @@
   "errorPaymentMessage2": "Inténtelo de nuevo o utilice otro método.",
   "pendingPayment": "Pago en proceso",
   "pendingPaymentMessage1": "Su pago está siendo procesado",
-  "pendingPaymentMessage2": "SRecibirás una confirmación pronto..",
+  "pendingPaymentMessage2": "Recibirás una confirmación pronto..",
   "successPayment": "Pago exitoso",
   "successPaymentMessage1": "Ha realizado su pedido con éxito,",
   "successPaymentMessage2": "Recibirás tu recibo muy pronto.",
@@ -186,5 +199,130 @@
   "systemTheme": "Sistema",
   "lightThemeDescription": "Tema claro",
   "darkThemeDescription": "Tema oscuro",
-  "systemThemeDescription": "Sigue el sistema"
+  "systemThemeDescription": "Sigue el sistema",
+  "sectionDiscountCode": "---------------------------------------------",
+  "discountApplied": "Descuento aplicado",
+  "discountRemoved": "Descuento removido",
+  "discountCodeNotFound": "Código de descuento no encontrado",
+  "discountCodeInvalid": "Código de descuento inválido",
+  "discountCodeExpired": "El código de descuento ha expirado",
+  "discountCodeAlreadyUsed": "El código de descuento ya fue utilizado",
+  "discountCodeNotActive": "El código de descuento no está activo",
+  "discountCodeMaxUsesReached": "El código de descuento alcanzó el límite de usos",
+  "enterDiscountCode": "Ingresa el código de descuento",
+  "applyDiscountCode": "Aplicar código",
+  "removeDiscountCode": "Quitar descuento",
+  "validatingDiscountCode": "Validando código...",
+  "discountCodeValidationError": "Error al validar el código de descuento",
+  "discountCodeSuccess": "¡Código aplicado exitosamente!",
+  "discountAmount": "Descuento",
+  "discountPercentage": "Descuento ({percentage}% off)",
+  "@discountPercentage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "discountFixed": "Descuento (${amount} off)",
+  "@discountFixed": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "subtotalBeforeDiscount": "Subtotal",
+  "totalAfterDiscount": "Total con descuento",
+  "noDiscountCodesAvailable": "No hay códigos de descuento disponibles",
+  "availableDiscountCodes": "Códigos disponibles",
+  "useDiscountCode": "Usar",
+  "discountCodeLabel": "Código: {code}",
+  "@discountCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "discountValue": "Descuento: {value}",
+  "@discountValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "discountDescription": "Descuento aplicado: {description}",
+  "@discountDescription": {
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
+  },
+  "discountCodeFormat": "Formato de código inválido",
+  "discountMinimumAmount": "El pedido debe ser mayor a {amount} para usar este descuento",
+  "@discountMinimumAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "discountNotApplicable": "Este descuento no se puede aplicar a tu pedido",
+  "promoCode": "Código promocional",
+  "havePromoCode": "¿Tienes un código promocional?",
+  "youSave": "Ahorras",
+  "discountCodeTitle": "Código de descuento",
+  "enterCode": "Ingresa tu código",
+  "validatingCode": "Validando...",
+  "codeApplied": "Código aplicado:",
+  "removeDiscount": "Quitar descuento",
+  "codeValidationError": "Error al validar código",
+  "enterDiscountCodeMessage": "Ingresa un código de descuento",
+  "invalidCodeFormat": "Formato de código inválido",
+  "appliedDiscountMessage": "Código aplicado: {code}",
+  "@appliedDiscountMessage": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "discountInfo": "Los códigos de descuento se aplicarán al total de tu compra",
+  "expireDate": "Expira: {date}",
+  "@expireDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+
+  "termsTitle": "Términos y Condiciones",
+  "termsLastUpdated": "Última actualización",
+  "termsUpdatedDate": "15 de marzo de 2025",
+  "termsIntro": "Bienvenido a nuestra aplicación. Al utilizar nuestros servicios aceptas los presentes Términos y Condiciones. Por favor, léelos detenidamente.",
+  "termsScopeTitle": "1. Alcance del Servicio",
+  "termsScope": "Nuestra aplicación ofrece funcionalidades relacionadas con compras, pedidos, gestión de usuario y comunicación con nuestra plataforma.",
+  "termsDataTitle": "2. Uso de Datos",
+  "termsData": "La información personal proporcionada por el usuario será tratada de acuerdo con nuestra Política de Privacidad y utilizada únicamente para fines relacionados con la prestación del servicio.",
+  "termsProductsTitle": "3. Productos y Servicios",
+  "termsProducts": "Los productos ofrecidos están sujetos a disponibilidad. Nos reservamos el derecho de modificar precios, características o disponibilidad sin previo aviso.",
+  "termsPaymentsTitle": "4. Pagos",
+  "termsPayments": "Los pagos realizados a través de la aplicación deben ser completados mediante los métodos permitidos y serán procesados de forma segura.",
+  "termsDeliveryTitle": "5. Entregas y Envíos",
+  "termsDelivery": "Los tiempos de entrega pueden variar según la ubicación del usuario y disponibilidad del producto.",
+  "termsLiabilityTitle": "6. Limitación de Responsabilidad",
+  "termsLiability": "No seremos responsables por daños indirectos, incidentales o consecuentes derivados del uso de la aplicación.",
+  "termsChangesTitle": "7. Cambios en los Términos",
+  "termsChanges": "Nos reservamos el derecho de actualizar estos términos cuando sea necesario. Las modificaciones serán publicadas en la aplicación.",
+  "termsContactTitle": "8. Contacto",
+  "termsContact": "Si tienes preguntas o comentarios, puedes comunicarte con nuestro equipo de soporte.",
+  "termsAcceptButton": "Aceptar",
+  "registerAcceptTerms": "Acepto los términos y condiciones",
+  "registerAcceptTermsLabel": "¿Aceptas los términos y condiciones?",
+  "registerAcceptTermsError": "Debes aceptar los términos y condiciones para continuar.",
+  "configurationSubtitle": "Idioma, tema y más"
 }

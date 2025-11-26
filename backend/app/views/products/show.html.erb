@@ -14,33 +14,39 @@
       <li class="breadcrumb-item active" aria-current="page"><%= @product.name %></li>
     </ol>
   </nav>
-
-  <div class="row g-4 g-lg-5 align-items-start">
-    <!-- Galería de Imágenes -->
-    <div class="col-lg-6">
-      <div class="product-gallery sticky-top" style="top: 100px;">
+<div class="container py-5 mb-6">
+  <div class="row align-items-start hellstar-product-layout">
+    <!-- Galería de imágenes del producto -->
+    <div class="col-md-6">
+      <% if @product.images.attached? && @product.images.first.present? %>
         <!-- Imagen principal -->
-        <div class="main-image-container mb-3 position-relative">
-          <%= image_tag @product.image, alt: @product.name, class: "img-fluid rounded-3 shadow-sm main-product-image w-100", id: "mainImage" %>
-          
-          <!-- Badge de stock -->
-          <% if @product.stock > 0 && @product.stock <= 5 %>
-            <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-3 px-3 py-2">
-              <%= t("products.low_stock_plural", count: @product.stock) %>
-            </span>
-          <% elsif @product.stock == 0 %>
-            <span class="badge bg-danger position-absolute top-0 start-0 m-3 px-3 py-2">
-              <%= t("products.sold_out") %>
-            </span>
-          <% end %>
+        <div class="main-image-container mb-3">
+          <%= image_tag @product.images.first, 
+              alt: @product.name, 
+              class: "img-fluid",
+              id: "mainProductImage",
+              style: "width: 100%; height: 500px; object-fit: cover; border-radius: 10px;" %>
         </div>
-
-        <!-- Thumbnails (preparado para múltiples imágenes) -->
-        <div class="thumbnails-container d-flex gap-2 overflow-auto">
-          <%= image_tag @product.image, alt: @product.name, class: "thumbnail-image img-fluid rounded-2 border border-2 border-dark cursor-pointer", style: "width: 80px; height: 80px; object-fit: cover;" %>
-          <!-- Aquí puedes agregar más imágenes en el futuro -->
+        
+        <!-- Miniaturas -->
+        <% if @product.images.count > 1 %>
+          <div class="d-flex gap-2 flex-wrap justify-content-center">
+            <% @product.images.each_with_index do |img, index| %>
+              <div class="thumbnail-container <%= 'active' if index == 0 %>" data-index="<%= index %>">
+                <%= image_tag img, 
+                    class: "product-thumbnail", 
+                    style: "width: 80px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid #ddd; transition: all 0.3s ease;",
+                    data: { image_url: url_for(img) },
+                    onclick: "changeMainImage(this.dataset.imageUrl, this)" %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px; border-radius: 10px;">
+          <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
         </div>
-      </div>
+      <% end %>
     </div>
 
     <!-- Detalles del producto -->
@@ -161,18 +167,12 @@
   </div>
 </div>
 
-<!-- JS: funcionalidad mejorada del producto -->
+<!-- JS: abrir carrito al añadir -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // === ABRIR CARRITO AL AÑADIR ===
     const forms = document.querySelectorAll("form.open-cart-on-submit");
     forms.forEach(form => {
-      form.addEventListener("submit", (e) => {
-        const button = form.querySelector('.add-to-cart-button');
-        if (button) {
-          button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Agregando...';
-        }
-        
+      form.addEventListener("submit", () => {
         const sideCart = document.getElementById("side-cart");
         if (sideCart) {
           sideCart.classList.remove("hidden");
@@ -182,103 +182,36 @@
         }
       });
     });
-
-    // === GALERÍA DE IMÁGENES ===
-    const thumbnails = document.querySelectorAll('.thumbnail-image');
-    const mainImage = document.getElementById('mainImage');
-    
-    thumbnails.forEach(thumbnail => {
-      thumbnail.addEventListener('click', () => {
-        thumbnails.forEach(t => t.classList.remove('active', 'border-dark'));
-        thumbnail.classList.add('active', 'border-dark');
-        
-        mainImage.style.opacity = '0';
-        setTimeout(() => {
-          mainImage.src = thumbnail.src;
-          mainImage.style.opacity = '1';
-        }, 150);
-      });
-    });
-    
-    // Activar primer thumbnail
-    if (thumbnails.length > 0) {
-      thumbnails[0].classList.add('active', 'border-dark');
-    }
-
-    // === ZOOM EN IMAGEN PRINCIPAL ===
-    const initZoom = () => {
-      if (mainImage) {
-        console.log('Zoom inicializado para:', mainImage);
-        
-        // Remover listeners anteriores (por si acaso)
-        const newMainImage = mainImage.cloneNode(true);
-        mainImage.parentNode.replaceChild(newMainImage, mainImage);
-        const img = document.getElementById('mainImage');
-        
-        img.addEventListener('click', function(e) {
-          console.log('Click en imagen detectado');
-          e.preventDefault();
-          e.stopPropagation();
-          
-          if (this.classList.contains('zoomed')) {
-            console.log('Quitando zoom');
-            this.classList.remove('zoomed');
-          } else {
-            console.log('Aplicando zoom');
-            this.classList.add('zoomed');
-          }
-        });
-        
-        // Restablecer zoom al cambiar de imagen
-        thumbnails.forEach(thumbnail => {
-          thumbnail.addEventListener('click', () => {
-            console.log('Reseteando zoom por cambio de imagen');
-            img.classList.remove('zoomed');
-          });
-        });
-      } else {
-        console.error('No se encontró mainImage');
-      }
-    };
-    
-    // Esperar a que la imagen se cargue completamente
-    if (mainImage) {
-      if (mainImage.complete) {
-        // Si ya está cargada
-        console.log('Imagen ya cargada, inicializando zoom inmediatamente');
-        initZoom();
-      } else {
-        // Si no está cargada, esperar al evento load
-        console.log('Esperando a que la imagen se cargue...');
-        mainImage.addEventListener('load', () => {
-          console.log('Imagen cargada, inicializando zoom');
-          initZoom();
-        });
-      }
-    }
-
-    // === FEEDBACK VISUAL EN SELECCIÓN DE TALLA ===
-    const sizeOptions = document.querySelectorAll('.size-radio');
-    sizeOptions.forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        const label = e.target.nextElementSibling;
-        if (label) {
-          // Animación de selección
-          label.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            label.style.transform = '';
-          }, 100);
-        }
-      });
-    });
-
-    // === SCROLL SUAVE AL AGREGAR AL CARRITO (mobile) ===
-    if (window.innerWidth < 768) {
-      forms.forEach(form => {
-        form.addEventListener('submit', () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      });
-    }
   });
+
+  // Función para cambiar la imagen principal
+  function changeMainImage(imageUrl, thumbnailElement) {
+    const mainImage = document.getElementById('mainProductImage');
+    mainImage.src = imageUrl;
+
+    // Remover clase activa de todas las miniaturas
+    document.querySelectorAll('.thumbnail-container').forEach(thumb => {
+      thumb.classList.remove('active');
+    });
+
+    // Agregar clase activa a la miniatura seleccionada
+    thumbnailElement.closest('.thumbnail-container').classList.add('active');
+  }
 </script>
+
+<style>
+  /* Estilos para la galería de imágenes */
+  .thumbnail-container.active .product-thumbnail {
+    border-color: #007bff !important;
+    transform: scale(1.05);
+  }
+
+  .product-thumbnail:hover {
+    border-color: #007bff !important;
+    transform: scale(1.02);
+  }
+
+  .main-product-image {
+    transition: all 0.3s ease;
+  }
+</style>

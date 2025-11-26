@@ -27,6 +27,7 @@
   "signin": "Sign In",
   "signup": "Sign Up",
   "unknownError": "Unknown error, please try again.",
+  "whereWeAreLocated": "Where we are located?",
   "functionalityNotImplemented": "Functionality not implemented",
   "see": "See",
   "clear": "Clear",
@@ -125,6 +126,18 @@
   "noOrdersFilterFound": "No orders found with the selected filters.",
   "clearFilters": "See all orders",
   "order": "Order",
+  "noOrdersTitle": "You have no orders yet",
+  "noOrdersSubtitle": "When you place orders, they will appear here.",
+  "startShopping": "Start Shopping",
+  "@noOrdersTitle": {
+    "description": "Title shown when there are no orders"
+  },
+  "@noOrdersSubtitle": {
+    "description": "Secondary text shown when there are no orders"
+  },
+  "@startShopping": {
+    "description": "Button to start shopping when order list is empty"
+  },
   "errorOrdersLoading": "Error loading orders.",
   "errorOrderLoading": "Error loading order.",
   "noArticles": "There are no articles in this order",
@@ -186,5 +199,130 @@
   "systemTheme": "System",
   "lightThemeDescription": "Light theme",
   "darkThemeDescription": "Dark theme",
-  "systemThemeDescription": "Follow system"
+  "systemThemeDescription": "Follow system",
+  "sectionDiscountCode": "---------------------------------------------",
+  "discountApplied": "Discount applied",
+  "discountRemoved": "Discount removed",
+  "discountCodeNotFound": "Discount code not found",
+  "discountCodeInvalid": "Invalid discount code",
+  "discountCodeExpired": "Discount code has expired",
+  "discountCodeAlreadyUsed": "Discount code already used",
+  "discountCodeNotActive": "Discount code is not active",
+  "discountCodeMaxUsesReached": "Discount code reached usage limit",
+  "enterDiscountCode": "Enter discount code",
+  "applyDiscountCode": "Apply code",
+  "removeDiscountCode": "Remove discount",
+  "validatingDiscountCode": "Validating code...",
+  "discountCodeValidationError": "Error validating discount code",
+  "discountCodeSuccess": "Code applied successfully!",
+  "discountAmount": "Discount",
+  "discountPercentage": "Discount ({percentage}% off)",
+  "@discountPercentage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "discountFixed": "Discount (${amount} off)",
+  "@discountFixed": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "subtotalBeforeDiscount": "Subtotal",
+  "totalAfterDiscount": "Total with discount",
+  "noDiscountCodesAvailable": "No discount codes available",
+  "availableDiscountCodes": "Available codes",
+  "useDiscountCode": "Use",
+  "discountCodeLabel": "Code: {code}",
+  "@discountCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "discountValue": "Discount: {value}",
+  "@discountValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "discountDescription": "Discount applied: {description}",
+  "@discountDescription": {
+    "placeholders": {
+      "description": {
+        "type": "String"
+      }
+    }
+  },
+  "discountCodeFormat": "Invalid code format",
+  "discountMinimumAmount": "Order must be greater than {amount} to use this discount",
+  "@discountMinimumAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "discountNotApplicable": "This discount cannot be applied to your order",
+  "promoCode": "Promo code",
+  "havePromoCode": "Have a promo code?",
+  "youSave": "You save",
+  "discountCodeTitle": "Discount code",
+  "enterCode": "Enter your code",
+  "validatingCode": "Validating...",
+  "codeApplied": "Code applied:",
+  "removeDiscount": "Remove discount",
+  "codeValidationError": "Error validating code",
+  "enterDiscountCodeMessage": "Enter a discount code",
+  "invalidCodeFormat": "Invalid code format",
+  "appliedDiscountMessage": "Code applied: {code}",
+  "@appliedDiscountMessage": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "discountInfo": "Discount codes will be applied to your total purchase",
+  "expireDate": "Expires: {date}",
+  "@expireDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+
+  "termsTitle": "Terms and Conditions",
+  "termsLastUpdated": "Last updated",
+  "termsUpdatedDate": "March 15, 2025",
+  "termsIntro": "Welcome to our application. By using our services, you agree to these Terms and Conditions. Please read them carefully.",
+  "termsScopeTitle": "1. Service Scope",
+  "termsScope": "Our application provides features related to shopping, orders, user management, and communication with our platform.",
+  "termsDataTitle": "2. Data Usage",
+  "termsData": "Personal information provided by the user will be handled according to our Privacy Policy and used only for service-related purposes.",
+  "termsProductsTitle": "3. Products and Services",
+  "termsProducts": "Products offered are subject to availability. We reserve the right to modify prices, characteristics, or availability without prior notice.",
+  "termsPaymentsTitle": "4. Payments",
+  "termsPayments": "Payments made through the app must be completed using the allowed methods and will be processed securely.",
+  "termsDeliveryTitle": "5. Deliveries and Shipping",
+  "termsDelivery": "Delivery times may vary depending on user location and product availability.",
+  "termsLiabilityTitle": "6. Limitation of Liability",
+  "termsLiability": "We are not responsible for indirect, incidental, or consequential damages arising from the use of the application.",
+  "termsChangesTitle": "7. Changes to the Terms",
+  "termsChanges": "We reserve the right to update these terms when necessary. Any changes will be published in the app.",
+  "termsContactTitle": "8. Contact",
+  "termsContact": "If you have questions or comments, you can reach our support team.",
+  "termsAcceptButton": "Accept",
+  "registerAcceptTerms": "I accept the terms and conditions",
+  "registerAcceptTermsLabel": "Do you accept the terms and conditions?",
+  "registerAcceptTermsError": "You must accept the terms and conditions to continue.",
+  "configurationSubtitle": "Language, theme and more"
 }

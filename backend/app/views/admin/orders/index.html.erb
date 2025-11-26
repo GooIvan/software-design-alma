@@ -144,7 +144,24 @@
 
               <!-- Para móvil -->
               <div class="d-md-none mt-2">
-                <div><strong><%= t('orders.total') %>:</strong> $<%= number_to_currency(order.total, unit: "", precision: 0) %></div>
+                <% 
+                  subtotal = order.order_items.sum { |item| item.price * item.quantity }
+                  discount_amount = order.discount_amount || 0
+                  if discount_amount == 0 && order.discount_usage.present?
+                    discount_amount = order.discount_usage.discount_amount
+                  end
+                  final_total = subtotal - (discount_amount || 0)
+                %>
+                
+                <% if order.discount_code.present? && discount_amount > 0 %>
+                  <div>
+                    <small class="text-muted">Subtotal: $<%= number_to_currency(subtotal, unit: "", precision: 0) %></small><br>
+                    <small class="text-success">Descuento (<%= order.discount_code.code %>): -$<%= number_to_currency(discount_amount, unit: "", precision: 0) %></small><br>
+                    <strong><%= t('orders.total') %>: $<%= number_to_currency(final_total, unit: "", precision: 0) %></strong>
+                  </div>
+                <% else %>
+                  <div><strong><%= t('orders.total') %>:</strong> $<%= number_to_currency(final_total, unit: "", precision: 0) %></div>
+                <% end %>
               </div>
 
               <!-- Responsive extra info (solo visible en pantallas pequeñas) -->
@@ -163,8 +180,25 @@
             </td>
 
             <!-- Columnas visibles solo en escritorio -->
-            <td class="d-none d-md-table-cell text-center text-nowrap px-1">
-              $<%= number_to_currency(order.total, unit: "", precision: 0) %>
+            <td class="d-none d-md-table-cell text-center px-1">
+              <% 
+                subtotal = order.order_items.sum { |item| item.price * item.quantity }
+                discount_amount = order.discount_amount || 0
+                if discount_amount == 0 && order.discount_usage.present?
+                  discount_amount = order.discount_usage.discount_amount
+                end
+                final_total = subtotal - (discount_amount || 0)
+              %>
+              
+              <% if order.discount_code.present? && discount_amount > 0 %>
+                <div class="order-discount-info-admin">
+                  <small class="text-muted d-block">$<%= number_to_currency(subtotal, unit: "", precision: 0) %></small>
+                  <small class="text-success d-block">-$<%= number_to_currency(discount_amount, unit: "", precision: 0) %></small>
+                  <strong class="text-dark">$<%= number_to_currency(final_total, unit: "", precision: 0) %></strong>
+                </div>
+              <% else %>
+                <strong>$<%= number_to_currency(final_total, unit: "", precision: 0) %></strong>
+              <% end %>
             </td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1"><%= l(order.created_at, format: :short) %></td>
             <td class="d-none d-md-table-cell text-center text-nowrap px-1">

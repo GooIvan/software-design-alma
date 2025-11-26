@@ -74,6 +74,55 @@
   transition: filter 0.3s;
 }
 
+.text-icon-logout {
+  /* Filtro rojo para el ícono de logout */
+  filter: brightness(0) saturate(100%) invert(15%) sepia(99%) saturate(7404%)
+    hue-rotate(4deg) brightness(102%) contrast(118%);
+}
+
+/* Eliminar border azul del botón de logout - Selector más específico */
+form[action*="destroy_user_session"] button,
+form[action*="destroy_user_session"] button:focus,
+form[action*="destroy_user_session"] button:active,
+form[action*="destroy_user_session"] button:focus-visible,
+form[action*="destroy_user_session"] button:hover,
+.logout-item .btn,
+.logout-item .btn:focus,
+.logout-item .btn:active,
+.logout-item .btn:focus-visible,
+.logout-item .btn:hover {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Forzar eliminación de outline en todo el contenedor del logout */
+.logout-item * {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Clase específica para botón de logout - sin herencia de Bootstrap */
+.btn-logout {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.btn-logout:focus,
+.btn-logout:active,
+.btn-logout:focus-visible,
+.btn-logout:hover,
+.btn-logout:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
 .css-i0q0vq {
   user-select: none;
   display: inline-block;
@@ -446,6 +495,22 @@
   box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5); /* focus:outline-blue-300 */
 }
 
+/* Estilo específico para selects con custom-input */
+select.custom-input {
+  padding-right: 2.5rem; /* Espacio para la flecha */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select.custom-input:focus {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
 .custom-input-color[type="color"] {
   padding: 0;
   height: 2.5rem;
@@ -752,4 +817,88 @@
 
 .cssbuttons-io-button svg {
   margin-right: 6px;
+}
+
+/* Botón de cancelar/volver - Versión gris del botón principal */
+.cssbuttons-io-button-secondary {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 0.7em 1.4em 0.7em 1.1em;
+  color: #6c757d;
+  background: linear-gradient(0deg, #e9ecef 0%, #f8f9fa 100%);
+  border: 1px solid #dee2e6;
+  box-shadow: 0 0.7em 1.5em -0.5em rgba(108, 117, 125, 0.15);
+  letter-spacing: 0.05em;
+  border-radius: 20em;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.cssbuttons-io-button-secondary:hover {
+  color: #495057;
+  background: linear-gradient(0deg, #dee2e6 0%, #e9ecef 100%);
+  box-shadow: 0 0.9em 1.7em -0.5em rgba(108, 117, 125, 0.25);
+  transform: translateY(-2px);
+}
+
+.cssbuttons-io-button-secondary svg {
+  margin-right: 6px;
+}
+
+.product-image-wrapper {
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.thumb-img {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.thumb-img:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.thumbnail-strip {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 3px 5px;
+}
+
+/* Estilos para información de descuento en admin orders */
+.order-discount-info-admin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  line-height: 1.2;
+}
+
+.order-discount-info-admin small {
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.order-discount-info-admin .text-muted {
+  color: #6c757d !important;
+}
+
+.order-discount-info-admin .text-success {
+  color: #28a745 !important;
+  font-weight: 500;
+}
+
+.order-discount-info-admin strong {
+  font-size: 0.9rem;
+  font-weight: 600;
 }

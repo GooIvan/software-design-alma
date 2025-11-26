@@ -14,7 +14,9 @@ class HomeRepository {
       final List<dynamic> data = jsonDecode(response.body);
       return data.map((json) => Product.fromJson(json)).toList();
     } else {
-      throw Exception('Error al cargar productos');
+      throw Exception(
+        'Error al cargar productos: ${response.statusCode} - ${response.reasonPhrase}\n${response.body}',
+      );
     }
   }
 
@@ -25,7 +27,9 @@ class HomeRepository {
       final List<dynamic> data = jsonDecode(response.body);
       return data.map((json) => Category.fromJson(json)).toList();
     } else {
-      throw Exception('Error al cargar categorías');
+      throw Exception(
+        'Error al cargar productos: ${response.statusCode} - ${response.reasonPhrase}\n${response.body}',
+      );
     }
   }
 }

@@ -104,10 +104,41 @@
                 <i data-feather="dollar-sign"></i>
               </div>
               <div class="info-content">
+                <% 
+                  discount_amount = @order.discount_amount
+                  if discount_amount == 0 && @order.discount_usage.present?
+                    discount_amount = @order.discount_usage.discount_amount
+                  end
+                  subtotal_for_info = @order.order_items.sum { |item| item.price * item.quantity }
+                  total_for_info = subtotal_for_info - (discount_amount || 0)
+                %>
                 <span class="info-label"><%= t('order.show.total') %></span>
-                <span class="info-value info-value-price">$<%= number_to_currency(@order.total, unit: "", delimiter: ".", precision: 0) %></span>
+                <span class="info-value info-value-price">$<%= number_to_currency(total_for_info, unit: "", delimiter: ".", precision: 0) %></span>
               </div>
             </div>
+
+            <% if @order.discount_code.present? %>
+              <div class="info-card">
+                <div class="info-icon">
+                  <i data-feather="tag"></i>
+                </div>
+                <div class="info-content">
+                  <span class="info-label">Código de descuento</span>
+                  <span class="info-value">
+                    <%= @order.discount_code.code %>
+                    <% 
+                      discount_amount = @order.discount_amount
+                      if discount_amount == 0 && @order.discount_usage.present?
+                        discount_amount = @order.discount_usage.discount_amount
+                      end
+                    %>
+                    <% if discount_amount && discount_amount > 0 %>
+                      <small class="text-success">(-$<%= number_to_currency(discount_amount, unit: "", delimiter: ".", precision: 0) %>)</small>
+                    <% end %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
 
             <div class="info-card">
               <div class="info-icon">
@@ -134,8 +165,8 @@
             <% @order.order_items.each_with_index do |item, index| %>
               <div class="product-item" data-index="<%= index %>">
                 <div class="product-image-container">
-                  <% if item.product.image.attached? %>
-                    <%= image_tag item.product.image, class: "product-image", alt: item.product.name %>
+                  <% if item.product.images.attached? %>
+                    <%= image_tag item.product.images.first, class: "product-image", alt: item.product.name %>
                   <% else %>
                     <div class="product-image-placeholder">
                       <i data-feather="image"></i>
@@ -171,6 +202,56 @@
 
         <div class="order-divider"></div>
 
+        <!-- Resumen de precios -->
+        <div class="order-summary-section">
+          <h3 class="section-title">
+            <i data-feather="credit-card" class="section-icon"></i>
+            Resumen de la compra
+          </h3>
+          
+          <div class="price-summary-card">
+            <% subtotal = @order.order_items.sum { |item| item.price * item.quantity } %>
+            <div class="price-row">
+              <span class="price-label">Subtotal</span>
+              <span class="price-value">$<%= number_to_currency(subtotal, unit: "", delimiter: ".", precision: 0) %></span>
+            </div>
+            
+            <% if @order.discount_code.present? %>
+              <% 
+                discount_amount = @order.discount_amount
+                if discount_amount == 0 && @order.discount_usage.present?
+                  discount_amount = @order.discount_usage.discount_amount
+                end
+              %>
+              <% if discount_amount && discount_amount > 0 %>
+                <div class="price-row discount-row">
+                  <span class="price-label">
+                    <i data-feather="percent" class="discount-icon"></i>
+                    Descuento (<%= @order.discount_code.code %>)
+                  </span>
+                  <span class="price-value discount-value">-$<%= number_to_currency(discount_amount, unit: "", delimiter: ".", precision: 0) %></span>
+                </div>
+              <% end %>
+            <% end %>
+            
+            <div class="price-divider"></div>
+            
+            <div class="price-row total-row">
+              <% 
+                discount_amount = @order.discount_amount
+                if discount_amount == 0 && @order.discount_usage.present?
+                  discount_amount = @order.discount_usage.discount_amount
+                end
+                final_total = subtotal - (discount_amount || 0)
+              %>
+              <span class="price-label total-label">Total Final</span>
+              <span class="price-value total-value">$<%= number_to_currency(final_total, unit: "", delimiter: ".", precision: 0) %></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-divider"></div>
+
         <!-- Estado de pago con alerta mejorada -->
         <% if @order.paid? %>
           <div class="payment-status-alert alert-success">
@@ -199,6 +280,13 @@
           <%= link_to profile_path, class: "btn-order-action btn-secondary" do %>
             <i data-feather="arrow-left"></i>
             <span>Volver al perfil</span>
+          <% end %>
+          
+          <% if @order.pending? %>
+            <%= link_to payment_order_path(@order), class: "btn-order-action btn-warning" do %>
+              <i data-feather="credit-card"></i>
+              <span>Realizar el pago</span>
+            <% end %>
           <% end %>
           
           <% if @order.paid? && @order.invoice.present? %>
@@ -361,5 +449,98 @@
     background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
     color: white;
     text-decoration: none;
+  }
+  
+  .btn-order-action.btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    color: #212529;
+    border: none;
+    font-weight: 600;
+  }
+  
+  .btn-order-action.btn-warning:hover {
+    background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+    color: #212529;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+  }
+
+  /* Estilos para el resumen de precios */
+  .order-summary-section {
+    margin: 2rem 0;
+  }
+
+  .price-summary-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .price-row:last-child {
+    border-bottom: none;
+  }
+
+  .price-label {
+    font-weight: 500;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .price-value {
+    font-weight: 600;
+    color: #212529;
+  }
+
+  .discount-row {
+    color: #28a745;
+  }
+
+  .discount-row .price-label {
+    color: #28a745;
+  }
+
+  .discount-row .price-value {
+    color: #28a745;
+    font-weight: 700;
+  }
+
+  .discount-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .price-divider {
+    border-top: 2px solid #dee2e6;
+    margin: 0.5rem 0;
+  }
+
+  .total-row {
+    font-size: 1.1rem;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .total-label {
+    color: #212529;
+    font-weight: 700;
+  }
+
+  .total-value {
+    color: #28a745;
+    font-weight: 700;
+    font-size: 1.2rem;
   }
 </style>

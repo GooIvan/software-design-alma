@@ -2,8 +2,8 @@
   <div class="cart-item d-flex border-bottom py-4 align-items-start">
     <!-- Imagen -->
     <div class="item-image me-3">
-      <% if item.product.image.attached? %>
-        <%= image_tag url_for(item.product.image), width: 100, height: 100, class: "cart-product-image", alt: item.product.name %>
+      <% if item.product.images.attached? && item.product.images.first.present? %>
+        <%= image_tag url_for(item.product.images.first), width: 100, height: 100, class: "cart-product-image", alt: item.product.name %>
       <% else %>
         <div style="width: 90px; height: 90px; background: #f0f0f0;"></div>
       <% end %>

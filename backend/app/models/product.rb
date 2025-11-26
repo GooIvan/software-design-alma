@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :category
-  has_one_attached :image
+  has_many_attached :images
 
   # * Se definen las tallas disponibles para la creación de los productos 
   serialize :sizes, coder: JSON
@@ -8,13 +8,14 @@ class Product < ApplicationRecord
 
   before_validation :normalize_sizes
   validate :sizes_must_be_valid
+  validate :must_have_at_least_one_image
 
-  # * Validar que el stock sea un número mayor o igual a 0
+  # * Validaciones estándar
   validates :stock, numericality: { greater_than_or_equal_to: 0 }
-  validates :name, :price, :stock, :category_id, :image, presence: true
+  validates :name, :price, :stock, :category_id, presence: true
 
   # *
-  has_many :cart_items
+  has_many :cart_items, dependent: :destroy
   has_many :order_items, dependent: :destroy
 
   def formatted_price
@@ -28,5 +29,10 @@ class Product < ApplicationRecord
   def sizes_must_be_valid
     invalid = sizes - SIZES
     errors.add(:sizes, "contiene tallas inválidas: #{invalid.join(', ')}") if invalid.any?
+  end
+
+  # 🔥 Validación personalizada: mínimo una imagen
+  def must_have_at_least_one_image
+    errors.add(:images, "debe tener al menos una imagen") unless images.attached?
   end
 end
