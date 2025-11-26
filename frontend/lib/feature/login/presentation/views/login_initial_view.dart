@@ -223,7 +223,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
 
                 const SizedBox(height: 20),
 
-                const SocialLoginSection(),
+                SocialLoginSection(),
               ],
             ),
           ),

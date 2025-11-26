@@ -5,6 +5,15 @@
 
 <%= stylesheet_link_tag 'product_style', media: 'all' %>
 
+<div class="container py-4 py-md-5 mb-6">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to t('home'), root_path, class: "text-decoration-none text-dark" %></li>
+      <li class="breadcrumb-item"><%= link_to @product.category.name, category_products_path(@product.category), class: "text-decoration-none text-dark" %></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= @product.name %></li>
+    </ol>
+  </nav>
 <div class="container py-5 mb-6">
   <div class="row align-items-start hellstar-product-layout">
     <!-- Galería de imágenes del producto -->
@@ -41,75 +50,119 @@
     </div>
 
     <!-- Detalles del producto -->
-    <div class="col-md-6">
-      <h2 class="hellstar-title mb-2"><%= @product.name.upcase %></h2>
-      <% if (2..5).include?(@product.stock) %>
-        <div class="alert alert-warning fw-semibold mt-2">
-          <%= t("products.low_stock_plural", count: @product.stock) %>
+    <div class="col-lg-6">
+      <div class="product-details">
+        <!-- Categoría -->
+        <p class="text-muted text-uppercase mb-2 small fw-semibold tracking-wider">
+          <%= @product.category.name %>
+        </p>
+
+        <!-- Título -->
+        <h1 class="hellstar-title display-5 mb-3"><%= @product.name.upcase %></h1>
+
+        <!-- Precio -->
+        <div class="price-container mb-4">
+          <p class="hellstar-price display-4 fw-bold mb-0">
+            <%= number_to_currency(@product.price, unit: "$", precision: 0) %>
+          </p>
         </div>
-      <% elsif @product.stock == 1 %>
-        <div class="alert alert-warning fw-semibold mt-2">
-          <%= t("products.low_stock_singular") %>
+
+        <!-- Descripción -->
+        <div class="product-description mb-4 pb-4 border-bottom">
+          <p class="text-muted mb-0 lh-lg"><%= @product.description %></p>
         </div>
-      <% elsif @product.stock == 0 %>
-        <div class="alert alert-danger fw-semibold mt-2">
-          <%= t("products.sold_out") %>
-        </div>
-      <% end %>
 
-      <p class="hellstar-price mb-3"><%= number_to_currency(@product.price, unit: "$", precision: 0) %></p>
+        <!-- Formulario -->
+        <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "open-cart-on-submit product-form" } do |f| %>
+          <%= f.hidden_field :product_id, value: @product.id %>
 
-      <p class="mb-4 text-muted"><%= @product.description %></p>
-
-      <!-- Formulario -->
-      <%= form_with url: cart_items_path, method: :post, local: true, html: { class: "open-cart-on-submit" } do |f| %>
-        <%= f.hidden_field :product_id, value: @product.id %>
-
-        <!-- Tallas -->
-        <% if @product.stock > 0 %>
-          <div class="mb-3">
-            <label class="form-label fw-bold"><%= t("products.size") %></label>
-            <div class="d-flex flex-wrap gap-3 mt-2">
+          <!-- Tallas -->
+          <div class="mb-4">
+            <label class="form-label fw-bold d-flex align-items-center mb-3">
+              <svg class="me-2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+              <%= t("products.size") %>
+            </label>
+            <div class="sizes-grid">
               <% @product.sizes.each_with_index do |size, index| %>
-                <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check", checked: index == 0 %>
-                <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
-                  <%= size %>
-                </label>
+                <div class="size-option-wrapper">
+                  <%= f.radio_button :size, size, id: "size_#{size}", class: "btn-check size-radio", checked: index == 0, disabled: @product.stock == 0 %>
+                  <label class="size-option-label" for="size_<%= size %>">
+                    <span class="size-text"><%= size %></span>
+                  </label>
+                </div>
               <% end %>
             </div>
           </div>
-        <% else %>
-          <div class="mb-3">
-            <label class="form-label fw-bold"><%= t("products.size") %></label>
-            <div class="d-flex flex-wrap gap-3 mt-2">
-              <% @product.sizes.each_with_index do |size, index| %>
-                <input type="radio" disabled class="btn-check">
-                <label class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold size-option" for="size_<%= size %>">
-                  <%= size %>
-                </label>
-              <% end %>
+
+          <!-- Cantidad -->
+          <div class="mb-4">
+            <label class="form-label fw-bold d-flex align-items-center mb-3">
+              <svg class="me-2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18M9 21V9"/>
+              </svg>
+              <%= t("products.quantity") %>
+            </label>
+            <div class="quantity-selector">
+              <%= f.select :quantity, 
+                  options_for_select(1..[@product.stock, 9].min), 
+                  {}, 
+                  class: "form-select quantity-select", 
+                  disabled: @product.stock == 0 %>
             </div>
+          </div>
+
+          <!-- Botón de agregar al carrito -->
+          <div class="d-grid gap-3 mb-4">
+            <% if @product.stock == 0 %>
+              <button class="btn btn-lg btn-secondary fw-bold disabled-button" disabled>
+                <svg width="20" height="20" fill="currentColor" class="me-2" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <%= t('products.sold_out') %>
+              </button>
+            <% else %>
+              <%= f.submit t("products.add_to_cart"), class: "btn btn-lg btn-dark fw-bold add-to-cart-button" %>
+            <% end %>
           </div>
         <% end %>
 
-        <!-- Cantidad -->
-        <div class="mb-3">
-          <label class="form-label fw-bold"><%= t("products.quantity") %></label>
-          <% if @product.stock == 0 %>
-            <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold", disabled: true %>
-          <% else %>
-            <%= f.select :quantity, options_for_select(1..9), {}, class: "form-select rounded-pill w-auto px-4 py-2 fw-semibold" %>
-          <% end %>
-        </div>
+        <!-- Información adicional -->
+        <div class="product-info-cards mt-4">
+          <div class="info-card d-flex align-items-start p-3 mb-2 bg-light rounded-3">
+            <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M20 7h-9M14 3v4M6 21V10a1 1 0 011-1h2a1 1 0 011 1v11M3 21h18"/>
+            </svg>
+            <div>
+              <p class="fw-semibold mb-1">Envío Gratis</p>
+              <p class="small text-muted mb-0">En compras superiores a $100.000</p>
+            </div>
+          </div>
 
-        <% if @product.stock == 0 %>
-          <button class="btn btn-secondary w-100 fw-bold" style="pointer-events: none; border-radius: 20px; width: 100%; height: 50px;" disabled>
-            <%= t('products.sold_out') %>
-          </button>
-        <% else %>
-          <%= f.submit t("products.add_to_cart"), class: "btn btn-dark w-100 hellstar-add-to-cart", style: "border-radius: 20px; width: 100%;" %>
-        <% end  %>
-      <% end %>
+          <div class="info-card d-flex align-items-start p-3 mb-2 bg-light rounded-3">
+            <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+            <div>
+              <p class="fw-semibold mb-1">Cambios y Devoluciones</p>
+              <p class="small text-muted mb-0">Tienes 30 días para cambios</p>
+            </div>
+          </div>
+
+          <div class="info-card d-flex align-items-start p-3 bg-light rounded-3">
+            <svg class="me-3 flex-shrink-0 mt-1" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <div>
+              <p class="fw-semibold mb-1">Pago Seguro</p>
+              <p class="small text-muted mb-0">Tus datos están protegidos</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -118,7 +171,6 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const forms = document.querySelectorAll("form.open-cart-on-submit");
-
     forms.forEach(form => {
       form.addEventListener("submit", () => {
         const sideCart = document.getElementById("side-cart");
@@ -136,12 +188,12 @@
   function changeMainImage(imageUrl, thumbnailElement) {
     const mainImage = document.getElementById('mainProductImage');
     mainImage.src = imageUrl;
-    
+
     // Remover clase activa de todas las miniaturas
     document.querySelectorAll('.thumbnail-container').forEach(thumb => {
       thumb.classList.remove('active');
     });
-    
+
     // Agregar clase activa a la miniatura seleccionada
     thumbnailElement.closest('.thumbnail-container').classList.add('active');
   }
@@ -153,12 +205,12 @@
     border-color: #007bff !important;
     transform: scale(1.05);
   }
-  
+
   .product-thumbnail:hover {
     border-color: #007bff !important;
     transform: scale(1.02);
   }
-  
+
   .main-product-image {
     transition: all 0.3s ease;
   }

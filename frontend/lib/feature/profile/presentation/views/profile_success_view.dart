@@ -1,13 +1,17 @@
 import 'package:design_alma/feature/profile/presentation/widgets/confirm_box.dart';
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../models/user_model.dart';
 import '../../../about/pages/about_page.dart';
 import '../../../configuration/presentation/page/configuration_page.dart';
 import '../../../orders/index/presentation/pages/orders_page.dart';
+import '../../data/bloc/profile_bloc.dart';
+import '../pages/edit_profile_page.dart';
 
-class ProfileSuccessView extends StatelessWidget {
+class ProfileSuccessView extends StatefulWidget {
   final User user;
   final VoidCallback? onLogout;
   final Future<void> Function()? onRefresh;
@@ -19,14 +23,38 @@ class ProfileSuccessView extends StatelessWidget {
     required this.onRefresh,
   });
 
+  @override
+  State<ProfileSuccessView> createState() => _ProfileSuccessViewState();
+}
+
+class _ProfileSuccessViewState extends State<ProfileSuccessView> {
+  String? _photoUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPhotoUrl();
+  }
+
+  Future<void> _loadPhotoUrl() async {
+    final prefs = await SharedPreferences.getInstance();
+    final photoUrl = prefs.getString('user_photo_url');
+    if (photoUrl != null && photoUrl.isNotEmpty) {
+      setState(() {
+        _photoUrl = photoUrl;
+      });
+    }
+  }
+
   Future<void> _onReload() async {
-    onRefresh?.call();
+    widget.onRefresh?.call();
     debugPrint("Perfil recargado");
   }
 
   @override
   Widget build(BuildContext context) {
     final Color azulPrimary = Theme.of(context).colorScheme.primary;
+    final profileBloc = context.read<ProfileBloc>();
 
     return SafeArea(
       child: RefreshIndicator(
@@ -39,16 +67,58 @@ class ProfileSuccessView extends StatelessWidget {
             // Header con avatar y nombre
             const SizedBox(height: 20),
             Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: azulPrimary,
-                child: const Icon(Icons.person, size: 50, color: Colors.white),
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: azulPrimary,
+                    backgroundImage: _photoUrl != null && _photoUrl!.isNotEmpty
+                        ? NetworkImage(_photoUrl!)
+                        : null,
+                    child: _photoUrl == null || _photoUrl!.isEmpty
+                        ? const Icon(Icons.person, size: 50, color: Colors.white)
+                        : null,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BlocProvider.value(
+                              value: profileBloc,
+                              child: EditProfilePage(user: widget.user),
+                            ),
+                          ),
+                        );
+                        if (result == true) {
+                          _onReload();
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: azulPrimary,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
             Center(
               child: Text(
-                '${user.name} ${user.lastName}',
+                '${widget.user.name} ${widget.user.lastName}',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
@@ -61,11 +131,26 @@ class ProfileSuccessView extends StatelessWidget {
 
             // Opciones
             _buildOptionTile(
+              context: context,
               icon: Icons.account_circle,
               title: context.l10n.myAccount,
-              onTap: () {},
+              onTap: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider.value(
+                      value: profileBloc,
+                      child: EditProfilePage(user: widget.user),
+                    ),
+                  ),
+                );
+                if (result == true) {
+                  _onReload();
+                }
+              },
             ),
             _buildOptionTile(
+              context: context,
               icon: Icons.receipt_long,
               title: context.l10n.myOrders,
               onTap: () {
@@ -78,6 +163,7 @@ class ProfileSuccessView extends StatelessWidget {
               },
             ),
             _buildOptionTile(
+              context: context,
               icon: Icons.info,
               title: context.l10n.about,
               onTap: () {
@@ -90,6 +176,7 @@ class ProfileSuccessView extends StatelessWidget {
               },
             ),
             _buildOptionTile(
+              context: context,
               icon: Icons.settings,
               title: context.l10n.configuration,
               onTap: () {
@@ -111,7 +198,7 @@ class ProfileSuccessView extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () => confirmBox(context, onConfirm: () {
-                    onLogout!();
+                    widget.onLogout!();
                   }),
                   icon: const Icon(Icons.logout),
                   label: Text(context.l10n.logout),
@@ -137,6 +224,7 @@ class ProfileSuccessView extends StatelessWidget {
   }
 
   Widget _buildOptionTile({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required VoidCallback onTap,

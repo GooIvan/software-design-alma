@@ -136,6 +136,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileErrorMessage => 'Erreur lors du chargement du profil';
 
   @override
+  String get editProfile => 'Modifier le profil';
+
+  @override
+  String get saveChanges => 'Enregistrer les modifications';
+
+  @override
+  String get profileUpdated => 'Profil mis à jour avec succès';
+
+  @override
+  String get profileUpdateError => 'Erreur lors de la mise à jour du profil';
+
+  @override
+  String get name => 'Nom';
+
+  @override
+  String get lastName => 'Nom de famille';
+
+  @override
+  String get phone => 'Téléphone';
+
+  @override
+  String get address => 'Adresse';
+
+  @override
+  String get city => 'Ville';
+
+  @override
+  String get email => 'E-mail';
+
+  @override
   String get logoutConfirm => 'Êtes-vous sûr de vouloir vous déconnecter ?';
 
   @override

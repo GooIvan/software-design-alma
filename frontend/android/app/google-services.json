@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "354443077313",
+    "project_id": "designalma",
+    "storage_bucket": "designalma.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354443077313:android:1037748d428340a4875640",
+        "android_client_info": {
+          "package_name": "com.example.design_alma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354443077313-avq9omateakv46ujf9b7hch9omo4tff8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.design_alma",
+            "certificate_hash": "8faeb1968339d4c64807a0765238c68f38e199ba"
+          }
+        },
+        {
+          "client_id": "354443077313-nif3c0qe824fcd1u9k5umsr1hcv6dlr0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.design_alma",
+            "certificate_hash": "b918e3ec312d9194c0ff360977562f09ebbe0212"
+          }
+        },
+        {
+          "client_id": "354443077313-0fno50ulf9pt68kvb44hsu5fq3t8pnt1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUOZsxZKBy18a_mUu7nPaShCaGMcIcshI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354443077313-0fno50ulf9pt68kvb44hsu5fq3t8pnt1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

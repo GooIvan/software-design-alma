@@ -39,3 +39,12 @@ class ProfileTokenExpired extends ProfileState {
 }
 
 class ProfileLogoutSuccess extends ProfileState {}
+
+class ProfileUpdated extends ProfileState {
+  final User user;
+
+  const ProfileUpdated(this.user);
+
+  @override
+  List<Object?> get props => [user];
+}

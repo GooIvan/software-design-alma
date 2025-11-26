@@ -43,9 +43,19 @@
     t('slogan4'),
   ] %>
 
+  <%# Sección de Beneficios/Features %>
+  <div class="fade-right">
+    <%= render 'home/features_section' %>
+  </div>
+
+  <%# Sección de Ofertas Especiales %>
+  <div class="scale-up">
+    <%= render 'home/special_offers' %>
+  </div>
+
   <%# Sección de categorías %>
   <% if @categories.present? %>
-    <div class="container-fluid text-center position-relative py-5 p-6" id="categories">
+    <div class="container-fluid text-center position-relative py-5 p-6 fade-blur" id="categories">
       <h2 class="pb-5 fw-bold subtittle"><%= t('categories') %></h2>
       <div class="scroll-wrapper">
         <div class="row flex-nowrap flex-md-wrap justify-content-start justify-content-lg-center">
@@ -81,10 +91,18 @@
     </div>
   <% end %>
 
+  <%# Sección de Productos Más Populares %>
+  <div class="fade-left">
+    <%= render 'home/popular_products' %>
+  </div>
+
   <%# Sección de productos nuevos %>
   <% if @latest_products.present? %>
-    <div class="container-fluid py-5" id="whats_new">
-      <h2 class="pb-5 fw-bold subtittle text-center"><%= t('new_arrivals') %></h2>
+    <div class="container-fluid py-5 rotate-in" id="whats_new">
+      <div class="text-center mb-5">
+        <h2 class="pb-3 fw-bold subtittle" style="text-decoration: none !important; border: none !important;"><%= t('new_arrivals') %></h2>
+        <p class="section-subtitle"><%= t('new_arrivals_desc', default: 'Descubre nuestros últimos lanzamientos') %></p>
+      </div>
 
       <div class="scroll-wrapper">
         <div class="row flex-nowrap">
@@ -107,6 +125,9 @@
                   <% else %>
                     <%= image_tag "placeholder.svg", class: "card-img-top rounded-img", style: "height: 200px; object-fit: cover;" %>
                   <% end %>
+                  <span class="product-badge new-badge">
+                    <i class="bi bi-star-fill"></i> Nuevo
+                  </span>
                 <% end %>
 
                 <div class="card-body pt-4 h-30">
@@ -128,6 +149,21 @@
       </div>
     </div>
   <% end %>
+
+  <%# Sección de Estadísticas %>
+  <div class="scale-up">
+    <%= render 'home/stats_section' %>
+  </div>
+
+  <%# Sección de Testimonios %>
+  <div class="fade-right">
+    <%= render 'home/testimonials' %>
+  </div>
+
+  <%# Sección de Newsletter %>
+  <div class="fade-blur">
+    <%= render 'home/newsletter_section' %>
+  </div>
 </div>
 
 <style>

@@ -7,7 +7,7 @@ import '../../../../models/payment_model.dart';
 class PaymentRepository {
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    return prefs.getString('auth_token') ?? prefs.getString('token');
   }
 
   /// Procesa un pago con PayU

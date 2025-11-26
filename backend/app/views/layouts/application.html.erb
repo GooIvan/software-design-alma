@@ -27,6 +27,10 @@
     
     <!-- Anime.js para animaciones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -66,7 +70,7 @@
         <%= render 'shared/navbar' %>
       <% end %>
 
-    <div id="loading-overlay" class="loading-overlay">
+    <div id="loading-overlay" class="loading-overlay hidden" style="display: none;">
       <img src="<%= asset_path('loader_logo.png') %>" alt="Loading..." class="loading-logo">
     </div>
 

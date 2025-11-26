@@ -212,6 +212,12 @@ body[data-theme="dark"] .descp-item {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 2rem;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+.custom-btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
 }
 
 body[data-theme="dark"] .custom-btn-close {

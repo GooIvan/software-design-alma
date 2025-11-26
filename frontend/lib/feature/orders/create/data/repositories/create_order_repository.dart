@@ -9,7 +9,7 @@ import '../../../../../models/cart_item_model.dart';
 class CreateOrderRepository {
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
+    final token = prefs.getString('auth_token') ?? prefs.getString('token');
     return token;
   }
 

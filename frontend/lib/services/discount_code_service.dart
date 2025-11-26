@@ -8,7 +8,7 @@ class DiscountCodeService {
   /// Obtener token de autenticación
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    return prefs.getString('auth_token') ?? prefs.getString('token');
   }
 
   /// Obtener headers para las peticiones

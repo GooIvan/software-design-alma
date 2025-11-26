@@ -27,10 +27,12 @@ class LoginRepository {
       // Guardar token y usuario en SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       if (data['token'] != null) {
-        await prefs.setString('token', data['token']);
+        await prefs.setString('auth_token', data['token']);
       }
       if (data['user'] != null) {
         await prefs.setString('user_data', jsonEncode(data['user']));
+        await prefs.setString('user_email', data['user']['email']);
+        await prefs.setString('user_name', data['user']['name'] ?? '');
       }
 
       return User.fromJson(data['user']);
@@ -53,13 +55,16 @@ class LoginRepository {
   /// Método para obtener el token guardado
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    return prefs.getString('auth_token');
   }
 
   /// Método para eliminar la info de usuario y token (logout)
   Future<void> clearStoredData() async {
     final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('auth_token');
     await prefs.remove('token');
     await prefs.remove('user_data');
+    await prefs.remove('user_email');
+    await prefs.remove('user_name');
   }
 }

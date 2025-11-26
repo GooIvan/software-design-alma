@@ -1,0 +1,53 @@
+<!-- Sección de Productos Más Populares -->
+<% if @popular_products.present? %>
+  <div class="container-fluid py-5 popular-products-section">
+    <div class="text-center mb-5">
+      <h2 class="pb-3 fw-bold subtittle" style="text-decoration: none !important; border: none !important;"><%= t('popular_products', default: 'Productos Más Populares') %></h2>
+      <p class="section-subtitle"><%= t('popular_products_desc', default: 'Los favoritos de nuestros clientes') %></p>
+    </div>
+
+    <div class="container">
+      <div class="row g-4">
+        <% @popular_products.each do |product| %>
+          <div class="col-md-6 col-lg-3">
+            <div class="product-card-modern">
+              <%= link_to category_product_path(product.category, product), class: "product-link" do %>
+                <div class="product-image-wrapper">
+                  <% if product.images.attached? && product.images.first.present? %>
+                    <%= image_tag product.images.first, class: "product-image" %>
+                  <% else %>
+                    <%= image_tag "placeholder.svg", class: "product-image" %>
+                  <% end %>
+                  <div class="product-badge popular-badge">
+                    <i class="bi bi-fire"></i> Popular
+                  </div>
+                </div>
+                
+                <div class="product-info">
+                  <h5 class="product-name"><%= product.name %></h5>
+                  <div class="product-price">
+                    $<%= product.formatted_price %>
+                  </div>
+                  <div class="product-rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                    <span class="rating-count">(4.5)</span>
+                  </div>
+                </div>
+              <% end %>
+              
+              <div class="product-actions">
+                <%= link_to category_product_path(product.category, product), class: "btn btn-view-product" do %>
+                  <i class="bi bi-eye"></i> <%= t('view_details', default: 'Ver Detalles') %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

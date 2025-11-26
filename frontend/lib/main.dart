@@ -9,6 +9,9 @@ import 'core/providers/language_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'core/theme/app_theme.dart';
 import 'feature/cart/data/bloc/cart_bloc.dart';
+import 'feature/home/data/bloc/product/product_bloc.dart';
+import 'feature/home/data/bloc/category/category_bloc.dart';
+import 'feature/home/data/repositories/home_repository.dart';
 import 'utils/print_local_storage.dart';
 import 'generated/app_localizations.dart';
 
@@ -31,6 +34,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         BlocProvider(create: (context) => CartBloc()),
+        BlocProvider(create: (context) => ProductBloc(HomeRepository())..add(LoadProducts())),
+        BlocProvider(create: (context) => CategoryBloc(HomeRepository())..add(LoadCategories())),
       ],
       child: Consumer2<LanguageProvider, ThemeProvider>(
         builder: (context, languageProvider, themeProvider, child) {
