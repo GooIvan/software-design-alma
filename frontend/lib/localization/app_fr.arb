@@ -1,6 +1,7 @@
 {
   "@@locale": "fr",
   "sectionKeywords": "---------------------------------------------",
+  "resetFilters": "Réinitialiser les filtres",
   "products": "Produits",
   "soldOut": "Épuisé",
   "version": "Version",
@@ -36,6 +37,8 @@
   "see": "Voir",
   "clear": "Effacer",
   "sectionHome": "---------------------------------------------",
+  "superDiscount": "Super Réduction",
+  "loginForDiscounts": "Connectez-vous pour obtenir une super réduction.",
   "appTitle": "Design Alma",
   "homeNewest": "Nouveautés",
   "homeErrorMessageProducts": "Erreur lors du chargement des produits",
@@ -312,6 +315,10 @@
     }
   },
   "adminPanelSection": "---------------------------------------------",
+  "searchUsersByNameOrEmail": "Rechercher des utilisateurs par nom ou email",
+  "role": "ôle",
+  "errorLoadingUsers": "Erreur lors du chargement des utilisateurs.",
+  "noUsersFound": "Aucun utilisateur trouvé.",
   "users": "Utilisateurs",
   "goOutConfirm": "Êtes-vous sûr de vouloir revenir à la page d'accueil ?",
   "yesGoOut": "Oui, revenir",

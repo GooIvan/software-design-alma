@@ -25,6 +25,16 @@ class ViewCategoriesSuccess extends StatelessWidget {
       );
     }
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600 && screenWidth < 1100;
+    final isDesktop = screenWidth >= 1100;
+    double viewportFraction = 0.34; // Default for mobile
+    if (isTablet) {
+      viewportFraction = 0.22;
+    } else if (isDesktop) {
+      viewportFraction = 0.18;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,7 +44,7 @@ class ViewCategoriesSuccess extends StatelessWidget {
             height: 150,
             enlargeCenterPage: false,
             autoPlay: false,
-            viewportFraction: 0.34,
+            viewportFraction: viewportFraction,
           ),
           itemBuilder: (context, index, realIdx) {
             final category = categories[index];

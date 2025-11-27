@@ -267,10 +267,11 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       decoration: InputDecoration(
         hintText: hint,
-        prefixIcon:
-            Icon(icon, size: 20, color: const Color.fromARGB(255, 110, 110, 110)),
+        prefixIcon: Icon(icon,
+            size: 20, color: const Color.fromARGB(255, 110, 110, 110)),
         filled: true,
-        fillColor: Colors.white,
+        fillColor:
+            Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         enabledBorder: _borderNone(),
         focusedBorder: _borderBlue(),
         errorBorder: _borderRed(),
@@ -293,8 +294,8 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       decoration: InputDecoration(
         hintText: hint,
-        prefixIcon:
-            const Icon(Icons.vpn_key, size: 20, color: Color.fromARGB(255, 110, 110, 110)),
+        prefixIcon: const Icon(Icons.vpn_key,
+            size: 20, color: Color.fromARGB(255, 110, 110, 110)),
         suffixIcon: IconButton(
           icon: Icon(
             obscure ? Icons.visibility_off : Icons.visibility,
@@ -303,7 +304,8 @@ class _RegisterInitialViewState extends State<RegisterInitialView> {
           onPressed: () => toggle(),
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor:
+            Theme.of(context).appBarTheme.backgroundColor ?? Colors.white,
         enabledBorder: _borderNone(),
         focusedBorder: _borderBlue(),
         errorBorder: _borderRed(),

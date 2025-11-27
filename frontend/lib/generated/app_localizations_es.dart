@@ -12,6 +12,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sectionKeywords => '---------------------------------------------';
 
   @override
+  String get resetFilters => 'Restablecer filtros';
+
+  @override
   String get products => 'Productos';
 
   @override
@@ -115,6 +118,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get sectionHome => '---------------------------------------------';
+
+  @override
+  String get superDiscount => 'Super Descuento';
+
+  @override
+  String get loginForDiscounts =>
+      'Inicia sesión para obtener un super descuento.';
 
   @override
   String get appTitle => 'Design Alma';
@@ -789,6 +799,18 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get adminPanelSection =>
       '---------------------------------------------';
+
+  @override
+  String get searchUsersByNameOrEmail => 'Buscar usuarios por nombre o email';
+
+  @override
+  String get role => 'Rol';
+
+  @override
+  String get errorLoadingUsers => 'Error al cargar los usuarios.';
+
+  @override
+  String get noUsersFound => 'No se encontraron usuarios.';
 
   @override
   String get productsLowStock => 'Productos con bajo stock';

@@ -11,7 +11,7 @@ class ProfileInitialView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color azulPrimary = Theme.of(context).colorScheme.primary;
+    const Color azulPrimary = Colors.blue;
 
     return Scaffold(
       body: SafeArea(
@@ -21,11 +21,10 @@ class ProfileInitialView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 50,
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  child:
-                      const Icon(Icons.person, size: 50, color: Colors.white),
+                  backgroundColor: azulPrimary,
+                  child: Icon(Icons.person, size: 50, color: Colors.white),
                 ),
                 const SizedBox(height: 16),
 
@@ -130,7 +129,7 @@ class ProfileInitialView extends StatelessWidget {
                         color: azulPrimary.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.settings,
                         color: azulPrimary,
                         size: 20,
@@ -143,7 +142,6 @@ class ProfileInitialView extends StatelessWidget {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                     ),
-
                     subtitle: Text(
                       context.l10n.configurationSubtitle,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(

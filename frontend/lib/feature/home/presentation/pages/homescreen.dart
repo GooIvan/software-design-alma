@@ -117,6 +117,8 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 32),
 
                   const SeccionMap(),
+
+                  const SizedBox(height: 50),
                 ],
               ),
             ),

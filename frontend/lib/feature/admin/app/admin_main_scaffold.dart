@@ -34,7 +34,7 @@ class _AdminMainScaffoldState extends State<AdminMainScaffold> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       const AdminDashboardPage(),
-      const AdminUsersPage(),
+      const UsersPage(),
       const AdminProductsPage(),
     ];
 

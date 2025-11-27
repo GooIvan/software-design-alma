@@ -106,6 +106,12 @@ abstract class AppLocalizations {
   /// **'---------------------------------------------'**
   String get sectionKeywords;
 
+  /// No description provided for @resetFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Filters'**
+  String get resetFilters;
+
   /// No description provided for @products.
   ///
   /// In en, this message translates to:
@@ -315,6 +321,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'---------------------------------------------'**
   String get sectionHome;
+
+  /// No description provided for @superDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Super Discount'**
+  String get superDiscount;
+
+  /// No description provided for @loginForDiscounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to get a super discount.'**
+  String get loginForDiscounts;
 
   /// No description provided for @appTitle.
   ///
@@ -1581,6 +1599,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'---------------------------------------------'**
   String get adminPanelSection;
+
+  /// No description provided for @searchUsersByNameOrEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Search users by name or email'**
+  String get searchUsersByNameOrEmail;
+
+  /// No description provided for @role.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get role;
+
+  /// No description provided for @errorLoadingUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading users.'**
+  String get errorLoadingUsers;
+
+  /// No description provided for @noUsersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No users found.'**
+  String get noUsersFound;
 
   /// No description provided for @productsLowStock.
   ///

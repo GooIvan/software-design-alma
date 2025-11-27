@@ -16,7 +16,7 @@ class UnauthorizedException implements Exception {
 class FavoritesRepository {
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    return prefs.getString('auth_token') ?? prefs.getString('token');
   }
 
   Future<List<Favorite>> fetchFavorites() async {

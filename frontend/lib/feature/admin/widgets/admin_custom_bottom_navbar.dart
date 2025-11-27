@@ -17,8 +17,8 @@ class AdminCustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 100,
-        right: 100,
+        left: 16,
+        right: 16,
         bottom: 12, // 👈 esto crea el efecto flotante
       ),
       child: Container(

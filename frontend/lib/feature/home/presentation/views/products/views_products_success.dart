@@ -28,6 +28,23 @@ class ViewProductsSuccess extends StatelessWidget {
       );
     }
 
+    final width = MediaQuery.of(context).size.width;
+    double viewportFraction;
+    EdgeInsetsGeometry? cardPadding;
+    if (width < 500) {
+      // Móvil (como estaba antes)
+      viewportFraction = 0.5;
+      cardPadding = EdgeInsets.zero;
+    } else if (width < 700) {
+      // Tablet
+      viewportFraction = 0.45;
+      cardPadding = const EdgeInsets.symmetric(horizontal: 16);
+    } else {
+      // Desktop
+      viewportFraction = 0.3;
+      cardPadding = const EdgeInsets.symmetric(horizontal: 24);
+    }
+
     return BlocListener<FavoritesBloc, FavoritesState>(
       listener: (context, state) {
         if (state is FavoritesUnauthenticated) {
@@ -48,26 +65,29 @@ class ViewProductsSuccess extends StatelessWidget {
               height: 300,
               enlargeCenterPage: false,
               autoPlay: true,
-              viewportFraction: 0.5,
+              viewportFraction: viewportFraction,
             ),
             itemBuilder: (context, index, realIdx) {
               final product = products[index];
-              return GestureDetector(
-                onTap: () {
-                  print(
-                      'Tocaste la categoría: "${product.name}" con id: "${product.id}"');
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ProductScreen(
-                        categoryName: product.categoryName,
-                        id: product.id,
+              return Padding(
+                padding: cardPadding!,
+                child: GestureDetector(
+                  onTap: () {
+                    print(
+                        'Tocaste la categoría: "${product.name}" con id: "${product.id}"');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProductScreen(
+                          categoryName: product.categoryName,
+                          id: product.id,
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: SizedBox(
-                  width: 200, // ancho similar al skeleton
-                  child: ProductCard(product: product),
+                    );
+                  },
+                  child: SizedBox(
+                    width: 200,
+                    child: ProductCard(product: product),
+                  ),
                 ),
               );
             },

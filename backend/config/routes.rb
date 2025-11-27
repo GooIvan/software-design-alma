@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     end
     
     get 'dashboard', to: 'dashboard#index'
+    get 'users', to: 'users#index'
   end
 
   scope "(:locale)", locale: /en|es/ do

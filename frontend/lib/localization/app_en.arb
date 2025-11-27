@@ -1,6 +1,7 @@
 {
   "@@locale": "en",
   "sectionKeywords": "---------------------------------------------",
+  "resetFilters": "Reset Filters",
   "products": "Products",
   "soldOut": "Sold Out",
   "version": "Version",
@@ -36,6 +37,8 @@
   "see": "See",
   "clear": "Clear",
   "sectionHome": "---------------------------------------------",
+  "superDiscount": "Super Discount",
+  "loginForDiscounts": "Sign in to get a super discount.",
   "appTitle": "Design Alma",
   "homeNewest": "New Arrivals",
   "homeErrorMessageProducts": "Error loading products",
@@ -312,6 +315,10 @@
     }
   },
   "adminPanelSection": "---------------------------------------------",
+  "searchUsersByNameOrEmail": "Search users by name or email",
+  "role": "Role",
+  "errorLoadingUsers": "Error loading users.",
+  "noUsersFound": "No users found.",
   "productsLowStock": "Products with Low Stock",
   "notProductsLowStock": "No products with low stock",
   "popularCategories": "Popular categories",

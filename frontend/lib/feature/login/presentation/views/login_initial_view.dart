@@ -50,7 +50,7 @@ class _LoginInitialViewState extends State<LoginInitialView> {
 
   @override
   Widget build(BuildContext context) {
-    final azulPrimary = Theme.of(context).colorScheme.primary;
+    const azulPrimary = Colors.blue;
 
     return SafeArea(
       child: Center(
@@ -180,13 +180,13 @@ class _LoginInitialViewState extends State<LoginInitialView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  const TermsAndConditionsPage(),
+                              builder: (_) => const TermsAndConditionsPage(),
                             ),
                           );
                         },
                         child: Text(
-                          context.l10n.registerAcceptTerms, // ← CAMBIA DE IDIOMA
+                          context
+                              .l10n.registerAcceptTerms, // ← CAMBIA DE IDIOMA
                           style: const TextStyle(
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.bold,

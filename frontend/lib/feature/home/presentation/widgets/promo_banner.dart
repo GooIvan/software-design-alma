@@ -1,4 +1,7 @@
+import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
+
+import '../../../login/presentation/pages/login_page.dart';
 
 Widget promoBanner(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
@@ -49,9 +52,9 @@ Widget promoBanner(BuildContext context) {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Text(
-                  '80% OFF',
-                  style: TextStyle(
+                child: Text(
+                  'SENA: 30% ${context.l10n.discount}',
+                  style: const TextStyle(
                     color: Color(0xFF29B6F6),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -59,18 +62,29 @@ Widget promoBanner(BuildContext context) {
                 ),
               ),
               const SizedBox(height: 6),
-              const Text(
-                'Super Descuento',
-                style: TextStyle(
+              Text(
+                context.l10n.superDiscount,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                context.l10n.loginForDiscounts,
+                style: const TextStyle(
+                  color: Color.fromARGB(202, 255, 255, 255),
+                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Navegar a productos en descuento
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LoginPage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
@@ -81,9 +95,9 @@ Widget promoBanner(BuildContext context) {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 ),
-                child: const Text(
-                  'Shop Now',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                child: Text(
+                  context.l10n.login,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
