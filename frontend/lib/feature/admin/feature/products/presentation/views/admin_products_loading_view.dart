@@ -6,72 +6,198 @@ class AdminProductsLoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final divider = Theme.of(context).dividerColor;
+    final bg = Theme.of(context).cardColor;
+
     return RefreshIndicator(
       color: Colors.black,
       onRefresh: () async {},
       child: Scaffold(
         body: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 1.8,
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: const Row(
+                    children: [
+                      SkeletonLoader(width: 150, height: 18, borderRadius: 6),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: List.generate(4, (index) {
+                  itemCount: 3,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (_, __) {
                     return Container(
-                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).appBarTheme.backgroundColor ??
-                            Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Theme.of(context).dividerColor,
-                          width: 1,
+                        color: bg,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: divider, width: 1),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: const [
+                            SkeletonLoader(
+                              width: 60,
+                              height: 60,
+                              borderRadius: 10,
+                            ),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SkeletonLoader(
+                                    width: 160,
+                                    height: 16,
+                                    borderRadius: 6,
+                                  ),
+                                  SizedBox(height: 8),
+                                  SkeletonLoader(
+                                    width: double.infinity,
+                                    height: 14,
+                                    borderRadius: 6,
+                                  ),
+                                  SizedBox(height: 6),
+                                  SkeletonLoader(
+                                    width: 80,
+                                    height: 14,
+                                    borderRadius: 6,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: const Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SkeletonLoader(
-                                  width: 60,
-                                  height: 16,
-                                  borderRadius: 8,
-                                ),
-                                SizedBox(height: 8),
-                                SkeletonLoader(
-                                  width: 80,
-                                  height: 12,
-                                  borderRadius: 6,
-                                ),
-                              ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 28),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: const Row(
+                    children: [
+                      SkeletonLoader(width: 150, height: 18, borderRadius: 6),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 3,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (_, __) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: bg,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: divider, width: 1),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: const [
+                            SkeletonLoader(
+                              width: 60,
+                              height: 60,
+                              borderRadius: 10,
                             ),
-                          ),
-                          SizedBox(width: 12),
-                          SkeletonLoader(
-                            width: 40,
-                            height: 40,
-                            borderRadius: 20,
-                          ),
-                        ],
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SkeletonLoader(
+                                    width: 160,
+                                    height: 16,
+                                    borderRadius: 6,
+                                  ),
+                                  SizedBox(height: 8),
+                                  SkeletonLoader(
+                                    width: double.infinity,
+                                    height: 14,
+                                    borderRadius: 6,
+                                  ),
+                                  SizedBox(height: 6),
+                                  SkeletonLoader(
+                                    width: 80,
+                                    height: 14,
+                                    borderRadius: 6,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
-                  }),
+                  },
                 ),
-                const SizedBox(height: 24),
-                // Simulación del gráfico de líneas
-                const SkeletonLoader(
-                  width: double.infinity,
-                  height: 200,
-                  borderRadius: 16,
+                const SizedBox(height: 28),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: const Row(
+                    children: [
+                      SkeletonLoader(width: 150, height: 18, borderRadius: 6),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 3,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (_, __) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: bg,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: divider, width: 1),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            SkeletonLoader(
+                              width: 60,
+                              height: 60,
+                              borderRadius: 10,
+                            ),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SkeletonLoader(
+                                    width: 160,
+                                    height: 16,
+                                    borderRadius: 6,
+                                  ),
+                                  SizedBox(height: 8),
+                                  SkeletonLoader(
+                                    width: 120,
+                                    height: 14,
+                                    borderRadius: 6,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

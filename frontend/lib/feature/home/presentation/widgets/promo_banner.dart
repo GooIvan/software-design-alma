@@ -8,7 +8,7 @@ Widget promoBanner(BuildContext context) {
 
   return Container(
     width: screenWidth,
-    height: 170,
+    height: 200,
     margin: const EdgeInsets.symmetric(horizontal: 16),
     decoration: BoxDecoration(
       gradient: const LinearGradient(
