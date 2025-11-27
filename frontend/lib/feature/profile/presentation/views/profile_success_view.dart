@@ -61,7 +61,7 @@ class _ProfileSuccessViewState extends State<ProfileSuccessView> {
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: _onReload,
-        color: Colors.black,
+        color: Theme.of(context).textTheme.displayLarge?.color,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

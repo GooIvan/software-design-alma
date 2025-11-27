@@ -105,7 +105,7 @@ class ProductSuccessView extends StatelessWidget {
         }
       },
       child: RefreshIndicator(
-        color: Colors.black,
+        color: Theme.of(context).textTheme.displayLarge?.color,
         onRefresh: () async {
           context.read<ProductBloc>().add(
                 RefreshProduct(

@@ -22,7 +22,7 @@ class DashboardSuccessView extends StatelessWidget {
         NumberFormat.currency(locale: 'es_CO', symbol: '', decimalDigits: 0);
 
     return RefreshIndicator(
-      color: Colors.black,
+      color: Theme.of(context).textTheme.displayLarge?.color,
       onRefresh: onRefresh ?? () async {},
       child: Scaffold(
         body: SingleChildScrollView(

@@ -26,7 +26,7 @@ class ProductsSuccessView extends StatelessWidget {
         }
       },
       child: RefreshIndicator(
-        color: Colors.black,
+        color: Theme.of(context).textTheme.displayLarge?.color,
         onRefresh: () async {
           // Aquí mandamos el evento correcto
           context

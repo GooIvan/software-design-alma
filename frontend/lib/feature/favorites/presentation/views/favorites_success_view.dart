@@ -18,7 +18,7 @@ class FavoritesSuccessView extends StatelessWidget {
     }
 
     return RefreshIndicator(
-      color: Colors.black,
+      color: Theme.of(context).textTheme.displayLarge?.color,
       onRefresh: () async {
         context.read<FavoritesBloc>().add(RefreshFavorites());
       },

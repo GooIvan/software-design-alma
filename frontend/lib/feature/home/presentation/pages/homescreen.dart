@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
         body: SafeArea(
           child: RefreshIndicator(
             onRefresh: () => _refreshData(context),
-            color: Colors.black,
+            color: Theme.of(context).textTheme.displayLarge?.color,
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(

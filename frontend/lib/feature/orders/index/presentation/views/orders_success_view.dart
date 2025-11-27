@@ -195,69 +195,75 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
     final filteredOrders = _getFilteredAndSortedOrders();
 
     if (widget.orders.isEmpty) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.receipt_long_outlined,
-              size: 90,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Título principal (internacionalizado)
-            Text(
-              context.l10n.noOrdersTitle, // <-- Nuevo key para localización
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).textTheme.bodyLarge?.color,
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.receipt_long_outlined,
+                size: 90,
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
               ),
-            ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
-            // Texto secundario (internacionalizado)
-            Text(
-              context.l10n.noOrdersSubtitle, // <-- Nuevo key para localización
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15,
-                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            // Botón para comenzar a comprar
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // O navega al Home si así lo tienen
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 14,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+              // Título principal (internacionalizado)
+              Text(
+                context.l10n.noOrdersTitle, // <-- Nuevo key para localización
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
-              child: Text(
-                context.l10n.startShopping, // <-- Nuevo key para localización
-                style: const TextStyle(fontSize: 16),
+
+              const SizedBox(height: 10),
+
+              // Texto secundario (internacionalizado)
+              Text(
+                context
+                    .l10n.noOrdersSubtitle, // <-- Nuevo key para localización
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.color
+                      ?.withOpacity(0.7),
+                ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 30),
+
+              // Botón para comenzar a comprar
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pop(); // O navega al Home si así lo tienen
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 14,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  context.l10n.startShopping, // <-- Nuevo key para localización
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
     return Column(
       children: [
@@ -474,7 +480,7 @@ class _OrdersSuccessViewState extends State<OrdersSuccessView> {
                   ),
                 )
               : RefreshIndicator(
-                  color: Colors.black,
+                  color: Theme.of(context).textTheme.displayLarge?.color,
                   onRefresh: widget.onRefresh!,
                   child: ListView.builder(
                     padding: const EdgeInsets.all(16.0),

@@ -90,7 +90,7 @@ class _UsersSuccessViewState extends State<UsersSuccessView> {
     }).toList();
 
     return RefreshIndicator(
-      color: Colors.black,
+      color: Theme.of(context).textTheme.displayLarge?.color,
       onRefresh: widget.onRefresh ?? () async {},
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),

@@ -17,7 +17,7 @@ class CategoriesSuccessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      color: Colors.black,
+      color: Theme.of(context).textTheme.displayLarge?.color,
       onRefresh: onRefresh ?? () async {},
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),

@@ -120,6 +120,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sectionHome => '---------------------------------------------';
 
   @override
+  String get messageDiscount =>
+      'Remember, you can use the code on your first purchase!';
+
+  @override
   String get superDiscount => 'Super Discount';
 
   @override

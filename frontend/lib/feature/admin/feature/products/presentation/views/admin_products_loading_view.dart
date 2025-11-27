@@ -10,7 +10,7 @@ class AdminProductsLoadingView extends StatelessWidget {
     final bg = Theme.of(context).cardColor;
 
     return RefreshIndicator(
-      color: Colors.black,
+      color: Theme.of(context).textTheme.displayLarge?.color,
       onRefresh: () async {},
       child: Scaffold(
         body: SingleChildScrollView(

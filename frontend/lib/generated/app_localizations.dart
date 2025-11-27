@@ -322,6 +322,12 @@ abstract class AppLocalizations {
   /// **'---------------------------------------------'**
   String get sectionHome;
 
+  /// No description provided for @messageDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember, you can use the code on your first purchase!'**
+  String get messageDiscount;
+
   /// No description provided for @superDiscount.
   ///
   /// In en, this message translates to:
