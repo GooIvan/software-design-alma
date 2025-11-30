@@ -1,0 +1,228 @@
+<div class="container-fluid py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+  <div class="container">
+    <div class="text-center text-white mb-5">
+      <h1 class="display-4 fw-bold mb-3">
+        <i class="bi bi-fire"></i> <%= t('promotions.title', default: 'Ofertas y Promociones') %>
+      </h1>
+      <p class="lead"><%= t('promotions.subtitle', default: '¡Encuentra las mejores ofertas en productos exclusivos!') %></p>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  
+  <!-- Códigos de Descuento Activos -->
+  <% if @active_discount_codes.any? %>
+    <section class="mb-5">
+      <div class="d-flex align-items-center mb-4">
+        <i class="bi bi-ticket-perforated-fill text-danger me-3" style="font-size: 2rem;"></i>
+        <h2 class="fw-bold mb-0"><%= t('promotions.discount_codes', default: 'Códigos de Descuento Activos') %></h2>
+      </div>
+      
+      <div class="row g-4">
+        <% @active_discount_codes.each do |discount_code| %>
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0" style="border-left: 4px solid #dc3545 !important;">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div>
+                    <h5 class="card-title fw-bold text-primary mb-1">
+                      <i class="bi bi-tag-fill"></i> <%= discount_code.code %>
+                    </h5>
+                    <% if discount_code.percentage? %>
+                      <span class="badge bg-danger fs-6"><%= discount_code.value.to_i %>% OFF</span>
+                    <% else %>
+                      <span class="badge bg-success fs-6">$<%= number_with_delimiter(discount_code.value.to_i, delimiter: '.') %> OFF</span>
+                    <% end %>
+                  </div>
+                  <button class="btn btn-sm btn-outline-primary copy-code-btn" 
+                          data-code="<%= discount_code.code %>"
+                          title="<%= t('promotions.copy_code', default: 'Copiar código') %>">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+                
+                <p class="card-text text-muted small mb-2">
+                  <% if discount_code.percentage? %>
+                    <%= t('promotions.discount_description_percentage', percent: discount_code.value.to_i) rescue "#{discount_code.value.to_i}% de descuento en tu compra" %>
+                  <% else %>
+                    <%= t('promotions.discount_description_fixed', amount: number_with_delimiter(discount_code.value.to_i, delimiter: '.')) rescue "$#{number_with_delimiter(discount_code.value.to_i, delimiter: '.')} de descuento en tu compra" %>
+                  <% end %>
+                </p>
+                
+                <div class="small text-muted">
+                  <% if discount_code.expires_at.present? %>
+                    <i class="bi bi-clock"></i> 
+                    <%= t('promotions.valid_until', default: 'Válido hasta') %>: 
+                    <strong><%= l(discount_code.expires_at, format: :short) %></strong>
+                  <% else %>
+                    <i class="bi bi-infinity"></i> 
+                    <strong><%= t('promotions.no_expiration', default: 'Sin fecha de expiración') %></strong>
+                  <% end %>
+                </div>
+                
+                <% if discount_code.max_uses.present? %>
+                  <% remaining = discount_code.max_uses - discount_code.discount_usages.count %>
+                  <div class="small text-muted mt-2">
+                    <i class="bi bi-people"></i> 
+                    <%= t('promotions.remaining_uses', default: 'Usos restantes') %>: 
+                    <strong><%= remaining %></strong>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <!-- Productos Más Vendidos -->
+  <% if @bestsellers.any? %>
+    <section class="mb-5">
+      <div class="d-flex align-items-center mb-4">
+        <i class="bi bi-trophy-fill text-warning me-3" style="font-size: 2rem;"></i>
+        <h2 class="fw-bold mb-0"><%= t('promotions.bestsellers', default: 'Más Vendidos') %></h2>
+      </div>
+      
+      <div class="row g-4">
+        <% @bestsellers.each do |product| %>
+          <div class="col-md-6 col-lg-4">
+            <div class="card product-card h-100 shadow-sm border-0">
+              <%= link_to category_product_path(product.category, product), class: "text-decoration-none" do %>
+                <div class="position-relative">
+                  <% if product.images.attached? && product.images.first.present? %>
+                    <%= image_tag product.images.first, class: "card-img-top", style: "height: 300px; object-fit: cover;" %>
+                  <% else %>
+                    <%= image_tag "placeholder.svg", class: "card-img-top", style: "height: 300px; object-fit: cover;" %>
+                  <% end %>
+                  <span class="badge bg-warning position-absolute top-0 end-0 m-3">
+                    <i class="bi bi-star-fill"></i> Top
+                  </span>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title text-dark"><%= product.name %></h5>
+                  <p class="text-muted mb-2 small"><%= truncate(product.description, length: 80) %></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="h5 mb-0 text-primary fw-bold">$<%= product.formatted_price %></span>
+                    <span class="badge bg-secondary"><%= product.stock %> disponibles</span>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <!-- Productos Destacados -->
+  <% if @featured_products.any? %>
+    <section class="mb-5">
+      <div class="d-flex align-items-center mb-4">
+        <i class="bi bi-star-fill text-primary me-3" style="font-size: 2rem;"></i>
+        <h2 class="fw-bold mb-0"><%= t('promotions.featured', default: 'Productos Destacados') %></h2>
+      </div>
+      
+      <div class="row g-4">
+        <% @featured_products.each do |product| %>
+          <div class="col-md-6 col-lg-3">
+            <div class="card product-card h-100 shadow-sm border-0">
+              <%= link_to category_product_path(product.category, product), class: "text-decoration-none" do %>
+                <% if product.images.attached? && product.images.first.present? %>
+                  <%= image_tag product.images.first, class: "card-img-top", style: "height: 250px; object-fit: cover;" %>
+                <% else %>
+                  <%= image_tag "placeholder.svg", class: "card-img-top", style: "height: 250px; object-fit: cover;" %>
+                <% end %>
+                <div class="card-body">
+                  <h6 class="card-title text-dark"><%= product.name %></h6>
+                  <span class="h6 mb-0 text-primary fw-bold">$<%= product.formatted_price %></span>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <!-- Nuevos Productos -->
+  <% if @new_arrivals.any? %>
+    <section class="mb-5">
+      <div class="d-flex align-items-center mb-4">
+        <i class="bi bi-bag-plus-fill text-success me-3" style="font-size: 2rem;"></i>
+        <h2 class="fw-bold mb-0"><%= t('promotions.new_arrivals', default: 'Recién Llegados') %></h2>
+      </div>
+      
+      <div class="row g-4">
+        <% @new_arrivals.each do |product| %>
+          <div class="col-md-6 col-lg-3">
+            <div class="card product-card h-100 shadow-sm border-0">
+              <%= link_to category_product_path(product.category, product), class: "text-decoration-none" do %>
+                <div class="position-relative">
+                  <% if product.images.attached? && product.images.first.present? %>
+                    <%= image_tag product.images.first, class: "card-img-top", style: "height: 250px; object-fit: cover;" %>
+                  <% else %>
+                    <%= image_tag "placeholder.svg", class: "card-img-top", style: "height: 250px; object-fit: cover;" %>
+                  <% end %>
+                  <span class="badge bg-success position-absolute top-0 start-0 m-3">
+                    <i class="bi bi-lightning-fill"></i> Nuevo
+                  </span>
+                </div>
+                <div class="card-body">
+                  <h6 class="card-title text-dark"><%= product.name %></h6>
+                  <span class="h6 mb-0 text-primary fw-bold">$<%= product.formatted_price %></span>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+</div>
+
+<style>
+  .product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+  }
+  
+  .copy-code-btn {
+    transition: all 0.3s ease;
+  }
+  
+  .copy-code-btn:hover {
+    transform: scale(1.1);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Copiar código al portapapeles
+    document.querySelectorAll('.copy-code-btn').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const code = this.dataset.code;
+        
+        navigator.clipboard.writeText(code).then(() => {
+          const originalHTML = this.innerHTML;
+          this.innerHTML = '<i class="bi bi-check2"></i>';
+          this.classList.remove('btn-outline-primary');
+          this.classList.add('btn-success');
+          
+          setTimeout(() => {
+            this.innerHTML = originalHTML;
+            this.classList.remove('btn-success');
+            this.classList.add('btn-outline-primary');
+          }, 2000);
+        });
+      });
+    });
+  });
+</script>

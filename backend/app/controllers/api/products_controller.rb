@@ -14,6 +14,31 @@ module Api
       render json: products.map { |product| serialize_product(product) }
     end
 
+    def search
+      query = params[:q].to_s.strip.downcase
+      
+      if query.blank?
+        return render json: []
+      end
+
+      # Buscar productos por nombre o descripción
+      products = Product.where('LOWER(name) LIKE ? OR LOWER(description) LIKE ?', 
+                              "%#{query}%", "%#{query}%")
+                       .includes(:category, images_attachments: :blob)
+                       .limit(50)
+      
+      render json: products.map { |product| serialize_product(product) }
+    end
+
+    def all
+      # Endpoint para obtener todos los productos (usado en búsqueda)
+      products = Product.includes(:category, images_attachments: :blob)
+                       .where.not(stock: 0)
+                       .order(created_at: :desc)
+      
+      render json: products.map { |product| serialize_product(product) }
+    end
+
     def show
       product = @category.products.find(params[:id])
       render json: serialize_product(product)

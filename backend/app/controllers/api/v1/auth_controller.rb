@@ -8,16 +8,34 @@ class Api::V1::AuthController < ApplicationController
         return render json: { error: 'Email es requerido' }, status: :bad_request
       end
 
-      # Buscar o crear usuario
-      user = User.find_or_create_by(email: params[:email]) do |u|
-        u.provider = 'google_oauth2'
-        u.uid = params[:id_token]&.split('.')&.first || SecureRandom.uuid
-        u.password = Devise.friendly_token[0, 20]
-        u.name = params[:name]&.split(' ')&.first || 'Usuario'
-        u.last_name = params[:name]&.split(' ')&.last || 'Google'
-        u.city = 'N/A'
-        u.phone = 'N/A'
-        u.address = 'N/A'
+      # Buscar usuario existente por email Y provider (para diferenciar de login normal)
+      user = User.find_by(email: params[:email], provider: 'google_oauth2')
+      
+      # Si no existe, crear uno nuevo
+      unless user
+        # Generar un UID único basado en el email para Google OAuth
+        google_uid = "google_#{Digest::SHA256.hexdigest(params[:email])}"
+        
+        user = User.new(
+          email: params[:email],
+          provider: 'google_oauth2',
+          uid: google_uid,
+          password: Devise.friendly_token[0, 20],
+          name: params[:name]&.split(' ')&.first || 'Usuario',
+          last_name: params[:name]&.split(' ')&.last || 'Google',
+          city: 'N/A',
+          phone: 'N/A',
+          address: 'N/A'
+        )
+        
+        unless user.save
+          Rails.logger.error "Error guardando usuario Google: #{user.errors.full_messages.join(', ')}"
+          return render json: {
+            success: false,
+            error: 'No se pudo crear el usuario',
+            errors: user.errors.full_messages
+          }, status: :unprocessable_entity
+        end
       end
 
       if user.persisted?
