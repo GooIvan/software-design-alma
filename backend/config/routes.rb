@@ -40,6 +40,8 @@ Rails.application.routes.draw do
     resources :products, only: [:index, :show] do
       collection do
         get :latest
+        get :search
+        get :all
       end
     end
 
@@ -104,6 +106,10 @@ Rails.application.routes.draw do
 
     # 🛍️ Vista web: Productos más populares (basado en ventas pagadas)
     get "most_popular", to: "most_popular#index", as: :most_popular
+
+    # 🎁 Promociones y Ofertas
+    get "promotions", to: "promotions#index", as: :promotions
+    get "customize", to: "promotions#index" # Alias para el navbar
 
     # 🛒 Carrito
     resources :cart_items, only: [:create, :destroy, :update] do

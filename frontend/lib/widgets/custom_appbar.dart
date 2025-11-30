@@ -97,20 +97,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: context.l10n.explore,
-                            hintStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyMedium?.color,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, AppRoute.search);
+                          },
+                          child: AbsorbPointer(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: context.l10n.explore,
+                                hintStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.color,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.black87,
+                              ),
                             ),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 15,
-                            color: Colors.black87,
                           ),
                         ),
                       ),
