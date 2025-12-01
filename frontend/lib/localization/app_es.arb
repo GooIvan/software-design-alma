@@ -377,5 +377,13 @@
   "registerAcceptTerms": "Acepto los términos y condiciones",
   "registerAcceptTermsLabel": "¿Aceptas los términos y condiciones?",
   "registerAcceptTermsError": "Debes aceptar los términos y condiciones para continuar.",
-  "configurationSubtitle": "Idioma, tema y más"
+  "configurationSubtitle": "Idioma, tema y más",
+  "searchSection": "---------------------------------------------",
+  "errorSearchingProducts": "Error al buscar productos",
+  "searchProducts": "Buscar productos",
+  "findTShirtsAcc": "Encuentra camisetas, accesorios y más",
+  "notFound": "No se encontraron resultados",
+  "retrySearch": "Intenta con otras palabras clave",
+  "results": "resultados",
+  "founds": "encontrados"
 }

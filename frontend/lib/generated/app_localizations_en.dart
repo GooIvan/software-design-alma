@@ -993,4 +993,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get configurationSubtitle => 'Language, theme and more';
+
+  @override
+  String get searchSection => '---------------------------------------------';
+
+  @override
+  String get errorSearchingProducts => 'Error searching products';
+
+  @override
+  String get searchProducts => 'Search products';
+
+  @override
+  String get findTShirtsAcc => 'Find t-shirts, accessories and more';
+
+  @override
+  String get notFound => 'No results found';
+
+  @override
+  String get retrySearch => 'Try different keywords';
+
+  @override
+  String get results => 'results';
+
+  @override
+  String get founds => 'found';
 }

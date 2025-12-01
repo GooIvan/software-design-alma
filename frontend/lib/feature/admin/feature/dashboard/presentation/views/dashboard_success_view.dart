@@ -1,6 +1,5 @@
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../models/dashboard_model.dart';
 import '../widgets/admin_stat_card.dart';
@@ -18,8 +17,15 @@ class DashboardSuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat =
-        NumberFormat.currency(locale: 'es_CO', symbol: '', decimalDigits: 0);
+    String formatK(int number) {
+      if (number >= 1000000) {
+        return "${(number / 1000000).toStringAsFixed(1)}M";
+      } else if (number >= 1000) {
+        return "${(number / 1000).toStringAsFixed(1)}K";
+      } else {
+        return number.toString();
+      }
+    }
 
     return RefreshIndicator(
       color: Theme.of(context).textTheme.displayLarge?.color,
@@ -43,7 +49,7 @@ class DashboardSuccessView extends StatelessWidget {
                         label: context.l10n.usersCount,
                         icon: Icons.group),
                     AdminStatCard(
-                      value: currencyFormat.format(dashboard.totalRevenue),
+                      value: formatK(dashboard.totalRevenue.toInt()),
                       label: context.l10n.totalRevenue,
                       icon: Icons.attach_money,
                       iconColor: Colors.blue,
@@ -67,6 +73,7 @@ class DashboardSuccessView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 OrdersLineChart(data: dashboard.ordersPerMonth),
+                const SizedBox(height: 300),
               ],
             ),
           ),

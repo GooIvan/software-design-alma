@@ -29,6 +29,25 @@ class _UsersSuccessViewState extends State<UsersSuccessView> {
   late String _cityFilter;
   String _searchFilter = '';
   bool _didInit = false;
+  late final TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController(text: _searchFilter);
+
+    _searchController.addListener(() {
+      setState(() {
+        _searchFilter = _searchController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
@@ -112,14 +131,14 @@ class _UsersSuccessViewState extends State<UsersSuccessView> {
                         .copyWith(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 10),
                 TextField(
+                  controller: _searchController,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     prefixIconColor: Colors.grey,
                   ),
-                  onChanged: (v) => setState(() => _searchFilter = v),
-                  controller: TextEditingController(text: _searchFilter),
                 ),
 
                 const SizedBox(height: 14),

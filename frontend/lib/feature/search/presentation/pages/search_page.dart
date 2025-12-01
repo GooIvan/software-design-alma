@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:design_alma/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:http/http.dart' as http;
@@ -49,13 +50,14 @@ class _SearchPageState extends State<SearchPage> {
     try {
       // Usar el endpoint de búsqueda del backend
       final response = await http.get(
-        Uri.parse('${Api.baseUrl}/api/products/search?q=${Uri.encodeComponent(query)}'),
+        Uri.parse(
+            '${Api.baseUrl}/api/products/search?q=${Uri.encodeComponent(query)}'),
       );
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         final results = data.map((json) => Product.fromJson(json)).toList();
-        
+
         setState(() {
           _searchResults = results;
           _isLoading = false;
@@ -68,14 +70,9 @@ class _SearchPageState extends State<SearchPage> {
         _isLoading = false;
         _searchResults = [];
       });
-      
+
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error al buscar productos: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        CustomAlert.error(context, context.l10n.errorSearchingProducts);
       }
     }
   }
@@ -87,6 +84,7 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
+        toolbarHeight: 80, // <-- aquí ajustas a tu gust
         leading: IconButton(
           icon: Icon(
             FeatherIcons.arrowLeft,
@@ -119,7 +117,11 @@ class _SearchPageState extends State<SearchPage> {
             decoration: InputDecoration(
               hintText: context.l10n.explore,
               hintStyle: TextStyle(
-                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.color
+                    ?.withOpacity(0.6),
                 fontSize: 15,
               ),
               prefixIcon: Icon(
@@ -141,7 +143,8 @@ class _SearchPageState extends State<SearchPage> {
                     )
                   : null,
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
             style: TextStyle(
               fontSize: 15,
@@ -182,11 +185,12 @@ class _SearchPageState extends State<SearchPage> {
           Icon(
             FeatherIcons.search,
             size: 64,
-            color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.3),
+            color:
+                Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.3),
           ),
           const SizedBox(height: 16),
           Text(
-            'Busca tus productos favoritos',
+            context.l10n.searchProducts,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -195,10 +199,14 @@ class _SearchPageState extends State<SearchPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Encuentra camisetas, accesorios y más',
+            context.l10n.findTShirtsAcc,
             style: TextStyle(
               fontSize: 14,
-              color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.color
+                  ?.withOpacity(0.6),
             ),
           ),
         ],
@@ -214,11 +222,12 @@ class _SearchPageState extends State<SearchPage> {
           Icon(
             FeatherIcons.inbox,
             size: 64,
-            color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.3),
+            color:
+                Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.3),
           ),
           const SizedBox(height: 16),
           Text(
-            'No se encontraron resultados',
+            context.l10n.notFound,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -227,10 +236,14 @@ class _SearchPageState extends State<SearchPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Intenta con otra búsqueda',
+            context.l10n.retrySearch,
             style: TextStyle(
               fontSize: 14,
-              color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.color
+                  ?.withOpacity(0.6),
             ),
           ),
         ],
@@ -245,7 +258,7 @@ class _SearchPageState extends State<SearchPage> {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            '${_searchResults.length} resultado${_searchResults.length != 1 ? 's' : ''} encontrado${_searchResults.length != 1 ? 's' : ''}',
+            '${_searchResults.length} ${context.l10n.results} ${context.l10n.founds}',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -326,7 +339,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             const SizedBox(width: 12),
-            
+
             // Información del producto
             Expanded(
               child: Column(
@@ -348,7 +361,11 @@ class _SearchPageState extends State<SearchPage> {
                       product.description,
                       style: TextStyle(
                         fontSize: 13,
-                        color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.color
+                            ?.withOpacity(0.7),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:design_alma/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,9 @@ class _ProfilePageState extends State<ProfilePage> {
   // Key para forzar reconstrucción del FutureBuilder
   Key _futureBuilderKey = UniqueKey();
 
+  // Timer para detectar timeout
+  Timer? _timeoutTimer;
+
   Future<bool> _hasUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -28,8 +32,10 @@ class _ProfilePageState extends State<ProfilePage> {
       final userEmail = prefs.getString('user_email');
       final userData = prefs.getString('user_data');
 
-      // Validar que tenga token Y (user_email O user_data)
-      return token != null && token.isNotEmpty && (userEmail != null || userData != null);
+      // Validar token + datos
+      return token != null &&
+          token.isNotEmpty &&
+          (userEmail != null || userData != null);
     } catch (e) {
       return false;
     }
@@ -41,12 +47,11 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  // Lógica de logout
+  // Lógica de logout REAL
   Future<void> _handleLogout() async {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      // Limpiar tokens de ambos sistemas (auth_token y token)
       await prefs.remove('auth_token');
       await prefs.remove('token');
       await prefs.remove('user_data');
@@ -62,29 +67,55 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  // Timeout
+
+  void _startTimeout() {
+    _timeoutTimer?.cancel();
+
+    _timeoutTimer = Timer(const Duration(seconds: 10), () {
+      // Si después de 10s sigue cargando => logout automático
+      _handleLogout();
+    });
+  }
+
+  void _cancelTimeout() {
+    _timeoutTimer?.cancel();
+  }
+
+  @override
+  void dispose() {
+    _timeoutTimer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      key: _futureBuilderKey, // Key para forzar reconstrucción
+      key: _futureBuilderKey,
       future: _hasUser(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const ProfileLoadingView();
         }
 
-        // Si no hay usuario, mostrar vista inicial
+        // Si no hay usuario → vista inicial
         if (!snapshot.data!) {
           return const ProfileInitialView();
         }
 
-        // Si hay usuario, cargar Bloc normalmente
+        // Si sí hay usuario → cargar Bloc
         return BlocProvider(
-          create: (_) {
-            return sl<ProfileBloc>()..add(LoadProfile());
-          },
+          create: (_) => sl<ProfileBloc>()..add(LoadProfile()),
           child: BlocListener<ProfileBloc, ProfileState>(
             listener: (context, state) {
-              if (state is ProfileTokenExpired) {
+              if (state is ProfileLoading) {
+                _startTimeout(); // empieza contador
+              } else if (state is ProfileLoaded) {
+                _cancelTimeout(); // se cargó, cancelar
+              } else if (state is ProfileError) {
+                _cancelTimeout();
+              } else if (state is ProfileTokenExpired) {
+                _cancelTimeout();
                 _onTokenExpired();
               }
             },
@@ -111,6 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                   );
                 }
+
                 return const ProfileInitialView();
               },
             ),

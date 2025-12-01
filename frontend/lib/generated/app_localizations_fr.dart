@@ -1015,4 +1015,30 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get configurationSubtitle => 'Langue, thème et plus';
+
+  @override
+  String get searchSection => '---------------------------------------------';
+
+  @override
+  String get errorSearchingProducts =>
+      'Erreur lors de la recherche des produits';
+
+  @override
+  String get searchProducts => 'Rechercher des produits';
+
+  @override
+  String get findTShirtsAcc =>
+      'Trouvez des t-shirts, des accessoires et plus encore';
+
+  @override
+  String get notFound => 'Aucun résultat trouvé';
+
+  @override
+  String get retrySearch => 'Essayez avec d\'autres mots-clés';
+
+  @override
+  String get results => 'résultats';
+
+  @override
+  String get founds => 'trouvés';
 }

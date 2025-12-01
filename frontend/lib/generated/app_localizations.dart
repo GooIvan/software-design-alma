@@ -1977,6 +1977,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language, theme and more'**
   String get configurationSubtitle;
+
+  /// No description provided for @searchSection.
+  ///
+  /// In en, this message translates to:
+  /// **'---------------------------------------------'**
+  String get searchSection;
+
+  /// No description provided for @errorSearchingProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Error searching products'**
+  String get errorSearchingProducts;
+
+  /// No description provided for @searchProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Search products'**
+  String get searchProducts;
+
+  /// No description provided for @findTShirtsAcc.
+  ///
+  /// In en, this message translates to:
+  /// **'Find t-shirts, accessories and more'**
+  String get findTShirtsAcc;
+
+  /// No description provided for @notFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get notFound;
+
+  /// No description provided for @retrySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Try different keywords'**
+  String get retrySearch;
+
+  /// No description provided for @results.
+  ///
+  /// In en, this message translates to:
+  /// **'results'**
+  String get results;
+
+  /// No description provided for @founds.
+  ///
+  /// In en, this message translates to:
+  /// **'found'**
+  String get founds;
 }
 
 class _AppLocalizationsDelegate
